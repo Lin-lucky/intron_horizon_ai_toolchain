@@ -1,0 +1,21 @@
+.. horizon_xj3_soc_user_guide documentation master file, created by
+   sphinx-quickstart on Fri Apr 23 11:52:35 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Horizon AI Toolchain User Guide
+==============================================================
+
+.. toctree::
+   :numbered:
+   :maxdepth: 2
+   :caption: AI Toolchain:
+
+   chapter_1_introduction.rst
+   chapter_2_prerequisites.rst
+   chapter_3_model_conversion.rst
+   chapter_4_application_development.rst
+   chapter_5_custom_op_development.rst
+   chapter_6_appendix.rst
+
+

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.1. hb_mapper 工具 &mdash; hb_mapper_tools_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="2.2. hb_perf 工具" href="hb_perf.html" />
+    <link rel="prev" title="2. 工具详细介绍" href="../02_tools.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> hb_mapper_tools_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_model_conversion_details.html">1. 模型转换过程详解</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../02_tools.html">2. 工具详细介绍</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hb-mapper-checker">2.1.1. 模型检查命令（<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code>）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-mapper-makertbin">2.1.2. 模型编译命令（<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-mapper-infer">2.1.3. 模型推理命令（<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code>）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2.1.4. 关键配置参数介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#calibration-parameters-preprocess-on">2.1.4.1. <code class="docutils literal notranslate"><span class="pre">calibration_parameters.preprocess_on</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-mapper-config">2.1.5. 配置文件详细介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">2.1.5.1. 参考配置文件以及说明</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input-type-rt-input-type-train">2.1.5.2. 关于 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code>/ <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hb_perf.html">2.2. <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vec_diff.html">2.3. <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_info.html">2.4. <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_pack.html">2.5. <code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_model_verifier.html">2.6. <code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_model_modifier.html">2.7. <code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_custom_op.html">2.8. <code class="docutils literal notranslate"><span class="pre">hb_custom_op</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_eval_preprocess.html">2.9. <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> 工具</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">hb_mapper_tools_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../02_tools.html"><span class="section-number">2. </span>工具详细介绍</a> &raquo;</li>
+      <li><span class="section-number">2.1. </span><code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/03_tools/hb_mapper.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hb-mapper">
+<h1><span class="section-number">2.1. </span><code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具<a class="headerlink" href="#hb-mapper" title="永久链接至标题"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具是一个将浮点模型映射为量化模型，并附带验证功能的工具。
+<code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 包括三个子命令 <code class="docutils literal notranslate"><span class="pre">checker</span></code>、<code class="docutils literal notranslate"><span class="pre">makertbin</span></code> 和 <code class="docutils literal notranslate"><span class="pre">infer</span></code>。
+它们分别提供了的模型检查、模型转换，以及各阶段卷积层向量输出的功能。
+接下来的内容逐一介绍上述子命令。</p>
+<section id="hb-mapper-checker">
+<span id="id1"></span><h2><span class="section-number">2.1.1. </span>模型检查命令（<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code>）<a class="headerlink" href="#hb-mapper-checker" title="永久链接至标题"></a></h2>
+<p>在实际工程中, 由于并非所有浮点模型均能够转为量化模型, 因此在转换之前需要进行一次检查,
+这个check过程，会走一遍模型转换的过程，但是对于比较耗时的步骤，进行了简化处理。
+该命令在完成模型的检查后, 会输出检查结果和OP在设备上的部署情况。</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hb_mapper</span> <span class="pre">checker的使用方法：</span></span></dt>
+<dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_mapper checker --model-type <span class="si">${</span><span class="nv">model_type</span><span class="si">}</span> <span class="se">\</span>
+                  --march <span class="si">${</span><span class="nv">march</span><span class="si">}</span> <span class="se">\</span>
+                  --proto <span class="si">${</span><span class="nv">proto</span><span class="si">}</span> <span class="se">\</span>
+                  --model <span class="si">${</span><span class="nv">caffe_model</span><span class="p">/onnx_model</span><span class="si">}</span> <span class="se">\</span>
+                  --input-shape <span class="si">${</span><span class="nv">input_node</span><span class="si">}</span> <span class="si">${</span><span class="nv">input_shape</span><span class="si">}</span> <span class="se">\</span>
+                  --output <span class="si">${</span><span class="nv">output</span><span class="si">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hb_mapper</span> <span class="pre">checker的命令行参数：</span></span></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--model-type</span></kbd></dt>
+<dd><p>转换的模型类型，目前支持 <code class="docutils literal notranslate"><span class="pre">caffe</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">onnx</span></code>。</p>
+</dd>
+<dt><kbd><span class="option">--march</span></kbd></dt>
+<dd><p>BPU的微架构。应将其设置为 <code class="docutils literal notranslate"><span class="pre">bernoulli2</span></code>。</p>
+</dd>
+<dt><kbd><span class="option">--proto</span></kbd></dt>
+<dd><p>Caffe模型的prototxt文件。</p>
+</dd>
+<dt><kbd><span class="option">--model</span></kbd></dt>
+<dd><p>Caffe或ONNX浮点模型文件。</p>
+</dd>
+<dt><kbd><span class="option">--input-shape</span></kbd></dt>
+<dd><p>可选参数，输入模型的输入节点以及该节点的输入的shape，其shape以 <code class="docutils literal notranslate"><span class="pre">x</span></code> 分隔, e.g. <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">1x3x224x224</span></code>。</p>
+</dd>
+<dt><kbd><span class="option">--output</span></kbd></dt>
+<dd><p>检查的输出结果文件。默认值为 <code class="docutils literal notranslate"><span class="pre">hb_mapper_checker.log</span></code>。</p>
+</dd>
+<dt><kbd><span class="option">--help</span></kbd></dt>
+<dd><p>显示帮助信息并退出。</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="hb-mapper-makertbin">
+<h2><span class="section-number">2.1.2. </span>模型编译命令（<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>）<a class="headerlink" href="#hb-mapper-makertbin" title="永久链接至标题"></a></h2>
+<p>该命令根据配置文件和模型的种类，会生成ONNX量化模型以及仿真上板情况的runtime模型。
+配置文件的具体设置将会在 <a class="reference internal" href="#hb-mapper-config"><span class="std std-ref">配置文件详细介绍</span></a> 部分具体讲解。</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hb_mapper</span> <span class="pre">makertbin的使用方式：</span></span></dt>
+<dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_mapper makertbin --config <span class="si">${</span><span class="nv">config_file</span><span class="si">}</span>  <span class="se">\</span>
+                    --model-type  <span class="si">${</span><span class="nv">model_type</span><span class="si">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hb_mapper</span> <span class="pre">makertbin的命令行参数：</span></span></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">-c</span>, <span class="option">--config</span></kbd></dt>
+<dd><p>模型编译的配置文件，为yaml格式。</p>
+</dd>
+<dt><kbd><span class="option">--model-type</span></kbd></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">caffe</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">onnx</span></code>。</p>
+</dd>
+<dt><kbd><span class="option">--help</span></kbd></dt>
+<dd><p>显示帮助信息并退出。</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>编译产生的log文件会储存在命令执行路径下面, 默认名称为 <code class="docutils literal notranslate"><span class="pre">hb_mapper_makertbin.log</span></code>。</p>
+</section>
+<section id="hb-mapper-infer">
+<span id="id2"></span><h2><span class="section-number">2.1.3. </span>模型推理命令（<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code>）<a class="headerlink" href="#hb-mapper-infer" title="永久链接至标题"></a></h2>
+<p>该命令利用浮点和量化模型进行推理，并保存推理结果到 <code class="docutils literal notranslate"><span class="pre">--output-dir</span></code> 指定的目录里面。</p>
+<p>为了验证分析模型编译是否正确,可将配置文件中 <code class="docutils literal notranslate"><span class="pre">layer_out_dump</span></code> 设置为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，它将会输出conv和输出节点的推理结果，
+之后可以借助向量比较工具来分析模型编译的正确与否。</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hb_mapper</span> <span class="pre">infer的使用方式：</span></span></dt>
+<dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_mapper infer --config <span class="si">${</span><span class="nv">config_file</span><span class="si">}</span> <span class="se">\</span>
+                --model-file <span class="si">${</span><span class="nv">quantized_model_file</span><span class="si">}</span>  <span class="se">\</span>
+                --model-type <span class="si">${</span><span class="nv">caffe</span><span class="p">/onnx</span><span class="si">}</span> <span class="se">\</span>
+                --image-file <span class="si">${</span><span class="nv">input_node</span><span class="si">}</span> <span class="si">${</span><span class="nv">image_file</span><span class="si">}</span> <span class="se">\</span>
+                --input-layout <span class="si">${</span><span class="nv">input_layout</span><span class="si">}</span> <span class="se">\</span>
+                --output-dir <span class="si">${</span><span class="nv">quantized_output_dir</span><span class="si">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>在使用 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code> 命令时，请输入与 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> 命令相同的配置文件，以保证输入数据处理的部分的设置是相同的。
+简单地说，您在 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> 时使用的校准数据是什么样的图片或数据，那么在 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code> 时也需要使用相同格式的图片或数据。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>您使用 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code> 命令时输入数据的选择与配置文件中以下输入数据配置部分有关：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">preprocess_on:</span> <span class="pre">True</span></code>，则工具可以接收JPEG图片，自动进行resize等预处理，并转化成 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> 的格式。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">preprocess_on:</span> <span class="pre">False</span></code>，则只能接收已经处理好, 储存为二进制格式的图片文件，因此预处理需要用户自己完成，
+并把图片转化成相应的二进制文件。(请参考脚本02_preprocess.sh)。</p></li>
+</ul>
+</div>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hb_mapper</span> <span class="pre">infer的命令行参数：</span></span></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">-c</span>, <span class="option">--config</span></kbd></dt>
+<dd><p>模型编译时的配置文件。</p>
+</dd>
+<dt><kbd><span class="option">--model-file</span></kbd></dt>
+<dd><p>进行推理的模型文件，可以是浮点和量化ONNX模型。</p>
+</dd>
+<dt><kbd><span class="option">--model-type</span></kbd></dt>
+<dd><p>指定推理的原始浮点模型类型，可指定为 <code class="docutils literal notranslate"><span class="pre">caffe</span></code> 或 <code class="docutils literal notranslate"><span class="pre">onnx</span></code>。</p>
+</dd>
+<dt><kbd><span class="option">--image-file</span></kbd></dt>
+<dd><p>输入节点名称和其对应的用于推理的图像文件。</p>
+</dd>
+<dt><kbd><span class="option">--input-layout</span></kbd></dt>
+<dd><p>模型输入的layout（此为可选参数）。</p>
+</dd>
+<dt><kbd><span class="option">--output-dir</span></kbd></dt>
+<dd><p>推理结果的保存路径，如果是量化模型，推理结果为反量化的浮点数据。</p>
+</dd>
+<dt><kbd><span class="option">--help</span></kbd></dt>
+<dd><p>显示帮助信息并退出。</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>输出内容在 <cite>output_dir</cite> 目录里，输出文件命名规则： <code class="docutils literal notranslate"><span class="pre">${layername}_float.bin</span></code>。</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">2.1.4. </span>关键配置参数介绍<a class="headerlink" href="#id3" title="永久链接至标题"></a></h2>
+<section id="calibration-parameters-preprocess-on">
+<h3><span class="section-number">2.1.4.1. </span><code class="docutils literal notranslate"><span class="pre">calibration_parameters.preprocess_on</span></code><a class="headerlink" href="#calibration-parameters-preprocess-on" title="永久链接至标题"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">calibration_parameters</span><span class="p p-Indicator">:</span>
+    <span class="c1"># 模型量化的参考图像的存放目录，图片格式支持JPEG、BMP等格式，输入的图片</span>
+    <span class="c1"># 应该是使用的典型场景，一般是从测试集中选择20~100张图片，另外输入</span>
+    <span class="c1"># 的图片要覆盖典型场景，不要是偏僻场景，如过曝光、饱和、模糊、</span>
+    <span class="c1"># 纯黑、纯白等图片</span>
+    <span class="c1"># 若有多个输入，则应使用&#39;;&#39;进行分隔</span>
+    <span class="l l-Scalar l-Scalar-Plain">cal_data_dir</span><span class="p p-Indicator">:</span> <span class="s">&#39;./calibration_data_bgr_f32&#39;</span>
+    <span class="c1"># 当输入的图片文件尺寸和模型训练的尺寸不一致，并且preprocess_on为True时，则将采用默认预处理方法(skimage resize)，</span>
+<span class="hll">    <span class="c1"># 将输入图片缩放或者裁减到指定尺寸，否则，需要用户提前把图片处理为训练时的尺寸</span>
+</span>    <span class="c1">#preprocess_on: False</span>
+</pre></div>
+</div>
+<p><strong>如果用户指定配置参数</strong> <code class="docutils literal notranslate"><span class="pre">preprocess_on=True</span></code>：</p>
+<p>工具可通过该设置 <code class="docutils literal notranslate"><span class="pre">preprocess_on</span></code> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 来自动完成的校准图片的前处理。
+该模式下用户需在 <code class="docutils literal notranslate"><span class="pre">cal_data_dir</span></code> 中指定校准JPEG图片的存放路径。
+则在模型校准时，工具内部会通过skimage方式读入的JPEG图片，通过skimage resize的方式缩放图片到配置文件指定的 <code class="docutils literal notranslate"><span class="pre">input_shape</span></code>，
+并把图像格式调整为 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> 指定的格式。</p>
+<p>举一个例子，假如输入的JPEG图像的尺寸为608x608，则通过默认的预处理后，图像被缩放为224x224，
+图像的内存格式调整为bgr(NCHW)的格式，像素值调整为0-255范围。</p>
+<p>默认的预处理，请参考如下代码：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">data_transformer</span><span class="p">(</span><span class="n">norm_type</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">input_type_train</span><span class="p">):</span>
+    <span class="n">image_width</span> <span class="o">=</span> <span class="n">input_dim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">image_height</span> <span class="o">=</span> <span class="n">input_dim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">ResizeTransformer</span><span class="p">((</span><span class="n">image_width</span><span class="p">,</span> <span class="n">image_height</span><span class="p">)),</span>
+        <span class="n">HWC2CHWTransformer</span><span class="p">(),</span>  <span class="c1"># to CXHXW</span>
+        <span class="n">RGB2BGRTransformer</span><span class="p">(),</span>
+    <span class="p">]</span>
+
+    <span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ScaleTransformer</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>如果用户指定配置参数</strong> <code class="docutils literal notranslate"><span class="pre">preprocess_on=False</span></code>：</p>
+<p>需要用户自己来处理图片，将图片处理为 <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> 指定的格式，并且将数据以二进制形式保存为文件.
+工具内部会自动增加从 <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> 到 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> 的格式转换。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>文件格式为： <a class="reference external" href="https://en.wikipedia.org/wiki/Row-_and_column-major_order">Row-major order</a> 的uint8/float32数据存储。</p>
+</div>
+</section>
+</section>
+<section id="hb-mapper-config">
+<span id="id4"></span><h2><span class="section-number">2.1.5. </span>配置文件详细介绍<a class="headerlink" href="#hb-mapper-config" title="永久链接至标题"></a></h2>
+<section id="id5">
+<h3><span class="section-number">2.1.5.1. </span>参考配置文件以及说明<a class="headerlink" href="#id5" title="永久链接至标题"></a></h3>
+<p>配置文件采用yaml格式进行配置，详细信息请参考各个参数的注释：</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># 模型转化相关的参数</span>
+<span class="l l-Scalar l-Scalar-Plain">model_parameters</span><span class="p p-Indicator">:</span>
+    <span class="c1"># Caffe浮点网络数据模型文件</span>
+    <span class="l l-Scalar l-Scalar-Plain">caffe_model</span><span class="p p-Indicator">:</span> <span class="s">&#39;../../../01_common/model_zoo/mapper/classification/mobilenet/mobilenet.caffemodel&#39;</span>
+    <span class="c1"># Caffe网络描述文件</span>
+    <span class="l l-Scalar l-Scalar-Plain">prototxt</span><span class="p p-Indicator">:</span> <span class="s">&#39;../../../01_common/model_zoo/mapper/classification/mobilenet/mobilenet_deploy.prototxt&#39;</span>
+    <span class="c1"># 适用BPU架构</span>
+    <span class="l l-Scalar l-Scalar-Plain">march</span><span class="p p-Indicator">:</span> <span class="s">&quot;bernoulli2&quot;</span>
+    <span class="c1"># 指定模型转换过程中是否输出各层的中间结果，如果为True，则输出所有层的中间输出结果，</span>
+    <span class="l l-Scalar l-Scalar-Plain">layer_out_dump</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+    <span class="c1"># 日志文件的输出控制参数，</span>
+    <span class="c1"># debug输出模型转换的详细信息</span>
+    <span class="c1"># info只输出关键信息</span>
+    <span class="c1"># warn输出警告和错误级别以上的信息</span>
+    <span class="l l-Scalar l-Scalar-Plain">log_level</span><span class="p p-Indicator">:</span> <span class="s">&#39;debug&#39;</span>
+    <span class="c1"># 模型转换输出的结果的存放目录</span>
+    <span class="l l-Scalar l-Scalar-Plain">working_dir</span><span class="p p-Indicator">:</span> <span class="s">&#39;model_output&#39;</span>
+    <span class="c1"># 模型转换输出的用于上板执行的模型文件的名称前缀</span>
+    <span class="l l-Scalar l-Scalar-Plain">output_model_file_prefix</span><span class="p p-Indicator">:</span> <span class="s">&#39;mobilenetv1_224x224_nv12&#39;</span>
+
+
+<span class="c1"># 模型输入相关参数, 若输入多个节点, 则应使用&#39;;&#39;进行分隔, 使用默认缺省设置则写None</span>
+<span class="l l-Scalar l-Scalar-Plain">input_parameters</span><span class="p p-Indicator">:</span>
+    <span class="c1"># (可不填) 模型输入的节点名称, 此名称应与模型文件中的名称一致, 否则会报错, 不填则会使用模型文件中的节点名称</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_name</span><span class="p p-Indicator">:</span> <span class="s">&quot;data&quot;</span>
+    <span class="c1"># 网络实际执行时，输入给网络的数据格式，包括 nv12/rgb/bgr/yuv444/gray/featuremap,</span>
+    <span class="c1"># 如果输入的数据为yuv444, 模型训练用的是bgr(NCHW)，则hb_mapper将自动插入YUV到BGR(NCHW)转化操作</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_type_rt</span><span class="p p-Indicator">:</span> <span class="s">&#39;nv12&#39;</span>
+    <span class="c1"># 转换后混合异构模型需要适配的输入数据排布，可设置为：NHWC/NCHW</span>
+    <span class="c1"># 若input_type_rt配置为nv12，则此处参数不需要配置</span>
+    <span class="c1">#input_layout_rt: &#39;&#39;</span>
+    <span class="c1"># 网络训练时输入的数据格式，可选的值为rgb/bgr/gray/featuremap/yuv444</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_type_train</span><span class="p p-Indicator">:</span> <span class="s">&#39;bgr&#39;</span>
+    <span class="c1"># 网络训练时输入的数据排布, 可选值为 NHWC/NCHW</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_layout_train</span><span class="p p-Indicator">:</span> <span class="s">&#39;NCHW&#39;</span>
+    <span class="c1"># 模型网络的输入大小, 以&#39;x&#39;分隔, 不填则会使用模型文件中的网络输入大小，否则会覆盖模型文件中输入大小</span>
+    <span class="c1"># input_shape: &#39;&#39;</span>
+    <span class="c1"># 网络输入的预处理方法，主要有以下几种：</span>
+    <span class="c1"># no_preprocess 不做任何操作</span>
+    <span class="c1"># data_mean 减去通道均值mean_value</span>
+    <span class="c1"># data_scale 对图像像素乘以data_scale系数</span>
+    <span class="c1"># data_mean_and_scale 减去通道均值后再乘以scale系数</span>
+    <span class="l l-Scalar l-Scalar-Plain">norm_type</span><span class="p p-Indicator">:</span> <span class="s">&#39;data_mean_and_scale&#39;</span>
+    <span class="c1"># 图像减去的均值, 如果是通道均值，value之间必须用空格分隔</span>
+    <span class="l l-Scalar l-Scalar-Plain">mean_value</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">103.94 116.78 123.68</span>
+    <span class="c1"># 图像预处理缩放比例，如果是通道缩放比例，value之间必须用空格分隔</span>
+    <span class="l l-Scalar l-Scalar-Plain">scale_value</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.017</span>
+
+<span class="l l-Scalar l-Scalar-Plain">calibration_parameters</span><span class="p p-Indicator">:</span>
+    <span class="c1"># 模型量化的参考图像的存放目录，图片格式支持JPEG、BMP等格式，输入的图片</span>
+    <span class="c1"># 应该是使用的典型场景，一般是从测试集中选择20~100张图片，另外输入</span>
+    <span class="c1"># 的图片要覆盖典型场景，不要是偏僻场景，如过曝光、饱和、模糊、纯黑、纯白等图片</span>
+    <span class="c1"># 若有多个输入节点, 则应使用&#39;;&#39;进行分隔</span>
+    <span class="l l-Scalar l-Scalar-Plain">cal_data_dir</span><span class="p p-Indicator">:</span> <span class="s">&#39;./calibration_data_bgr_f32&#39;</span>
+    <span class="c1"># 如果输入的图片文件尺寸和模型训练的尺寸不一致时，并且preprocess_on为true，</span>
+    <span class="c1"># 则将采用默认预处理方法(skimage resize)，</span>
+    <span class="c1"># 将输入图片缩放或者裁减到指定尺寸，否则，需要用户提前把图片处理为训练时的尺寸</span>
+    <span class="c1">#preprocess_on: False</span>
+    <span class="c1"># 模型量化的算法类型，支持kl、max，通常采用KL即可满足要求, 若为QAT导出的模型, 则应选择load</span>
+    <span class="l l-Scalar l-Scalar-Plain">calibration_type</span><span class="p p-Indicator">:</span> <span class="s">&#39;kl&#39;</span>
+
+<span class="c1"># 编译器相关参数</span>
+<span class="l l-Scalar l-Scalar-Plain">compiler_parameters</span><span class="p p-Indicator">:</span>
+    <span class="c1"># 编译策略，支持bandwidth和latency两种优化模式;</span>
+    <span class="c1"># bandwidth以优化ddr的访问带宽为目标；</span>
+    <span class="c1"># latency以优化推理时间为目标</span>
+    <span class="l l-Scalar l-Scalar-Plain">compile_mode</span><span class="p p-Indicator">:</span> <span class="s">&#39;latency&#39;</span>
+    <span class="c1"># 设置debug为True将打开编译器的debug模式，能够输出性能仿真的相关信息，如帧率、DDR带宽占用等</span>
+    <span class="l l-Scalar l-Scalar-Plain">debug</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+    <span class="c1"># 编译模型指定核数，不指定默认编译单核模型, 若编译双核模型，将下边注释打开即可</span>
+    <span class="c1"># core_num: 2</span>
+    <span class="c1"># 优化等级可选范围为O0~O3</span>
+    <span class="c1"># O0不做任何优化, 编译速度最快，优化程度最低,</span>
+    <span class="c1"># O1-O3随着优化等级提高，预期编译后的模型的执行速度会更快，但是所需编译时间也会变长。</span>
+    <span class="c1"># 推荐用O2做最快验证</span>
+    <span class="l l-Scalar l-Scalar-Plain">optimize_level</span><span class="p p-Indicator">:</span> <span class="s">&#39;O3&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="input-type-rt-input-type-train">
+<h3><span class="section-number">2.1.5.2. </span>关于 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code>/ <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code><a class="headerlink" href="#input-type-rt-input-type-train" title="永久链接至标题"></a></h3>
+<p>地平线的芯片架构，在设计时为了提升性能，做了两点假设：</p>
+<ol class="arabic simple">
+<li><p>假设输入的数据都是int8的量化数据。</p></li>
+<li><p>摄像头获取到的数据是nv12。</p></li>
+</ol>
+<p>因此，如果用户在模型训练时使用rgb(NCHW)输入格式，但是想使这个模型能够高效处理nv12数据，只需要在模型转换时做如下配置：</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">input_parameters</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_type_rt</span><span class="p p-Indicator">:</span> <span class="s">&#39;nv12&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_type_train</span><span class="p p-Indicator">:</span> <span class="s">&#39;rgb&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_layout_train</span><span class="p p-Indicator">:</span> <span class="s">&#39;NCHW&#39;</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">小技巧</p>
+<p>若用户训练模型时使用gray格式，而实际使用中输入的数据格式为nv12格式，
+则用户可以将模型转换时的 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> 及 <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> 均配置为 <code class="docutils literal notranslate"><span class="pre">gray</span></code>，
+在runtime应用开发时仅使用nv12的y通道地址作为输入即可。</p>
+</div>
+<p>除了将输入数据转换为nv12，我们还支持用户在训练和runtime infer时使用不同的rgb-order。
+具体的 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> / <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> 的支持类型，可以参考(Y为已支持类型, N为暂不支持类型)：</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 51%" />
+<col style="width: 7%" />
+<col style="width: 9%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 7%" />
+<col style="width: 14%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> \ <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code></p></td>
+<td><p>nv12</p></td>
+<td><p>yuv444</p></td>
+<td><p>rgb</p></td>
+<td><p>bgr</p></td>
+<td><p>gray</p></td>
+<td><p>featuremap</p></td>
+</tr>
+<tr class="row-even"><td><p>yuv444</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-odd"><td><p>rgb</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-even"><td><p>bgr</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-odd"><td><p>gray</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-even"><td><p>featuremap</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>Y</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>为了配合芯片对于输入数据类型的要求（int8），减小推理开销，
+对于 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> 类型为 rgb(NHWC/NCHW)/bgr(NHWC/NCHW) 的配置，
+转换工具转换出的模型，其输入数据类型均为 <code class="docutils literal notranslate"><span class="pre">int8</span></code>。
+也就是说，对于常规的图像数据，需要-128使用（该操作在API中已自动进行，用户无需再进行该操作）。</p>
+<p>从1.3.0版本开始， <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> 及 <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> 中不再包含layout信息，
+而将layout信息单独拆分出来为 <code class="docutils literal notranslate"><span class="pre">input_layout_rt</span></code> 及 <code class="docutils literal notranslate"><span class="pre">input_layout_train</span></code>。
+若用户指定的 <code class="docutils literal notranslate"><span class="pre">input_type</span></code> 为非 <code class="docutils literal notranslate"><span class="pre">nv12</span></code> 类型，则必须指定其对应的 <code class="docutils literal notranslate"><span class="pre">input_layout</span></code>
+信息，否则工具会给出报错。</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../02_tools.html" class="btn btn-neutral float-left" title="2. 工具详细介绍" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="hb_perf.html" class="btn btn-neutral float-right" title="2.2. hb_perf 工具" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

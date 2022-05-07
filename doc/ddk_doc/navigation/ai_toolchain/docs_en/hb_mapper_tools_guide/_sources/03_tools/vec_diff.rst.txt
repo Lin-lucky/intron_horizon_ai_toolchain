@@ -1,0 +1,64 @@
+The ``vec_diff`` Tool
+===========================
+
+The ``vec_diff`` tool is used for helping users find out model accuracy problems. 
+Below can be causes of model accuracy problems:
+
+1. There is error in a certain layer caused by either calibration or quantization, 
+   the error was somehow enlarged and eventually lead to larger accuracy problem.
+#. There is some unknown problem with a certain step during model conversion, during the conversion process, 
+   after a few times optimizations and transformations, something might go wrong in these transformations and 
+   lead to accuracy problem.
+#. Software bug: in those places where numbers are supposed to be the same, error took place due to software bug.
+
+The ``vec_diff`` tool is developed to find out the abovementioned root causes, it can be used to find out 
+the output differences of conv layers at different stages.
+
+How To Use
+-----------------
+
+The ``vec_diff`` tool can compare the output feature differences at different model conversion stages. 
+So, the first step is to obtain the results of the ``hb_mapper infer`` tool.
+
+The ``hb_mapper infer`` tool can be used to obtain model dumped vector files. Please refer to the: 
+:ref:`Inference Tool <hb_mapper_infer>` section for tool usage.
+
+Users can obtain the intermediate vector output by running \*.bin model in dev board. 
+Please refer to runtime documentations for more information.
+
+.. 由于libdnn暂不支持x86，此处暂时删除仿真环境内容。
+
+.. code-block::
+
+  vec_diff [OPTIONS] left_file/folder right_file/folder
+
+Parameters
+------------
+
+.. data:: vec_diff's parameters
+
+  --version
+    This parameter displays version information.
+  
+  left_file/folder
+    This parameter specifies file name or folder name.
+
+  right_file/folder
+    This parameter specifies file name or folder name.
+
+  -o, --output-file FILENAME
+    This parameter specifies the filename of output results.
+
+  --help
+    This parameter displays help information and exit.
+
+Output
+----------------
+
+The vec_diff_out.csv file is a table in which contains the following contents:
+
+.. csv-table::
+    :header: Left Files, Right Files, Cosine Similarity,Relative Euclidean Distance, Max Absolute Error, Mean Square Error
+    
+    Layerxxx-quanti-input.txt, Layerxxx-float-input.txt, xxx, xxx, xxx, xxx
+    Layerxxx-quanti-param.txt, Layerxxx-float-param.txt, xxx, xxx, xxx, xxx

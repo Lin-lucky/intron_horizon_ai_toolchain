@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>运行时进行参数更新 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>运行时进行参数更新</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/xstream/tutorials/stage3_update_parameter/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>运行时进行参数更新<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>除了在运行前通过配置文件设置Method参数。在运行时，您可以调用XStream Framework的<code class="docutils literal notranslate"><span class="pre">UpdateConfig()</span></code>接口对Method的参数进行更新。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * @brief 更新Method参数</span>
+<span class="cm"> * @param unique_name Workflow配置文件中，Method所对应Node的unique_name</span>
+<span class="cm"> * @param ptr 传递的参数信息</span>
+<span class="cm"> * @return: 0：成功，非0：失败</span>
+<span class="cm"> */</span>
+<span class="k">virtual</span> <span class="kt">int</span> <span class="nf">UpdateConfig</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">unique_name</span><span class="p">,</span> <span class="n">InputParamPtr</span> <span class="n">ptr</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">InputParamPtr</span></code>类定义如下。<code class="docutils literal notranslate"><span class="pre">is_json_format_</span></code>表示是否通过json字符串传递参数。<code class="docutils literal notranslate"><span class="pre">is_enable_this_method_</span></code>表示是否使能该Method。<code class="docutils literal notranslate"><span class="pre">unqiue_name_</span></code>为Node的unique_name。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">/// param of inputdata</span>
+<span class="k">class</span> <span class="nc">InputParam</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">InputParam</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">unique_name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">unique_name_</span> <span class="o">=</span> <span class="n">unique_name</span><span class="p">;</span>
+    <span class="n">is_json_format_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="n">is_enable_this_method_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">InputParam</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+  <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">Format</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="kt">bool</span> <span class="n">is_json_format_</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">is_enable_this_method_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">unique_name_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">InputParam</span><span class="o">&gt;</span> <span class="n">InputParamPtr</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>您可以通过json字符串或类的成员变量携带待更新参数。<br />当使用json字符串时，需要设置<code class="docutils literal notranslate"><span class="pre">is_json_format_</span></code>为<code class="docutils literal notranslate"><span class="pre">true</span></code>。同时，需要实现<code class="docutils literal notranslate"><span class="pre">Format()</span></code>函数，返回json字符串。在Method的<code class="docutils literal notranslate"><span class="pre">UpdateParamter()</span></code>函数中，您需要从json字符串中解析出需要的字段。之后对参数进行更新。<br />当使用类的成员变量时，需要设置<code class="docutils literal notranslate"><span class="pre">is_json_format_</span></code>为<code class="docutils literal notranslate"><span class="pre">false</span></code>。此时，您需要实现相应的<code class="docutils literal notranslate"><span class="pre">Get()</span></code>函数，获取待更新参数。<br />相关示例代码在<code class="docutils literal notranslate"><span class="pre">method/filter_param.h</span></code>和<code class="docutils literal notranslate"><span class="pre">method/bbox_filter.cc</span></code>中。</p>
+<p>假设您使用如下Workflow。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;in_bbox&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;bbox_filtered_A&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bbox_filtered_B&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxFilter&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxFilter_A&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;in_bbox&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;bbox_filtered_A&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;a_filter.json&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxFilter&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxFilter_B&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;in_bbox&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;bbox_filtered_B&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;b_filter.json&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>您可以通过如下代码更新BBoxFilterMethod中使用的阈值。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">unique_name</span><span class="p">(</span><span class="s">&quot;BBoxFilter_A&quot;</span><span class="p">);</span>
+<span class="c1">// 创建FilterParam，指定要更新BBoxFilter_A中Method的参数</span>
+<span class="k">auto</span> <span class="n">ptr</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">FilterParam</span><span class="o">&gt;</span><span class="p">(</span><span class="n">unique_name</span><span class="p">);</span>
+<span class="c1">// 设置阈值为90</span>
+<span class="n">ptr</span><span class="o">-&gt;</span><span class="n">SetThreshold</span><span class="p">(</span><span class="mf">10.0</span><span class="p">);</span>
+<span class="c1">// 调用UpdateConfig接口，传入Node的unique_name和待更新的参数</span>
+<span class="n">flow</span><span class="o">-&gt;</span><span class="n">UpdateConfig</span><span class="p">(</span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">unique_name_</span><span class="p">,</span> <span class="n">ptr</span><span class="p">);</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+<p>本示例编译后将在build/bin下生成stage3_update_parameter_example可执行文件。您可以将stage3/config目录下的配置文件复制到build/bin目录下，之后执行：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">stage3_update_parameter_example</span> <span class="o">./</span><span class="n">filter_workflow</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>程序运行后，将打印：</p>
+<ul class="simple">
+<li><p>BBoxFilter Method的起始阈值</p></li>
+<li><p>输入BBox信息</p></li>
+<li><p>输出BBox的状态（如是否被过滤）</p></li>
+<li><p>更新参数信息</p></li>
+</ul>
+<p><img alt="示例代码log" src="../../../_images/log1.png" /></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

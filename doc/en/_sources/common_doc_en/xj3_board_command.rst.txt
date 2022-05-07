@@ -1,0 +1,228 @@
+Frequently-used System Commands
+===================================
+
+1. Check System Version
+---------------------------
+
+Run below command to check version information of current system.
+
+.. code-block:: shell
+  
+  cat /etc/version
+
+
+2. ``hrut_utilities`` Toolchain
+----------------------------------
+
+``hrut_utilities`` refers to a set of tools used for capturing/specifying SoC system information, such as: 
+dev board ID search/configuration, BPU (Brain Processing Unit) status monitor, DDR status monitor, temperature sensor 
+reading, real-time CPU/BPU frequency information search, IP/MAC address search and configuration etc. 
+Please refer to below descriptions: 
+
+2.1 ``hrut_boardid``
+++++++++++++++++++++++++
+
+This command is used for accquiring/specifying Board ID. 
+Please refer to below ID definition:
+
+.. csv-table::
+ :header: "", "DESCRIPTIONS", "LENGTH", "VALUE RANGE"
+ :widths: 10, 10, 10, 40
+
+ "Model", "DDR manufacturer", "4Bits", "0x0:automatic detection；0x1:Hynix；0x2:Micron；0x3:Samsung"
+ "DDR Type", "DDR type", "4Bits", "0x0:automatic detection；0x1: LPDDR4；0x2: LPDDR4X；0x3: DDR4；0x4: DDR3L"
+ "Frequency", "DDR frequency", "4Bits", "0x0:automatic detection；0x1: 667；0x2: 1600；0x3: 2133；0x4: 2666；0x5: 3200；0x6: 3733；0x7: 4266"
+ "Capacity", "DDR capacity", "4Bits", "0x0:automatic detection；0x1: 1GB；0x2: 2GB；0x3: 4GB"
+ "ECC", "ECC configuration", "4Bits", "0x0: Default；0x1: inline ECC All；0x2: inline ECC option1；0x3: inline ECC option2"
+ "SOM Type", "SOM type", "4Bits", "0x0:automatic detection；0x1: X3；0x2: J3"
+ "Alternative", "additional configurations", "4Bits", "0x0: Default；0x1: Config1"
+ "Board Type", "motherboard type", "4Bits", "0x1: X3 DVB；0x2: J3 DVB；0x3: CVB"
+
+Refer to below command samples:
+
+.. code-block:: shell
+
+  Example: hrut_boardid g
+  Options:
+    g get board id(veeprom)
+    s set board id(veeprom)
+    G get board id(bootinfo)
+    S set board id(bootinfo)
+    c clear board id(veeprom)
+    C clear board id(bootinfo)
+    h  display this help text
+
+  // read boardid(veeprom)
+  root@x3dvbx3-hynix1G-2666:~# hrut_boardid g 
+  11410101 
+
+  // specify boardid(veeprom)
+  root@x3dvbx3-hynix1G-2666:~# hrut_boardid s 11410101
+  set board id = 11410101
+
+  // read boardid(bootinfo)
+  root@x3dvbx3-hynix1G-2666:~# hrut_boardid G
+  00
+
+  // specify boardid(bootinfo)
+  root@x3dvbx3-hynix1G-2666:~# hrut_boardid S 11410101
+  change board id from 0 to 11410101
+
+.. tip::
+  Because board ID can influence the SOM initiation, please be careful when specifying it.
+
+2.2 ``hrut_bpuprofile``
++++++++++++++++++++++++++
+
+This command is used for specifying BPU status. 
+For example, to adjust frequency of each BPU, power ON/OFF, clock ON/OFF. 
+Help documentation is shown as below:
+
+.. code-block:: shell
+
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile
+  bpu core error,you should select 0/1/2
+  BPU PROFILE HELP INFORMATION
+  >>> -b/--bpu         [BPU CORE,0--bpu0,1--bpu1,2--ALL BPU] (required)
+  >>> -p/--power       [POWER OFF/ON,0--OFF,1--ON]
+  >>> -c/--clock       [CLOCK OFF/ON,0--OFF,1--ON]
+  >>> -e/--enabletime  [GET FC TIME/ON,0--OFF,1--ON]
+  >>> -t/--time        [GET FC TIME,NO ARGUMENT]
+  >>> -f/--frq         [SET BPU FREQUENCY,ARGUMENT:N]
+  >>> -r/--ratio       [BPU RATIO,N--N TIMES,0--FOREVER]
+
+Please also refer to below most frequently-used commands:
+
+.. code-block:: shell
+
+  // checkout usage of 2 BPUs
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 2 -r 0
+  BPU   RATIO    FREE QUEUE
+  0     99%       1020
+  1     99%       1024
+
+  // specify the frequency of bpu0 as 400M
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 0 -f 400000000
+
+  // bpu1 poweroff
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 1 -p 0
+
+  // checkout fc execution time
+  // firstly, enable fc execution time recording feature
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 2 -e 1
+  // checkout recorded fc execution time
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 2 -t
+  // turn off this feature after use
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 2 -e 0
+  
+2.3 ``hrut_mac``
++++++++++++++++++++
+
+This command is used for specifying MAC related parameters of the Ethernet board you're using.
+
+.. code-block:: shell
+
+  // write
+  hrut_mac s aa:bb:cc:dd:ee:ff
+
+  // read
+  hrut_mac g
+
+2.4 ``hrut_somstatus``
+++++++++++++++++++++++++++++
+
+This command is used for reading temperature sensor indicators and CPU/BPU frequency information in real-time fashion.
+
+.. code-block:: shell
+
+  root@x3sdbx3-samsung2G-3200:~# hrut_somstatus
+  =====================1=====================
+  temperature-->
+      CPU      : 72.8 (C)
+  cpu frequency-->
+        min       cur     max
+      cpu0: 240000    1200000 1200000
+      cpu1: 240000    1200000 1200000
+      cpu2: 240000    1200000 1200000
+      cpu3: 240000    1200000 1200000
+  bpu status information---->
+        min        cur             max             ratio
+      bpu0: 400000000 1000000000      1000000000      100
+      bpu1: 400000000 1000000000      1000000000      100
+
+
+2.5 ``hurt_ipfull``
++++++++++++++++++++++++++
+
+This command is used for specifying board IP related parameters, 
+so that the board will be able to automatically specify IP, 
+MASK and GATEWAY information when it is powered for the next time.
+
+.. code-block:: shell
+
+  // write
+  // hrut_ipfull s IP MASK GATEWAY
+  root@x3sdbx3-samsung2G-3200:~# hrut_ipfull s 192.168.1.10 255.255.255.0 192.168.1.255
+
+  // read
+  root@x3sdbx3-samsung2G-3200:~# hrut_ipfull g
+  ip=192.168.1.10
+  mask=255.255.255.0
+  gw=192.168.1.255
+
+  // delete
+  // once deleted, the board will use the default 192.168.1.10 address when the next time you use it.
+  root@x3sdbx3-samsung2G-3200:~# hrut_ipfull c
+
+2.6 ``hrut_ddr``
++++++++++++++++++++++
+This command is used for specifying DDR Qos and searching for DDR terminal bandwidth. 
+Please refer to the **X3_Platform_System_Software_User_Manual** and **J3_Platform_System_Software_User_Manual** in the 
+`ddk\doc\dsp` directory.
+
+3. Thermal Configuration Guide
+------------------------------------------
+
+There are in all 3 cooling devices in X3 dev board, they are respectively: 
+`cooling_device0：cnn0`, `cooling_device1: cnn1` and `cooling_device2: cpu`. 
+Presently the default colling strategy is ``step_wise``, users can adjust the cooling strategy according to their needs.
+
+.. code-block:: shell
+
+  // search for your current cooling strategy
+  cat /sys/class/thermal/thermal_zone0/policy
+
+  // supported types of strategies are: "user_space" and "step_wise"
+  cat /sys/class/thermal/thermal_zone0/available_policies
+
+  // switch to "user_space" cooling strategy
+  echo user_space > /sys/class/thermal/thermal_zone0/policy
+  ls -l /sys/devices/virtual/thermal/thermal_zone0
+  // there are 3 available trip_points and the default trip_point is trip_point_1_temp (temperature is 75 Celsius degrees).
+  // run below command to adjust to your expected trip_point_1_temp
+  echo 85000 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_1_temp
+
+4. CPU Frequency Adjustment
+-------------------------------------
+
+The default CPU frequency adjustment strategy is ``ondemand``. 
+It can automatically adjust CPU frequency according to load. 
+In some performance tests, users can adjust CPU frequency to the highest value or a certain value.
+
+.. code-block:: shell
+
+  // adjust CPU frequency to the highest value:
+  echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+  // to adjust to a certain value,
+  // firstly, specify current frequency adjustment strategy as userspace :
+  echo userspace> /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+  // check frequencies:
+  cat /sys/devices/system/cpu/cpufreq/policy0/scaling_available_frequencies
+  // specify as 500M:
+  echo 500000 > /sys/devices/system/cpu/cpufreq/policy0/scaling_setspeed
+
+  // checkout current CPU frequency:
+  cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq
+
+

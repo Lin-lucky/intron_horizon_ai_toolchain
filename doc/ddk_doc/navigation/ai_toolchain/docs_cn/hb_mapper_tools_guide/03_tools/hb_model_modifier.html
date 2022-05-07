@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.7. hb_model_modifier 工具 &mdash; hb_mapper_tools_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="2.8. hb_custom_op 工具" href="hb_custom_op.html" />
+    <link rel="prev" title="2.6. hb_model_verifier 工具" href="hb_model_verifier.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> hb_mapper_tools_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_model_conversion_details.html">1. 模型转换过程详解</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../02_tools.html">2. 工具详细介绍</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hb_mapper.html">2.1. <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_perf.html">2.2. <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vec_diff.html">2.3. <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_info.html">2.4. <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_pack.html">2.5. <code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_model_verifier.html">2.6. <code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> 工具</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.7. <code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> 工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">2.7.1. 使用方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2.7.2. 命令行参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2.7.3. 输出内容解析</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hb_custom_op.html">2.8. <code class="docutils literal notranslate"><span class="pre">hb_custom_op</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_eval_preprocess.html">2.9. <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> 工具</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">hb_mapper_tools_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../02_tools.html"><span class="section-number">2. </span>工具详细介绍</a> &raquo;</li>
+      <li><span class="section-number">2.7. </span><code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> 工具</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/03_tools/hb_model_modifier.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hb-model-modifier">
+<h1><span class="section-number">2.7. </span><code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> 工具<a class="headerlink" href="#hb-model-modifier" title="永久链接至标题"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> 工具用于对指定的runtime模型中输入端的Transpose及Quantize节点进行删除操作，
+并将删除节点的信息存放在BIN模型中，可以通过 <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> 进行查看。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ol class="arabic simple">
+<li><p>工具仅用于删除输入端的Transpose、Quantize节点和输出端的Transpose、Dequantize节点，且Transpose节点必须直连输入或输出数据。对于Transpose和Quantize节点，一次仅能删除一个节点；对于Dequantize节点，会删除该Dequantize节点及该节点后续的所有节点。Dequantize后的节点上的操作, 则需放到后处理中。</p></li>
+<li><p>对于Transpose和Quantize节点，模型的输入节点与待删除节点之间的所有节点（如有）均为单输入输出节点；对于Dequantize节点，待删除节点与模型的输出节点之间的所有节点（如有）均为单输入输出节点。</p></li>
+<li><p>工具不支持对打包的模型进行处理，否则将提示：<code class="docutils literal notranslate"><span class="pre">ERROR</span> <span class="pre">pack</span> <span class="pre">model</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">supported</span></code>。</p></li>
+<li><p>Quantize节点会将数据类型由浮点转换为定点，如删除Quantize节点后，模型的输入端数据类型需要用户方自己处理为定点类型；Dequantize节点会将数据类型由定点转换为浮点，如删除Dequantize节点后，模型的输出端数据类型需要用户方自己处理为浮点类型并进行后处理。</p></li>
+</ol>
+</div>
+<section id="id1">
+<h2><span class="section-number">2.7.1. </span>使用方式<a class="headerlink" href="#id1" title="永久链接至标题"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_model_modifier <span class="si">${</span><span class="nv">model_file</span><span class="si">}</span> -r <span class="si">${</span><span class="nv">node_name</span><span class="si">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2><span class="section-number">2.7.2. </span>命令行参数<a class="headerlink" href="#id2" title="永久链接至标题"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="hb_model_modifier">
+<span id="hb_model_modifier的命令行参数"></span><span class="sig-name descname"><span class="pre">hb_model_modifier的命令行参数</span></span><a class="headerlink" href="#hb_model_modifier" title="永久链接至目标"></a></dt>
+<dd><dl class="simple">
+<dt>model_file</dt><dd><p>runtime 模型文件名称。</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">-r</span></kbd></dt>
+<dd><p>后接指定删除节点的名称。</p>
+</dd>
+<dt><kbd><span class="option">-o</span></kbd></dt>
+<dd><p>后接修改后的模型输出名称(仅在有 <code class="docutils literal notranslate"><span class="pre">-r</span></code> 参数时生效)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id3">
+<h2><span class="section-number">2.7.3. </span>输出内容解析<a class="headerlink" href="#id3" title="永久链接至标题"></a></h2>
+<p>若工具后不接任何参数，则工具会打印出可供候选的可删除节点（即模型中的所有transpose、quantize和Dequantize节点）。
+quanti节点的计算公式为：<span class="math notranslate nohighlight">\(qx = clamp(round(x / scale) + zero\_point, -128, 127)\)</span>，其中 <cite>round(x)</cite> 实现浮点数的四舍五入， <cite>clamp(x)</cite> 函数实现将数据钳位在-128~127之间的整数数值。
+dequantize节点的计算公式为：<span class="math notranslate nohighlight">\(deqx = (x - zero\_point) * scale\)</span>，deqx重新缩放回float或double类型数值
+删除quantize节点后，模型的数据输入类型应为int8类型；删除dequantize节点后，模型的数据输出类型为int8或int32两种类型。<cite>zero_point</cite> 为非对称量化零点偏移值，对称量化时 <cite>zero_point = 0</cite> 。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>目前工具仅支持删除：</p>
+<ol class="arabic simple">
+<li><p>输入部位的节点为quantize或transpose节点；</p></li>
+<li><p>输出部位的节点为dequantize或transpose节点。</p></li>
+</ol>
+<p>因此用户需自己查看确保删除节点若为quantize类型则节点需在BPU输入之前，若为dequantize类型则节点需在BPU输入之后。</p>
+</div>
+<p>工具打印信息如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_model_modifier resnet50_feature_hybrid_horizonrt.bin
+<span class="m">2021</span>-07-01 <span class="m">11</span>:37:47,035 INFO Nodes that might be deleted: <span class="o">[</span><span class="s1">&#39;data_res2a_branch1_HzQuantize_TransposeInput0&#39;</span>, <span class="s1">&#39;data_res2a_branch1_HzQuantize&#39;</span>, <span class="s1">&#39;replaced_fc1000_1_HzDequantize&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>在指定 <code class="docutils literal notranslate"><span class="pre">-r</span></code> 选项后，工具会打印模型中该节点的类型，储存在bin文件中的节点信息以及告知指定节点已被删除：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_model_modifier resnet50_64x56x56_feature.bin -r data_res2a_branch1_HzQuantize
+Node <span class="s1">&#39;data_res2a_branch1_HzQuantize&#39;</span> found, its OP <span class="nb">type</span> is <span class="s1">&#39;Quantize&#39;</span>
+Node info <span class="s1">&#39;data_res2a_branch1_HzQuantize: [0.13579604029655457]&#39;</span> saved
+Node <span class="s1">&#39;data_res2a_branch1_HzQuantize&#39;</span> is removed
+modified model saved as resnet50_64x56x56_feature.bin_modified.bin
+</pre></div>
+</div>
+<p>之后可以通过 <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> 工具查看被删除节点信息，输出信息末尾会打印被删除节点的名称，同时会生成 <code class="docutils literal notranslate"><span class="pre">deleted_nodes_info.txt</span></code> 文件，文件中每一行记录了对应被删除节点的初始信息。打印被删除节点的名称如下所示：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_model_info resnet50_64x56x56_feature_no_dequant.bin
+Start hb_model_info....
+hb_model_info version <span class="m">1</span>.3.27
+********* resnet50_64x56x56_feature info *********
+...
+--------- deleted nodes -------------------
+deleted nodes: data_res2a_branch1_HzQuantize
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hb_model_verifier.html" class="btn btn-neutral float-left" title="2.6. hb_model_verifier 工具" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="hb_custom_op.html" class="btn btn-neutral float-right" title="2.8. hb_custom_op 工具" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

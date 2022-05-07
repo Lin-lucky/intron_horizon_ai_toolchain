@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. General Descriptions &mdash; horizon_model_convert_sample_documentation v1.12.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Algorithm Model Samples" href="02_algorithm_sample.html" />
+    <link rel="prev" title="Model Convert Sample Doc" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> horizon_model_convert_sample_documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. General Descriptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_algorithm_sample.html">2. Algorithm Model Samples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_misc_sample.html">3. Other Samples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">horizon_model_convert_sample_documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">1. </span>General Descriptions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/samples/01_general_descriptions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="general-descriptions">
+<h1><span class="section-number">1. </span>General Descriptions<a class="headerlink" href="#general-descriptions" title="Permalink to this headline"></a></h1>
+<p>Most samples in the model conversion sample package are collections of shell scripts,
+in which encapsulated the business logic code to accomplish various tasks using tools, such as:</p>
+<ul class="simple">
+<li><p>How to check, convert and inference models using the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> sub commands.</p></li>
+<li><p>How to create users’ customized OP template using the <code class="docutils literal notranslate"><span class="pre">hb_custom_op</span></code> tool when there are OPs unsupported by Horizon’s ASICs.</p></li>
+<li><p>How to analyze the hybrid HGM’s performance using the <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> tool.</p></li>
+<li><p>How to find out where the accuracy errors are using the <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> tool.</p></li>
+<li><p>…</p></li>
+</ul>
+<p>Directory structure of samples is shown as below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>horizon_model_convert_sample/
+├── 01_common
+│   ├── calibration_data
+│   ├── data -&gt; /data/horizon_x3/data
+│   ├── model_zoo -&gt; ../../../model_zoo/
+│   ├── python
+│   ├── README.md
+│   └── test_data
+├── 03_classification
+│   ├── 01_mobilenet
+│   ├── 02_googlenet
+│   ├── 03_resnet18
+│   ├── 04_mobilenet_onnx
+│   ├── 05_efficientnet_lite0_onnx
+│   ├── 06_efficientnet_lite1_onnx
+│   ├── 07_efficientnet_lite2_onnx
+│   ├── 08_efficientnet_lite3_onnx
+│   ├── 09_efficientnet_lite4_onnx
+│   ├── cls_evaluate.py
+│   └── cls_inference.py
+├── 04_detection
+│   ├── 01_yolov2
+│   ├── 02_yolov3
+│   ├── 03_yolov5
+│   ├── 04_mobilenet_ssd
+│   ├── 05_efficient_det
+│   ├── 06_centernet
+│   ├── 07_fcos
+│   ├── det_evaluate.py
+│   └── det_inference.py
+├── 05_miscellaneous
+│   ├── 01_lenet_gray
+│   ├── 02_resnet50_feature
+│   ├── 03_vector_diff
+│   ├── 04_multi_input_example
+│   ├── 07_model_verifier
+│   ├── 08_model_info
+│   ├── 09_mobilenet_bgr
+│   ├── 10_mobilenet_yuv444
+│   └── cls_inference.py
+├── 06_custom_op
+│   └── mapper
+├── 07_segmentation
+│   ├── 01_mobilenet_unet
+│   ├── seg_evaluate.py
+│   └── seg_inference.py
+├── data_preprocess.py
+└── version.txt
+</pre></div>
+</div>
+<p>Main contents in the sample package:</p>
+<p id="algo-sample-doc-ref"><a class="reference internal" href="02_algorithm_sample.html"><span class="doc">Algorithm Model Samples</span></a></p>
+<p>Algorithm samples of MobileNetv1, MobileNetv2, GoogleNet, ResNet18, EfficientNet_lite0~4,
+YOLOv2, YOLOv3, YOLOv5, MobileNet_SSD, EfficientDet, MobileNet UNet, CenterNet and FCOS.
+The purposes of these samples are to help developers:</p>
+<ul class="simple">
+<li><p>experiences model conversion process</p></li>
+<li><p>experiences accuracy evaluation of model conversion</p></li>
+<li><p>experiences model conversion results</p></li>
+</ul>
+<p><a class="reference internal" href="03_misc_sample.html"><span class="doc">Miscellaneous Samples</span></a></p>
+<blockquote>
+<div><p>miscellaneous samples help users understand some other contents in Horizon’s ASIC toolchain, e.g. how to enable rgb data trained models receive yuv data in runtime using Horizon’s model conversion tool.</p>
+<p>E.g.: <cite>03_vector_diff</cite> helps users understand how to target problems using the <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> tool by a sample.</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Samples in this section will be updated on an irregular basis and are intended to answers frequently asked questions.</p>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Model Convert Sample Doc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02_algorithm_sample.html" class="btn btn-neutral float-right" title="2. Algorithm Model Samples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, horizon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

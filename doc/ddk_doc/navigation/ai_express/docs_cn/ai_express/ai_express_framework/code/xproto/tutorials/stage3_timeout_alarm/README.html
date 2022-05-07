@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>XProto示例3 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>XProto示例3</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_framework/code/xproto/tutorials/stage3_timeout_alarm/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xproto3">
+<h1>XProto示例3<a class="headerlink" href="#xproto3" title="Permalink to this headline">¶</a></h1>
+<p>本节将介绍使用Xproto框架对消息处理的耗时进行监控。我们来实现一个简单的示例，示例中包括两个插件：一个插件负责产生数据并发布，另个插件订阅数据并将接收到的数据进行累加，在执行完累加的动作后，休眠1005毫秒，模拟plugin处理消息超时。</p>
+<div class="section" id="id1">
+<h2>超时监控说明<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>框架默认消息处理超时时间为1000毫秒，也可以通过环境变量<code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">msg_timeout_monitor=&quot;200&quot;</span></code>设置新的超时时间，对所有plugin生效</p></li>
+<li><p>框架在RegisterPlugin接口中设置默认超时时间，plugin也可以调用SetMsgMonitorTime接口设置自己的超时时间，在注册消息后调用才能生效</p></li>
+<li><p>GetMsgMonitorTime接口用于获取plugin的超时时间</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>定义消息类型<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>首先需要定义不同插件间传递消息的类型，Xproto框架中的消息都是基于<code class="docutils literal notranslate"><span class="pre">xproto::XProtoMessage</span></code>，因此需要构建XProtoMessage的派生消息结构，根据需要扩充成员变量。<strong>注意：不同插件间通过XProtoMessage::type_来区分消息类型，因此自定义消息时需要指定唯一<code class="docutils literal notranslate"><span class="pre">type_</span></code>。同时需要使用接口<code class="docutils literal notranslate"><span class="pre">XPLUGIN_REGISTER_MSG_TYPE</span></code>，向总线注册该消息类型。</strong></p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#define TYPE_SAMPLE_MESSAGE &quot;XPLUGIN_SAMPLE_MESSAGE&quot;    </span><span class="c1">// 消息类型</span>
+<span class="n">XPLUGIN_REGISTER_MSG_TYPE</span><span class="p">(</span><span class="n">XPLUGIN_SAMPLE_MESSAGE</span><span class="p">)</span>       <span class="c1">// 注册消息</span>
+
+<span class="k">struct</span> <span class="nc">NumberProdMessage</span> <span class="o">:</span> <span class="n">XProtoMessage</span> <span class="p">{</span>              <span class="c1">// 自定义消息结构</span>
+  <span class="kt">float</span> <span class="n">num_</span><span class="p">;</span>
+  <span class="k">explicit</span> <span class="n">NumberProdMessage</span><span class="p">(</span><span class="kt">float</span> <span class="n">num</span><span class="p">)</span> <span class="o">:</span><span class="n">num_</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">type_</span> <span class="o">=</span> <span class="n">TYPE_SAMPLE_MESSAGE</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">Serialize</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">ostringstream</span> <span class="n">ss</span><span class="p">;</span>
+    <span class="n">ss</span> <span class="o">&lt;&lt;</span> <span class="n">num_</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>定义插件<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Xproto中插件的管理都基于<code class="docutils literal notranslate"><span class="pre">xproto::XPluginAsync</span></code>，因此自定义插件需继承于XPluginAsync。本示例中，我们需要定义两个插件：NumberProducerPlugin产生浮点数，SumConsumerPlugin实现数据累加。</p>
+<p>自定义插件需要根据功能重写<code class="docutils literal notranslate"><span class="pre">XPluginAsync::Init()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::Start()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::Stop()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::DeInit()</span></code>几个核心函数。此外，可以根据需要扩充插件的成员函数，如订阅消息的插件，可以扩充消息的回调函数。</p>
+<ul class="simple">
+<li><p>其中Init()做插件的初始化工作，如在Init()中订阅消息，订阅消息使用<code class="docutils literal notranslate"><span class="pre">XPluginAsync::RegisterMsg()</span></code>接口，在订阅消息的同时指定该消息的回调函数。<strong>注意：订阅消息后，务必调用基类的XPluginAsync::Init()接口，该插件才可接收到消息并处理。</strong></p></li>
+<li><p>Start()主要是开始插件的运行，比如发布消息，发布消息使用<code class="docutils literal notranslate"><span class="pre">PushMsg()</span></code>接口。</p></li>
+<li><p>Stop()主要是对插件做清理善后工作，如reset成员变量、内存释放等。</p></li>
+<li><p>DeInit()主要负责插件的重置，<strong>注意：若重写该函数，需要在函数内调用基类的<code class="docutils literal notranslate"><span class="pre">XPluginAsync::DeInit()</span></code>接口，取消已订阅消息类型。</strong></p></li>
+</ul>
+<p>下面看下NumberProducerPlugin和SumConsumerPlugin两个插件的定义：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NumberProducerPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">XPluginAsync</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">desc</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s">&quot;NumberProducerPlugin&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">total_cnt_</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="n">prd_thread_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">XPluginAsync</span><span class="o">::</span><span class="n">Init</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">prd_thread_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">([</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(){</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">total_cnt_</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">prd_stop_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">np_msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">NumberProdMessage</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+        <span class="n">PushMsg</span><span class="p">(</span><span class="n">np_msg</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">40</span><span class="p">));</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Stop</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">prd_stop_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">prd_thread_</span><span class="o">-&gt;</span><span class="n">join</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">prd_thread_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">delete</span> <span class="n">prd_thread_</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">DeInit</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">XPluginAsync</span><span class="o">::</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">uint32_t</span> <span class="n">total_cnt_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="o">*</span><span class="n">prd_thread_</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">prd_stop_</span><span class="p">{</span><span class="nb">false</span><span class="p">};</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">SumConsumerPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">XPluginAsync</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">Init</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">sum_</span> <span class="o">=</span> <span class="mf">0.f</span><span class="p">;</span>
+    <span class="n">RegisterMsg</span><span class="p">(</span><span class="n">TYPE_SAMPLE_MESSAGE</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">SumConsumerPlugin</span><span class="o">::</span><span class="n">Sum</span><span class="p">,</span>
+                                               <span class="k">this</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">XPluginAsync</span><span class="o">::</span><span class="n">Init</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Sum</span><span class="p">(</span><span class="n">XProtoMessagePtr</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">np_msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">NumberProdMessage</span><span class="o">&gt;</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+    <span class="n">sum_</span> <span class="o">+=</span> <span class="n">np_msg</span><span class="o">-&gt;</span><span class="n">num_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">1005</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">sum_</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="n">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Stop</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">DeInit</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">XPluginAsync</span><span class="o">::</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">desc</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s">&quot;SumConsumerPlugin&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">float</span> <span class="n">sum_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>运行程序<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>消息和插件都定义完成后，现在需要将插件运作起来。只需实例化两个插件，并顺序执行Init()、Start()、Stop()、DeInit()即可。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">np_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">NumberProducerPlugin</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="k">auto</span> <span class="n">sc_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">SumConsumerPlugin</span><span class="o">&gt;</span><span class="p">();</span>
+
+  <span class="n">np_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="n">sc_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+
+  <span class="n">np_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  <span class="n">sc_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">seconds</span><span class="p">(</span><span class="mi">6</span><span class="p">));</span>
+
+  <span class="n">np_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">sc_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+
+  <span class="n">np_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="n">sc_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>来看下运行程序的输出结果，Consumer插件处理msg耗时1005ms，框架提示消息处理超时信息，信息中包括插件名称和消息名称等信息：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">xpluginasync</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">107</span><span class="p">):</span> <span class="n">XPluginAsync</span><span class="p">()</span> <span class="n">cons</span>
+<span class="p">(</span><span class="n">xpluginasync</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">107</span><span class="p">):</span> <span class="n">XPluginAsync</span><span class="p">()</span> <span class="n">cons</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">81</span><span class="p">):</span> <span class="n">total_cnt</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">82</span><span class="p">):</span> <span class="n">NumberProducerPlugin</span> <span class="n">Start</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">128</span><span class="p">):</span> <span class="n">SumConsumerPlugin</span> <span class="n">Start</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">123</span><span class="p">):</span> <span class="n">curr</span> <span class="nb">sum</span><span class="p">:</span><span class="mi">5</span>
+<span class="p">(</span><span class="n">xpluginasync</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">100</span><span class="p">):</span> <span class="n">Plugin</span><span class="p">:</span> <span class="n">SumConsumerPlugin</span><span class="p">,</span> <span class="n">MsgType</span> <span class="o">=</span> <span class="n">XPLUGIN_SAMPLE_MESSAGE</span><span class="p">,</span> <span class="n">cost</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">1005</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">123</span><span class="p">):</span> <span class="n">curr</span> <span class="nb">sum</span><span class="p">:</span><span class="mi">10</span>
+<span class="p">(</span><span class="n">xpluginasync</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">100</span><span class="p">):</span> <span class="n">Plugin</span><span class="p">:</span> <span class="n">SumConsumerPlugin</span><span class="p">,</span> <span class="n">MsgType</span> <span class="o">=</span> <span class="n">XPLUGIN_SAMPLE_MESSAGE</span><span class="p">,</span> <span class="n">cost</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">1005</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">123</span><span class="p">):</span> <span class="n">curr</span> <span class="nb">sum</span><span class="p">:</span><span class="mi">15</span>
+<span class="p">(</span><span class="n">xpluginasync</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">100</span><span class="p">):</span> <span class="n">Plugin</span><span class="p">:</span> <span class="n">SumConsumerPlugin</span><span class="p">,</span> <span class="n">MsgType</span> <span class="o">=</span> <span class="n">XPLUGIN_SAMPLE_MESSAGE</span><span class="p">,</span> <span class="n">cost</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">1005</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">123</span><span class="p">):</span> <span class="n">curr</span> <span class="nb">sum</span><span class="p">:</span><span class="mi">20</span>
+<span class="p">(</span><span class="n">xpluginasync</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">100</span><span class="p">):</span> <span class="n">Plugin</span><span class="p">:</span> <span class="n">SumConsumerPlugin</span><span class="p">,</span> <span class="n">MsgType</span> <span class="o">=</span> <span class="n">XPLUGIN_SAMPLE_MESSAGE</span><span class="p">,</span> <span class="n">cost</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">1005</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">123</span><span class="p">):</span> <span class="n">curr</span> <span class="nb">sum</span><span class="p">:</span><span class="mi">25</span>
+<span class="p">(</span><span class="n">xpluginasync</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">100</span><span class="p">):</span> <span class="n">Plugin</span><span class="p">:</span> <span class="n">SumConsumerPlugin</span><span class="p">,</span> <span class="n">MsgType</span> <span class="o">=</span> <span class="n">XPLUGIN_SAMPLE_MESSAGE</span><span class="p">,</span> <span class="n">cost</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">1005</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">98</span><span class="p">):</span> <span class="n">NumberProducerPlugin</span> <span class="n">Stop</span>
+<span class="p">(</span><span class="n">stage3_sample_plugin</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">132</span><span class="p">):</span> <span class="n">SumConsumerPlugin</span> <span class="n">Stop</span>
+<span class="p">(</span><span class="n">msg_manager</span><span class="o">.</span><span class="n">h</span><span class="p">:</span><span class="mi">73</span><span class="p">):</span> <span class="n">to</span> <span class="n">erase</span> <span class="n">plugin</span><span class="p">:</span> <span class="n">SumConsumerPlugin</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

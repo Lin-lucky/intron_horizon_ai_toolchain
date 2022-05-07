@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>model_inference 组件 &mdash; model inference 组件  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1 Introduce" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> model inference 组件
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">1 Introduce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id2">2 编译与示例运行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#modelinference">3 ModelInference实现原理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id11">4 开发示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id15">5 框架支持的前后处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id18">6 如何扩展自定义模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">model inference 组件</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>model_inference 组件</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="model-inference">
+<h1>model_inference 组件<a class="headerlink" href="#model-inference" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">1 Introduce</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#model-inference">1.1 model_inference集成模型流程概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id1">1.2 内部框架介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id2">2 编译与示例运行</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id3">2.1 依赖库说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id4">2.2 代码目录说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id5">2.3 编译</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id6">2.4 测试用例运行</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#modelinference">3 ModelInference实现原理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id7">3.1 前处理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README.html#id8">3.1.1 前处理配置方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#pipeline">3.1.2 图像前处理pipeline类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#roipipeline">3.1.3 roi前处理pipeline类型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#engine">3.2 预测Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id9">3.3 后处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id10">3.4 model_inference其他配置参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#method">3.5 method组件</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id11">4 开发示例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id12">4.1 准备配置参数：</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id13">4.2 准备前后处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#main">4.3 main函数代码：</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id14">4.4 运行结果如下：</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id15">5 框架支持的前后处理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id16">5.1 目前支持的前处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id17">5.2 目前支持的后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id18">6 如何扩展自定义模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id19">6.1 扩展预处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#id20">6.2 扩展后处理</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="README.html" class="btn btn-neutral float-right" title="1 Introduce" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

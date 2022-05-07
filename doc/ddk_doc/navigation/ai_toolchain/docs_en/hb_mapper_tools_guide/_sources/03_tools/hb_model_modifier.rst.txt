@@ -1,0 +1,97 @@
+The ``hb_model_modifier`` Tool
+===================================
+
+The ``hb_model_modifier`` tool is used for deleting Transpose and Quantize nodes in the input end of specified runtime 
+model. Information of the deleted nodes will be saved into the BIN model and can be viewed by the ``hb_model_info`` tool.
+
+.. note::
+
+  1. This tool is used for deleteing the Transpose and Quantize nodes at the input end and deleting the Transpose or  
+     Dequantize nodes at the output end. The Transpose node must input/output data directly. 
+     The tool can only delete one Transpose or Quantize node at a time.
+     When deleting Dequantize node, the Dequantize node and all succeeding nodes will be deleted. 
+     Therefore, the operations after Dequantize node will be put into post-processing.
+  2. For Transpose and Quantize nodes, all nodes between input node and the to-be-deleted node (if any) 
+     are single input/output nodes. For Dequantize node, all nodes between output node and the to-be-deleted node (if any) 
+     are single input/output nodes.
+  3. This tool cannot process packed models, otherwise it will print: ``ERROR pack model is not supported``.
+  4. The Quantize node will convert data type from floating-point into fixed-point. 
+     So after deleting it, users will need to convert the data type at model input end into fix-point. 
+     The Dequantize node will convert data type from fixed-point into floating-point.
+     So after deleting it, users will need to convert the data type at model output end into floating-point and 
+     implement post-processing.
+
+How To Use
+-----------------------
+
+.. code-block:: bash
+
+  hb_model_modifier ${model_file} -r ${node_name}
+
+Parameters
+-------------------
+
+.. data:: hb_model_modifier's parameters
+
+  model_file
+    This parameter specifies the file name of runtime model.
+
+  -r
+    This parameter specifies the name of the to-be-deleted node.
+
+  -o
+    This parameter specifies the output name of the modified model (it only becomes valid when the ``-r`` is added)
+
+Parse The Output
+----------------------
+
+If there isn't any parameters specified after the command-line, the tool will print candidate nodes to be deleted 
+(all transpose, quanti and dequantize nodes in the model). 
+The formula to calculate quanti node is: :math:`qx = clamp(round(x / scale) + zero\_point, -128, 127)`, 
+wherein the `round(x)` implements floating-point round-off, while the `clamp(x)` function implements clamping data into the integer range between -128 and 127. 
+While the formula to calculate dequantize node is: :math:`deqx = (x - zero\_point) * scale`, when deqx is resized back to float or double 
+type values and the quanti node is deleted, model input type will be int8; and when the dequantize node is deleted, model 
+input type will be either int8 or int32. the `zero_point` refers to the offset value of those `zero_point`s in asymmetric quantization.
+While `zero_point = 0` in symmetric quantization.
+
+.. note::
+
+  The tool can support deleting:
+
+  1. quanti or transpose nodes at input part;
+  2. dequantize or transpose nodes at output part.
+  
+  Therefore, users will need to confirm by themselves that the deleted quanti node(s) must be before BPU input; 
+  while that the deleted dequantize node(s) must be after BPU input.
+
+Tool printed message is shown as below:
+
+.. code-block:: bash
+
+  hb_model_modifier resnet50_64x56x56_feature.bin
+  2021-04-07 11:37:47,035 INFO Nodes that might be deleted: ['data_res2a_branch1_HzQuantize_TransposeInput0', 'data_res2a_branch1_HzQuantize']
+  2021-04-07 11:37:47,035 INFO Please make sure node is input node before delete it !!!
+
+When the ``-r`` option is specified, the tool will print model node type and save into the node information in bin file 
+and tell users that the specified node has been deleted. As shown below:
+
+.. code-block:: bash
+
+  hb_model_modifier resnet50_64x56x56_feature.bin -r data_res2a_branch1_HzQuantize
+  Node 'data_res2a_branch1_HzQuantize' found, its OP type is 'Quantize'
+  Node info 'data_res2a_branch1_HzQuantize: [0.13579604029655457]' saved
+  Node 'data_res2a_branch1_HzQuantize' is removed
+  modified model saved as resnet50_64x56x56_feature_modified.bin
+
+Users can view the information using the ``hb_model_info`` tool:
+
+.. code-block:: bash
+
+  hb_model_info resnet50_64x56x56_feature_modified.bin
+  Start hb_model_info....
+  hb_model_info version 1.3.15
+  ********* resnet50_64x56x56_feature info *********
+  ...
+  --------- deleted nodes -------------------
+  deleted nodes: data_res2a_branch1_HzQuantize: [0.13579604029655457]
+

@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>MergeMethod &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>MergeMethod</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/common/xstream_methods/merge_method/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mergemethod">
+<h1>MergeMethod<a class="headerlink" href="#mergemethod" title="Permalink to this headline">¶</a></h1>
+<p>MergeMethod主要用于完成检测框的融合，目前的实现是基于IOU的融合，即两个框的交并比满足条件，则为两个框赋予相同的track_id，MergeMethod目前主要用于人脸与人头框的融合以及rgb人脸框与nir人脸框的融合。</p>
+<div class="section" id="id1">
+<h2>输入<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>人头、人脸策略<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>|Slot |内容 |备注 |
+|:—:|:—————————:|:————–:|
+| 0 | face_box | 必要项|
+| 1 | disappeared_face_id | 必要项|
+| 2 | head_box | 必要项|
+| 3 | disappeared_head_id | 必要项|
+| 4 | rgb_lmk | 可选项|
+| 5 | nir_lmk | 可选项|</p>
+<p>从slot4开始，可输入rgb_lmk与nir_lmk，主要用于图像校正，通过CALIBRATION宏进行控制，默认关闭。</p>
+<p><em>备注</em>：此类策略主要用于人脸抓拍场景</p>
+</div>
+<div class="section" id="id3">
+<h3>人头、人脸、人体策略<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>|Slot |内容 |备注 |
+|:—:|:—————————:|:————–:|
+| 0 | face_box | 必要项|
+| 1 | head_box | 必要项|
+| 2 | body_box | 必要项|
+| 3 | disappeared_face_id | 必要项|
+| 4 | disappeared_head_id | 必要项|
+| 5 | disappeared_body_id | 必要项|
+| 6 | body_kps | 可选项|</p>
+<p><em>备注</em>：此类策略主要用于室内跟踪场景</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>输出<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>人头、人脸<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>|Slot |内容 |备注 |
+|:—:|:——————–:|:—————————:|
+| 0 | merged_face_box | 融合后ID|
+| 1 | merged_head_box | 融合后ID|
+| 2 | disappeared_track_id | 融合后ID|</p>
+</div>
+<div class="section" id="id6">
+<h3>人头、人脸、人体<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>|Slot |内容 |备注 |
+|:—:|:——————–:|:—————————:|
+| 0 | merged_face_box | 融合后ID|
+| 1 | merged_head_box | 融合后ID|
+| 2 | merged_body_box | 融合后ID|
+| 3 | disappeared_track_id | 融合后ID|</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>配置文件参数<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>人头、人脸<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>|字段      |描述     |默认值     |
+|:——-:|:—–:|:———-:|
+| match_threshold|匹配阈值，若分数低于该值则认为不构成匹配对|0.4|</p>
+</div>
+<div class="section" id="id9">
+<h3>可见光、红外<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>|字段      |描述     |默认值     |
+|:——-:|:—–:|:———-:|
+| camera_type|0代表横屏，1代表竖屏|</p>
+</div>
+<div class="section" id="id10">
+<h3>人头、人脸、人体<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>|字段      |描述     |默认值     |
+|:——-:|:—–:|:———-:|
+| merge_type|融合策略选择，人头人脸融合或者人头人体融合|head_body|
+| match_threshold|匹配阈值，若分数低于该值则认为不构成匹配对|0.4|
+| use_kps|是否使用人体关键点辅助人头人体匹配|true|
+| double_thresh_flag|是否使用双阈值条件来去除容易产生矛盾的人头人体的匹配输出|false|
+| valid_kps_score_thresh|kps的分数阈值，低于该值则认为该关键点是无效的|0.2|
+| kps_cnt_threshold|有效kps的个数阈值，若低于该值则认为匹配无效|0.5|
+| conflict_thresh|若同一人体与多个人头的匹配分数大于该阈值，则认为该人体存在矛盾的匹配|0.8|
+| head_extend_ratio|人头框外扩比例|0.05|</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

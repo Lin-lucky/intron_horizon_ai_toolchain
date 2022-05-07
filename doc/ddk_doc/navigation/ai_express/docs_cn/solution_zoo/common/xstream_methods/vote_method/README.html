@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Vote Method &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Vote Method</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/common/xstream_methods/vote_method/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="vote-method">
+<h1>Vote Method<a class="headerlink" href="#vote-method" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>VoteMethod 是滑动窗投票策略的封装</p>
+</div>
+<div class="section" id="id2">
+<h2>输入输出<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>车型车颜色、车牌颜色
+输入：</p>
+<p>|  slot0  | boxes(框，主要是用到里边的track_id信息)  |
+|  —- | —-  |
+| slot1 | disappeared_track_ids（消失的track_id,用于清理内部关于此id的资源）|
+| slot2 | vote_info（需要投票的信息)|</p>
+<p>输出：</p>
+<p>|  slot0  | vote_info（投票后的结果）|
+|  —- | —-  |</p>
+<p>活体
+输入：</p>
+<p>|  slot0  | boxes(框，主要是用到里边的track_id信息)  |
+|  —- | —-  |
+| slot1 | disappeared_track_ids（消失的track_id,用于清理内部关于此id的资源）|
+| slot2 | vote_info（需要投票的信息)|</p>
+<p>输出：</p>
+<p>|  slot0  | track_id |
+|  —- | —-  |
+|  slot1  | vote_info（投票后的结果）|</p>
+</div>
+<div class="section" id="id3">
+<h2>补充说明<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>单实例不支持多线程访问，支持多实例。<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>配置文件描述<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>配置文件是config目录下的json，下面讲解配置里主要参数的意思。</p>
+<p>type 需要投票的类型，可选 vehicle(车型车颜色)、plate_color(车牌颜色)、living(活体)</p>
+<p>vehicle 和 plate_color 需要配置 max_slide_window_size 表示滑动窗口的大小，默认值为50.
+living 需要配置
+max_slide_window_size 默认值7
+living_voting_threshold 默认值 0.5
+fake_living_voting_threshold 默认值 0.5</p>
+</div>
+<div class="section" id="id6">
+<h2>策略简要描述<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>判断输入的投票信息是否有效，即查看当前滑动窗口大小是否等于 max_slide_window_size,不等于设置投票信息为无效，对于车型车颜色若无效使用上一帧信息，</p></li>
+<li><p>比较当前滑动窗口大小和 max_slide_window_size, 若小于设置投票输出信息为无效，同时把需要投票的信息进行 push_back,若等于进行一次投票</p></li>
+<li><p>把投票结果设置到输出</p></li>
+<li><p>活体算法提供的策略</p></li>
+</ol>
+<p>由于人脸优选策略以及人脸外扩卡大小策略会对每一帧进行优选，在不满足策略要求的情况下，该帧图片不会送入到活体检测模型中进行判断。在之前的滑动窗口策略中，优选不过的图片会被直接标记为非活，为了避免演示时出现因为优选策略被判为非活，进而提示用户的情况，现对滑动窗口策略进行补充和微调。</p>
+<p>参数说明以及调整点：</p>
+<p>活体投票阈值：当前窗口内判断为活体的帧所占比例超过活体投票阈值，则当前帧判断为活体，默认50%。</p>
+<p>非活投票阈值：当前窗口内判断为非活的帧所占比例超过非活投票阈值，则当前帧判断为非活，默认50%。</p>
+<p>判断流程：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. 首先进行活体判断，当前窗口内判断为活体的帧所占比例超过活体投票阈值，则当前帧判断为活体。
+
+2. 如果当前窗口内判断为活体的帧占比没有超过活体投票阈值，则进行非活判断：
+
+    a.如果当前窗口内判断为非活的帧所占比例超过非活投票阈值，则当前帧判断为非活。
+
+    b.如果当前窗口内判断为非活的帧所占比没有超过非活投票阈值，则不对当前帧进行判断。
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

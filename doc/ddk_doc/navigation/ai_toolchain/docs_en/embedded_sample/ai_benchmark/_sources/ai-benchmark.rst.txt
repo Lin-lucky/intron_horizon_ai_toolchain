@@ -1,0 +1,1054 @@
+Foreword
+==========
+
+Horizon's X3/J3 **AI Benchmark Sample Package** (hereafter referred to as the **ABP**) contains the most frequently used 
+performance and accuracy evaluation samples of classification, detection and segmentation models. 
+In model performance evaluation samples, developers are able, not only to evaluate the single frame latency, 
+but also to evaluate the dual-core latency using multi-thread scheduling.
+The prebuilt source code, executable programs and evaluation scripts in the ABP allow developers 
+to experience the samples, develop their own applications and make development easier. 
+
+About the Deliverables
+==========================
+
+Please see below table to find all the deliverables in the ABP.
+
+.. table::
+  :align: center
+
+  +---------+----------+------------------------------------------------------------------+
+  | **NO.** | **NAME** | **DESCRIPTIONS**                                                 |
+  +---------+----------+------------------------------------------------------------------+
+  | 1       | code     | This folder contains sample source code and compilation scripts. |
+  +---------+----------+------------------------------------------------------------------+
+  | 2       | xj3      | Dev board operating environment of the ABP.                      |
+  +---------+----------+------------------------------------------------------------------+
+
+.. note::
+
+  More information to obtain the **data** evaluation datasets please refer to: 
+  `Model Conversion Sample Package Docs <../../hb_mapper_sample_doc/index.html>`_.
+
+The Sample Code Package
+--------------------------
+
+Directory of the sample code package is shown as below:
+
+.. code-block:: bash
+
+  +---ai_benchmark
+  | +---code                           # sample source code
+  | | +---build_ptq_xj3.sh
+  | | +---CMakeLists.txt
+  | | +---deps                         # third party dependencies
+  |   | +---aarch64
+  | | +---include                      # source code header files
+  |   | +---base
+  |   | +---input
+  |   | +---method
+  |   | +---output
+  |   | +---plugin
+  |   | +---utils
+  | | +---src                          # sample source code
+  |   | +---input
+  |   | +---method
+  |   | +---output
+  |   | +---plugin
+  |   | +---utils
+  |   | +---simple_example.cc          # sample main program
+  | +---xj3                            # ABP's operating environment
+  |   +---ptq                          # post-training model samples
+  |   | +---data                       # accuracy evaluation dataset
+  |   | +---mini_data                  # performance evaluations dataset
+  |   | +---model                      # post-training nv12 models
+  |   | +---script                     # execution script
+  |   | | +---aarch64                  # compilation generated executable files and dependencies
+  |   | | +---base_config.sh
+  |   | | +---config
+  |   | | +---classification           #  samples classification models
+  |   | | | +---efficientnet_lite0
+  |   | | | | +---accuracy.sh          # an accuracy sample script
+  |   | | | | +---fps.sh               # a performance sample script
+  |   | | | | +---latency.sh           # a single-frame latency sample script
+  |   | | | | +---workflow_accuracy.json
+  |   | | | | +---workflow_fps.json
+  |   | | | | +---workflow_latency.json
+  |   | | | +---efficientnet_lite1
+  |   | | | +---efficientnet_lite2
+  |   | | | +---efficientnet_lite3
+  |   | | | +---efficientnet_lite4
+  |   | | | +---googlenet
+  |   | | | +---mobilenetv1
+  |   | | | +---mobilenetv2
+  |   | | | +---resnet18
+  |   | | +---detection                # detection model samples
+  |   | | | +---efficient_det
+  |   | | | +---centernet
+  |   | | | +---fcos
+  |   | | | +---mobilenet_ssd
+  |   | | | +---yolov2
+  |   | | | +---yolov3
+  |   | | | +---yolov5
+  |   | | +---segmentation             # segmentation model samples
+  |   | | | +---mobilenet_unet
+  |   | +---tools                      # accuracy evaluation tools
+  |   | | +---python_tools
+  |   | | | +---accuracy_tools
+  |   | | | +---voc_metric
+
+- The **code** directory contains source code of an evaluation program developed based on Horizon Robotics' XStream 
+  framework. This application program is used for evaluating model accuracy and performance.
+- The **xj3** directory contains various pre-compiled application programs and evaluation scripts used for evaluating the 
+  accuracy and performance of different models in Horizon's BPU (Brain Processing Unit).
+- The build_ptq_xj3.sh script is an one-click real machine compilation script.
+- The **deps** sub-directory contains sample code required dependencies, including:
+  
+  .. code-block:: bash
+
+    gflags  glog  opencv  rapidjson  xproto  xstream
+
+Sample Models
+------------------
+
+The **​model** directory contains the most frequently used classification, detection and segmentation models in the 
+**horizon_x3_open_explorer/ddk/samples/ai_toolchain/model_zoo/runtime** of the **open_explorer package**.
+please see below table to find model details. Model's naming rule is: ``{model_name}_{input_size}_{input_type}``. 
+All models in the **model** directory are compiled from the **model conversion sample package**.
+
+.. table::
+  :align: center
+
+  +--------------------+----------------------------------------------+
+  | MODEL              | MODEL NAME                                   |
+  +====================+==============================================+
+  | centernet          | centernet_512x512_nv12.bin                   |
+  +--------------------+----------------------------------------------+
+  |                    | efficient_det_512x512_nv12.bin               |
+  | efficient_det      +----------------------------------------------+
+  |                    | efficient_det_no_dequanti_512x512_nv12.bin   |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite0 | efficientnet_lite0_224x224_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite1 | efficientnet_lite1_240x240_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite2 | efficientnet_lite1_260x260_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite3 | efficientnet_lite1_280x280_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite4 | efficientnet_lite1_300x300_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | fcos               | fcos_512x512_nv12.bin                        |
+  +--------------------+----------------------------------------------+
+  | googlenet          | googlenet_224x224_nv12.bin                   |
+  +--------------------+----------------------------------------------+
+  | googlenet_cop      | googlenet_cop_224x224_nv12.bin               |
+  +--------------------+----------------------------------------------+
+  | lenet_gray         | lenet_28x28_gray.bin                         |
+  +--------------------+----------------------------------------------+
+  | mobilenet_multi    | mobilenet_multi_224x224_gray.bin             |
+  +--------------------+----------------------------------------------+
+  | mobilenet_ssd      | mobilenet_ssd_300x300_nv12.bin               |
+  +--------------------+----------------------------------------------+
+  | mobilenet_unet     | mobilenet_unet_1024x2048_nv12.bin            |
+  +--------------------+----------------------------------------------+
+  |                    | mobilenetv1_224x224_nv12.bin                 |
+  |                    +----------------------------------------------+
+  | mobilenetv1        | mobilenetv1_224x224_nv12_dump.bin            |
+  +--------------------+----------------------------------------------+
+  | mobilenetv2        | mobilenetv2_224x224_nv12.bin                 |
+  +--------------------+----------------------------------------------+
+  | resnet18           | resnet18_224x224_nv12.bin                    |
+  +--------------------+----------------------------------------------+
+  | resnet50_feature   | resnet50_64x56x56_featuremap.bin             |
+  +--------------------+----------------------------------------------+
+  |                    | yolov2_608x608_nv12.bin                      |
+  | yolov2             +----------------------------------------------+
+  |                    | yolov2_preempted_608x608_nv12.bin            |
+  +--------------------+----------------------------------------------+
+  |                    | yolov3_416x416_nv12.bin                      |
+  | yolov3             +----------------------------------------------+
+  |                    | yolov2_preempted_416x416_nv12.bin            |
+  +--------------------+----------------------------------------------+
+  | yolov5             | yolov5_672x672_nv12.bin                      |
+  +--------------------+----------------------------------------------+
+
+Public Datasets
+-------------------
+
+The public datasets required by the ABP are: VOC, COCO, ImageNet and Cityscapes.
+The accuracy evaluation required datasets must be preprocessed using the ``hb_eval_preprocess`` tool,
+in order to generate the .bin binary files required by the preprocess.
+The tool use lst file (e.g. coco.lst) to read pre-process files and run dataset inference.
+
+.. tip::
+
+  1. Information about how to get the evaluation dataset please refer to the `Prepare Dataset <../../hb_mapper_sample_doc/samples/02_algorithm_sample.html#prepare-dataset>`_ section in the Model Convert Sample Doc.
+  2. A use case of the ``hb_eval_preprocess`` tool please refer to the :ref:`Data Pre-process <data_preprocess>`.
+  3. More information about the useage of the ``hb_eval_preprocess`` tool please either type in ``hb_eval_preprocess -h``,
+     or refer to the `hb_eval_preprocess Tool <../../hb_mapper_tools_guide/03_tools/hb_eval_preprocess.html>`_ section in the
+     HB Mapper Tools Guide.
+
+- The VOC dataset is used for evaluating the mobilenet_ssd model. 
+  Its directory is shown as below.
+  The samples in the ABP use the val.txt file in the **Main** folder, 
+  the source images in the **JPEGImages** folder and the annotations in the 
+  **Annotations** folder.
+
+  .. code-block:: shell
+
+    .
+    └── VOCdevkit     # root directory
+        └── VOC2012   # datasets of different years. Here only contains dataset 2012, there are dataset 2007 and more
+            ├── Annotations  # the XML files which explain the images in corresponding to the images in the JPEGImages folder
+            ├── ImageSets    # this folder stores the TXT files in which each line contains an image name. the ±1 at the end denotes positive/negative samples
+            │   ├── Action
+            │   ├── Layout
+            │   ├── Main
+            │   └── Segmentation
+            ├── JPEGImages         # contains source images
+            ├── SegmentationClass  # contains semantic segmentation related images 
+            └── SegmentationObject # contains instance segmentation related images
+
+Preprocess the dataset:
+
+.. code-block:: bash
+
+  hb_eval_preprocess -m mobilenet_ssd -i VOCdevkit/VOC2012/JPEGImages -v VOCdevkit/VOC2012/ImageSets/Main/val.txt -o ./pre_mobilenet_ssd
+
+- The COCO dataset is used for evaluating the YOLOv2, YOLOv3, YOLOv5, Efficient_Det, FCOS and CenterNet models.
+  Its directory is shown as below. The samples in the ABP use the instances_val2017.json 
+  annotation file in the **annotations** folder and images in the **images** folder.
+
+  .. code-block:: shell
+  
+    .
+    ├── annotations    # contains annotation data
+    └── images         # contains source images
+
+Preprocess the dataset:
+
+.. code-block:: bash
+
+  hb_eval_preprocess -m model_name -i coco/coco_val2017/images -o ./pre_model_name
+
+- The ImageNet dataset is used for evaluating classification models e.g. EfficientNet_Lite0, EfficientNet_Lite1, 
+  EfficientNet_Lite2, EfficientNet_Lite3, EfficientNet_Lite4, MobileNet, GoogleNet and ResNet etc. 
+  The samples in the ABP use the val.txt file and the source images in the **val** folder.
+
+  .. code-block:: shell
+  
+    .
+    ├── val.txt
+    └── val
+
+Preprocess the dataset:
+
+.. code-block:: bash
+
+  hb_eval_preprocess -m model_name -i imagenet/val -o ./pre_model_name
+
+- The Cityscapes dataset is used for evaluating the MobileNet_Unet model. 
+  The samples in the ABP use the annotation files in the **./gtFine/val** folder 
+  and the source images in the **./leftImg8bit/val** folder.
+
+  .. code-block:: shell
+
+    .
+    ├── gtFine
+    │   └── val
+    │       ├── frankfurt
+    │       ├── lindau
+    │       └── munster
+    └── leftImg8bit
+        └── val
+            ├── frankfurt
+            ├── lindau
+            └── munster
+
+Preprocess the dataset:
+
+.. code-block:: bash
+
+  hb_eval_preprocess -m mobilenet_unet -i cityscapes/leftImg8bit/val -o ./pre_mobilenet_unet
+
+Development Environment
+==========================
+
+Prepare the Dev Board
+-------------------------
+
+1. Upgrade system image to the ABP recommended version according to the upgrade instructions.
+2. Ensure the remote connection between local dev machine and the dev board.
+
+Compilation
+--------------
+
+Install the gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu cross-compilation tool in current environment 
+and run the build_ptq_xj3.sh script in the **code** folder to compile executable programs 
+in real machine. Note that the executable programs and corresponding dependencies will be copied into the **aarch64** 
+folder in the **xj3/ptq/script** folder automatically.
+
+.. note:: 
+
+  The location of the cross-compilation tool specified in the build_ptq_xj3.sh script is in the **/opt** folder. 
+  If you want to install it into some other places, please modify the build_ptq_xj3.sh script.
+
+.. code-block:: shell
+
+  export CC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc
+  export CXX=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
+
+How to Use
+=============
+
+Evaluation Scripts
+---------------------
+
+Evaluation sample scripts are in the **script** and **tools** folders. 
+The **script** folder contains the scripts for evaluating frequently used classification, detection and 
+segmentation models in dev board. The folder for each model consists of 3 scripts: 
+
+- The fps.sh script implements FPS statistics (multi-threading scheduling, users can freely specify number of thread 
+  according to their needs) using the XStream framework.
+- The latency.sh implements statistics of single-frame latency (one thread, single-frame).
+- The accuracy.sh script is used for evaluating model accuracy.
+
+.. code-block:: shell
+
+  script:
+
+
+  ├── aarch64             # compilation generated executable files and dependencies
+  │   ├── bin
+  │   ├── lib
+  ├── base_config.sh      # base config
+  ├── config              # configuration files of image_name
+  │   ├── coco_detlist.list
+  |   |   ├── coco_detlist.list
+  │   |   ├── imagenet.list
+  │   |   ├── voc_detlist.list
+  ├── classification      # classification model evaluation
+  │   ├── efficientnet_lite0
+  │   │   ├── accuracy.sh
+  │   │   ├── fps.sh
+  │   │   ├── latency.sh
+  │   │   ├── workflow_accuracy.json
+  │   │   ├── workflow_fps.json
+  │   │   ├── workflow_latency.json
+  │   ├── mobilenetv1
+  │   ├── .....
+  │   ├── resnet18
+  ├── detection           # detection models
+  |   ├── centernet
+  │   │   ├── accuracy.sh
+  │   │   ├── fps.sh
+  │   │   ├── latency.sh
+  │   │   ├── workflow_accuracy.json
+  │   │   ├── workflow_fps.json
+  │   │   ├── workflow_latency.json
+  │   ├── yolov2
+  │   ├── yolov3
+  │   ├── ...
+  │   ├── efficient_det
+  └── segmentation       # segmentation model
+      └──mobilenet_unet
+          ├── accuracy.sh
+          ├── fps.sh
+          ├── latency.sh
+          ├── workflow_accuracy.json
+          ├── workflow_fps.json
+          ├── workflow_latency.json
+
+The **tools** folder contains scripts required by accuracy evaluations, e.g. those accuracy compute scripts in the 
+**python_tools** folder.
+
+.. code-block:: shell
+
+  tools:
+
+  python_tools
+    ├── accuracy_tools
+    └── voc_metric
+
+.. attention::
+  
+  Run below commands before the evaluations and copy the **ptq** directory into the dev board, 
+  then copy the **model_zoo/runtime** directory into the **ptq/model** directory.
+
+.. code-block:: shell
+   
+  scp -r ddk/samples/ai_benchmark/xj3/ptq root@192.168.1.1:/userdata/ptq/
+  scp -r ddk/samples/ai_toolchain/model_zoo/runtime root@192.168.1.1:/userdata/ptq/model/
+
+Performance Evaluation
+---------------------------
+
+Performance evaluation is divided into latency and fps.
+
+How to Use Performance Evaluation Scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To evaluate the latency: 
+enter the directory of the model to be evaluated and run ``sh latency.sh`` to evaluate single frame latency. 
+As shown below:
+
+.. code-block:: shell
+
+  I0118 13:12:58.946164 24510 utils.cc:270]  Inference   avg latency:  15.116ms  max:  18.809ms  min:  15.001ms
+  I0118 13:12:58.951250 24523 utils.cc:270]  PostProcess avg latency:  4.279ms  max:  4.370ms  min:  4.238ms
+
+.. note::
+
+  - ``infer`` denotes the time consumption of model inference.
+  - ``Post process`` denotes the time consumption of post-processing.
+
+To evaluate the FPS:
+enter the directory of the model to be evaluated and run ``sh fps.sh`` to evaluate frame rate. 
+This feature implements FPS evaluation using multi-threading concurrency in order to enable models reach their performance limits in BPU.
+Due to multi-threading concurrency and data sampling, the frame rate can be low at startup stage, however frame rate will gradually increase 
+and tend to be stable. Note that the fluctuation range of frame rate should be within 0.5%.
+Below code block displays the output of FPS evaluation sample:
+
+.. code-block:: shell
+
+  I0118 13:11:48.034074 24492 output_plugin.cc:50]  frame_rate: 142.952     # model framerate
+
+About Command-line Parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The accuracy.sh script is shown as below:
+
+.. code-block:: shell
+  :linenos:
+  
+  #!/bin/sh
+
+  source ../../base_config.sh                      # load basic configurations
+  export SHOW_FPS_LOG=1                            # specify environment variable, print fps level log
+
+  ${app} \                                         # executable program defined in the accuracy.sh script
+    --config_file=workflow_accuracy.json \         # load workflow configuration file of accuracy evaluation
+    --log_level=2                                  # specify log level
+
+
+The fps.sh script is shown as below:
+
+.. code-block:: shell
+
+  #!/bin/sh
+
+  source ../../base_config.sh
+  export SHOW_FPS_LOG=1
+
+  ${app} \
+    --config_file=workflow_fps.json \
+    --log_level=1
+
+The latency.sh script is shown as below:
+
+.. code-block:: shell
+
+  #!/bin/sh
+
+  source ../../base_config.sh
+  export SHOW_LATENCY_LOG=1                            # specify environment variable, print latency level log
+
+  ${app} \
+    --config_file=workflow_latency.json \
+    --log_level=1
+
+About Configuration File
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Take fcos model for example
+Content of accuracy workflow configuration file is show as below: 
+
+.. code-block::
+
+  {
+    "input_config": {
+      "input_type": "preprocessed_image",
+      "height": 512,
+      "width": 512,
+      "data_type": 1,
+      "image_list_file": "../../../data/coco/coco.lst",
+      "need_pre_load": false,
+      "need_loop": false,
+      "max_cache": 10
+    },
+    "output_config": {
+      "output_type": "eval",
+      "eval_enable": true,
+      "output_file": "./eval.log",
+      "mask_output_file": "./mask.log"
+    },
+    "inputs": [
+      "input_data"
+    ],
+    "outputs": [
+      "input_data",
+      "perception_data"
+    ],
+    "workflow": [
+      {
+        "thread_count": 2,
+        "method_type": "InferMethod",
+        "unique_name": "InferMethod",
+        "inputs": [
+          "input_data"
+        ],
+        "outputs": [
+          "tensors"
+        ],
+        "method_config": {
+          "core": 0,
+          "model_file": "../../../model/runtime/fcos/fcos_512x512_nv12.bin"
+        }
+      },
+      {
+        "thread_count": 2,
+        "method_type": "PTQFcosPostProcessMethod",
+        "unique_name": "PTQFcosPostProcessMethod",
+        "inputs": [
+          "input_data",
+          "tensors"
+        ],
+        "outputs": [
+          "perception_data"
+        ],
+        "method_config": {
+          "strides": [8, 16, 32, 64, 128],
+          "class_num": 80,
+          "score_threshold": 0.05,
+          "topk": 1000,
+          "det_name_list": "../../config/data_name_list/coco_detlist.list"
+        }
+      }
+    ]
+  }
+
+Content of fps workflow configuration file is shown as below：
+
+.. code-block::
+  
+  {
+    "input_config": {
+      "input_type": "image",
+      "height": 512,
+      "width": 512,
+      "data_type": 1,
+      "image_list_file": "../../../mini_data/coco/coco.lst",
+      "need_pre_load": true,
+      "limit": 4,
+      "need_loop": true,
+      "max_cache": 10
+    },
+    "output_config": {
+      "output_type": "image",
+      "image_list_enable": true,
+      "image_output_dir": "./output_images"
+    },
+    "inputs": [
+      "input_data"
+    ],
+    "outputs": [
+      "input_data",
+      "perception_data"
+    ],
+    "workflow": [
+      {
+        "thread_count": 4,
+        "method_type": "InferMethod",
+        "unique_name": "InferMethod",
+        "inputs": [
+          "input_data"
+        ],
+        "outputs": [
+          "tensors"
+        ],
+        "method_config": {
+          "core": 0,
+          "model_file": "../../../model/runtime/fcos/fcos_512x512_nv12.bin"
+        }
+      },
+      {
+        "thread_count": 2,
+        "method_type": "PTQFcosPostProcessMethod",
+        "unique_name": "PTQFcosPostProcessMethod",
+        "inputs": [
+          "input_data",
+          "tensors"
+        ],
+        "outputs": [
+          "perception_data"
+        ],
+        "method_config": {
+          "strides": [8, 16, 32, 64, 128],
+          "class_num": 80,
+          "score_threshold": 0.3,
+          "topk": 1000,
+          "det_name_list": "../../config/data_name_list/coco_detlist.list"
+        }
+      }
+    ]
+  }
+
+Content latency workflow configuration file is shown as below：
+
+.. code-block::
+  
+  {
+    "input_config": {
+      "input_type": "image",
+      "height": 512,
+      "width": 512,
+      "data_type": 1,
+      "image_list_file": "../../../mini_data/coco/coco.lst",
+      "need_pre_load": true,
+      "limit": 2,
+      "need_loop": true,
+      "max_cache": 10
+    },
+    "output_config": {
+      "output_type": "image",
+      "image_list_enable": true,
+      "image_output_dir": "./output_images"
+    },
+    "inputs": [
+      "input_data"
+    ],
+    "outputs": [
+      "input_data",
+      "perception_data"
+    ],
+    "workflow": [
+      {
+        "thread_count": 1,
+        "method_type": "InferMethod",
+        "unique_name": "InferMethod",
+        "inputs": [
+          "input_data"
+        ],
+        "outputs": [
+          "tensors"
+        ],
+        "method_config": {
+          "core": 0,
+          "model_file": "../../../model/runtime/fcos/fcos_512x512_nv12.bin"
+        }
+      },
+      {
+        "thread_count": 1,
+        "method_type": "PTQFcosPostProcessMethod",
+        "unique_name": "PTQFcosPostProcessMethod",
+        "inputs": [
+          "input_data",
+          "tensors"
+        ],
+        "outputs": [
+          "perception_data"
+        ],
+        "method_config": {
+          "strides": [8, 16, 32, 64, 128],
+          "class_num": 80,
+          "score_threshold": 0.3,
+          "topk": 1000,
+          "det_name_list": "../../config/data_name_list/coco_detlist.list"
+        }
+      }
+    ]
+  }
+
+Model Accuracy Evaluation
+------------------------------
+
+Model evaluation can be divided into 4 steps:
+
+1. data pre-process.
+2. data mounting.
+3. model inference.
+4. model accuracy computing.
+
+.. _data_preprocess:
+
+Data Pre-process
+~~~~~~~~~~~~~~~~~~~
+
+Data pre-process must run the ``hb_eval_preprocess`` tool in x86 to pre-process data.
+The so-called pre-processing refers to the special processing operations before images are fed into the model.
+For example: resize, crop and padding etc. 
+The tool is integrated into the ``horizon_tc_ui`` tool and it will be available after the tool is installed 
+using the install script. Run ``hb_eval_preprocess --help`` to look up help information, refer to abovementioned
+dataset parts.
+
+After preprocess files are generated, corresponding lst files are also required. 
+It contains the paths to load each preprocess file. 
+The way to generate the lst file is shown as below:
+
+.. code-block:: shell
+
+  find ../../../data/coco/fcos -name "*jpg*" > ../../../data/coco/coco.lst
+
+Model Mounting
+~~~~~~~~~~~~~~~~~~~
+
+Because datasets are huge, it is recommended to mount them for dev board to load, 
+rather than to copy them into the dev board. Server PC terminal (requires root permission): 
+
+1. Edit one line into /etc/exports: 
+   ``/nfs *(insecure,rw,sync,all_squash,anonuid=1000,anongid=1000,no_subtree_check)``. 
+   Wherein, ``/nfs`` denotes mounting path of local machine, it can be replaced by user specified directory. 
+2. Run ``exportfs -a -r`` to bring /etc/exports into effect.
+
+Mount the /nfs folder at PC terminal to the /mnt folder in dev board. 
+In this way, mount the folder in which contains preprocessed folder to dev board and create a soft link of /data folder 
+in the /ptq folder (at the same directory level as script) in dev board.
+
+Model Inference
+~~~~~~~~~~~~~~~~~
+
+After data are mounted, log in dev board and run the accuracy.sh script in the **fcos** directory, as shown below:
+
+.. code-block::
+
+  root@j3dvbj3-hynix2G-3200:/userdata/ptq/script/detection/fcos# sh accuracy.sh
+  ../../aarch64/bin/example --config_file=workflow_accuracy.json --log_level=2
+  ...
+  I0118 14:02:43.635543 24783 ptq_fcos_post_process_method.cc:157] PTQFcosPostProcessMethod DoProcess finished,
+  predict result: [{"bbox":[-1.518860,71.691170,574.934631,638.294922],"prob":0.750647,"label":21,"class_name":"
+  I0118 14:02:43.635716 24782 ptq_fcos_post_process_method.cc:150] PostProcess success!
+  I0118 14:02:43.636156 24782 ptq_fcos_post_process_method.cc:152] release output tensor success!
+  I0118 14:02:43.636204 24782 ptq_fcos_post_process_method.cc:157] PTQFcosPostProcessMethod DoProcess finished,
+  predict result: [{"bbox":[3.432283,164.936249,157.480042,264.276825],"prob":0.544454,"label":62,"class_name":"
+  ...
+
+Inference results will be saved into the eval.log file dumped by dev board program.
+
+Model Accuracy Computing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The model accuracy computing scripts are in the **python_tools** folder. 
+Amongst, the cls_metric/cls_eval.py script in the **accuracy_tools** folder is used for computing 
+accuracy of classification models. The det_eval.py script is used for computing the accuracy 
+of models evaluated using the COCO dataset. The parsing_eval.py script is used for computing the accuracy 
+of segmentation models evaluated using the Cityscapes dataset. 
+
+The /det_eval.py script in the **voc_metric** is used for computing the accuracy of detection models 
+using the VOC dataset.
+
+Classification Models
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Method to compute the accuracy of those models using the CIFAR-10 and ImageNet datasets is shown as below:
+
+  .. code-block:: shell
+
+    #!/bin/sh
+
+    python3 cls_eval.py --log_file=eval.log --gt_file=val.txt
+
+  .. note::
+      
+    - ``log_file`` refers to inference result file of classification models.
+    - ``gt_file`` refers to the annotation files of CIFAR-10 and ImageNet datasets.
+
+Detection Models
+^^^^^^^^^^^^^^^^^^^
+
+- Method to compute the accuracy of those models using the COCO dataset is shown as below:
+
+  .. code-block:: shell
+
+    #!/bin/sh
+
+    python3 det_eval.py --eval_result_path=eval.log --annotation_path=instances_val2017.json
+
+  .. note::
+
+    - ``eval_result_path`` refers to inference result file of detection models.
+    - ``annotation_path`` refers to the annotation file of of the COCO dataset.
+
+- Method to compute the accuracy of those detection models using the VOC dataset is shown as below:
+
+  .. code-block:: shell
+
+    #!/bin/sh
+
+    python3 det_eval.py --eval_result_path=eval.log --annotation_path=../Annotations --val_txt_path=../val.txt
+
+  .. note::
+
+    - ``eval_result_path`` refers to the inference result file of detection models.
+    - ``annotation_path`` refers to the annotation file of the VOC dataset.
+    - ``val_txt_path`` refers to the **val.txt** file in the **.../ImageSets/Main** folder in the VOC dataset.
+
+Segmentation Models
+^^^^^^^^^^^^^^^^^^^^^
+
+- Method to compute the accuracy of those segmentation models using the Cityscapes dataset is shown as below:
+
+  .. code-block:: shell
+    :linenos:
+
+    #!/bin/sh
+
+    python3 parsing_eval.py --log_file=eval.log --gt_path=cityscapes/gtFine/val
+
+  .. note::
+
+    - ``log_file`` refers to the inference result file of segmentation models
+    - ``gt_path`` refers to the annotation file of the Cityscapes dataset.
+
+
+Model Integration
+======================
+
+Post-processing consists of 2 steps, take integration of CenterNet model as an example: 
+
+1. Add the post-processing file ptq_centernet_post_process_method.cc and header file ptq_centernet_post_process_method.h.
+2. Add model execution script and configuration file.
+
+Add Post-processing File
+----------------------------
+
+Post-processing code file can reuse any postprocess files in the src/method directory. 
+You only need to modify the ``InitFromJsonString`` function and the ``PostProcess`` function.
+
+The ``InitFromJsonString`` function is used for loading the postprocess related parameters in the workflow.json. 
+Users can specify their corresponding input parameters. The ``PostProcess`` function is used for implementing postprocess 
+logic.
+
+The postprocess .cc files are in the **ai_benchmark/code/src/method/** directory. 
+While .h header files are in the **ai_benchmark/code/include/method/** directory.
+
+.. code-block:: bash
+
+  +---ai_benchmark
+  | +---code                                  # source code of samples
+  | | +---include
+  | | | +---method                            # add your header files into this folder
+  | | | | +---ptq_centernet_post_process_method.h
+  | | | | +---.....
+  | | | | +---ptq_yolo5_post_process_method.h
+  | | +---src
+  | | | +---method                            # add your .cc postprocess files into this folder
+  | | | | | +---ptq_centernet_post_process_method.cc
+  | | | | | +---....
+  | | | | | +---ptq_yolo5_post_process_method.cc
+
+Add Model Execution and Configuration Files
+---------------------------------------------------
+
+Directory structure of scripts is shown as below:
+
+.. code-block:: bash
+
+  +---ai_benchmark
+  | +---xj3/ptq/script                                    # sample script folder
+  | | +---detection
+  | | | +---centernet
+  | | | | +---accuracy.sh                                # an accuracy evaluation script
+  | | | | +---fps.sh                                     # an performance evaluation script
+  | | | | +---latency.sh                                 # a single-frame latency sample script
+  | | | | +---workflow_accuracy.json                     # an accuracy configuration file
+  | | | | +---workflow_fps.json                          # a performance configuration file
+  | | | | +---workflow_latency.json                      # a single-frame latency configuration file
+
+
+Helper Tools and Frequently-used Operations
+===============================================
+
+Log
+------
+
+There are 2 types of logs: **sample Log** and **DNN Log**.
+Wherein, sample log refers to the log in the ABP deliverables; 
+while DNN log refers to the log in the embedded runtime library.
+Developers can specify logs according to their own needs.
+
+
+Sample Log
+~~~~~~~~~~~~~
+
+1. Log level. Both glog and vlog are used in sample log and there are 4 custom log levels:
+
+  - ``0`` (SYSTEM), in sample code this log level is used for generating error information.
+  - ``1`` (REPORT), in sample code this log level is used for generating performance data.
+  - ``2`` (DETAIL), in sample code this log level is used for generating current system status.
+  - ``3`` (DEBUG), in sample code this log level is used for generating debugging information.
+    Rules to set log levels: assume that a log level ``P`` is specified, if ``Q``, 
+    whose rank is inferior to that of ``P`` happens, then log will activated. Otherwise ``Q`` will be blocked. 
+    The default ranks of log level: DEBUG>DETAIL>REPORT>SYSTEM.
+
+2. Set log levels. When running samples, specify the ``log_level`` parameter to set log levels.
+   For example, if ``log_level=0``, then SYSTEM log should be dumped; else if ``log_level=3``, 
+   then DEBUG, DETAIL, REPORT and SYSTEM logs should be dumped.
+
+``dnn`` Log
+~~~~~~~~~~~~~~~~~~~~
+
+1. Log levels. Logs in the ``dnn`` are composed by 4 levels:
+
+   - When ``HB_DNN_LOG_NONE = 0``, no log will be printed；
+   - When ``HB_DNN_LOG_WARNING = 3``, warning information will be printed;
+   - When ``HB_DNN_LOG_ERROR = 4``, error information will be printed;
+   - When ``HB_DNN_LOG_FATAL = 5``, those errors which can cause quit will be printed.
+
+2. Rules to set log levels:
+
+   If a log event whose level is higher than your specified log level takes place, then it will be printed, otherwise blocked.
+   That is to say, the lower level you specify, the more (levels of) logs you are going to get 
+   (except for level ``0``, which means print nothing).
+   E.g., if you specify log level as ``3`` (i.e. ``WARNING``), then level ``3``, ``4`` and ``5`` logs will be printed.
+   The default log level is ``HB_DNN_LOG_WARNING``, i.e., ``WARNING`` , ``ERROR`` and ``FATAL`` logs will be printed.
+
+3. Specify log level. 
+   Use the environment variable ``HB_DNN_LOG_LEVEL`` to specify log level. 
+   E.g. if ``export HB_DNN_LOG_LEVEL=3``, then all logs whose level are superior to and equal to ``WARNING`` will be printed.
+
+OP Time Consumption
+---------------------
+
+General Descriptions
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+​Use the ``HB_DNN_PROFILER_LOG_PATH`` environment variable to specify statistics of OP performance.
+Types and values of this environment variable are described as below:
+
+- ``HB_DNN_PROFILER_LOG_PATH=${path}``: denotes the output path of OP node. 
+  After the program is executed, a profiler.log file should be generated.
+
+Sample
+~~~~~~~~
+
+Below code block takes YOLOv3 as an example. 
+2 threads are activated to run model simultaneously. 
+``HB_DNN_PROFILER_LOG_PATH=./``, see below output:
+
+.. code-block:: c
+  :linenos:
+
+  {
+    "model_latency": {
+      "Darknet2Caffe_subgraph_0": {
+        "avg_time": 162.989,
+        "max_time": 162.989,
+        "min_time": 162.989
+      },
+      "Darknet2Caffe_subgraph_0_output_layout_convert": {
+        "avg_time": 0.25125,
+        "max_time": 0.266,
+        "min_time": 0.25
+      },
+      "layer106-conv_1_HzDequantize": {
+        "avg_time": 2.35912,
+        "max_time": 3.767,
+        "min_time": 2.304
+      },
+      "layer82-conv_1_HzDequantize": {
+        "avg_time": 0.15062,
+        "max_time": 0.252,
+        "min_time": 0.148
+      },
+      "layer94-conv_1_HzDequantize": {
+        "avg_time": 0.60265,
+        "max_time": 0.939,
+        "min_time": 0.578
+      }
+    },
+    "task_latency": {
+      "TaskRunningTime": {
+        "avg_time": 173.83456,
+        "max_time": 176.033,
+        "min_time": 173.744
+      },
+      "TaskScheduleTime": {
+        "avg_time": 0.023030000000000002,
+        "max_time": 0.161,
+        "min_time": 0.02
+      },
+      "TaskSubmitTime": {
+        "avg_time": 0.01066,
+        "max_time": 0.03,
+        "min_time": 0.009
+      }
+    }
+  }
+
+The above output information contains ``model_latency`` and ``task_latency``. 
+Wherein, ``model_latency`` contains the time consumption required to run each operator of the model; 
+while ``task_latency`` contains the time consumption of each task of the model.
+
+.. note::
+
+  The profiler.log will only be generated when the program is normally exited.
+
+Dump Tool
+------------
+
+Enable the ``HB_DNN_DUMP_PATH`` environment variable to dump the input and output of each node in inference process.
+The dump tool can check if there are consistency problems between simulator and real machine, 
+i.e. whether the output of same model, same input are same on real machine and simulator.
+
+Frequently-used Operations
+------------------------------
+
+Check out dev board's image version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+​Run ``uname -a`` to check system version. 
+
+.. code-block:: shell
+
+  root@x3dvbx3-micron1G-3200:/userdata# uname -a
+  Linux x3dvbx3-micron1G-3200 4.14.74 #2 SMP PREEMPT Fri Oct 23 10:47:39 CST 2020 aarch64 GNU/Linux
+
+.. note::
+
+  - ``SMP`` indicates that the system can support Symmetrical Multi-Processing.
+  - ``PREEMPT`` indicates that the system can support preemption core.
+  - ``Oct 23 10:47:39 CST 2020`` represents release time of the system image.
+  - ``aarch64`` indicates that the aarch64 platform is used.
+
+Check system logs
+~~~~~~~~~~~~~~~~~~~~~
+
+Run ``dmesg`` to check system logs, as shown below:
+
+.. code-block:: shell
+
+  root@x3dvbx3-micron1G-3200:/userdata# dmesg
+  [    0.000000] Booting Linux on physical CPU 0x0
+  [    0.000000] Linux version 4.14.74 (jenkins@sysgbj8) (gcc version 6.5.0 (Linaro GCC 6.5-2018.12)) #2 SMP PREEMPT Fri Oct 23 10:47:39 CST 2020
+  [    0.000000] Boot CPU: AArch64 Processor [410fd034]
+  [    0.000000] Machine model: Hobot X3 SOC MP DVB
+  [    0.000000] earlycon: hobot0 at MMIO 0x00000000a5000000 (options '')
+  [    0.000000] bootconsole [hobot0] enabled
+  ...
+
+If system failure (e.g. the program is killed or mem allocation failed) takes place 
+when running programs in dev board, run ``dmesg`` to see the cause of system failure.
+
+Check BPU Utilization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run ``hrut_somstatus`` to check existing BPU utilization of dev board. The output are shown as below:
+
+.. code-block:: shell
+  :linenos:
+
+  =====================1=====================
+  temperature-->
+    BOARD    : 31.5 (C)
+    CPU      : 33.7 (C)
+  cpu frequency-->
+          min	    cur	    max
+    cpu0: 240000	1200000	1200000
+    cpu1: 240000	1200000	1200000
+    cpu2: 240000	1200000	1200000
+    cpu3: 240000	1200000	1200000
+  bpu status information---->
+          min	      cur       max       ratio
+    bpu0: 400000000	1000000000	1000000000	0      // utilization rate of BPU core 0
+    bpu1: 400000000	1000000000	1000000000	0      // utilization rate of BPU core 1
+  root@x3dvbx3-micron1G-3200:~#

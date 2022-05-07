@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>PlateVoteMethod &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>PlateVoteMethod</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_solution/code/common/xstream_methods/plate_vote_method/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="platevotemethod">
+<h1>PlateVoteMethod<a class="headerlink" href="#platevotemethod" title="Permalink to this headline">¶</a></h1>
+<p>PlateVoteMethod 是车牌投票策略的封装</p>
+<div class="section" id="id1">
+<h2>输入<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>| slot id | info |
+|  —- | —-  |
+|  slot0  | plate_boxes(车牌框，主要是用到里边的track_id信息)  |
+| slot1 | disappeared_track_ids（消失的track_id,用于清理内部关于此id的资源）|
+| slot2 | plate_infos (车牌号)|</p>
+</div>
+<div class="section" id="id2">
+<h2>输出<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>| slot id | info |
+|  —- | —-  |
+| slot0 | plate_infos（车牌投票）|</p>
+<div class="section" id="id3">
+<h3>补充说明<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>单实例不支持多线程访问，支持多实例。</p>
+</div>
+<div class="section" id="id4">
+<h3>配置文件描述<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>配置文件是config目录下的plate_vote_method.json，下面讲解配置里主要参数的意思。</p>
+<p>max_slide_window_size 表示滑动窗口的大小，默认值为100.</p>
+</div>
+<div class="section" id="id5">
+<h3>策略简要描述<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>参考ROVER Voting算法。</p>
+</div>
+<div class="section" id="id6">
+<h3>编译运行<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>bazel build -s :plate_vote_method –crosstool_top=”&#64;hr_bazel_tools//rules_toolchain/toolchain:toolchain” –cpu=x2j2-aarch64 –define cpu=x2j2-aarch64 –verbose_failures   –spawn_strategy=local</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

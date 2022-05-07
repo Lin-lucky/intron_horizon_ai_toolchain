@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmerge_method.a  CMakeFiles/merge_method.dir/src/method/merge_method.cc.o CMakeFiles/merge_method.dir/src/method/data_type/data_type.cc.o CMakeFiles/merge_method.dir/src/method/strategy/head_face.cc.o CMakeFiles/merge_method.dir/src/method/strategy/head_body.cc.o CMakeFiles/merge_method.dir/src/method/strategy/rgb_nir.cc.o
+/usr/bin/ranlib libmerge_method.a

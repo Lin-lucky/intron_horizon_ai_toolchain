@@ -1,0 +1,18 @@
+HB Mapper工具手册
+================================================
+
+.. role:: red
+
+地平线 **浮点模型转换工具** （即： ``horizon_tc_ui`` 发布物）用于将Caffe和ONNX框架浮点模型转换为地平线runtime支持的定点模型。 
+对于从其他框架模型，如：TensorFlow和PyTorch等获取的浮点模型，用户需要先将其先转换为ONNX模型，再使用浮点模型转换工具进行转换。
+
+本手册介绍浮点模型转换工具的模型转换过程和各工具详情，帮助开发者使用工具完成模型转换及模型精度检查等功能。
+
+.. toctree::
+   :maxdepth: 2
+   :numbered:
+   :includehidden:
+
+   01_model_conversion_details.rst
+   02_tools.rst
+

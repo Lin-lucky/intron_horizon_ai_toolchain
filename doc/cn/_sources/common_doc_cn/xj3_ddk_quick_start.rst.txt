@@ -1,0 +1,295 @@
+开发环境搭建
+======================
+
+1. 开发包解析
+--------------------
+天工开物开发平台发布包的目录结构以及功能描述如下
+
+.. csv-table::
+ :header: "目录结构", "内容描述"
+ :widths: 35, 65
+
+ "/bsp", "系统软件预编译镜像和系统软件源码目录"
+ "/bsp/X3-Img-{version}.tgz", "X3系统软件预编译镜像，支持快速生成各种开发板的系统固件文件"
+ "/bsp/X3-PlatformSDK-{version}.tgz", "X3系统软件源码发布包，支持用户根据需求对系统进行裁剪或修改，并编译生成私有系统镜像"
+ "/bsp/J3-Img-{version}.tgz", "J3系统软件预编译镜像，支持快速生成各种开发板的系统固件文件"
+ "/bsp/J3-PlatformSDK-{version}.tgz", "J3系统软件源码发布包，支持用户根据需求对系统进行裁剪或修改，并编译生成私有系统镜像"
+ "/tools", "系统固件刷机工具以及window串口驱动"
+ "/tools/0A_*.zip", "适配各种window系统硬件的串口驱动，可以逐个安装来进行验证与自己系统匹配关系"
+ "/tools/0B_hbupdate_*.tar.gz", "镜像刷机工具，兼容window，linux环境"
+ "/tools/0B_hbupdate_burn_secure-key1.zip", "编译生成secure安全系统镜像所需的key文件"
+ "/ddk", "应用开发包"
+ "/ddk/package", "应用开发包，包括需要安装在开发宿主机上的LIB库/工具，以及需要安装在开发板上的工具"
+ "/ddk/package/host", "安装在开发宿主机上的LIB库/工具，包括AI工具链开发环境和基础LIB库"
+ "/ddk/package/board", "安装在开发板上的工具"
+ "/ddk/samples", "配套样例，以源码方式交付，在/ddk/package环境安装以后，可以通过脚本完成编译和部署"
+ "/ddk/samples/ai_benchmark", "内置数十种模型，支持快速在地平线芯片上完成精度和性能评测"
+ "/ddk/samples/ai_toolchain", "AI工具链相关用户示例，包括模型转换，模型训练，以及嵌入式模型推理runtime使用"
+ "/ddk/samples/ai_express", "AI Express应用开发组件&框架用户示例，包括xstream，xproto以及其他相关组件使用demo"
+ "/ddk/samples/solution_zoo", "AI应用参考解决方案示例"
+ "/ddk/tools", "应用开发配套的工具，主要包括交叉编译环境，gdc调试工具，摄像头ISP调试和可视化工具"
+
+其中需要完成 **BSP系统软件开发环境** , **AI应用软件开发环境** 的搭建。
+
+2. 系统软件开发
+---------------------
+
+请参考固件升级手册第一部分进行系统软件环境搭建
+
+3. AI应用开发
+-------------------------------
+
+AI应用开发主要包括算法模型开发和应用软件开发两个部分，我们提供了Docker环境以及宿主机环境两种方式供你快速搭建系统开发环境。
+
+3.1 Docker开发环境
++++++++++++++++++++++
+
+在使用docker镜像之前，请先确认已经安装好docker的基础环境。地平线要求的Docker基础环境信息如下：
+
+- Docker（>=1.12 建议安装18.03.0-ce）, 安装手册 https://docs.docker.com/install/。
+- NVIDIA Docker（2.0.3），安装手册 NVIDIA/nvidia-docker。
+
+docker基础环境安装后，需要将无root权限用户加入到docker用户组中。参考命令如下：
+
+.. code-block:: shell
+
+  sudo groupadd docker
+  sudo gpasswd -a ${USER} docker
+  sudo systemctl restart docker  # Centos7
+  # relogin
+
+然后就可以拉取提供好的 docker image ，命令如下：
+
+.. code-block:: shell
+
+  docker pull openexplorer/ai_toolchain_centos_7:{version}
+
+拉取命令顺利执行完成后，您将得到启动docker需要的镜像 ，提示如下（注意对于不同的版本，版本号部分会有所差异）：
+
+.. code-block:: shell
+
+  {version}: Pulling from openexplorer/ai_toolchain_centos_7
+  Digest: sha256:733681611a67a679eb080adec246e081ae994501440de5984d8b6e21c2cde0aa
+  Status: Downloaded newer image for openexplorer/ai_toolchain_centos_7:{version}
+
+此时你就可以使用该docker镜像进行AI模型以及应用软件开发。
+
+3.2 宿主机开发环境
++++++++++++++++++++++
+
+如果你不习惯基于docker进行开发，你可以在你的宿主机器上直接进行环境安装，地平线建议您选择的开发机应满足以下要求。
+
+- CPU：CPU I3以上或者同级别E3/E5的处理器
+- 内存：16G或以上级别
+- GPU：建议搭配一块1080ti或以上级别
+- 系统： Centos 7 、 Ubuntu 18
+
+
+宿主机环境安装首先需要安装交叉编译工具链，请从 ``/ddk/tools`` 目录下获取
+
+.. code-block:: shell
+
+  /ddk/tools
+  ├── gcc_linaro_6.5.0_2018.12_x86_64_aarch64_linux_gnu.tar.xz
+
+建议将交叉编译器解压到系统 ``/opt`` 根目录下，安装后目录结构如下：
+
+.. code-block:: shell
+
+    /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/
+    ├── aarch64-linux-gnu
+    ├── bin
+    ├── gcc-linaro-6.5.0-2018.12-linux-manifest.txt
+    ├── include
+    ├── lib
+    ├── libexec
+    └── share
+
+然后就可以继续完成DDK Package开发包的安装，参考 ``/ddk/package/host/`` 目录。
+
+.. warning::
+  部分依赖会由于迭代而改变，请以实际使用版本为准
+
+
+.. code-block:: shell
+
+    ddk/package/host/
+    ├── ai_toolchain
+    │   ├── file_list.md
+    │   ├── hbdk-3.24.1-py3-none-linux_x86_64.whl
+    │   ├── hbdk_model_verifier-3.24.1-py3-none-linux_x86_64.whl
+    │   ├── horizon_nn-0.11.1-py3-none-any.whl
+    │   ├── horizon_nn_gpu-0.11.1-py3-none-any.whl
+    │   ├── horizon_tc_ui-1.3.44-py3-none-any.whl
+    │   └── install_ubuntu_deps.sh
+    ├── ddk_vcs-0.1.8-py3-none-any.whl
+    ├── host_package
+    │   ├── xj3_aarch64
+    │   └── xj3_x86_64_gcc_4.8.5
+    ├── install_ai_toolchain.sh
+    ├── install_host_package.sh
+    └── source_code
+        ├── image_utils
+        ├── model_inference
+        ├── rtsp_server
+        ├── third_party
+        ├── uvc_server
+        ├── video_source
+        ├── xproto
+        └── xstream
+
+
+* 通过 ``install_ai_toolchain.sh`` 脚本，你可以一键完成ai_toolchain目录下面的各种python whl包的安装，它提供了配套命令行工具和python库包。
+* 通过 ``install_host_package.sh`` 脚本，你可以一键完成host_package目录下面的各种库/头文件，安装路径 ``${HOME}/.horizon`` 目录下，
+
+.. warning::
+  install_ai_toolchain.sh和install_host_package.sh脚本执行成功以后，会在~/.bashrc系统环境变量中添加Path等信息，
+  你需要重新启动打开一个新的terminal或者执行 ``source ~/.bashrc`` 来使当前terminal的配置生效。
+
+其中包括如下内容(部分依赖可能由于更新导致结构变动)：
+
+.. code-block:: shell
+
+    ~/.horizon/ddk/
+    ├── xj3_aarch64
+    │   ├── appsdk
+    │   │   └── appuser
+    │   ├── appsdk_1.9.0.tar.gz
+    │   ├── bpu_predict
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── bpu_predict_1.10.2.tar.gz
+    │   ├── dnn
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── dnn_1.1.2a.tar.gz
+    │   ├── hobotsdk
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── hobotsdk_1.9.13.tar.gz
+    │   ├── image_utils
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── image_utils_1.1.10c.tar.gz
+    │   ├── model_inference
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── model_inference_1.0.13.tar.gz
+    │   ├── rtsp_server
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── rtsp_server_1.0.13.tar.gz
+    │   ├── uvc_server
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── uvc_server_1.0.13.tar.gz
+    │   ├── video_source
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── video_source_1.0.13.tar.gz
+    │   ├── xproto
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── xproto_1.1.10c.tar.gz
+    │   ├── xstream
+    │   │   ├── include
+    │   │   └── lib
+    │   └── xstream_1.1.10c.tar.gz
+    └── xj3_x86_64_gcc_4.8.5
+        ├── bpu_predict
+        │   ├── include
+        │   └── lib
+        ├── bpu_predict_1.10.2.tar.gz
+        ├── dnn_x86
+        │   ├── include
+        │   └── lib
+        ├── dnn_x86_1.1.2a.tar.gz
+        ├── hobotsdk
+        │   ├── include
+        │   └── lib
+        ├── hobotsdk_1.9.13.tar.gz
+        ├── xproto
+        │   ├── include
+        │   └── lib
+        ├── xproto_1.1.10c.tar.gz
+        ├── xstream
+        │   ├── include
+        │   └── lib
+        └── xstream_1.1.10c.tar.gz
+
+其中 ``appsdk`` 内部即包括了系统软件相关头文件和库，应用APP可以依赖他们进行应用开发。关于这些库的使用，你可以参考/ddk/doc内部文档。
+
+
+最后你还需要通过脚本将开发板端的一些配套工具安装到开发板中，详细参考 ``/ddk/package/board/`` 目录.
+
+.. code-block:: shell
+
+  /ddk/package/board/
+  ├── ai_express_webservice_display
+  ├── hrt_bin_dump
+  ├── hrt_model_exec
+  └── install.sh
+
+通过 ``install.sh`` 脚本可以这些工具快速安装到开发板的 ``/userdata/.horizon`` 目录。关于这些工具的使用，你可以参考/ddk/doc内部文档。
+
+3.3 远程 GDB 环境
++++++++++++++++++++++
+
+板卡系统中已经内置了 gdbserver，在你确保你的开发机与开发板网络联通的情况下，你可以使用 gdbserver 来对你的应用程序进行远程 DEBUG。
+
+使用方式很简单：
+
+.. code-block:: shell
+
+  // 开发板上，使用 gdbserver 的方式来启动应用程序
+  gdbserver :8000 <myapp>
+
+  //物理机上，通过 gdb 来连接 server 进行调试。在 gdb 命令行中执行
+  target remote <板子 ip>:<端口>
+
+
+注意，你的应用程序交叉编译时加 -g 选项编译为可调试二进制文件。
+
+
+4. 获取工具链 ``eval`` 测试数据集
+---------------------------------------
+
+数据集地址为：``vrftp.horizon.ai/Open_Explorer/eval_dataset``
+
+.. code-block:: shell
+
+  /Open_Explorer/eval_dataset
+  ├── VOC.tar.gz
+  ├── imagenet.tar.gz
+  ├── coco.tar.gz
+  ├── cityscapes.tar.gz
+  └── cifa-10.tar.gz
+
+4.1 Linux环境下载
++++++++++++++++++++++++++
+
+Linux 环境下请保证有外网访问能力以及可以使用 ``wget``
+
+请根据需求使用以下命令下载对应数据集
+
+.. code-block:: shell
+
+    wget ftp://vrftp.horizon.ai/Open_Explorer/eval_dataset/[数据集名称]
+
+
+4.2 Windows环境下载
++++++++++++++++++++++++
+
+Windows下请使用 ``Filezilla`` 作为下载工具， `点击此处 <https://filezilla-project.org/download.php?type=client>`_ 进入下载页面进行下载
+
+安装后请根据以下图示进行下载
+
+.. image:: ./xj3_soc_images/ftp_win_1.png
+  :align: center
+  :scale: 50%
+
+
+.. image:: ./xj3_soc_images/ftp_win_2.png
+  :align: center
+  :scale: 50%
+

@@ -1,0 +1,41 @@
+The ``hb_pack`` Tool
+========================
+
+The ``hb_pack`` tool is used for packaging multiple \*.bin models into one model file.
+
+How To Use
+--------------
+
+.. code-block::
+
+  hb_pack [OPTIONS] BIN_FILE1 BIN_FILE2 BIN_FILE3 -o comb.bin
+
+Parameters
+-------------------
+
+.. data:: hb_pack' parameters
+
+  --version
+    This parameter displays version information and exit.
+
+  -o, --output_name
+    This parameter specifies the output name of the packed model.
+
+  --help
+    This parameter displays help information and exit.
+
+Output
+----------------------
+
+The packed model will be dumped into the current folder whose name is specified by the ``output_name``. 
+The compilation and performance information of the packed model can be obtained using either the ``hb_model_info`` or 
+the ``hb_perf``.
+
+.. attention::
+
+  The ``hb_pack`` tool cannot pack a packed model, otherwise below error message will be printed at the console.
+
+.. code-block:: bash
+
+  ERROR exception in command: pack
+  ERROR model: xxx.bin is a packed model, it can not be packed again!

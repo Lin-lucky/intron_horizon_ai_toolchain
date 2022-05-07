@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.1. The hb_mapper Tools &mdash; hb_mapper_tools_guide v1.12.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.2. The hb_perf Tool" href="hb_perf.html" />
+    <link rel="prev" title="2. Tools Usage" href="../02_tools.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> hb_mapper_tools_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_model_conversion_details.html">1. Introduction To The Model Conversion Process</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../02_tools.html">2. Tools Usage</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-checking-tool-hb-mapper-checker">2.1.1. Model Checking Tool (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-compiling-tool-hb-mapper-makertbin">2.1.2. Model Compiling Tool (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inference-tool-hb-mapper-infer">2.1.3. Inference Tool (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#introduction-to-those-key-configuration-parameters">2.1.4. Introduction To Those Key Configuration Parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#calibration-parameters-preprocess-on">2.1.4.1. <code class="docutils literal notranslate"><span class="pre">calibration_parameters.preprocess_on</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-file-details">2.1.5. Configuration File Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#reference-and-descriptions">2.1.5.1. Reference And Descriptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#about-the-input-type-rt-input-type-train">2.1.5.2. About the <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code>/ <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hb_perf.html">2.2. The <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vec_diff.html">2.3. The <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_info.html">2.4. The <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_pack.html">2.5. The <code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_model_verifier.html">2.6. The <code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_model_modifier.html">2.7. The <code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_custom_op.html">2.8. The <code class="docutils literal notranslate"><span class="pre">hb_custom_op</span></code> Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_eval_preprocess.html">2.9. The <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> Tool</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">hb_mapper_tools_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../02_tools.html"><span class="section-number">2. </span>Tools Usage</a> &raquo;</li>
+      <li><span class="section-number">2.1. </span>The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> Tools</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/03_tools/hb_mapper.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-hb-mapper-tools">
+<h1><span class="section-number">2.1. </span>The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> Tools<a class="headerlink" href="#the-hb-mapper-tools" title="Permalink to this headline"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> is a collection of 3 tools (AKA command-lines/subcommands), it can map the FPMs into quantized models
+and provide some additional validation features.
+Wherein, the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> is used for model checking,
+the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> is used for model conversion, while the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code> is used for inference and it can
+also dump vector outputs of conv layers at various stages. The following contents describe all the abovementioned tools.</p>
+<section id="model-checking-tool-hb-mapper-checker">
+<span id="hb-mapper-checker"></span><h2><span class="section-number">2.1.1. </span>Model Checking Tool (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code>)<a class="headerlink" href="#model-checking-tool-hb-mapper-checker" title="Permalink to this headline"></a></h2>
+<p>In engineering practice, FPMs must be checked before conversion because not all of them can be converted into HGMs.
+In general, the checking process walks through the model coversion process, while simplifies some time-consuming OP
+conversions, and the tool will dump checking results along with the information that whether an OP is run in BPU or CPU.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">How</span> <span class="pre">To</span> <span class="pre">Use:</span></span></dt>
+<dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_mapper checker --model-type <span class="si">${</span><span class="nv">model_type</span><span class="si">}</span> <span class="se">\</span>
+                  --march <span class="si">${</span><span class="nv">march</span><span class="si">}</span> <span class="se">\</span>
+                  --proto <span class="si">${</span><span class="nv">proto</span><span class="si">}</span> <span class="se">\</span>
+                  --model <span class="si">${</span><span class="nv">caffe_model</span><span class="p">/onnx_model</span><span class="si">}</span> <span class="se">\</span>
+                  --input-shape <span class="si">${</span><span class="nv">input_node</span><span class="si">}</span> <span class="si">${</span><span class="nv">input_shape</span><span class="si">}</span> <span class="se">\</span>
+                  --output <span class="si">${</span><span class="nv">output</span><span class="si">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Parameters:</span></span></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--model-type</span></kbd></dt>
+<dd><p>This parameter specifies the model type of the model to be converted,
+either <code class="docutils literal notranslate"><span class="pre">caffe</span></code> or <code class="docutils literal notranslate"><span class="pre">onnx</span></code>.</p>
+</dd>
+<dt><kbd><span class="option">--march</span></kbd></dt>
+<dd><p>BPU’s micro architectures: it should be specified as <code class="docutils literal notranslate"><span class="pre">bernoulli2</span></code>.</p>
+</dd>
+<dt><kbd><span class="option">--proto</span></kbd></dt>
+<dd><p>This parameter specifies the prototxt file when using Caffe model.</p>
+</dd>
+<dt><kbd><span class="option">--model</span></kbd></dt>
+<dd><p>This parameter specifies the Caffe/ONNX model file.</p>
+</dd>
+<dt><kbd><span class="option">--input-shape</span></kbd></dt>
+<dd><p>This is an optional parameter that specifies the input node and the input shape of the node.
+It should be separated by <code class="docutils literal notranslate"><span class="pre">x</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">1x3x224x224</span></code>.</p>
+</dd>
+<dt><kbd><span class="option">--output</span></kbd></dt>
+<dd><p>This parameter specifies the file in which contains checking result, the default value is <code class="docutils literal notranslate"><span class="pre">hb_mapper_checker.log</span></code>.</p>
+</dd>
+<dt><kbd><span class="option">--help</span></kbd></dt>
+<dd><p>Shows help information and exit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="model-compiling-tool-hb-mapper-makertbin">
+<h2><span class="section-number">2.1.2. </span>Model Compiling Tool (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>)<a class="headerlink" href="#model-compiling-tool-hb-mapper-makertbin" title="Permalink to this headline"></a></h2>
+<p>This tool generates a quantized ONNX model and a runtime model which simulates the model run in dev board.
+Settings of the configuration file please refer to descriptions in the:
+<a class="reference internal" href="#hb-mapper-config"><span class="std std-ref">Configuration File Details</span></a>.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">How</span> <span class="pre">To</span> <span class="pre">Use:</span></span></dt>
+<dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_mapper makertbin --config <span class="si">${</span><span class="nv">config_file</span><span class="si">}</span>  <span class="se">\</span>
+                    --model-type  <span class="si">${</span><span class="nv">model_type</span><span class="si">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Parameters:</span></span></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">-c</span>, <span class="option">--config</span></kbd></dt>
+<dd><p>This parameter specifies the model’s configuration file in YAML.</p>
+</dd>
+<dt><kbd><span class="option">--model-type</span></kbd></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">caffe</span></code> or <code class="docutils literal notranslate"><span class="pre">onnx</span></code>.</p>
+</dd>
+<dt><kbd><span class="option">--help</span></kbd></dt>
+<dd><p>Shows help information and exit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The compilation generated log file will be stored into the directory in which the
+command-line is ran. The default log file name is <code class="docutils literal notranslate"><span class="pre">hb_mapper_makertbin.log</span></code>.</p>
+</section>
+<section id="inference-tool-hb-mapper-infer">
+<span id="hb-mapper-infer"></span><h2><span class="section-number">2.1.3. </span>Inference Tool (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code>)<a class="headerlink" href="#inference-tool-hb-mapper-infer" title="Permalink to this headline"></a></h2>
+<p>This tool runs inference using the FPM and HGM and saves inference results into the <code class="docutils literal notranslate"><span class="pre">--output-dir</span></code> specified directory.</p>
+<p>Specify the <code class="docutils literal notranslate"><span class="pre">layer_out_dump</span></code> in the configuration file as <code class="docutils literal notranslate"><span class="pre">True</span></code> in order to
+validate and analyze if the FPM is correctly converted.
+This tool will dump the inference results of conv and output nodes. Users can also analyze if the model
+is correctly compiled using the <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> tool.</p>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">How</span> <span class="pre">To</span> <span class="pre">Use:</span></span></dt>
+<dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_mapper infer --config <span class="si">${</span><span class="nv">config_file</span><span class="si">}</span> <span class="se">\</span>
+                --model-file <span class="si">${</span><span class="nv">quantized_model_file</span><span class="si">}</span>  <span class="se">\</span>
+                --model-type <span class="si">${</span><span class="nv">caffe</span><span class="p">/onnx</span><span class="si">}</span> <span class="se">\</span>
+                --image-file <span class="si">${</span><span class="nv">input_node</span><span class="si">}</span> <span class="si">${</span><span class="nv">image_file</span><span class="si">}</span> <span class="se">\</span>
+                --input-layout <span class="si">${</span><span class="nv">input_layout</span><span class="si">}</span> <span class="se">\</span>
+                --output-dir <span class="si">${</span><span class="nv">quantized_output_dir</span><span class="si">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>To ensure that the input data processing in the configuration file is corrent when running <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code>,
+please use the same configuration file as when running <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>.
+In other words, when running <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code>, use the same images and data as when you run <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Your choices of input data when running <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">infer</span></code> are related to below parts in the configuration file:</p>
+<ul class="simple">
+<li><p>When <code class="docutils literal notranslate"><span class="pre">preprocess_on:</span> <span class="pre">True</span></code>, the tool can receive JPEG images, automatically proceed resize etc. pre-processing
+and convert into the <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> specified format.</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">preprocess_on:</span> <span class="pre">False</span></code>, the tool can only receive the pre-processed binary image files because users need to
+pre-process images by themselves and convert images into corresponding binary files
+(please refer to the 02_preprocess.sh script).</p></li>
+</ul>
+</div>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Parameters:</span></span></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">-c</span>, <span class="option">--config</span></kbd></dt>
+<dd><p>This parameter specifies the path to the configuration file when compiling the model.</p>
+</dd>
+<dt><kbd><span class="option">--model-file</span></kbd></dt>
+<dd><p>This parameter specifies the path to the model file to inference.
+It can be either floating-point or quantized ONNX model.</p>
+</dd>
+<dt><kbd><span class="option">--model-type</span></kbd></dt>
+<dd><p>This parameter specifies type of the original floating-point model.
+It can be specified as either <code class="docutils literal notranslate"><span class="pre">caffe</span></code> or <code class="docutils literal notranslate"><span class="pre">onnx</span></code>.</p>
+</dd>
+<dt><kbd><span class="option">--image-file</span></kbd></dt>
+<dd><p>This parameter specifies input node name and the corresponding image file for running inference.
+E.g. <code class="docutils literal notranslate"><span class="pre">input_name1</span> <span class="pre">kite.jpg</span></code>.</p>
+</dd>
+<dt><kbd><span class="option">--input-layout</span></kbd></dt>
+<dd><p>This is an optional parameter to specify the layout of input model.</p>
+</dd>
+<dt><kbd><span class="option">--output-dir</span></kbd></dt>
+<dd><p>This parameter specifies the directory to save inference results.
+If the input is a quantized model, inference results will be dequantized floating-point data.</p>
+</dd>
+<dt><kbd><span class="option">--help</span></kbd></dt>
+<dd><p>Shows help information and exit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The output of this tool are stored into the <cite>output_dir</cite> directory and the naming rule is: <code class="docutils literal notranslate"><span class="pre">${layername}_float.bin</span></code>.</p>
+</section>
+<section id="introduction-to-those-key-configuration-parameters">
+<h2><span class="section-number">2.1.4. </span>Introduction To Those Key Configuration Parameters<a class="headerlink" href="#introduction-to-those-key-configuration-parameters" title="Permalink to this headline"></a></h2>
+<section id="calibration-parameters-preprocess-on">
+<h3><span class="section-number">2.1.4.1. </span><code class="docutils literal notranslate"><span class="pre">calibration_parameters.preprocess_on</span></code><a class="headerlink" href="#calibration-parameters-preprocess-on" title="Permalink to this headline"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">calibration_parameters</span><span class="p p-Indicator">:</span>
+    <span class="c1"># the directory into where model quantization uses calibration images are saved,image formats including:</span>
+    <span class="c1"># JPEG, BMP etc, input images should cover typical scenarios. Usually 20~100 images are selected from the</span>
+    <span class="c1"># the testing dataset. In addition please try not to use those overexposed, saturated, blurred, pure black</span>
+    <span class="c1"># or pure white images.</span>
+    <span class="c1"># In case there are multiple input parameters, use &#39;;&#39; to separate them</span>
+    <span class="l l-Scalar l-Scalar-Plain">cal_data_dir</span><span class="p p-Indicator">:</span> <span class="s">&#39;./calibration_data_bgr_f32&#39;</span>
+    <span class="c1"># When image file size is different from those during the training and the preprocess_on parameter is specified</span>
+    <span class="c1"># as True, please use default pre-processing method (i.e. skimage resize) to resize or crop images into specified</span>
+<span class="hll">    <span class="c1"># size. Otherwise users will must modify image size into the same as in model training.</span>
+</span>    <span class="c1">#preprocess_on: False</span>
+</pre></div>
+</div>
+<p><strong>When you specify the</strong> <code class="docutils literal notranslate"><span class="pre">preprocess_on=True</span></code>:</p>
+<p>The tool can automatically pre-process calibration images when the <code class="docutils literal notranslate"><span class="pre">preprocess_on</span></code> is specified as <code class="docutils literal notranslate"><span class="pre">True</span></code> and
+the directory to save those calibration used JPEG images is specified by the <code class="docutils literal notranslate"><span class="pre">cal_data_dir</span></code>.
+By doing so, when calibrating the model, the tool will load JPEG images using the skimage library, resize images into
+the specified <code class="docutils literal notranslate"><span class="pre">input_shape</span></code> in the configuration file using skimage’s resize method and modify images into the
+<code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> specified format.</p>
+<p>For example, if the input is a 608x608 JPEG image, the default pre-processing will then resize it into a 224x224 bgr (NCHW)
+image whose pixel values range between 0~255.</p>
+<p>Below code block tell you more about the default pre-processing logic:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">data_transformer</span><span class="p">(</span><span class="n">norm_type</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">input_type_train</span><span class="p">):</span>
+    <span class="n">image_width</span> <span class="o">=</span> <span class="n">input_dim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">image_height</span> <span class="o">=</span> <span class="n">input_dim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">ResizeTransformer</span><span class="p">((</span><span class="n">image_width</span><span class="p">,</span> <span class="n">image_height</span><span class="p">)),</span>
+        <span class="n">HWC2CHWTransformer</span><span class="p">(),</span>  <span class="c1"># to CXHXW</span>
+        <span class="n">RGB2BGRTransformer</span><span class="p">(),</span>
+    <span class="p">]</span>
+
+    <span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ScaleTransformer</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>When you specify the</strong> <code class="docutils literal notranslate"><span class="pre">preprocess_on=False</span></code>:</p>
+<p>You will need to process the images by yourself, modify images into the  <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> specified format and
+save them into binary files, so that the tool will automatically add the conversion from the <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code>
+to the <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> specified format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>File format is: the uint8/float32 as described in the <a class="reference external" href="https://en.wikipedia.org/wiki/Row-_and_column-major_order">Row-major order</a>.</p>
+</div>
+</section>
+</section>
+<section id="configuration-file-details">
+<span id="hb-mapper-config"></span><h2><span class="section-number">2.1.5. </span>Configuration File Details<a class="headerlink" href="#configuration-file-details" title="Permalink to this headline"></a></h2>
+<section id="reference-and-descriptions">
+<h3><span class="section-number">2.1.5.1. </span>Reference And Descriptions<a class="headerlink" href="#reference-and-descriptions" title="Permalink to this headline"></a></h3>
+<p>The configuration file uses YAML file, details please refer to the annotations as shown below:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># model conversion related parameters</span>
+<span class="l l-Scalar l-Scalar-Plain">model_parameters</span><span class="p p-Indicator">:</span>
+  <span class="c1"># the model file of floating-point Caffe neural network data</span>
+  <span class="l l-Scalar l-Scalar-Plain">caffe_model</span><span class="p p-Indicator">:</span> <span class="s">&#39;../../../01_common/model_zoo/mapper/classification/mobilenet/mobilenet.caffemodel&#39;</span>
+  <span class="c1"># the file describes the structure of Caffe neural network</span>
+  <span class="l l-Scalar l-Scalar-Plain">prototxt</span><span class="p p-Indicator">:</span> <span class="s">&#39;../../../01_common/model_zoo/mapper/classification/mobilenet/mobilenet_deploy.prototxt&#39;</span>
+  <span class="c1"># the applicable BPU architecture</span>
+  <span class="l l-Scalar l-Scalar-Plain">march</span><span class="p p-Indicator">:</span> <span class="s">&quot;bernoulli2&quot;</span>
+  <span class="c1"># specifies whether or not to dump the intermediate results of all layers in conversion</span>
+  <span class="c1"># if set to True, then the intermediate results of all layers shall be dumped</span>
+  <span class="l l-Scalar l-Scalar-Plain">layer_out_dump</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+  <span class="c1"># output control parameter of log file(s),</span>
+  <span class="c1"># if set to &#39;debug&#39;, then details of model conversion will be dumped</span>
+  <span class="c1"># if set to &#39;info&#39;, then only important information will be dumped</span>
+  <span class="c1"># if set to &#39;warn&#39;, then information ranked higher than &#39;warn&#39; and &#39;error&#39; will be dumped</span>
+  <span class="l l-Scalar l-Scalar-Plain">log_level</span><span class="p p-Indicator">:</span> <span class="s">&#39;debug&#39;</span>
+  <span class="c1"># the directory in which model conversion results are stored</span>
+  <span class="l l-Scalar l-Scalar-Plain">working_dir</span><span class="p p-Indicator">:</span> <span class="s">&#39;model_output&#39;</span>
+  <span class="c1"># model conversion generated name prefix of those model files used for dev board execution</span>
+  <span class="l l-Scalar l-Scalar-Plain">output_model_file_prefix</span><span class="p p-Indicator">:</span> <span class="s">&#39;mobilenetv1_224x224_nv12&#39;</span>
+
+<span class="c1"># model input related parameters,</span>
+<span class="c1"># please use &quot;;&quot; to separate when inputting multiple nodes,</span>
+<span class="c1"># please use None for default setting</span>
+<span class="l l-Scalar l-Scalar-Plain">input_parameters</span><span class="p p-Indicator">:</span>
+  <span class="c1"># (Optional) node name of model input,</span>
+  <span class="c1"># it shall be the same as the name of model file, otherwise an error will be reported,</span>
+  <span class="c1"># the node name of model file will be used when left blank</span>
+  <span class="l l-Scalar l-Scalar-Plain">input_name</span><span class="p p-Indicator">:</span> <span class="s">&quot;data&quot;</span>
+  <span class="c1"># the data formats to be passed into neural network when actually performing neural network</span>
+  <span class="c1"># available options: nv12/rgb/bgr/yuv444/gray/featuremap,</span>
+  <span class="c1"># if input data is yuv444 and bgr(NCHW) is used in model training, then hb_mapper will automatically insert</span>
+  <span class="c1"># the conversion from YUV to BGR(NCHW)</span>
+  <span class="l l-Scalar l-Scalar-Plain">input_type_rt</span><span class="p p-Indicator">:</span> <span class="s">&#39;nv12&#39;</span>
+  <span class="c1"># the input data layout that the HGM needs to match, can be specified as NHWC/NCHW</span>
+  <span class="c1"># If input_type_rt is configured as nv12, then this parameter does not need to be configured</span>
+  <span class="c1">#input_layout_rt: &#39;&#39;</span>
+  <span class="c1"># the data formats in network training</span>
+  <span class="c1"># available options: rgb/bgr/gray/featuremap/yuv444</span>
+  <span class="l l-Scalar l-Scalar-Plain">input_type_train</span><span class="p p-Indicator">:</span> <span class="s">&#39;bgr&#39;</span>
+  <span class="c1"># the data layout in network training, available options: NHWC/NCHW</span>
+  <span class="l l-Scalar l-Scalar-Plain">input_layout_train</span><span class="p p-Indicator">:</span> <span class="s">&#39;NCHW&#39;</span>
+  <span class="c1"># (Optional)the input size of model network, seperated by &#39;x&#39;</span>
+  <span class="c1"># note that the network input size of model file will be used if left blank</span>
+  <span class="c1"># otherwise it will overwrite the input size of model file</span>
+  <span class="c1"># input_shape: &#39;&#39;</span>
+  <span class="c1"># preprocessing methods of network input, available options:</span>
+  <span class="c1"># &#39;no_preprocess&#39; indicates that no preprocess will be made</span>
+  <span class="c1"># &#39;data_mean&#39; indicates that to minus the channel mean, i.e. mean_value</span>
+  <span class="c1"># &#39;data_scale&#39; indicates that image pixels to multiply data_scale ratio</span>
+  <span class="c1"># &#39;data_mean_and_scale&#39; indicates that to multiply scale ratio after channel mean is minused</span>
+  <span class="l l-Scalar l-Scalar-Plain">norm_type</span><span class="p p-Indicator">:</span> <span class="s">&#39;data_mean_and_scale&#39;</span>
+  <span class="c1"># the mean value minused by image</span>
+  <span class="c1"># note that values must be seperated by space if channel mean value is used</span>
+  <span class="l l-Scalar l-Scalar-Plain">mean_value</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">103.94 116.78 123.68</span>
+  <span class="c1"># scale value of image preprocess</span>
+  <span class="c1"># note that values must be seperated by space if channel scale value is used</span>
+  <span class="l l-Scalar l-Scalar-Plain">scale_value</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.017</span>
+
+<span class="c1"># model calibration parameters</span>
+<span class="l l-Scalar l-Scalar-Plain">calibration_parameters</span><span class="p p-Indicator">:</span>
+  <span class="c1"># the directory where reference images of model quantization are stored</span>
+  <span class="c1"># image formats include JPEG, BMP etc.</span>
+  <span class="c1"># should be classic application scenarios, usually 20~100 images are picked out from test datasets</span>
+  <span class="c1"># in addition, note that input images should cover typical scenarios</span>
+  <span class="c1"># and try to avoid those overexposed, oversaturated, vague,</span>
+  <span class="c1"># pure blank or pure white images</span>
+  <span class="c1"># use &#39;;&#39; to separate when there are multiple input nodes</span>
+  <span class="l l-Scalar l-Scalar-Plain">cal_data_dir</span><span class="p p-Indicator">:</span> <span class="s">&#39;./calibration_data_bgr_f32&#39;</span>
+  <span class="c1"># In case the size of input image file is different from that of in model training</span>
+  <span class="c1"># and that preprocess_on is set to True,</span>
+  <span class="c1"># shall the default preprocess method(skimage resize) be used</span>
+  <span class="c1"># i.e., to resize or crop input image into specified size</span>
+  <span class="c1"># otherwise user must keep image size as that of in training in advance</span>
+  <span class="c1">#preprocess_on: False</span>
+  <span class="c1"># it can be specified as default, kl, max or load</span>
+  <span class="c1"># amongst, default refers to an automatic searching strategy which will try to find out</span>
+  <span class="c1"># the best calibration parameter from a series of calibration parameters</span>
+  <span class="c1"># it is recommended to firstly use default, in case the accuracy fails to satisfy your expectation</span>
+  <span class="c1"># then try either kl or max</span>
+  <span class="c1"># both kl and max are types of model quantization algorithms, usually kl will meet the need</span>
+  <span class="c1"># in addition, if converted model is quantized model exported from QAT, then choose load</span>
+  <span class="l l-Scalar l-Scalar-Plain">calibration_type</span><span class="p p-Indicator">:</span> <span class="s">&#39;kl&#39;</span>
+
+<span class="c1"># compiler related parameters</span>
+<span class="l l-Scalar l-Scalar-Plain">compiler_parameters</span><span class="p p-Indicator">:</span>
+  <span class="c1"># compilation strategy, there are 2 available optimization modes: &#39;bandwidth&#39; and &#39;latency&#39;</span>
+  <span class="c1"># the &#39;bandwidth&#39; mode aims to optimize ddr access bandwidth</span>
+  <span class="c1"># while the &#39;latency&#39; mode aims to optimize inference duration</span>
+  <span class="l l-Scalar l-Scalar-Plain">compile_mode</span><span class="p p-Indicator">:</span> <span class="s">&#39;latency&#39;</span>
+  <span class="c1"># the compiler&#39;s debug mode will be enabled by setting to True</span>
+  <span class="c1"># this will dump performance simulation related information</span>
+  <span class="c1"># such as: frame rate, DDR bandwidth usage etc.</span>
+  <span class="l l-Scalar l-Scalar-Plain">debug</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+  <span class="c1"># specifies number of cores to be used in model compilation</span>
+  <span class="c1"># as default, single core is used as this value left blank</span>
+  <span class="c1"># please delete the &quot;# &quot; below to enable dual-core mode when compiling dual-core model</span>
+  <span class="c1"># core_num: 2</span>
+  <span class="c1"># optimization level ranges between O0~O3</span>
+  <span class="c1"># O0 indicates that no optimization will be made</span>
+  <span class="c1"># the faster the compilation, the lower optimization level will be</span>
+  <span class="c1"># O1-O3: as optimization levels increase gradually, model execution, after compilation, shall become faster</span>
+  <span class="c1"># while compilation will be prolonged</span>
+  <span class="c1"># it is recommended to use O2 for fastest verification</span>
+  <span class="l l-Scalar l-Scalar-Plain">optimize_level</span><span class="p p-Indicator">:</span> <span class="s">&#39;O3&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="about-the-input-type-rt-input-type-train">
+<h3><span class="section-number">2.1.5.2. </span>About the <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code>/ <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code><a class="headerlink" href="#about-the-input-type-rt-input-type-train" title="Permalink to this headline"></a></h3>
+<p>To boost ASIC performance, there are 2 assumptions when designing the ASIC’s micro architecture:</p>
+<ol class="arabic simple">
+<li><p>All inputs are quantized int8 data.</p></li>
+<li><p>All camera captured data are nv12.</p></li>
+</ol>
+<p>Therefore, if you use the rgb (NCHW) format used in model training and expect
+the model to be able to process nv12 data efficiently, then you will need to configure as follow:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">input_parameters</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_type_rt</span><span class="p p-Indicator">:</span> <span class="s">&#39;nv12&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_type_train</span><span class="p p-Indicator">:</span> <span class="s">&#39;rgb&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">input_layout_train</span><span class="p p-Indicator">:</span> <span class="s">&#39;NCHW&#39;</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When gray format is used in model training, while actual model input is nv12,
+specify both the <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> and <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> as <code class="docutils literal notranslate"><span class="pre">gray</span></code> in model conversion,
+so that only use the y channel address of nv12 data in runtime application development.</p>
+</div>
+<p>In addition to the feature of converting input data into nv12,
+the tool can also support using different rgb-orders in training and runtime infer.
+More information about the <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> / <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> supported image types please refer to below table
+(Y represents supported image types, while N represent unsupported image types):</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 51%" />
+<col style="width: 7%" />
+<col style="width: 9%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 7%" />
+<col style="width: 14%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> \ <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code></p></td>
+<td><p>nv12</p></td>
+<td><p>yuv444</p></td>
+<td><p>rgb</p></td>
+<td><p>bgr</p></td>
+<td><p>gray</p></td>
+<td><p>featuremap</p></td>
+</tr>
+<tr class="row-even"><td><p>yuv444</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-odd"><td><p>rgb</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-even"><td><p>bgr</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-odd"><td><p>gray</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+</tr>
+<tr class="row-even"><td><p>featuremap</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>N</p></td>
+<td><p>Y</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To adhere to Horizon ASICs’ requirements on input data type (int8) and reduce inference costs,
+when the <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> is specified as rgb(NHWC/NCHW)/bgr(NHWC/NCHW),
+the input data type of tool converted model will be <code class="docutils literal notranslate"><span class="pre">int8</span></code>.
+I.e., pixel values of regular image formats will substract 128
+(this is executed by the API and users do not need to deal with it).</p>
+<p>Since v1.3.0, the <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> and <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> did not anymore contain layout information,
+while the layout information begun to be split into the <code class="docutils literal notranslate"><span class="pre">input_layout_rt</span></code> and <code class="docutils literal notranslate"><span class="pre">input_layout_train</span></code>.
+If user specified <code class="docutils literal notranslate"><span class="pre">input_type</span></code> is non <code class="docutils literal notranslate"><span class="pre">nv12</span></code>, then the corresponding <code class="docutils literal notranslate"><span class="pre">input_layout</span></code> must be specified,
+otherwise an error will be reported.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../02_tools.html" class="btn btn-neutral float-left" title="2. Tools Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hb_perf.html" class="btn btn-neutral float-right" title="2.2. The hb_perf Tool" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Horizon Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

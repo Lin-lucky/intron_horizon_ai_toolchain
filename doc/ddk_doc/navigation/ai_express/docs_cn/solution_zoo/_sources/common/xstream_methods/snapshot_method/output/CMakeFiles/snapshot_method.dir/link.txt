@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsnapshot_method.a  CMakeFiles/snapshot_method.dir/src/snapshot_method.cc.o CMakeFiles/snapshot_method.dir/src/strategy/crop.cc.o CMakeFiles/snapshot_method.dir/src/strategy/first_num_best.cc.o CMakeFiles/snapshot_method.dir/src/snapshot_utils.cc.o CMakeFiles/snapshot_method.dir/src/snapshot_data_type.cc.o
+/usr/bin/ranlib libsnapshot_method.a

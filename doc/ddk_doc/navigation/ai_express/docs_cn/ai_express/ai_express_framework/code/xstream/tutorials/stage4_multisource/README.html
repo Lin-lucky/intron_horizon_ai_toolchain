@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>多路输入 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>多路输入</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_framework/code/xstream/tutorials/stage4_multisource/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>多路输入<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>同一个method，框架支持多路数据输入，每一路数据指定一个专属的sourceid；处理output时，根据sourceid处理不同通路的输出结果。注意<code class="docutils literal notranslate"><span class="pre">sourceid</span></code>字段必须从0开始编号，比如有4路输入，则每一路的sourceid分别是0、1、2、3.</p>
+<div class="section" id="method">
+<h2>设置method支持多路输入<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
+<p>首先介绍下MethodInfo属性中的字段<code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">is_src_ctx_dept_</span></code>，默认为false，该字段表示Method对输入数据的处理是否依赖输入源。比如MOT Method，会记录前几帧数据并分配track_id，摔倒检测的Method也会依赖前几帧的输入，这类Method需要将属性设置为<code class="docutils literal notranslate"><span class="pre">is_src_ctx_dept_</span> <span class="pre">=</span> <span class="pre">true</span></code>。</p>
+<p>本示例中，method实现了累加功能，本质上是is_src_ctx_dept_=false，为了演示该特性，设置method的字段is_src_ctx_dept_为true。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">xstream</span><span class="o">::</span><span class="n">MethodInfo</span> <span class="n">methodinfo</span><span class="p">;</span>
+<span class="n">methodinfo</span><span class="p">.</span><span class="n">is_need_reorder_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="n">methodinfo</span><span class="p">.</span><span class="n">is_src_ctx_dept_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// 支持多路输入</span>
+<span class="n">methodinfo</span><span class="p">.</span><span class="n">is_thread_safe_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="n">xstream</span><span class="o">::</span><span class="n">MultiSourceMethod</span><span class="o">::</span><span class="n">SetMethodInfo</span><span class="p">(</span><span class="n">methodinfo</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sourceid">
+<h2>指定sourceid<a class="headerlink" href="#sourceid" title="Permalink to this headline">¶</a></h2>
+<p>准备input数据时，指定每一路的sourceid，处理output数据时会用到此处设置的sourceid用来区分是哪一路的output数据。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">;</span> <span class="n">num</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">source_id</span> <span class="p">:</span> <span class="n">source_ids</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">source_id_</span> <span class="o">=</span> <span class="n">source_id</span><span class="p">;</span><span class="c1">//  每一路输入指定一个独立的sourceid</span>
+      <span class="n">test_input</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">MultiSourceInput</span><span class="o">&gt;</span><span class="p">();</span>
+      <span class="n">test_input</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;test_input&quot;</span><span class="p">;</span>
+      <span class="n">test_input</span><span class="o">-&gt;</span><span class="n">sum_in</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+      <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">test_input</span><span class="p">);</span>
+      <span class="n">flow</span><span class="o">-&gt;</span><span class="n">AsyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h1>示例<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<p>示例method完成一个累加功能：对于每一个输入，进行累加并输出累加后的结果。
+这里指定了5路输入，每一路分别输入1~10十个数据，最后观察每一路预测结果是否为55。</p>
+<div class="section" id="id3">
+<h2>示例编译<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>进入framework目录，执行如下命令</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="p">..</span>
+<span class="n">make</span> <span class="o">-</span><span class="n">j</span>
+</pre></div>
+</div>
+<p>编译完成后，可执行程序生成到build/bin目录下</p>
+</div>
+<div class="section" id="id4">
+<h2>示例运行<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>进入build目录，拷贝stage8/config下的配置文件到build目录
+执行命令：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">stage4</span><span class="o">/</span><span class="n">stage4_multisource</span> <span class="p">.</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">multisource_test</span><span class="p">.</span><span class="n">json</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>示例运行截图<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p><img alt="MultisourceTest" src="../../../../../_images/multisource.png" /></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

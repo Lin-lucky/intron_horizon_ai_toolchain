@@ -1,0 +1,2 @@
+/usr/bin/ar qc libplate_num_postprocess_method.a  CMakeFiles/plate_num_postprocess_method.dir/src/plate_num_postprocess_method.cc.o
+/usr/bin/ranlib libplate_num_postprocess_method.a

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libvehicle_color_predict_method.a  CMakeFiles/vehicle_color_predict_method.dir/src/vehicle_color_predict_method.cc.o
+/usr/bin/ranlib libvehicle_color_predict_method.a

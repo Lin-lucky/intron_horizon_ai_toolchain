@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>多任务感知参考解决方案 &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>多任务感知参考解决方案</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/ai_express_solution/code/multitask_perception_solution/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>多任务感知参考解决方案<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>一. 介绍<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>多任务感知示例，提供了人脸结构化与人体结构化的示例。</p>
+<ul class="simple">
+<li><p>人脸结构化：可以检测图像中的人脸框、人脸抓拍图以及人脸特征值</p></li>
+<li><p>人体结构化：可以检测图像中的人体框、人头框、人脸框、人脸关键点、人脸姿态、年龄与性别</p></li>
+</ul>
+<p>示例支持从MIPI Camera/外接USB CAMERA或者本地图像获取图像源。</p>
+</div>
+<div class="section" id="id3">
+<h2>二. 编译与部署<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">cd</span> <span class="n">multitask_perception_solution</span>
+ <span class="n">bash</span> <span class="n">build_and_deploy</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>会生成一个deploy目录，将该目录拷贝到XJ3上，即可运行。</p>
+</div>
+<div class="section" id="id4">
+<h2>三. 运行<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>将deploy目录拷贝到XJ3
+如下命令可以运行人脸结构化示例：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">cd</span> <span class="n">deploy</span>
+ <span class="n">sh</span> <span class="n">run_face_recog</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>如下命令可以运行人体结构化示例：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">deploy</span>
+<span class="n">sh</span> <span class="n">run_body</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>运行上面两个脚本的时候，根据交互式信息，选择合适的输入源。</p>
+<p>默认是使用PC 浏览器查看感知效果：推荐使用Chrome浏览器，输入板子IP即可访问。</p>
+</div>
+<div class="section" id="id5">
+<h2>四. 展示方式变更<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>多任务感知示例默认使用PC浏览器方式展示。同时可以通过修改配置，改为其他模式展示：</p>
+<p>修改deploy/configs/visualplugin_face.json的display_mode字段来选择。</p>
+<p>|display_mode|模式|
+| ——–   | —–:  |
+|0 |rtsp server|
+|1 |web|
+|2 |uvc|
+|3 |rtsp server|</p>
+<p>vlc方式指的是x3会开启一个RTSP Server，基于rtsp协议转发视频[只转换视频，不传输感知结果]，通过vlc播放器，可以查看视频。</p>
+<p>vlc方式拉流url：rtsp://ip:555/horizonStream。</p>
+</div>
+<div class="section" id="id6">
+<h2>五. 获取序列化前智能结果<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>Ai-express定义了新的数据message：智能数据、控制数据、统计数据等；</p>
+<ul class="simple">
+<li><p>更方便访问智能数据</p></li>
+<li><p>为进程间通信定义统一的数据结构，方便序列化/反序列化
+新的message订阅、发布方式保持不变，以智能数据为例增加了获取序列化前数据的样例，说明如下：</p></li>
+</ul>
+<div class="section" id="id7">
+<h3>5.1 编译<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>编辑build_and_deploy.sh脚本，打开TEST_NEW_SMART_MESSAGE开关后再执行编译</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">go_build_all</span> <span class="o">-</span><span class="n">DPARENT_BUILD</span><span class="o">=</span><span class="n">ON</span> <span class="o">-</span><span class="n">DRELEASE_LIB</span><span class="o">=</span><span class="n">ON</span> <span class="o">-</span><span class="n">DTEST_NEW_SMART_MESSAGE</span><span class="o">=</span><span class="n">ON</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>5.2 智能结果获取<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>ExamplePlugin中订阅了TYPE_SMART_LEGIBLE_MESSAGE消息，在ExamplePlugin::FeedSmart中接收序列化前的智能结果.
+智能结果相关数据结构定义在: common/xproto_plugins/message/include/smart_message/smart_legible_message.h</p>
+</div>
+<div class="section" id="id9">
+<h3>5.3 跨进程发布/订阅消息<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>xproto::XSession::Instance().AsMaster(6688); // 使能消息可以在进程/设备间流转，其中6688是端口号
+AsMaster设置当前设备为主设备，可以对外发布msg，其他进程/设备可以使用xproto订阅消息，订阅方式和进程内订阅消息的编程模式一致
+xproto框架中stage4_ipc_subscriber提供了订阅示例。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

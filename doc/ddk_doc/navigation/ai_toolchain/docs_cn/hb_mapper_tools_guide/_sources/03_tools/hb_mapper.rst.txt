@@ -1,0 +1,336 @@
+``hb_mapper`` 工具
+==========================
+
+``hb_mapper`` 工具是一个将浮点模型映射为量化模型，并附带验证功能的工具。
+``hb_mapper`` 包括三个子命令 ``checker``、``makertbin`` 和 ``infer``。
+它们分别提供了的模型检查、模型转换，以及各阶段卷积层向量输出的功能。
+接下来的内容逐一介绍上述子命令。
+
+.. _hb_mapper checker:
+
+模型检查命令（``hb_mapper checker``）
+------------------------------------------
+
+在实际工程中, 由于并非所有浮点模型均能够转为量化模型, 因此在转换之前需要进行一次检查, 
+这个check过程，会走一遍模型转换的过程，但是对于比较耗时的步骤，进行了简化处理。
+该命令在完成模型的检查后, 会输出检查结果和OP在设备上的部署情况。
+
+.. data:: hb_mapper checker的使用方法：
+
+  .. code-block:: bash
+
+    hb_mapper checker --model-type ${model_type} \
+                      --march ${march} \
+                      --proto ${proto} \
+                      --model ${caffe_model/onnx_model} \
+                      --input-shape ${input_node} ${input_shape} \
+                      --output ${output} 
+
+.. data:: hb_mapper checker的命令行参数：
+
+  --model-type
+    转换的模型类型，目前支持 ``caffe`` 或者 ``onnx``。
+
+  --march
+    BPU的微架构。应将其设置为 ``bernoulli2``。
+
+  --proto
+    Caffe模型的prototxt文件。
+
+  --model
+    Caffe或ONNX浮点模型文件。
+
+  --input-shape
+    可选参数，输入模型的输入节点以及该节点的输入的shape，其shape以 ``x`` 分隔, e.g. ``data 1x3x224x224``。
+
+  --output
+    检查的输出结果文件。默认值为 ``hb_mapper_checker.log``。
+
+  --help
+    显示帮助信息并退出。
+
+模型编译命令（``hb_mapper makertbin``）
+------------------------------------------
+
+该命令根据配置文件和模型的种类，会生成ONNX量化模型以及仿真上板情况的runtime模型。
+配置文件的具体设置将会在 :ref:`配置文件详细介绍<hb_mapper_config>` 部分具体讲解。
+
+.. data:: hb_mapper makertbin的使用方式：
+
+  .. code-block:: bash
+
+    hb_mapper makertbin --config ${config_file}  \
+                        --model-type  ${model_type}
+
+.. data:: hb_mapper makertbin的命令行参数：
+
+  -c, --config
+    模型编译的配置文件，为yaml格式。
+
+  --model-type
+    ``caffe`` 或者 ``onnx``。
+
+  --help
+    显示帮助信息并退出。
+
+编译产生的log文件会储存在命令执行路径下面, 默认名称为 ``hb_mapper_makertbin.log``。
+
+.. _hb_mapper_infer:
+
+模型推理命令（``hb_mapper infer``）
+--------------------------------------
+
+该命令利用浮点和量化模型进行推理，并保存推理结果到 ``--output-dir`` 指定的目录里面。
+
+为了验证分析模型编译是否正确,可将配置文件中 ``layer_out_dump`` 设置为 ``True``，它将会输出conv和输出节点的推理结果，
+之后可以借助向量比较工具来分析模型编译的正确与否。
+
+.. data:: hb_mapper infer的使用方式：
+
+  .. code-block:: bash
+
+    hb_mapper infer --config ${config_file} \
+                    --model-file ${quantized_model_file}  \
+                    --model-type ${caffe/onnx} \
+                    --image-file ${input_node} ${image_file} \
+                    --input-layout ${input_layout} \
+                    --output-dir ${quantized_output_dir}
+
+在使用 ``hb_mapper infer`` 命令时，请输入与 ``hb_mapper makertbin`` 命令相同的配置文件，以保证输入数据处理的部分的设置是相同的。
+简单地说，您在 ``hb_mapper makertbin`` 时使用的校准数据是什么样的图片或数据，那么在 ``hb_mapper infer`` 时也需要使用相同格式的图片或数据。
+
+.. attention::
+
+    您使用 ``hb_mapper infer`` 命令时输入数据的选择与配置文件中以下输入数据配置部分有关：
+
+    - ``preprocess_on: True``，则工具可以接收JPEG图片，自动进行resize等预处理，并转化成 ``input_type_rt`` 的格式。
+    - ``preprocess_on: False``，则只能接收已经处理好, 储存为二进制格式的图片文件，因此预处理需要用户自己完成，
+      并把图片转化成相应的二进制文件。(请参考脚本02_preprocess.sh)。
+
+.. data:: hb_mapper infer的命令行参数：
+
+  -c, --config
+    模型编译时的配置文件。
+
+  --model-file
+    进行推理的模型文件，可以是浮点和量化ONNX模型。
+
+  --model-type
+    指定推理的原始浮点模型类型，可指定为 ``caffe`` 或 ``onnx``。
+
+  --image-file
+    输入节点名称和其对应的用于推理的图像文件。
+
+  --input-layout
+    模型输入的layout（此为可选参数）。
+
+  --output-dir
+    推理结果的保存路径，如果是量化模型，推理结果为反量化的浮点数据。
+
+  --help
+    显示帮助信息并退出。
+
+输出内容在 `output_dir` 目录里，输出文件命名规则： ``${layername}_float.bin``。
+
+关键配置参数介绍
+---------------------
+
+``calibration_parameters.preprocess_on``
+++++++++++++++++++++++++++++++++++++++++++++++
+
+
+.. code-block:: yaml
+    :emphasize-lines: 9
+
+    calibration_parameters:
+        # 模型量化的参考图像的存放目录，图片格式支持JPEG、BMP等格式，输入的图片
+        # 应该是使用的典型场景，一般是从测试集中选择20~100张图片，另外输入
+        # 的图片要覆盖典型场景，不要是偏僻场景，如过曝光、饱和、模糊、
+        # 纯黑、纯白等图片
+        # 若有多个输入，则应使用';'进行分隔
+        cal_data_dir: './calibration_data_bgr_f32'
+        # 当输入的图片文件尺寸和模型训练的尺寸不一致，并且preprocess_on为True时，则将采用默认预处理方法(skimage resize)，
+        # 将输入图片缩放或者裁减到指定尺寸，否则，需要用户提前把图片处理为训练时的尺寸
+        #preprocess_on: False
+
+
+**如果用户指定配置参数** ``preprocess_on=True``：
+
+工具可通过该设置 ``preprocess_on`` 为 ``True`` 来自动完成的校准图片的前处理。
+该模式下用户需在 ``cal_data_dir`` 中指定校准JPEG图片的存放路径。
+则在模型校准时，工具内部会通过skimage方式读入的JPEG图片，通过skimage resize的方式缩放图片到配置文件指定的 ``input_shape``，
+并把图像格式调整为 ``input_type_rt`` 指定的格式。
+
+举一个例子，假如输入的JPEG图像的尺寸为608x608，则通过默认的预处理后，图像被缩放为224x224，
+图像的内存格式调整为bgr(NCHW)的格式，像素值调整为0-255范围。
+
+默认的预处理，请参考如下代码：
+
+.. code-block:: python
+
+    def data_transformer(norm_type, input_dim, input_type_train):
+        image_width = input_dim[2]
+        image_height = input_dim[1]
+        transformers = [
+            ResizeTransformer((image_width, image_height)),
+            HWC2CHWTransformer(),  # to CXHXW
+            RGB2BGRTransformer(),
+        ]
+
+        transformers.append(ScaleTransformer(255))
+
+**如果用户指定配置参数** ``preprocess_on=False``：
+
+需要用户自己来处理图片，将图片处理为 ``input_type_train`` 指定的格式，并且将数据以二进制形式保存为文件.
+工具内部会自动增加从 ``input_type_train`` 到 ``input_type_rt`` 的格式转换。
+
+.. note::
+
+  文件格式为： `Row-major order`_ 的uint8/float32数据存储。
+
+.. _Row-major order: https://en.wikipedia.org/wiki/Row-_and_column-major_order
+
+.. _hb_mapper_config:
+
+配置文件详细介绍
+--------------------
+
+参考配置文件以及说明
+++++++++++++++++++++++
+
+配置文件采用yaml格式进行配置，详细信息请参考各个参数的注释：
+
+.. code-block:: yaml
+
+  # 模型转化相关的参数
+  model_parameters:
+      # Caffe浮点网络数据模型文件
+      caffe_model: '../../../01_common/model_zoo/mapper/classification/mobilenet/mobilenet.caffemodel'
+      # Caffe网络描述文件
+      prototxt: '../../../01_common/model_zoo/mapper/classification/mobilenet/mobilenet_deploy.prototxt'
+      # 适用BPU架构
+      march: "bernoulli2"
+      # 指定模型转换过程中是否输出各层的中间结果，如果为True，则输出所有层的中间输出结果，
+      layer_out_dump: False
+      # 日志文件的输出控制参数，
+      # debug输出模型转换的详细信息
+      # info只输出关键信息
+      # warn输出警告和错误级别以上的信息
+      log_level: 'debug'
+      # 模型转换输出的结果的存放目录
+      working_dir: 'model_output'
+      # 模型转换输出的用于上板执行的模型文件的名称前缀
+      output_model_file_prefix: 'mobilenetv1_224x224_nv12'
+
+
+  # 模型输入相关参数, 若输入多个节点, 则应使用';'进行分隔, 使用默认缺省设置则写None
+  input_parameters:
+      # (可不填) 模型输入的节点名称, 此名称应与模型文件中的名称一致, 否则会报错, 不填则会使用模型文件中的节点名称
+      input_name: "data"
+      # 网络实际执行时，输入给网络的数据格式，包括 nv12/rgb/bgr/yuv444/gray/featuremap,
+      # 如果输入的数据为yuv444, 模型训练用的是bgr(NCHW)，则hb_mapper将自动插入YUV到BGR(NCHW)转化操作
+      input_type_rt: 'nv12'
+      # 转换后混合异构模型需要适配的输入数据排布，可设置为：NHWC/NCHW
+      # 若input_type_rt配置为nv12，则此处参数不需要配置
+      #input_layout_rt: ''
+      # 网络训练时输入的数据格式，可选的值为rgb/bgr/gray/featuremap/yuv444
+      input_type_train: 'bgr'
+      # 网络训练时输入的数据排布, 可选值为 NHWC/NCHW
+      input_layout_train: 'NCHW'
+      # 模型网络的输入大小, 以'x'分隔, 不填则会使用模型文件中的网络输入大小，否则会覆盖模型文件中输入大小
+      # input_shape: ''
+      # 网络输入的预处理方法，主要有以下几种：
+      # no_preprocess 不做任何操作
+      # data_mean 减去通道均值mean_value
+      # data_scale 对图像像素乘以data_scale系数
+      # data_mean_and_scale 减去通道均值后再乘以scale系数
+      norm_type: 'data_mean_and_scale'
+      # 图像减去的均值, 如果是通道均值，value之间必须用空格分隔
+      mean_value: 103.94 116.78 123.68
+      # 图像预处理缩放比例，如果是通道缩放比例，value之间必须用空格分隔
+      scale_value: 0.017
+
+  calibration_parameters:
+      # 模型量化的参考图像的存放目录，图片格式支持JPEG、BMP等格式，输入的图片
+      # 应该是使用的典型场景，一般是从测试集中选择20~100张图片，另外输入
+      # 的图片要覆盖典型场景，不要是偏僻场景，如过曝光、饱和、模糊、纯黑、纯白等图片
+      # 若有多个输入节点, 则应使用';'进行分隔
+      cal_data_dir: './calibration_data_bgr_f32'
+      # 如果输入的图片文件尺寸和模型训练的尺寸不一致时，并且preprocess_on为true，
+      # 则将采用默认预处理方法(skimage resize)，
+      # 将输入图片缩放或者裁减到指定尺寸，否则，需要用户提前把图片处理为训练时的尺寸
+      #preprocess_on: False
+      # 模型量化的算法类型，支持kl、max，通常采用KL即可满足要求, 若为QAT导出的模型, 则应选择load
+      calibration_type: 'kl'
+
+  # 编译器相关参数
+  compiler_parameters:
+      # 编译策略，支持bandwidth和latency两种优化模式;
+      # bandwidth以优化ddr的访问带宽为目标；
+      # latency以优化推理时间为目标
+      compile_mode: 'latency'
+      # 设置debug为True将打开编译器的debug模式，能够输出性能仿真的相关信息，如帧率、DDR带宽占用等
+      debug: False
+      # 编译模型指定核数，不指定默认编译单核模型, 若编译双核模型，将下边注释打开即可
+      # core_num: 2
+      # 优化等级可选范围为O0~O3
+      # O0不做任何优化, 编译速度最快，优化程度最低,
+      # O1-O3随着优化等级提高，预期编译后的模型的执行速度会更快，但是所需编译时间也会变长。
+      # 推荐用O2做最快验证
+      optimize_level: 'O3'
+
+关于 ``input_type_rt``/ ``input_type_train``
++++++++++++++++++++++++++++++++++++++++++++++++
+
+地平线的芯片架构，在设计时为了提升性能，做了两点假设：
+
+1. 假设输入的数据都是int8的量化数据。
+2. 摄像头获取到的数据是nv12。
+
+因此，如果用户在模型训练时使用rgb(NCHW)输入格式，但是想使这个模型能够高效处理nv12数据，只需要在模型转换时做如下配置：
+
+.. code-block:: yaml
+
+  input_parameters:
+      input_type_rt: 'nv12'
+      input_type_train: 'rgb'
+      input_layout_train: 'NCHW'
+
+.. tip::
+
+  若用户训练模型时使用gray格式，而实际使用中输入的数据格式为nv12格式，
+  则用户可以将模型转换时的 ``input_type_rt`` 及 ``input_type_train`` 均配置为 ``gray``，
+  在runtime应用开发时仅使用nv12的y通道地址作为输入即可。
+
+除了将输入数据转换为nv12，我们还支持用户在训练和runtime infer时使用不同的rgb-order。
+具体的 ``input_type_rt`` / ``input_type_train`` 的支持类型，可以参考(Y为已支持类型, N为暂不支持类型)：
+
+.. table::
+  :align: center
+  
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | ``input_type_train`` \\ ``input_type_rt`` | nv12 | yuv444 | rgb | bgr | gray | featuremap |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | yuv444                                    | Y    | Y      | N   | N   | N    | N          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | rgb                                       | Y    | Y      | Y   | Y   | N    | N          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | bgr                                       | Y    | Y      | Y   | Y   | N    | N          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | gray                                      | N    | N      | N   | N   | Y    | N          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | featuremap                                | N    | N      | N   | N   | N    | Y          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+
+.. note::
+
+  为了配合芯片对于输入数据类型的要求（int8），减小推理开销，
+  对于 ``input_type_rt`` 类型为 rgb(NHWC/NCHW)/bgr(NHWC/NCHW) 的配置，
+  转换工具转换出的模型，其输入数据类型均为 ``int8``。
+  也就是说，对于常规的图像数据，需要-128使用（该操作在API中已自动进行，用户无需再进行该操作）。
+
+  从1.3.0版本开始， ``input_type_rt`` 及 ``input_type_train`` 中不再包含layout信息，
+  而将layout信息单独拆分出来为 ``input_layout_rt`` 及 ``input_layout_train``。 
+  若用户指定的 ``input_type`` 为非 ``nv12`` 类型，则必须指定其对应的 ``input_layout`` 
+  信息，否则工具会给出报错。
+

@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>rtsp server &mdash; rtsp server 组件  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="rtsp_server 组件" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> rtsp server 组件
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">rtsp server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id1">一、编译和使用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">1.1 编译</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1.2 运行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">1.3 清除</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id5">二、开发示例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id6">2.1 配置参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">注意事项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">2.2 接口介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">2.3 示例程序</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id10">三、设计原理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id11">3.1 类的继承关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">3.2 数据链路</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">rtsp server 组件</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>rtsp server</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rtsp-server">
+<h1>rtsp server<a class="headerlink" href="#rtsp-server" title="Permalink to this headline">¶</a></h1>
+<p>rtsp server是一套基于live555框架开发的rtsp媒体转发组件，用于转发推送媒体文件或者实时视频数据，客户端可通过配置文件中的url来拉取音视频,
+url通道地址可以由客户自由增加扩展。
+rtsp server目前只支持H264、H265的媒体转发，内部不包括视频编解码、视频源的生成和解析部分。</p>
+</div>
+<div class="section" id="id1">
+<h1>一、编译和使用<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>1.1 编译<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>在rtsp_server的根目录下，执行以下命令</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">make</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>然后将会在当前目录下生成output文件夹，该文件夹的内容如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+└── rtsp_server
+    ├── bin
+    │   └── rtsp_server_example
+    ├── configs
+    │   └── rtsp_server.json
+    ├── data
+    │   ├── chn0.264
+    │   └── chn1.264
+    ├── include
+    │   └── rtsp_server
+    ├── lib
+    │   └── librtsp_server.so
+    └── run.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>1.2 运行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>将rtsp_server目录拷贝到板子上,执行如下命令即可运行:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sh run.sh         <span class="c1">#默认是info级别的log，如果要debug级别的log，则可执行 sh run.sh d</span>
+</pre></div>
+</div>
+<p>示例程序会推送本地存放的测试视频文件，例如./data/chn0.264和./data/chn1.264文件，可通过vlc播放器预览，操作如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1) 打开vlc播放器
+2) 打开媒体--&gt;打开网络串流
+3) 输入网络URL：输入如下配置文件中的任一个url地址来完成拉流，例如：
+   a) rtsp://10.64.61.215:555/chn0
+   b) rtsp://10.64.61.215:555/chn1
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>1.3 清除<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>该命令将会清除cmake编译出来的build目录、output目录</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">make</span><span class="o">.</span><span class="n">sh</span> <span class="n">clean</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h1>二、开发示例<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h1>
+<p>本章节以推送本地多个视频文件为例，来说明如何使用rtsp_server组件构建多路推流和转发服务。</p>
+<div class="section" id="id6">
+<h2>2.1 配置参数<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+    &quot;auth_mode&quot;: 0,       // 是否开启密码认证功能, 0:不开启rtsp认证, 1:开启认证
+    &quot;user&quot;: &quot;admin&quot;,      // rtsp 推流用户名
+    &quot;password&quot;: &quot;123456&quot;, // rtsp 推流认证密码
+    &quot;port&quot;: 555,          // rtsp端口号，默认555
+    &quot;chn_num&quot;: 2,         // rtsp通道数量
+    &quot;chn_0&quot;: {
+      &quot;url&quot;: &quot;rtsp://10.64.61.215:555/chn0&quot;,  // chn0的url
+      &quot;video_type&quot;: 0,    // 视频编码，0：H264, 1:H265
+      &quot;audio_type&quot;: 0,    // 音频编码，2：g711, 3:g726
+    },
+    &quot;chn_1&quot;: {
+      &quot;url&quot;: &quot;rtsp://10.64.61.215:555/chn1&quot;, // chn1的url
+      &quot;video_type&quot;: 0, // 视频编码，0：H264, 1:H265
+      &quot;audio_type&quot;: 0, // 音频编码，2：g711, 3:g726
+    },
+    &quot;__video_type_desc&quot;: &quot;设置参考：0：H264, 1:H265&quot;,
+    &quot;__audio_type_desc&quot;: &quot;设置参考：0：g711, 1:g726&quot;
+  }
+</pre></div>
+</div>
+<p>本示例的配置中，构建了两路rtsp媒体转发通道，分别从./data/chn0.264和./data/chn1.264视频源获取H264视频数据，然后由rtsp_server组件转发推送
+至客户端。</p>
+</div>
+<div class="section" id="id7">
+<h2>注意事项<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>配置中url形式为”rtsp://ip_addr:port/chnx”, 此url也是客户端拉流的地址。
+url中的port需和port配置保持一致。</p>
+</div>
+<div class="section" id="id8">
+<h2>2.2 接口介绍<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RtspServer</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">RtspServer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">config_file</span><span class="p">);</span>
+  <span class="o">~</span><span class="n">RtspServer</span><span class="p">();</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @brief load rtsp config</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">Init</span><span class="p">();</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * @brief create RTSPServerRun thread</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">Start</span><span class="p">();</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * @brief stop thread</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span>  
+  <span class="kt">int</span> <span class="nf">Stop</span><span class="p">();</span>
+
+   <span class="cm">/**</span>
+<span class="cm">   * @brief distory resource</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span> 
+  <span class="kt">int</span> <span class="nf">DeInit</span><span class="p">();</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * @brief send data to rtsp frame source</span>
+<span class="cm">   * @param in buf: frame</span>
+<span class="cm">   * @param in buf_len: frame size</span>
+<span class="cm">   * @param in media_type: H264/H265</span>
+<span class="cm">   * @param in chn_id: channel id</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">SendData</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">buf_len</span><span class="p">,</span>
+        <span class="kt">int</span> <span class="n">media_type</span><span class="p">,</span> <span class="kt">int</span> <span class="n">chn_id</span><span class="p">);</span>
+
+ <span class="k">private</span><span class="o">:</span>
+   <span class="cm">/**</span>
+<span class="cm">   * @brief create live555 rtsp server and add mediasession</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span> 
+  <span class="kt">int</span> <span class="n">RTSPServerRun</span><span class="p">();</span>   <span class="c1">// server 运行在独立线程</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">RtspServerConfig</span><span class="o">*</span> <span class="n">config_</span><span class="p">;</span>
+  <span class="n">RTSPServer</span> <span class="o">*</span><span class="n">rtsp_server_</span><span class="p">;</span>   <span class="c1">// live555 rtsp server</span>
+  <span class="n">TaskScheduler</span> <span class="o">*</span><span class="n">scheduler_</span><span class="p">;</span>
+  <span class="n">UsageEnvironment</span> <span class="o">*</span><span class="n">env_</span><span class="p">;</span>
+  <span class="n">ServerMediaSession</span> <span class="o">*</span><span class="n">server_media_session_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="o">&gt;</span> <span class="n">rtsp_server_thread_</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">watch_variable_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>2.3 示例程序<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>本章节主要展示如何使用rtsp_server的接口来实现数据转发功能。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>int main(int argc, char **argv) {
+  if (argv[1] == nullptr) {
+    std::cout &lt;&lt; &quot;rtsp config file is null&quot; &lt;&lt; std::endl;
+    return -1;
+  }
+  std::string rtsp_config = std::string(argv[1]);
+
+  int chn_id = 0;
+  // 创建rtsp server对象
+  auto rtsp_server_ = std::make_shared&lt;RtspServer&gt;(rtsp_config);
+
+
+  // rtps server init
+  auto ret = rtsp_server_-&gt;Init();
+  if (ret != 0) {
+    LOGE &lt;&lt; &quot;rtspserver init failed&quot;;
+    return -1;
+  }
+  // rtps server start
+  ret = rtsp_server_-&gt;Start();
+  if (ret != 0) {
+    LOGE &lt;&lt; &quot;rtsp server start failed&quot;;
+    return -1;
+  }
+
+  // 利用ffmpeg解析H264或者H265文件，获取每一帧的码流
+  AVFormatContext *input_ctx_ = nullptr;
+  auto ret = avformat_open_input(&amp;input_ctx_,
+              media_source.c_str(), NULL, NULL);
+  if (ret != 0) {
+    LOGE &lt;&lt; &quot;open media file failed&quot;;
+    return -1;
+  }
+  ret = av_find_best_stream(input_ctx_,
+          AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
+  if (ret &lt; 0) {
+      LOGE &lt;&lt; &quot;av_find_best_stream failed&quot;;
+      return -1;
+  }
+
+  bool thread_exit_flag_ = false;
+  AVPacket packet;
+  auto video_type = enum Video_Type::H264;
+  while (!thread_exit_flag_) {
+    ret = av_read_frame(input_ctx_, &amp;packet);
+    if (ret &lt; 0) {
+      av_packet_unref(&amp;packet);
+      break;
+    } else {
+      // 向通道chn_id发送一帧的数据，然后通过rtsp server转发出去，
+      // 转发地址是配置文件中对应chn id中的url地址
+      rtsp_server_-&gt;SendData(packet.data, packet.size,
+                     video_type, chn_id);
+    }
+      av_packet_unref(&amp;packet);
+      usleep(40000);
+  }
+  // 关闭ffmpeg
+  avformat_close_input(&amp;input_ctx_);
+  
+  // rtsp server对象的停止和卸载
+  if (rtsp_server_) {
+    rtsp_server_-&gt;Stop();
+    rtsp_server_-&gt;DeInit();
+  }
+
+  return 0;
+}
+</pre></div>
+</div>
+<p>这里的media_producer是对rtsp_server的接口调用，在media_producer-&gt;Start()中除了使用rts_server-&gt;Start(),另外启动线程从视频文件中读取数据,然后使用rtsp_server-&gt;SendData进行转发。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h1>三、设计原理<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h1>
+<p>rtsp_server组件以live555框架为基础，分别实现了FramedSource的子类HorizonH264Or5FramedSource来完成媒体转发，实现OnDemandServerMediaSubsession的子类HorizonH264ServerMediaSubsession和HorizonH265ServerMediaSubsession来创建相应的媒体子会话。
+复用了RTSPServer类创建rtsp服务器。</p>
+<div class="section" id="id11">
+<h2>3.1 类的继承关系<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p><img alt="rtsp_server组件类关系" src="_images/key-class.png" /></p>
+</div>
+<div class="section" id="id12">
+<h2>3.2 数据链路<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>rtsp_server组件的数据链路如下,以H264为例：
+<img alt="rtsp_server组件数据链路" src="_images/rtsp_server.png" /></p>
+<p>在组件中实现了HorizonH264ServerMediaSubsession类，作为H264视频流的子会话,
+并在HorizonH264ServerMediaSubsession类中创建HorizonH264Or5FramedSource和H264VideoRTPSink。
+RtspServer提供了Start()接口来启动rtsp服务器，并加入相应的媒体子会话，然后等待处理客户端请求。
+另外提供了SendData()接口来将应用层数据推送给对应通道的HorizonH264Or5FramedSource，
+最后再由对应的H264RTPSink将数据打包发送给客户端。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="rtsp_server 组件" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

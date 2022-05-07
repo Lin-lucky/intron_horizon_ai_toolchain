@@ -1,0 +1,62 @@
+地平线 X3J3 芯片开发手册
+=====================================
+
+旭日Sunrise3（简称 X3）和征程Journey3（简称 J3）是地平线2020年推出的低功耗、高性能AI处理器，分别面向人工智能物联网AIoT领域和自动驾驶AUTO领域。
+其中，X3 还根据用户场景需求不同，进一步划分出X3M和X3E两个芯片版本。
+
+计算能力方面，X3M和J3均内置了Quad-Core Cortex A53 CPU和Dual-Core BPU AI加速器，其中BPU加速器采用了伯努利2.0架构设计，可提供5TOPS的等效AI算力。
+
+.. note::
+    BPU是地平线自研的AI加速核，在设计过程中具体结合了AIoT/Auto的场景需求，从算法、计算架构、编译器三个方面进行了软硬协同优化，使得在功耗不变前提下提高数倍的AI计算性能。
+    
+    X3和J3芯片各内置了两个伯努利2.0的BPU核，它极大提升了对先进CNN网络的支持，同时大大降低了DDR带宽占用率，可提供实时像素级视频分割和结构化视频分析等能力。 
+
+
+图像处理能力方面，X3和J3芯片内置了12M Pixels ISP，可以在宽动态、低照度场景下得到高质量的图像。
+同时还内置了降噪（3DNR）、镜头失真校正（LDC）、畸变矫正（GDC）、旋转缩放、裁剪、金字塔、H.265/H.264/MJPEG 视频编解码等图像处理硬件加速模块，
+支持4～8路不同分辨率Camera Sensor输入的同步处理，峰值性能可达到4K@60fps。
+
+其他能力方面，X3和J3芯片还集成了一个支持DDR4/LPDDR4/LPDDR4X的DDE控制器，一个USB3.0主机/设备模块，一个带RMII/RGMII接口的千兆以太网MAC，旁路视频/显示输出接口，I2S 音频端口等，能适应丰富的场景需求。
+
+另外，为了让用户更好的使用X3和J3两款芯片的AI能力，我们提供完整的开发板套件、AI开发平台以及围绕芯片打造各种行业方案，您可以参考后续相关章节进行了解。
+
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: 整体概述
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: 芯片介绍
+
+   ./common_doc_cn/x3_soc_user_guide.rst
+   ./common_doc_cn/xj3_soc_contrast.md
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: 开发套件介绍
+
+   ./common_doc_cn/xj3_board_overview.rst
+   ./common_doc_cn/x3_sdb_overview.rst
+   ./common_doc_cn/xj3_board_update_guide.rst
+   ./common_doc_cn/xj3_board_command.rst
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: 天工开物开发平台
+   
+   ./source_doc/x3_ddk_user_guide.rst
+   ./common_doc_cn/xj3_ddk_quick_start.rst
+   ./common_doc_cn/xj3_ddk_sample.rst
+   ./source_doc/x3_ddk_docs.rst
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: 其他
+
+   ./common_doc_cn/other_sources.rst

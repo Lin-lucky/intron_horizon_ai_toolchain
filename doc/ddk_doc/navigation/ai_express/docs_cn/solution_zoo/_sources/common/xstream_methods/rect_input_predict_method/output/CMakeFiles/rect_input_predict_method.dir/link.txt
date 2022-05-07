@@ -1,0 +1,2 @@
+/usr/bin/ar qc librect_input_predict_method.a  CMakeFiles/rect_input_predict_method.dir/src/rect_input_predict_method.cc.o
+/usr/bin/ranlib librect_input_predict_method.a

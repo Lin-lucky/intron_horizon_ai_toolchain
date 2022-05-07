@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>x86 architecture &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>x86 architecture</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/xstream/test/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>include_directories(
+${PROJECT_SOURCE_DIR}/include
+include
+include/method
+include/hobotxstream
+)</p>
+<div class="section" id="x86-architecture">
+<h1>x86 architecture<a class="headerlink" href="#x86-architecture" title="Permalink to this headline">¶</a></h1>
+<p>if (${X86_ARCH})
+if (${X86_CENTOS})
+include_directories(
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/hobotlog/include/
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/jsoncpp/include/
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/gtest/include/
+${XSTREAM_CURRENT_DIR}/vision_type/include/
+${RELEASE_ROOT_DIR}/deps/opencv/include/
+)
+link_directories(
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/hobotlog/lib
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/jsoncpp/lib/
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/gtest/lib/
+)
+else ()
+include_directories(
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/hobotlog/include/
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/jsoncpp/include/
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/gtest/include/
+${XSTREAM_CURRENT_DIR}/vision_type/include/
+${RELEASE_ROOT_DIR}/deps/opencv/include/
+)
+link_directories(
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/hobotlog/lib
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/jsoncpp/lib/
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/gtest/lib/
+)
+endif()
+else()
+include_directories(
+${RELEASE_ROOT_DIR}/deps/jsoncpp/include/
+${RELEASE_ROOT_DIR}/deps/hobotlog/include/
+${RELEASE_ROOT_DIR}/deps/opencv/include/
+${RELEASE_ROOT_DIR}/deps/gtest/include/
+${XSTREAM_CURRENT_DIR}/vision_type/include/
+)
+link_directories(
+${RELEASE_ROOT_DIR}/deps/hobotlog/lib/
+${RELEASE_ROOT_DIR}/deps/jsoncpp/lib/
+${RELEASE_ROOT_DIR}/deps/gtest/lib/
+)
+endif()</p>
+<p>set(METHOD_FILES
+src/method/bbox_filter.cc
+src/method/multisource_test_method.cc
+)</p>
+<p>set(SOURCE_FILES ${METHOD_FILES}
+gtest_main.cc
+method_factory.cc
+)
+set(BASE_LIBRARIES xstream hobotlog jsoncpp gtest pthread)</p>
+<p>add_executable(method_init_test ${SOURCE_FILES} method_init_test.cc)
+target_link_libraries(method_init_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>add_executable(timer_test ${SOURCE_FILES} timer_test.cc)
+target_link_libraries(timer_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>add_executable(xstream_unit_test ${SOURCE_FILES} method_cb.cc)
+target_link_libraries(xstream_unit_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+</div>
+<div class="section" id="source-files-cpp-api-test-cc">
+<h1>${SOURCE_FILES}  cpp_api_test.cc)<a class="headerlink" href="#source-files-cpp-api-test-cc" title="Permalink to this headline">¶</a></h1>
+<p>#target_link_libraries(cpp_api_test</p>
+</div>
+<div class="section" id="public-base-libraries">
+<h1>PUBLIC ${BASE_LIBRARIES}<a class="headerlink" href="#public-base-libraries" title="Permalink to this headline">¶</a></h1>
+<p>#)</p>
+<p>add_executable(xstream_test ${SOURCE_FILES} xstream_test.cc)
+target_link_libraries(xstream_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>add_executable(node_test ${SOURCE_FILES} node_test.cc)
+target_link_libraries(node_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>add_executable(workflow_test ${SOURCE_FILES} subworkflow_test.cc)
+target_link_libraries(workflow_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>set(THREAD_MODEL_SOURCES ${SOURCE_FILES}
+thread_model.cc
+src/method/bbox_filter.cc
+)
+add_executable(xstream_threadmodel_test ${THREAD_MODEL_SOURCES})
+target_link_libraries(xstream_threadmodel_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>set(THREAD_ORDER_SOURCES ${SOURCE_FILES}
+thread_order.cc
+src/data_types/orderdata.cc
+)
+add_executable(xstream_threadorder_test ${THREAD_ORDER_SOURCES})
+target_link_libraries(xstream_threadorder_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>set(THREAD_SAFE_SOURCES ${SOURCE_FILES}
+thread_safe.cc
+src/data_types/orderdata.cc
+)
+add_executable(xstream_threadsafe_test ${THREAD_SAFE_SOURCES})
+target_link_libraries(xstream_threadsafe_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>set(MULTISOURCE_TEST_SOURCES ${SOURCE_FILES}
+multisource_test.cc
+)
+add_executable(xstream_multisource_test ${MULTISOURCE_TEST_SOURCES})
+target_link_libraries(xstream_multisource_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>add_executable(config_test ${SOURCE_FILES} config_test.cc)
+target_link_libraries(config_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>set(THREAD_PRIORITY_SOURCES ${SOURCE_FILES}
+thread_priority_test.cc
+)
+add_executable(xstream_thread_priority_test ${THREAD_PRIORITY_SOURCES})
+target_link_libraries(xstream_thread_priority_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>set(THREAD_MANAGER_SOURCES ${SOURCE_FILES}
+thread_manager_test.cc
+)
+add_executable(xstream_thread_manager_test ${THREAD_MANAGER_SOURCES})
+target_link_libraries(xstream_thread_manager_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>set(XTHREAD_POOL_SOURCES ${SOURCE_FILES}
+xthread_pool_test.cc
+)
+add_executable(xstream_xthread_pool_test ${XTHREAD_POOL_SOURCES})
+target_link_libraries(xstream_xthread_pool_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+<p>set(XTHREAD_SOURCES ${SOURCE_FILES}
+xthread_test.cc
+)
+add_executable(xstream_xthread_test ${XTHREAD_SOURCES})
+target_link_libraries(xstream_xthread_test
+PUBLIC ${BASE_LIBRARIES}
+)</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

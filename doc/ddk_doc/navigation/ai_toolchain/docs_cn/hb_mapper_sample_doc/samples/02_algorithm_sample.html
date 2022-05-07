@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. 算法模型示例 &mdash; horizon_model_convert_sample_documentation v1.12.3 文档</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="3. 其他示例" href="03_misc_sample.html" />
+    <link rel="prev" title="1. 概述" href="01_general_descriptions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> horizon_model_convert_sample_documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01_general_descriptions.html">1. 概述</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. 算法模型示例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#where-to-find">2.1. where to find</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">2.2. 如何准备数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2.3. 如何准备模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mobilenetv1-v2">2.3.1. MobileNetv1/v2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#googlenet">2.3.2. GoogleNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resnet18">2.3.3. ResNet18</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#efficientnet-lite0-1-2-3-4">2.3.4. EfficientNet_Lite0/1/2/3/4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yolov2">2.3.5. YOLOv2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yolov3">2.3.6. YOLOv3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yolov5">2.3.7. YOLOv5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mobilenet-ssd">2.3.8. MobileNet_SSD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#efficientnet-det">2.3.9. EfficientNet_Det</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#centernet">2.3.10. CenterNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unet">2.3.11. UNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fcos">2.3.12. FCOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2.4. 算法模型示例的使用示例</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#docker">2.4.1. 进入Docker容器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">2.4.2. 验证模型是否能够执行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">2.4.3. 准备校准用的数据集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build">2.4.4. build异构模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">2.4.5. 精度测试</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">2.5. 常见问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#onnx-hb-mapper-makertbin-original-float-model-onnx">2.5.1. 如何对齐开源框架训练得到的ONNX原始浮点模型与使用 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> 工具得到的***_original_float_model.onnx的结果？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_misc_sample.html">3. 其他示例</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">horizon_model_convert_sample_documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">2. </span>算法模型示例</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/samples/02_algorithm_sample.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">2. </span>算法模型示例<a class="headerlink" href="#id1" title="永久链接至标题"></a></h1>
+<section id="where-to-find">
+<h2><span class="section-number">2.1. </span>where to find<a class="headerlink" href="#where-to-find" title="永久链接至标题"></a></h2>
+<p>算法模型示例位于 <cite>horizon_model_convert_sample</cite> 路径的：
+<cite>03_classification/</cite>、<cite>04_detection/</cite> 和 <cite>07_segmentation/</cite> 文件夹中。</p>
+</section>
+<section id="id2">
+<h2><span class="section-number">2.2. </span>如何准备数据集<a class="headerlink" href="#id2" title="永久链接至标题"></a></h2>
+<p>数据集地址为：<code class="docutils literal notranslate"><span class="pre">vrftp.horizon.ai/Open_Explorer/eval_dataset</span></code>。包含如下数据集：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>/Open_Explorer/eval_dataset
+├── VOC.tar.gz
+├── imagenet.tar.gz
+├── coco.tar.gz
+├── cityscapes.tar.gz
+└── cifar-10.tar.gz
+</pre></div>
+</div>
+<p>请保证当前环境下有外网访问能力以及可以使用 <code class="docutils literal notranslate"><span class="pre">wget</span></code>。</p>
+<p>根据需求使用以下命令下载对应数据集：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget ftp://vrftp.horizon.ai/Open_Explorer/eval_dataset/<span class="o">[</span>数据集名称<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2><span class="section-number">2.3. </span>如何准备模型<a class="headerlink" href="#id3" title="永久链接至标题"></a></h2>
+<p>在使用模型转换示例包时，请从地平线提供的模型发布物 <strong>model_zoo/mapper/</strong> 路径下获取我们为您准备好的浮点模型。
+对于各原始模型的来源、修改点（如有）的准备过程，请您参考以下内容。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ul class="simple">
+<li><p>以下各模型的帧率（在开发板单线程运行ai_benchmark_j3示例包/script路径下各模型子文件夹的 latency.sh 脚本，不含后处理）计算方法：
+<span class="math notranslate nohighlight">\(FPS = 1000 / 推理耗时\)</span>。</p></li>
+<li><p>测试开发板：x3sdbx3-samsung2G-3200。</p></li>
+<li><p>测试核心数：单核。</p></li>
+</ul>
+</div>
+<section id="mobilenetv1-v2">
+<h3><span class="section-number">2.3.1. </span>MobileNetv1/v2<a class="headerlink" href="#mobilenetv1-v2" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>模型来源：<a class="reference external" href="https://github.com/shicai/MobileNet-Caffe">https://github.com/shicai/MobileNet-Caffe</a> 。</p></li>
+<li><p>md5sum码:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3fd6889ec48bda46451d67274144e2a8</p></td>
+<td><p>mobilenet.caffemodel</p></td>
+</tr>
+<tr class="row-odd"><td><p>8922f90f629d428fecf866e798ac7c08</p></td>
+<td><p>mobilenet_deploy.prototxt</p></td>
+</tr>
+<tr class="row-even"><td><p>54aab8425ea068d472e8e4015f22360c</p></td>
+<td><p>mobilenet_v2.caffemodel</p></td>
+</tr>
+<tr class="row-odd"><td><p>13101ee86ab6d217d5fd6ed46f7a4faa</p></td>
+<td><p>mobilenet_v2_deploy.prototxt</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>模型帧率（不含后处理）：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>MobileNetv1：311.1388/s。</p></li>
+<li><p>MobileNetv2：410.1723/s。</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>MobileNetv1：0.7033(INT8)。</p></li>
+<li><p>MobileNetv2：0.7115(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="googlenet">
+<h3><span class="section-number">2.3.2. </span>GoogleNet<a class="headerlink" href="#googlenet" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>模型来源：<a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/GoogleNet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/GoogleNet</a>。</p></li>
+<li><p>md5sum码:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 68%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>f107ae6806ea1016afbc718210b7a617</p></td>
+<td><p>googlenet.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>模型帧率（不含后处理）：121.2709/s。</p></li>
+<li><p>模型精度：0.6996(INT8)。</p></li>
+</ol>
+</section>
+<section id="resnet18">
+<h3><span class="section-number">2.3.3. </span>ResNet18<a class="headerlink" href="#resnet18" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>模型来源：<a class="reference external" href="https://github.com/HolmesShuan/ResNet-18-Caffemodel-on-ImageNet">https://github.com/HolmesShuan/ResNet-18-Caffemodel-on-ImageNet</a>。</p></li>
+<li><p>md5sum码:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 62%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0904d601fc930d4f0c62a2a95b3c3b93</p></td>
+<td><p>resnet18.caffemodel</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>模型帧率（不含后处理）：113.6880/s。</p></li>
+<li><p>模型精度：0.6836(INT8)。</p></li>
+</ol>
+</section>
+<section id="efficientnet-lite0-1-2-3-4">
+<h3><span class="section-number">2.3.4. </span>EfficientNet_Lite0/1/2/3/4<a class="headerlink" href="#efficientnet-lite0-1-2-3-4" title="永久链接至标题"></a></h3>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>为了快速运行示例，避免使用第三方工具带来的风险，强烈推荐您直接使用地平线模型发布物 <strong>model_zoo/mapper/</strong> 路径下准备好的ONNX浮点模型。
+如果您有兴趣复现tflite2onnx的模型转换过程，也可以尝试使用以下三方工具。但地平线无法保证第三方工具的质量和转换成功率。</p>
+</div>
+<ol class="arabic simple">
+<li><p>从模型来源：<a class="reference external" href="https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite">https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite</a> 获取tar包。</p></li>
+<li><p>地平线模型发布物中转换后的ONNX模型md5sum码:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>001a329bd367fbec22b415c7a33d7bdb</p></td>
+<td><p>efficientnet_lite0_fp32.onnx</p></td>
+</tr>
+<tr class="row-odd"><td><p>1205e95aea66650c71292bde236d55a9</p></td>
+<td><p>efficientnet_lite1_fp32.onnx</p></td>
+</tr>
+<tr class="row-even"><td><p>474741c15494b79a89fe51d89e0c43c7</p></td>
+<td><p>efficientnet_lite2_fp32.onnx</p></td>
+</tr>
+<tr class="row-odd"><td><p>550455b41848d333f8359279c89a6bae</p></td>
+<td><p>efficientnet_lite3_fp32.onnx</p></td>
+</tr>
+<tr class="row-even"><td><p>bde7fe57eadb4a30ef76f68da622dcd5</p></td>
+<td><p>efficientnet_lite4_fp32.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>下载后可从tar包中得到.tflite文件，然后可通过tflite2onnx工具 (<a class="reference external" href="https://pypi.org/project/tflite2onnx/">https://pypi.org/project/tflite2onnx/</a>) 将tflite转换为ONNX模型。
+不同版本的tflite2onnx转换出来的layout会不一样，若转换出来的ONNX模型的输入layout是NCHW排布，
+则build时 <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> ，EfficientNet_Lite0应该选择 <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>，
+EfficientNet_Lite1应该选择 <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>，
+EfficientNet_Lite2应该选择 <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>，
+EfficientNet_Lite3应该选择 <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>，
+EfficientNet_Lite4应该选择 <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>。</p></li>
+<li><p>模型帧率（不含后处理）：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>EfficientNet_Lite0：437.8284/s。</p></li>
+<li><p>EfficientNet_Lite1：311.7207/s。</p></li>
+<li><p>EfficientNet_Lite2：176.4602/s。</p></li>
+<li><p>EfficientNet_Lite3：116.3467/s。</p></li>
+<li><p>EfficientNet_Lite4：65.7507/s。</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>EfficientNet_Lite0：0.7469(INT8)。</p></li>
+<li><p>EfficientNet_Lite1：0.7625(INT8)。</p></li>
+<li><p>EfficientNet_Lite2：0.7716(INT8)。</p></li>
+<li><p>EfficientNet_Lite3：0.7905(INT8)。</p></li>
+<li><p>EfficientNet_Lite4：0.8058(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="yolov2">
+<h3><span class="section-number">2.3.5. </span>YOLOv2<a class="headerlink" href="#yolov2" title="永久链接至标题"></a></h3>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>为了快速运行示例，避免使用第三方工具带来的风险，强烈推荐您直接使用地平线模型发布物 <strong>model_zoo/mapper/</strong> 路径下准备好的Caffe浮点模型。
+如果您有兴趣复现darknet2caffe的模型转换过程，也可以尝试使用以下三方工具。但地平线无法保证三方工具的质量和转换成功率。</p>
+</div>
+<ol class="arabic">
+<li><p>YOLOv2模型需要首先从YOLO官网(<a class="reference external" href="https://pjreddie.com/darknet/yolo/">https://pjreddie.com/darknet/yolo/</a>)下载YOLOv2 608x608的.cfg和.weight文件
+并使用darknet2caffe (<a class="reference external" href="https://github.com/xingyanan/darknet2caffe">https://github.com/xingyanan/darknet2caffe</a>) 转换工具将其转换为caffe model。
+(该转换工具是一个简化版本，使用时，需要修改该工具生成的.prototxt文件，
+将其中的 <code class="docutils literal notranslate"><span class="pre">'Reshape'</span></code> 层修改成 <code class="docutils literal notranslate"><span class="pre">'Passthrough'</span></code> 层，Passthrough 层具体修改后的参数请见提供的yolov2.prototxt例子，
+并在输出节点增加一个NCHW2NHWC的Permute操作。)</p></li>
+<li><p>md5sum码</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>7aa7a6764401cebf58e73e72fcbd2a45</p></td>
+<td><p>yolov2.caffemodel</p></td>
+</tr>
+<tr class="row-odd"><td><p>72e9a51c1e284e4b66e69f72ca9214c8</p></td>
+<td><p>yolov2_transposed.prototxt</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>模型帧率（不含后处理）：6.4910/s。</p></li>
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>[IoU=0.50:0.95]:0.271(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="yolov3">
+<h3><span class="section-number">2.3.6. </span>YOLOv3<a class="headerlink" href="#yolov3" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>YOLOv3模型获取：</p></li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p>URL: <a class="reference external" href="https://github.com/ChenYingpeng/caffe-yolov3/">https://github.com/ChenYingpeng/caffe-yolov3/</a>  caffemodel 可以在该github的README.md提供的百度云下载路径中下载，
+并在输出节点增加一个NCHW2NHWC的Permute操作。</p></li>
+<li><p>md5sum码:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>935af6e1530af5c0017b3674adce95e9</p></td>
+<td><p>yolov3_transposed.prototxt</p></td>
+</tr>
+<tr class="row-odd"><td><p>9a0f09c850656913ec27a6da06d9f9cc</p></td>
+<td><p>yolov3.caffemodel</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>模型帧率（不含后处理）：5.9890/s。</p></li>
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>[IoU=0.50:0.95]：0.336(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="yolov5">
+<h3><span class="section-number">2.3.7. </span>YOLOv5<a class="headerlink" href="#yolov5" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>YOLOv5模型：</p></li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p>可以从URL: <a class="reference external" href="https://github.com/ultralytics/yolov5/releases/tag/v2.0">https://github.com/ultralytics/yolov5/releases/tag/v2.0</a> 中下载相应的pt文件。</p>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>在clone代码时，请确认您使用的Tags是 <span class="red">v2.0</span>，否则将导致转换失败。</p>
+</div>
+</li>
+<li><p>md5sum码:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 74%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2e296b5e31bf1e1b6b8ea4bf36153ea5</p></td>
+<td><p>yolov5l.pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>16150e35f707a2f07e7528b89c032308</p></td>
+<td><p>yolov5m.pt</p></td>
+</tr>
+<tr class="row-even"><td><p>42c681cf466c549ff5ecfe86bcc491a0</p></td>
+<td><p>yolov5s.pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>069a6baa2a741dec8a2d44a9083b6d6e</p></td>
+<td><p>yolov5x.pt</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>为了更好地适配后处理代码，我们在ONNX模型导出前对Github代码做了如下修改
+（代码参见：<a class="reference external" href="https://github.com/ultralytics/yolov5/blob/v2.0/models/yolo.py">https://github.com/ultralytics/yolov5/blob/v2.0/models/yolo.py</a>）：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+      <span class="c1"># x = x.copy()  # for profiling</span>
+      <span class="n">z</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># inference output</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">training</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">export</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nl</span><span class="p">):</span>
+          <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="c1"># conv</span>
+          <span class="n">bs</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># x(bs,255,20,20) to x(bs,3,20,20,85)</span>
+<span class="hll">          <span class="c1">#  x[i] = x[i].view(bs, self.na, self.no, ny, nx).permute(0, 1, 3, 4, 2).contiguous()</span>
+</span><span class="hll">          <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>去除了每个输出分支尾部从4维到5维的reshape（即不将channel从255拆分成3x85），
+然后将layout从NHWC转换成NCHW再输出。</p>
+</div>
+<p>以下左图为修改前的模型某一输出节点的可视化图，右图则为修改后的对应输出节点可视化图。</p>
+<img alt="../_images/yolov5.png" class="align-center" src="../_images/yolov5.png" />
+</li>
+<li><p>下载完成后通过脚本 <a class="reference external" href="https://github.com/ultralytics/yolov5/blob/v2.0/models/export.py">https://github.com/ultralytics/yolov5/blob/v2.0/models/export.py</a> 进行pt文件到ONNX文件的转换。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>在使用export.py脚本时，请注意：</p>
+<ol class="arabic simple">
+<li><p>由于地平线AI工具链支持的ONNX opset版本为 <span class="red">10</span> 和 <span class="red">11</span>，
+请将 <code class="docutils literal notranslate"><span class="pre">torch.onnx.export</span></code> 的 <code class="docutils literal notranslate"><span class="pre">opset_version</span></code> 参数根据您要使用的版本进行修改。</p></li>
+<li><p>将 <code class="docutils literal notranslate"><span class="pre">torch.onnx.export</span></code> 部分的默认输入名称参数由 <code class="docutils literal notranslate"><span class="pre">'images'</span></code>
+改为 <code class="docutils literal notranslate"><span class="pre">'data'</span></code>，与模型转换示例包的YOLOv5示例脚本保持一致。</p></li>
+<li><p>将 <code class="docutils literal notranslate"><span class="pre">parser.add_argument</span></code> 部分中默认的数据输入尺寸640x640改为模型转换示例包YOLOv5示例中的672x672。</p></li>
+</ol>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>模型帧率（不含后处理）：14.8898/s。</p></li>
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>[IoU=0.50:0.95]：0.342(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="mobilenet-ssd">
+<h3><span class="section-number">2.3.8. </span>MobileNet_SSD<a class="headerlink" href="#mobilenet-ssd" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>MobilenetSSD模型:</p></li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p>可以从URL: <a class="reference external" href="https://github.com/chuanqi305/MobileNet-SSD">https://github.com/chuanqi305/MobileNet-SSD</a> 获得Caffe模型。</p></li>
+<li><p>md5sum码:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 51%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>bbcb3b6a0afe1ec89e1288096b5b8c66</p></td>
+<td><p>mobilenet_iter_73000.caffemodel</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>模型帧率（不含后处理）：141.1831/s。</p></li>
+<li><p>模型精度(mAP)：0.7188(INT8)。</p></li>
+</ol>
+</section>
+<section id="efficientnet-det">
+<h3><span class="section-number">2.3.9. </span>EfficientNet_Det<a class="headerlink" href="#efficientnet-det" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>模型来源：<a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/EfficientDet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/EfficientDet</a>。</p></li>
+<li><p>md5sum码:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 59%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ec4129c4b300cd04f1e8f71e0fe54ca5</p></td>
+<td><p>efficientdet_nhwc.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>模型帧率（不含后处理）：60.5804/s。</p></li>
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>[IoU=0.50:0.95]：0.313(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="centernet">
+<h3><span class="section-number">2.3.10. </span>CenterNet<a class="headerlink" href="#centernet" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>模型来源：<a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/Centernet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/Centernet</a>。</p></li>
+<li><p>md5sum码:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>fa1e884882a54fa3520d1e51477b4c1a</p></td>
+<td><p>centernet_resnet50.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>模型帧率（不含后处理）：8.4940/s。</p></li>
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>[IoU=0.50:0.95]：0.313(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="unet">
+<h3><span class="section-number">2.3.11. </span>UNet<a class="headerlink" href="#unet" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>模型来源：<a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/MobilenetUnet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/MobilenetUnet</a>。</p></li>
+<li><p>md5sum码：</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 61%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>21c6c645ebca92befbebc8c39d385c1e</p></td>
+<td><p>tf_unet_trained.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>模型帧率（不含后处理）：24.1057/s。</p></li>
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>accuracy: 0.9366(INT8)。</p></li>
+<li><p>mIoU: 0.638184(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="fcos">
+<h3><span class="section-number">2.3.12. </span>FCOS<a class="headerlink" href="#fcos" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>模型来源：可以从地平线模型开源repo获取，repo 地址暂时待定。</p></li>
+<li><p>md5sum码：</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 76%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1321e3f5cbb7c4a521e41820174a82d5</p></td>
+<td><p>fcos.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>模型帧率（不含后处理）：73.8498/s。</p></li>
+<li><p>模型精度：</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>[IoU=0.50:0.95]：0.345(INT8)。</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="id4">
+<h2><span class="section-number">2.4. </span>算法模型示例的使用示例<a class="headerlink" href="#id4" title="永久链接至标题"></a></h2>
+<p>本小节以YOLOv2模型为例，使用算法模型示例包中 <cite>04_detection/01_yolov2/mapper/</cite> 路径下脚本
+分步骤演示浮点模型到定点模型转换过程中的模型检查、校准数据集准备、runtime模型构建及模型精度测试几个关键步骤。</p>
+<section id="docker">
+<h3><span class="section-number">2.4.1. </span>进入Docker容器<a class="headerlink" href="#docker" title="永久链接至标题"></a></h3>
+<p>首先，根据《Horizon AI Toolchain User Guide》文档中的
+<a class="reference external" href="../../horizon_ai_toolchain_user_guide/chapter_2_prerequisites.html#docker">使用Docker环境</a>
+一节内容完成Docker环境的安装和配置并进入docker容器。</p>
+</section>
+<section id="id6">
+<h3><span class="section-number">2.4.2. </span>验证模型是否能够执行<a class="headerlink" href="#id6" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>如下所示，运行脚本：</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 进入示例脚本放置的文件夹</span>
+<span class="nb">cd</span> ddk/samples/ai_toolchain/horizon_model_convert_sample/04_detection/01_yolov2/mapper
+<span class="c1"># 2. 执行模型检查</span>
+sh 01_check.sh
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>模型检查输出：</p></li>
+</ol>
+<blockquote>
+<div><p>上述脚本使用 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> 工具验证模型是否被地平线芯片支持。同时也会输出一个OP列表，表示每个OP会CPU还是BPU上执行。
+如下所示：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">===================================================</span>
+Node         ON   Subgraph  Type
+---------------------------------------------------
+layer1_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer1_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer2_maxpool   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer3_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer3_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer4_maxpool   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer5_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer5_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer6_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer6_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer7_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer7_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer8_maxpool   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer9_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer9_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer10_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer10_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer11_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer11_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer12_maxpool  BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer13_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer13_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer14_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer14_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer15_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer15_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer16_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer16_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer17_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer17_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer18_maxpool  BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer19_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer19_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer20_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer20_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer21_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer21_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer22_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer22_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer23_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer23_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer24_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer24_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer25_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer25_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer27_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer27_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer28_reorg    BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSpaceToDepth
+layer29_concat   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     Concat
+layer30_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer30_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer31_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+----------------------End--------------------------
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>目前模型转换工具支持的最大输出数目为32。若原始模型的输出数目大于32个则会报错。</p>
+</div>
+</div></blockquote>
+</section>
+<section id="id7">
+<h3><span class="section-number">2.4.3. </span>准备校准用的数据集<a class="headerlink" href="#id7" title="永久链接至标题"></a></h3>
+<ol class="arabic simple" start="3">
+<li><p>在同一路径下继续执行 <code class="docutils literal notranslate"><span class="pre">02_preprocess.sh</span></code> 脚本，如下所示：</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 将 01_common/data/coco/calibration_data中的图片</span>
+<span class="c1"># 转换到: ./calibration_data_rgb_f32</span>
+<span class="n">sh</span> <span class="mi">02</span><span class="n">_preprocess</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ol class="arabic simple">
+<li><p>我们从COCO数据集抽取了50张图作为校准数据集，在校准前，我们对数据进行了预处理： <strong>pad-resize/转为rgb</strong>。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具会从转换得到二进制数据中读取数据，预处理过的二进制数据文件格式为：c-order的矩阵存储。
+每个矩阵值的数据类型为int8。</p></li>
+</ol>
+</div>
+</div></blockquote>
+</section>
+<section id="build">
+<h3><span class="section-number">2.4.4. </span>build异构模型<a class="headerlink" href="#build" title="永久链接至标题"></a></h3>
+<ol class="arabic simple" start="4">
+<li><p>在同一路径下继续执行 <code class="docutils literal notranslate"><span class="pre">03_build.sh</span></code> 脚本，如下所示：</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="mi">03</span><span class="n">_build</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>上述脚本使用 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具转换模型，最需要关注的是转换的配置文件，
+请参考文档包 <a class="reference external" href="../../horizon_ai_toolchain_user_guide/chapter_3_model_conversion.html#hb-mapper-makertbin">Horizon AI Toolchain User Guide</a> 文档中《使用 hb_mapper makertbin 工具转换模型》内容。</p>
+</div>
+<p>上述脚本的输出如下所示：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt; ls model_output <span class="p">|</span> cat
+full_yolov2_subgraph_0.html
+full_yolov2_subgraph_0.json
+<span class="hll">yolov2_608x608_nv12.bin
+</span>yolov2_608x608_nv12_optimized_float_model.onnx
+yolov2_608x608_nv12_original_float_model.onnx
+yolov2_608x608_nv12_quantized_model.onnx
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>您暂时只需要关心 <strong>yolov2_608x608_nv12.bin</strong> 文件，其他文件会在工具的介绍中进行说明。</p>
+</div>
+</div></blockquote>
+</section>
+<section id="id8">
+<h3><span class="section-number">2.4.5. </span>精度测试<a class="headerlink" href="#id8" title="永久链接至标题"></a></h3>
+<ol class="arabic simple">
+<li><p>继续执行 <code class="docutils literal notranslate"><span class="pre">05_evaluate.sh</span></code> 脚本进行精度评测，如下所示：</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PARALLEL_PROCESS_NUM</span><span class="o">=</span><span class="si">${</span><span class="nv">parallel_process_num</span><span class="si">}</span>
+sh 05_evaluate.sh
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ol class="arabic simple">
+<li><p>因为精度评测时，需要对图片进行 <strong>前处理</strong>，对模型数据进行 <strong>后处理</strong>，所以我们提供了一个示例Python脚本。
+具体请参考 <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">05_evaluate.sh</span></code>。</p></li>
+<li><p>为了加快评测速度，可以适当调整并发进程数，但需要注意内存的占用情况。</p></li>
+</ol>
+</div>
+</div></blockquote>
+</section>
+</section>
+<section id="id9">
+<h2><span class="section-number">2.5. </span>常见问题<a class="headerlink" href="#id9" title="永久链接至标题"></a></h2>
+<section id="onnx-hb-mapper-makertbin-original-float-model-onnx">
+<h3><span class="section-number">2.5.1. </span>如何对齐开源框架训练得到的ONNX原始浮点模型与使用 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> 工具得到的***_original_float_model.onnx的结果？<a class="headerlink" href="#onnx-hb-mapper-makertbin-original-float-model-onnx" title="永久链接至标题"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>原始浮点模型与转换得到ONNX浮点模型的差异由工具链产品保障，这种验证不是必须的标准流程。</p>
+</div>
+<p><strong>1.明确两者的概念</strong></p>
+<p>首先明确两个模型的概念。</p>
+<p>前者是指开发者使用开源框架（如：TensorFlow、PyTorch、MXNet等）训练出浮点模型后，转成ONNX格式的原始浮点模型。</p>
+<p>而后者是指使用AI芯片工具链浮点定点模型转换方案的 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> 工具，
+或运行地平线模型转换示例包（即：horizon_model_convert_sample发布物）中03_classification/${modelname}/mapper/03_build.sh将前者
+转换成***_original_float_model.onnx中间格式模型，其中的***代表的是具体模型名称（如：MobileNetv1或UNet等）。</p>
+<p><strong>2.明确两者的差异</strong></p>
+<p>***_original_float_model.onnx模型计算精度与转换输入的原始浮点模型是一模一样的，
+<span class="red">有个重要的变化就是为了适配地平线平台添加了一些数据预处理计算。</span>
+一般情况下，您不需要使用这个模型，在转换结果出现异常时，如果能把这个模型提供给地平线的技术支持，将有助于帮助您快速解决问题。</p>
+<p><strong>3.编写脚本对齐两者结果</strong></p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>下面以地平线模型转换示例包（即：horizon_model_convert_sample发布物）中的mobilenet_onnx模型为例进行说明。</p>
+</div>
+<p>开发者需要自行编写脚本对齐两者的结果。</p>
+<p>在编写脚本时，<span class="red">需要注意以下几点</span>。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<ol class="arabic simple">
+<li><p>开发者自编写脚本中的图片数据处理逻辑应当与工具链示例包各模型的mapper/preprocess.py图片数据预处理脚本中的逻辑一致，
+以避免由图片数据预处理方法不一致造成的结果差异。
+如遇模型示例包版本不同造成的代码逻辑差异，请参见您获取到的示例包版本的图片数据预处理脚本，或咨询地平线技术团队。
+各预处理transformer方法参见以下代码块：</p></li>
+</ol>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../../../01_common/python/data/&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformer</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">dataloader</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># 图片校正transformer</span>
+<span class="k">def</span> <span class="nf">calibration_transformers</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  step：</span>
+<span class="sd">      1、PIL resize to 256</span>
+<span class="sd">      2、crop size 224*224 from PIL center</span>
+<span class="sd">      3、NHWC to NCHW</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">PILResizeTransformer</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span>
+        <span class="n">PILCenterCropTransformer</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">224</span><span class="p">),</span>
+        <span class="n">HWC2CHWTransformer</span><span class="p">(),</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">transformers</span>
+
+<span class="c1"># 图片推理transformer</span>
+<span class="k">def</span> <span class="nf">infer_transformers</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  step：</span>
+<span class="sd">      1、PIL resize to 256</span>
+<span class="sd">      2、crop size 224*224 from PIL center</span>
+<span class="sd">      3、bgr to nv12</span>
+<span class="sd">      4、nv12 to yuv444</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">PILResizeTransformer</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span>
+        <span class="n">PILCenterCropTransformer</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">224</span><span class="p">),</span>
+        <span class="n">BGR2NV12Transformer</span><span class="p">(</span><span class="n">data_format</span><span class="o">=</span><span class="s2">&quot;HWC&quot;</span><span class="p">),</span>
+        <span class="n">NV12ToYUV444Transformer</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)),</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">transformers</span>
+</pre></div>
+</div>
+<p>开发者可以参照以下代码块对齐图片数据预处理逻辑：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ShortSideResizeTransformer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">short_size</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">height</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">:</span>
+        <span class="n">off</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+                            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">short_size</span> <span class="o">*</span> <span class="n">off</span><span class="p">),</span> <span class="n">short_size</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">off</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="n">width</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+                            <span class="p">(</span><span class="n">short_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">short_size</span> <span class="o">*</span> <span class="n">off</span><span class="p">)))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">image</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">CenterCropTransformer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">resize_height</span><span class="p">,</span> <span class="n">resize_width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">resize_up</span> <span class="o">=</span> <span class="n">resize_height</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">crop_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">resize_left</span> <span class="o">=</span> <span class="n">resize_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">crop_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">resize_up</span><span class="p">:</span><span class="n">resize_up</span> <span class="o">+</span>
+                    <span class="n">crop_size</span><span class="p">,</span> <span class="n">resize_left</span><span class="p">:</span><span class="n">resize_left</span> <span class="o">+</span>
+                    <span class="n">crop_size</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">ShortSideResizeTransformer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">short_size</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>  <span class="c1"># ShortSideResize</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">CenterCropTransformer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="o">=</span><span class="mi">224</span><span class="p">)</span>  <span class="c1"># CenterCrop</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>   <span class="c1"># HWC2CHW</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">*</span> <span class="mi">255</span>  <span class="c1"># (0, 1) --&gt; (0, 255)</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<ol class="arabic simple" start="2">
+<li><p>如下图所示，mobilenetv2_224x224_nv12_original_float_model.onnx模型比原始浮点onnx模型多了HzPreprocess算子用来实现
+mobilenetv2_config.yaml文件中的 <code class="docutils literal notranslate"><span class="pre">data_mean_and_scale</span></code>。</p></li>
+</ol>
+</div>
+<img alt="../_images/hzpreprocess.png" class="align-center" src="../_images/hzpreprocess.png" />
+<p>因此，开发者需要根据mobilenetv2_config.yaml中的 <code class="docutils literal notranslate"><span class="pre">mean_value</span></code> 和 <code class="docutils literal notranslate"><span class="pre">scale_value</span></code> 参数实现数据归一化。
+参见以下代码块：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Normalize</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">123.675</span><span class="p">,</span> <span class="mf">116.28</span><span class="p">,</span> <span class="mf">103.53</span><span class="p">])</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.01712</span><span class="p">,</span> <span class="mf">0.0175</span><span class="p">,</span> <span class="mf">0.01743</span><span class="p">])</span>
+<span class="n">norm_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">norm_data</span><span class="p">[</span><span class="n">i</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">,:,:]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="n">norm_data</span> <span class="o">=</span> <span class="n">norm_data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<ol class="arabic simple" start="3">
+<li><p>由于示例包中各模型mapper/04_inference.sh脚本默认执行的是定点模型推理，因此在验证浮点模型结果时，
+需要将定点模型推理改为浮点模型推理。执行命令 <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">04_inference.sh</span> <span class="pre">origin</span></code> 即可执行浮点模型推理。
+代码逻辑可能由于发布物版本不同略有差异，可参见03_classification/04_mobilenet_onnx/mapper/04_inference.sh脚本中的注释内容。</p></li>
+</ol>
+</div>
+<p>实现上述步骤后即可对齐原始浮点模型与mobilenetv2_224x224_nv12_original_float_model.onnx模型的结果了。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01_general_descriptions.html" class="btn btn-neutral float-left" title="1. 概述" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="03_misc_sample.html" class="btn btn-neutral float-right" title="3. 其他示例" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, horizon.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

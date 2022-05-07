@@ -1,0 +1,62 @@
+2022-05-06 13:58:36,644 file: hb_mapper.py func: hb_mapper line No: 70 Start hb_mapper....
+2022-05-06 13:58:36,645 file: hb_mapper.py func: hb_mapper line No: 71 log will be stored in /open_explorer/hb_mapper_checker.log
+2022-05-06 13:58:36,645 file: hb_mapper.py func: hb_mapper line No: 72 hbdk version 3.26.8
+2022-05-06 13:58:36,645 file: hb_mapper.py func: hb_mapper line No: 73 horizon_nn version 0.12.5
+2022-05-06 13:58:36,645 file: hb_mapper.py func: hb_mapper line No: 74 hb_mapper version 1.4.4
+2022-05-06 13:58:36,645 file: hb_mapper.py func: hb_mapper line No: 76 parameter [output] is deprecated
+2022-05-06 13:58:36,646 file: helper.py func: helper line No: 124 Model input names: ['modelInput']
+2022-05-06 13:58:36,646 file: hb_mapper_checker.py func: hb_mapper_checker line No: 104 Model type: onnx
+2022-05-06 13:58:36,646 file: hb_mapper_checker.py func: hb_mapper_checker line No: 105 march: bernoulli2
+2022-05-06 13:58:36,646 file: hb_mapper_checker.py func: hb_mapper_checker line No: 110 input names ['modelInput']
+2022-05-06 13:58:36,646 file: hb_mapper_checker.py func: hb_mapper_checker line No: 111 input shapes {'modelInput': [1, 3, 32, 32]}
+2022-05-06 13:58:36,646 file: helper.py func: helper line No: 124 Model input names: ['modelInput']
+2022-05-06 13:58:36,646 file: hb_mapper_checker.py func: hb_mapper_checker line No: 96 for input "modelInput", user input_shape:[1, 3, 32, 32] is not same with model input_shape: [0, 3, 32, 32]
+2022-05-06 13:58:36,647 file: hb_mapper_checker.py func: hb_mapper_checker line No: 117 Begin model checking....
+2022-05-06 13:58:36,647 file: build.py func: build line No: 36 [Fri May  6 13:58:36 2022] Start to Horizon NN Model Convert.
+2022-05-06 13:58:36,647 file: dict_parser.py func: dict_parser line No: 30 Parsing the input parameter:{'modelInput': {'input_shape': [1, 3, 32, 32], 'input_batch': 1}}
+2022-05-06 13:58:36,647 file: dict_parser.py func: dict_parser line No: 480 The hbdk parameter is not specified, and the submodel will be compiled with the default parameter.
+2022-05-06 13:58:36,647 file: build.py func: build line No: 146 HorizonNN version: 0.12.5
+2022-05-06 13:58:36,647 file: build.py func: build line No: 150 HBDK version: 3.26.8
+2022-05-06 13:58:36,647 file: build.py func: build line No: 36 [Fri May  6 13:58:36 2022] Start to parse the onnx model.
+2022-05-06 13:58:36,648 file: onnx_parser.py func: onnx_parser line No: 64 Replace the input modelInput's shape [0, 3, 32, 32] to [1, 3, 32, 32]
+2022-05-06 13:58:36,656 file: onnx_parser.py func: onnx_parser line No: 146 ONNX model info:
+ONNX IR version:  5
+Opset version:    10
+Input name:       modelInput, [1, 3, 32, 32]
+2022-05-06 13:58:36,657 file: build.py func: build line No: 39 [Fri May  6 13:58:36 2022] End to parse the onnx model.
+2022-05-06 13:58:36,658 file: build.py func: build line No: 263 Model input names: ['modelInput']
+2022-05-06 13:58:36,658 file: build.py func: build line No: 524 Saving the original float model: ./.hb_check/original_float_model.onnx.
+2022-05-06 13:58:36,658 file: build.py func: build line No: 36 [Fri May  6 13:58:36 2022] Start to optimize the model.
+2022-05-06 13:58:36,794 file: build.py func: build line No: 39 [Fri May  6 13:58:36 2022] End to optimize the model.
+2022-05-06 13:58:36,795 file: build.py func: build line No: 535 Saving the optimized model: ./.hb_check/optimized_float_model.onnx.
+2022-05-06 13:58:36,795 file: build.py func: build line No: 36 [Fri May  6 13:58:36 2022] Start to calibrate the model.
+2022-05-06 13:58:36,799 file: calibration_data_set.py func: calibration_data_set line No: 66 There are 1 samples in the calibration data set.
+2022-05-06 13:58:36,800 file: max_calibrater.py func: max_calibrater line No: 68 Run calibration model with max method.
+2022-05-06 13:58:36,807 file: build.py func: build line No: 39 [Fri May  6 13:58:36 2022] End to calibrate the model.
+2022-05-06 13:58:36,807 file: build.py func: build line No: 36 [Fri May  6 13:58:36 2022] Start to quantize the model.
+2022-05-06 13:58:36,813 file: build.py func: build line No: 39 [Fri May  6 13:58:36 2022] End to quantize the model.
+2022-05-06 13:58:36,815 file: build.py func: build line No: 549 Saving the quantized model: ./.hb_check/quantized_model.onnx.
+2022-05-06 13:58:36,822 file: build.py func: build line No: 36 [Fri May  6 13:58:36 2022] Start to compile the model with march bernoulli2.
+2022-05-06 13:58:36,822 file: dict_parser.py func: dict_parser line No: 485 Parsing the hbdk parameter:{'hbdk_pass_through_params': '--O0'}
+2022-05-06 13:58:36,833 file: hybrid_build.py func: hybrid_build line No: 121 Compile submodel: torch-jit-export_subgraph_0
+2022-05-06 13:58:36,835 file: hbdk_cc.py func: hbdk_cc line No: 119 hbdk-cc parameters:['--O0', '--input-layout', 'NHWC', '--output-layout', 'NCHW']
+2022-05-06 13:58:36,869 file: hybrid_build.py func: hybrid_build line No: 121 Compile submodel: torch-jit-export_subgraph_1
+2022-05-06 13:58:36,871 file: hbdk_cc.py func: hbdk_cc line No: 119 hbdk-cc parameters:['--O0', '--input-layout', 'NHWC', '--output-layout', 'NCHW']
+2022-05-06 13:58:36,938 file: build.py func: build line No: 39 [Fri May  6 13:58:36 2022] End to compile the model with march bernoulli2.
+2022-05-06 13:58:36,938 file: node_info.py func: node_info line No: 48 The converted model node information:
+======================================================
+Node               ON   Subgraph  Type                
+------------------------------------------------------
+Conv_0             BPU  id(0)     HzSQuantizedConv    
+Conv_2             BPU  id(0)     HzSQuantizedConv    
+MaxPool_4          BPU  id(0)     HzQuantizedMaxPool  
+Conv_5             BPU  id(0)     HzSQuantizedConv    
+Conv_7             BPU  id(0)     HzSQuantizedConv    
+Reshape_10         CPU  --        Reshape             
+Gemm_11_split      CPU  --        Split               
+Gemm_11_sub1       BPU  id(1)     HzSQuantizedConv    
+Gemm_11_sub2       BPU  id(1)     HzSQuantizedConv    
+Gemm_11_reshape_0  CPU  --        Reshape
+2022-05-06 13:58:36,939 file: build.py func: build line No: 39 [Fri May  6 13:58:36 2022] End to Horizon NN Model Convert.
+2022-05-06 13:58:36,939 file: onnx2horizonrt.py func: onnx2horizonrt line No: 2458 ONNX model output num : 1
+2022-05-06 13:58:36,941 file: hb_mapper_checker.py func: hb_mapper_checker line No: 141 End model checking....

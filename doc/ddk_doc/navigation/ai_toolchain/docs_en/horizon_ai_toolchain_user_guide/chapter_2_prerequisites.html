@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="EN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Prerequisites &mdash; horizon_ai_toolchain_user_guide v1.12.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Model Conversion" href="chapter_3_model_conversion.html" />
+    <link rel="prev" title="1. About The Toolchain" href="chapter_1_introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> horizon_ai_toolchain_user_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AI Toolchain:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter_1_introduction.html">1. About The Toolchain</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Prerequisites</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general-descriptions">2.1. General Descriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dev-machine-installation">2.2. Dev Machine Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dev-machine-preparations">2.2.1. Dev Machine Preparations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-docker">2.2.2. Use Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manual-installation">2.2.3. Manual Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dev-board-installation">2.3. Dev Board Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dev-board-preparations">2.3.1. Dev Board Preparations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supplementary-document-preparation">2.3.2. Supplementary Document Preparation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. Model Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_4_application_development.html">4. Application Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_5_custom_op_development.html">5. Custom OP Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_6_appendix.html">6. Appendix</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">horizon_ai_toolchain_user_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">2. </span>Prerequisites</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/chapter_2_prerequisites.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="prerequisites">
+<h1><span class="section-number">2. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline"></a></h1>
+<section id="general-descriptions">
+<h2><span class="section-number">2.1. </span>General Descriptions<a class="headerlink" href="#general-descriptions" title="Permalink to this headline"></a></h2>
+<p>This chapter helps users walk through the preparations before using the toolchain.
+It consists of the <strong>Dev Machine Installation</strong> section and the <strong>Dev Board Installation</strong> section.</p>
+</section>
+<section id="dev-machine-installation">
+<h2><span class="section-number">2.2. </span>Dev Machine Installation<a class="headerlink" href="#dev-machine-installation" title="Permalink to this headline"></a></h2>
+<p>You can choose to either install and use Horizon’s Docker image or
+to install all necessary dependencies in your dev machine.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>To avoid installation problems, we strongly recommend you to use Docker.</p>
+</div>
+<section id="dev-machine-preparations">
+<h3><span class="section-number">2.2.1. </span>Dev Machine Preparations<a class="headerlink" href="#dev-machine-preparations" title="Permalink to this headline"></a></h3>
+<p>The following hardware/operating system are required when using the dev machine:</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>HW/OS</p></th>
+<th class="head"><p>REQUIREMENTS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CPU</p></td>
+<td><p>CPU above I3 or same level processor as E3/E5</p></td>
+</tr>
+<tr class="row-odd"><td><p>Memory Size</p></td>
+<td><p>16G or above</p></td>
+</tr>
+<tr class="row-even"><td><p>GPU</p></td>
+<td><p>at least 1 ps of 1080ti or above</p></td>
+</tr>
+<tr class="row-odd"><td><p>OS</p></td>
+<td><p>CentOS 7, Ubuntu 18</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="use-docker">
+<h3><span class="section-number">2.2.2. </span>Use Docker<a class="headerlink" href="#use-docker" title="Permalink to this headline"></a></h3>
+<p>To help users quickly get hands on the toolchain and simplify the installation process,
+Horizon provides CPU and GPU Docker images in which contains all necessary development dependencies.</p>
+<p>Before going any further, please be sure that you’ve installed Docker in your dev machine.
+Here below lists Horizon required basic Docker environment:</p>
+<ul class="simple">
+<li><p>Docker (&gt;=1.12, installation of 18.03.0-ce is recommended), <cite>Installation Manual</cite>: <a class="reference external" href="https://docs.docker.com/install/">https://docs.docker.com/install/</a>.</p></li>
+<li><p>NVIDIA Docker (2.0.3), <cite>Installation Manual</cite>: <a class="reference external" href="https://github.com/nvidia/nvidia-docker/wiki">NVIDIA/nvidia-docker</a>.</p></li>
+</ul>
+<p>Remember to add non-root users into Docker users group after installation by running below command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo groupadd docker
+sudo gpasswd -a <span class="si">${</span><span class="nv">USER</span><span class="si">}</span> docker
+sudo systemctl restart docker  <span class="c1"># CentOS7/Ubuntu</span>
+<span class="c1"># re-login</span>
+</pre></div>
+</div>
+<p>If you use CPU Docker, please obtain the required CentOS Docker image from
+<a class="reference external" href="https://hub.docker.com/r/openexplorer/ai_toolchain_centos_7">Horizon OpenExplorer CPU Docker Hub</a> ,
+naming format of the CPU Docker image is: <code class="docutils literal notranslate"><span class="pre">openexplorer/ai_toolchain_centos_7:{version}</span></code>.</p>
+<p>If you use GPU Docker, please obtain the required Ubuntu Docker image from
+<a class="reference external" href="https://hub.docker.com/r/openexplorer/ai_toolchain_ubuntu_gpu">Horizon OpenExplorer GPU Docker Hub</a> ,
+naming format of the GPU Docker image is: <code class="docutils literal notranslate"><span class="pre">openexplorer/ai_toolchain_ubuntu_gpu:{version}</span></code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Replace the {version} by the actual version number when running below commands.</p>
+</div>
+<p>Remember to pull the image when you use it for the first time.</p>
+<ul>
+<li><p>Run the following command to pull CPU Docker image:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull openexplorer/ai_toolchain_centos_7:<span class="o">{</span>version<span class="o">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Run the following command to pull GPU Docker image:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull openexplorer/ai_toolchain_ubuntu_gpu:<span class="o">{</span>version<span class="o">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Run your Docker container as follows:</p>
+<ul>
+<li><p>Run CPU Docker:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>// enter the top directory of the OpenExplorer package
+<span class="nb">cd</span> horizon_xj3_open_explorer_<span class="o">{</span>version<span class="o">}</span>_<span class="o">{</span>date<span class="o">}</span>
+
+// run script to enter CPU docker container
+sh run_docker.sh <span class="o">{</span>/data<span class="o">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Run GPU Docker:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>// enter the top directory of the OpenExplorer package
+<span class="nb">cd</span> horizon_xj3_open_explorer_<span class="o">{</span>version<span class="o">}</span>_<span class="o">{</span>date<span class="o">}</span>
+
+// run script to enter GPU docker container
+sh run_docker.sh <span class="o">{</span>/data<span class="o">}</span> gpu
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As shown in the above code blocks:</p>
+<ul class="simple">
+<li><p>User the actual version number and release date information in your obtained OpenExplorer package
+(referred to as the OE package) to replace the <code class="docutils literal notranslate"><span class="pre">{version}</span></code> and <code class="docutils literal notranslate"><span class="pre">{date}</span></code>.
+E.g.: <code class="docutils literal notranslate"><span class="pre">openexplorer/horizon_xj3_open_explorer_v1.7.0_20211101/</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">{/data}</span></code> refers to the dataset path and it can lead to loading error if the path were not specified,
+so please run the script after create it. You can obtain public datasets from <code class="docutils literal notranslate"><span class="pre">vrftp.horizon.ai/Open_Explorer/eval_dataset</span></code>
+and then create the directory.</p></li>
+</ul>
+</div>
+<p>😄 Congratulations! 😄 By now, you’ve entered the toolchain’s development environment in a docker container.
+Type in the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">--help</span></code> command to validate your installation,
+if everything goes right, the console will print help information.
+The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> is a toolchain frequently used tool, we will tell you more about it in the following contents.</p>
+</section>
+<section id="manual-installation">
+<h3><span class="section-number">2.2.3. </span>Manual Installation<a class="headerlink" href="#manual-installation" title="Permalink to this headline"></a></h3>
+<p>Before going any further, please be sure that the following requirements are met:</p>
+<ul class="simple">
+<li><p>OS: CentOS7 or Ubuntu18.04</p></li>
+<li><p>Python3.6</p></li>
+<li><p>libpython3.6</p></li>
+<li><p>python3-devel</p></li>
+<li><p>python3-pip</p></li>
+<li><p>gcc&amp;c++: 4.8</p></li>
+<li><p>graphviz</p></li>
+</ul>
+<p><span class="red">Be sure all the above-mentioned requirements are met</span>, then go ahead and finish installing your
+<strong>Cross compiler</strong>, <strong>AI Tools</strong> and <strong>Other DevTool</strong>.</p>
+<ol class="arabic simple">
+<li><p><strong>Cross compiler</strong></p></li>
+</ol>
+<blockquote>
+<div><p>All files required by using cross compiler are in the open_explorer release package,
+go get the gcc_linaro_6.5.0_2018.12_x86_64_aarch64_linux_gnu.tar.xz in the <cite>ddk/tools</cite> directory
+and unzip it into the <cite>/opt</cite> directory in your dev machine.
+Also, you need to add the <code class="docutils literal notranslate"><span class="pre">LINARO_GCC_ROOT</span></code> variable. copy the complete path of cross compiler,
+refer to the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LINARO_GCC_ROOT</span><span class="o">=</span>/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p><strong>AI Tools</strong></p></li>
+</ol>
+<blockquote>
+<div><p>AI tools are composed by a series of Horizon’s own-developed tools,
+there is an installation script in the open_explorer release package,
+enter the <cite>ddk/package/host</cite> directory and run the following command
+to trigger the installation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash install_ai_toolchain.sh
+</pre></div>
+</div>
+<p>The installation script will check relevant dependencies, absence of dependency
+or configuration can cause interruption and the following information will be displayed:</p>
+<img alt="_images/ai_tool_installation.png" class="align-center" src="_images/ai_tool_installation.png" />
+<p>Install the missing dependency according the given information and rerun the installation script to move on.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>If the reminder information points out that gcc/g++ versions are incorrect, please recreate the gcc and g++
+soft links as gcc-4.8 and g++-4.8 after the required version is installed.</p>
+</div>
+<p>After successfully running the installation script, type in the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">--help</span></code> command
+to validate your installation. if everything goes right, the console will print help information.
+The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> is a toolchain frequently used tool, we will tell you more about it in the following contents.</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p><strong>Other DevTools</strong></p></li>
+</ol>
+<blockquote>
+<div><p>The installation script in this section can install all dependencies in application development.
+Find it in the <cite>ddk/package/host</cite> in the open_explorer release package and run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash install_host_package.sh
+</pre></div>
+</div>
+<p>The installation script will check relevant dependencies, absence of dependency
+or configuration can cause interruption. In such case, install the missing dependency
+according the given information and rerun the installation script to move on.
+After installation, you can check out your installed dependencies in the <cite>~/.horizon</cite> directory.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="dev-board-installation">
+<h2><span class="section-number">2.3. </span>Dev Board Installation<a class="headerlink" href="#dev-board-installation" title="Permalink to this headline"></a></h2>
+<p>You need a dev board in which contains a flashed system image and to copy relevant files into the dev board
+before starting dev board installation.</p>
+<section id="dev-board-preparations">
+<span id="dev-board-preparation"></span><h3><span class="section-number">2.3.1. </span>Dev Board Preparations<a class="headerlink" href="#dev-board-preparations" title="Permalink to this headline"></a></h3>
+<p>This section requires validating the availability of the dev board and flash an available system image into the board.
+Please refer to the <cite>Horizon X3J3 SOC Development Manual</cite> in the open_explorer release package for more information.</p>
+</section>
+<section id="supplementary-document-preparation">
+<h3><span class="section-number">2.3.2. </span>Supplementary Document Preparation<a class="headerlink" href="#supplementary-document-preparation" title="Permalink to this headline"></a></h3>
+<p>Some supplementary tools of the toolchain are not integrated into the open_explorer release package,
+feel free to install them by running the install script in the <cite>ddk/package/board</cite> directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash install.sh <span class="si">${</span><span class="nv">board_ip</span><span class="si">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Wherein, <code class="docutils literal notranslate"><span class="pre">${board_ip}</span></code> denotes the IP address of your dev board, please be sure that the IP address is accessible.
+After running the install script, perform the <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> command to validate your installation is
+successfully.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chapter_1_introduction.html" class="btn btn-neutral float-left" title="1. About The Toolchain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chapter_3_model_conversion.html" class="btn btn-neutral float-right" title="3. Model Conversion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Horizon Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

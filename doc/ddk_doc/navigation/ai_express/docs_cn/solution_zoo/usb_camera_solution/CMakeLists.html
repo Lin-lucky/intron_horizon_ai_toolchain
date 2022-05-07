@@ -1,0 +1,405 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>get deps directory begin &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>get deps directory begin</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/usb_camera_solution/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>cmake_minimum_required(VERSION 2.8)
+set(CMAKE_C_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++)
+project(usb_camera)
+option(PARENT_BUILD “build subdirectory from here” ON)
+option(RELEASE_LIB “build version of release” ON)
+option(BUILD_WITH_AUDIO “build with audio capture” OFF)
+option(TEST_NEW_SMART_MESSAGE “test SmartLegibleMessage” OFF)</p>
+<div class="section" id="get-deps-directory-begin">
+<h1>get deps directory begin<a class="headerlink" href="#get-deps-directory-begin" title="Permalink to this headline">¶</a></h1>
+<p>set(SOLUTION_ZOO_DIR)
+function(get_parent_dir arg dir n)
+foreach(i RANGE ${ARGV2})
+get_filename_component(dir ${dir} DIRECTORY)
+# message(“i:${i} dir:${dir}”)
+endforeach(i)
+set(SOLUTION_ZOO_DIR ${dir} PARENT_SCOPE)
+endfunction()
+get_parent_dir(XSTREAM_CURRENT_DIR ${PROJECT_SOURCE_DIR} 0)</p>
+<p>message(“solution_zoo common dir:${SOLUTION_ZOO_DIR}”)</p>
+<p>set(WEB_DISPLAY_PLUGIN_SOURCE ${SOLUTION_ZOO_DIR}/common/xproto_plugins/web_display_plugin)
+set(RTSP_SERVER_PLUGIN_SOURCE ${SOLUTION_ZOO_DIR}/common/xproto_plugins/rtsp_server_plugin)
+set(SMART_PLUGIN_SOURCE ${SOLUTION_ZOO_DIR}/common/xproto_plugins/smart_plugin)
+set(VISUAL_PLUGIN_SOURCE ${SOLUTION_ZOO_DIR}/common/xproto_plugins/visual_plugin)
+set(UVC_DISPLAY_PLUGIN_SOURCE ${SOLUTION_ZOO_DIR}/common/xproto_plugins/uvc_display_plugin)
+set(MOT_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/mot_method)
+set(VOTE_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/vote_method)
+set(MERGE_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/merge_method)
+set(GRADING_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/grading_method)
+set(FILTER_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/filter_method)
+set(SNAPSHOT_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/snapshot_method)
+set(LOWPASS_FILTER_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/lowpass_filter_method)
+set(DISTANCE_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/distance_method)
+set(CONTOURS_METHOD_SOURCE ${SOLUTION_ZOO_DIR}/common/xstream_methods/contours_method)</p>
+<p>set(OUTPUT_ROOT ${CMAKE_SOURCE_DIR}/output/)
+add_subdirectory(${WEB_DISPLAY_PLUGIN_SOURCE}
+${WEB_DISPLAY_PLUGIN_SOURCE}/output
+)</p>
+<p>if (${BUILD_WITH_AUDIO})
+add_definitions(-DBUILD_WITH_AUDIO)
+set(AUDIO_CAPTURE_PLUGIN_SOURCE ${SOLUTION_ZOO_DIR}/common/xproto_plugins/audio_capture_plugin)
+add_subdirectory(${AUDIO_CAPTURE_PLUGIN_SOURCE}
+${AUDIO_CAPTURE_PLUGIN_SOURCE}/output
+)
+endif ()</p>
+<p>add_subdirectory(${SMART_PLUGIN_SOURCE}
+${SMART_PLUGIN_SOURCE}/output
+)</p>
+<p>add_subdirectory(${VISUAL_PLUGIN_SOURCE}
+${VISUAL_PLUGIN_SOURCE}/output
+)</p>
+<p>add_subdirectory(${UVC_DISPLAY_PLUGIN_SOURCE}
+${UVC_DISPLAY_PLUGIN_SOURCE}/output
+)</p>
+<p>add_subdirectory(${RTSP_SERVER_PLUGIN_SOURCE}
+${RTSP_SERVER_PLUGIN_SOURCE}/output
+)</p>
+<p>add_subdirectory(${MOT_METHOD_SOURCE}
+${MOT_METHOD_SOURCE}/output
+)</p>
+<p>add_subdirectory(${VOTE_METHOD_SOURCE}
+${VOTE_METHOD_SOURCE}/output
+)</p>
+<p>add_subdirectory(${MERGE_METHOD_SOURCE}
+${MERGE_METHOD_SOURCE}/output
+)</p>
+<p>add_subdirectory(${GRADING_METHOD_SOURCE}
+${GRADING_METHOD_SOURCE}/output
+)</p>
+<p>add_subdirectory(${FILTER_METHOD_SOURCE}
+${FILTER_METHOD_SOURCE}/output
+)</p>
+<p>add_subdirectory(${SNAPSHOT_METHOD_SOURCE}
+${SNAPSHOT_METHOD_SOURCE}/output
+)</p>
+<p>add_subdirectory(${LOWPASS_FILTER_METHOD_SOURCE}
+${LOWPASS_FILTER_METHOD_SOURCE}/output
+)</p>
+<p>add_subdirectory(${DISTANCE_METHOD_SOURCE}
+${DISTANCE_METHOD_SOURCE}/output
+)</p>
+<p>add_subdirectory(${CONTOURS_METHOD_SOURCE}
+${CONTOURS_METHOD_SOURCE}/output
+)</p>
+<p>if(DEFINED ENV{HORIZON_LIB_PATH})
+set(HOST_PACKAGE_DIR $ENV{HORIZON_LIB_PATH}/ddk/xj3_aarch64)
+else()
+set(HOST_PACKAGE_DIR ~/.horizon/ddk/xj3_aarch64)
+endif()</p>
+<p>include_directories(</p>
+</div>
+<div class="section" id="system-image">
+<h1>system image<a class="headerlink" href="#system-image" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/appsdk/appuser/include/
+${HOST_PACKAGE_DIR}/appsdk/appuser/include/cam
+${HOST_PACKAGE_DIR}/appsdk/appuser/include/vio
+${HOST_PACKAGE_DIR}/rtsp_server/include/
+${HOST_PACKAGE_DIR}/video_source/include/
+# bpu_predict
+${HOST_PACKAGE_DIR}/bpu_predict/include/
+# model_inference
+${HOST_PACKAGE_DIR}/model_inference/include/
+# xstream
+${HOST_PACKAGE_DIR}/xstream/include/
+# xproto
+${HOST_PACKAGE_DIR}/xproto/include/
+# message
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/message/include/
+# xstream methods
+${SOLUTION_ZOO_DIR}/common/xstream_methods/mot_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/filter_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/merge_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/lowpass_filter_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/vote_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/facesnap_filter_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/snapshot_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/grading_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/multitask_predict_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/multitask_postprocess_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/dnn_postprocess_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/dnn_predict_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/distance_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/contours_method/include/</p>
+</div>
+<div class="section" id="xproto">
+<h1>xproto<a class="headerlink" href="#xproto" title="Permalink to this headline">¶</a></h1>
+<p>${SOLUTION_ZOO_DIR}/common/xproto_plugins/smart_plugin/include
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/web_display_plugin/include
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/visual_plugin/include
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/uvc_display_plugin/include
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/rtsp_server_plugin/include
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/audio_capture_plugin/include
+${SOLUTION_ZOO_DIR}/common/blocking_queue
+${SOLUTION_ZOO_DIR}/common/thread_pool
+${SOLUTION_ZOO_DIR}/common/wrapper/audio_source/alsa_device/include
+${SOLUTION_ZOO_DIR}/common/wrapper/media_codec/include
+${SOLUTION_ZOO_DIR}/common/</p>
+</div>
+<div class="section" id="third-party">
+<h1>third_party<a class="headerlink" href="#third-party" title="Permalink to this headline">¶</a></h1>
+<p>${SOLUTION_ZOO_DIR}/common/deps/hobotlog/include/
+${SOLUTION_ZOO_DIR}/common/deps/jsoncpp/include/
+${SOLUTION_ZOO_DIR}/common/deps/protobuf/include/
+${SOLUTION_ZOO_DIR}/common/deps/opencv/include/
+${SOLUTION_ZOO_DIR}/common/deps/libjpeg-turbo/include/
+${SOLUTION_ZOO_DIR}/common/deps/zeroMQ/include/
+)</p>
+<p>link_directories(
+${SOLUTION_ZOO_DIR}/common/deps/hobotlog/lib/
+${SOLUTION_ZOO_DIR}/common/deps/jsoncpp/lib/
+${SOLUTION_ZOO_DIR}/common/deps/opencv/lib/
+${SOLUTION_ZOO_DIR}/common/deps/protobuf/lib/
+${SOLUTION_ZOO_DIR}/common/deps/uWS/lib/
+${SOLUTION_ZOO_DIR}/common/deps/ipc_tracking/lib/
+${SOLUTION_ZOO_DIR}/common/deps/gtest/lib/
+${SOLUTION_ZOO_DIR}/common/deps/live555/lib/
+${SOLUTION_ZOO_DIR}/common/deps/libjpeg-turbo/lib/
+${SOLUTION_ZOO_DIR}/common/deps/iou_based_mot/lib/
+${SOLUTION_ZOO_DIR}/common/deps/zeroMQ/lib/
+${SOLUTION_ZOO_DIR}/common/deps/libjpeg-turbo/lib/
+${HOST_PACKAGE_DIR}/xproto/lib
+${HOST_PACKAGE_DIR}/xstream/lib
+#model_inference
+${HOST_PACKAGE_DIR}/model_inference/lib/
+${HOST_PACKAGE_DIR}/image_utils/lib
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib/hbmedia
+${HOST_PACKAGE_DIR}/bpu_predict/lib
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib/hbbpu
+${HOST_PACKAGE_DIR}/rtsp_server/lib/
+${HOST_PACKAGE_DIR}/video_source/lib/
+${HOST_PACKAGE_DIR}/dnn/lib/
+)
+set(SOURCE_FILES
+src/main.cc
+src/method_factory.cc
+)</p>
+<p>add_executable(${PROJECT_NAME} ${SOURCE_FILES})</p>
+<p>set(BASE_LIBRARIES video_source_plugin smart_plugin
+web_display_plugin
+rtsp_server_plugin
+visual_plugin
+model_inference
+bpu_predict ipc_tracking xstream
+hobotlog jsoncpp opencv_world
+mot_method filter_method merge_method
+vote_method lowpass_filter_method
+distance_method contours_method
+uvc_display_plugin guvc dnn)</p>
+<p>target_link_libraries(${PROJECT_NAME} ${BASE_LIBRARIES})
+if (${BUILD_WITH_AUDIO})
+target_link_libraries(${PROJECT_NAME} audio_capture_plugin)
+endif ()
+set(MY_OUTPUT_ROOT ${OUTPUT_ROOT}/${PROJECT_NAME}/)
+message(“${CMAKE_CURRENT_SOURCE_DIR}/configs/”)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/configs/
+DESTINATION ${MY_OUTPUT_ROOT}/configs)
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/)</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

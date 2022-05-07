@@ -1,0 +1,561 @@
+附录
+==========
+
+模型性能Benchmark
+---------------------
+
+**说明**
+
+  - 测试条件：
+
+    - 测试开发板：x3sdbx3-samsung2G-3200。
+    - 测试核心数：单核。
+    - 性能数据获取频率设置为：每5分钟获取一次性能参数。
+    - 帧率说明：FPS = 1,000/ITC。
+
+  - 表头缩写：
+
+    - C = 计算量，单位为GOPs（十亿次运算/秒）。此数据通过 ``hb_perf`` 工具获得。
+    - FPS = 每秒帧率。此数据在开发板单线程运行ai_benchmark_j3示例包/script路径下各模型子文件夹的 **latency.sh** 脚本获取，不含后处理。
+    - ITC = 推理耗时。此数据在开发板单线程运行ai_benchmark_j3示例包/script路径下各模型子文件夹的 **latency.sh** 脚本获取，不含后处理。
+    - TCPP = 后处理耗时。此数据在开发板单线程运行ai_benchmark_j3示例包/script路径下各模型子文件夹的 **latency.sh** 脚本获取。
+    - RV = 单帧读取数据量。此数据通过 ``hb_perf`` 工具获得。
+    - WV = 单帧写入数据量。此数据通过 ``hb_perf`` 工具获得。
+   
+.. table:: 
+  :align: center
+
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **模型名称**            | **输入尺寸**                       | **C(GOPs)** | **FPS**  | **ITC(ms)** | **TCPP(ms)** | **RV(mb)** | **WV(mb)** | **模型精度**    | **LINKS**                                                                       |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite0**  | 1x224x224x3                        | 0.72        | 437.8284 | 2.284       | 0.078        | 4.91       | 0.1        | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.7469(INT8）   |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite1**  | 1x240x240x3                        | 1.12        | 311.7207 | 3.208       | 0.078        | 5.89       | 0.3        | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.7625(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite2**  | 1x260x260x3                        | 1.60        | 176.4602 | 5.667       | 0.075        | 6.44       | 0.14       | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.7716(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite3**  | 1x280x280x3                        | 2.58        | 116.3467 | 8.597       | 0.074        | 8.71       | 0.25       | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.7905(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite4**  | 1x300x300x3                        | 4.76        | 65.7507  | 14.651      | 0.074        | 14.42      | 1.3        | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.8058(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **MobileNetv1**         | 1x3x224x224                        | 1.06        | 311.1388 | 3.214       | 0.075        | 4.79       | 0.58       | Top1:           | https://github.com/shicai/MobileNet-Caffe                                       |
+  |                         |                                    |             |          |             |              |            |            | 0.7033(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **MobileNetv2**         | 1x3x224x224                        | 0.80        | 410.1723 | 2.438       | 0.074        | 3.78       | 0.1        | Top1：          | https://github.com/shicai/MobileNet-Caffe                                       |
+  |                         |                                    |             |          |             |              |            |            | 0.7115(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **MobileNet-SSD**       | 1x3x300x300                        | 2.14        | 141.1831 | 7.083       | 3.759        | 8.76       | 2.82       | mAP：           | https://github.com/chuanqi305/MobileNet-SSD                                     |
+  |                         |                                    |             |          |             |              |            |            | 0.7188(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **ResNet18**            | 1x3x224x224                        | 3.40        | 113.6880 | 8.796       | 0.075        | 11.87      | 0.47       | Top1：          | https://github.com/HolmesShuan/ResNet-18-Caffemodel-on-ImageNet                 |
+  |                         |                                    |             |          |             |              |            |            | 0.6836(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **GoogleNet**           | 1x3x224x224                        | 2.79        | 121.2709 | 8.246       | 0.074        | 10.12      | 3.25       | Top1：          | https://github.com/BVLC/caffe/tree/master/models/bvlc_googlenet                 |
+  |                         |                                    |             |          |             |              |            |            | 0.6996(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **YOLOv2**              | 1x3x608x608                        | 58.62       | 6.4910   | 154.059     | 1.699        | 62.80      | 13.21      | [IoU=0.50:0.95] | https://pjreddie.com/darknet/yolo/                                              |
+  | (backbone=GoogleNet)    |                                    |             |          |             |              |            |            | 0.271(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **YOLOv3**              | 1x3x416x416                        | 61.37       | 5.9890   | 166.973     | 9.346        | 103.5      | 32.59      | [IoU=0.50:0.95] | https://github.com/ChenYingpeng/caffe-yolov3/                                   |
+  | (backbone=DarkNet19)    |                                    |             |          |             |              |            |            | 0.336(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **YOLOv5**              | 1x3x672x672                        | 17.87       | 14.8898  | 67.160      | 20.709       | 42.75      | 40.50      | [IoU=0.50:0.95] | https://github.com/ultralytics/yolov5/releases/tag/v2.0                         |
+  | (backbone=Darknet53)    |                                    |             |          |             |              |            |            | 0.342(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientDet-d0**     | 1x3x512x512                        | 4.59        | 60.5804  | 16.507      | 24.035       | 9.21       | 18.23      | [IoU=0.50:0.95] | https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/EfficientDet   |
+  | (backbone=EfficientNet) |                                    |             |          |             |              |            |            | 0.313(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **UNet**                | 1x1024x2048x3                      | 6.87        | 24.1057  | 41.484      | 17.795       | 50.62      | 41.76      | [accuracy]      | https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/MobilenetUnet  |
+  | (backbone=MobileNet)    |                                    |             |          |             |              |            |            | 0.9366(INT8);   |                                                                                 |
+  |                         |                                    |             |          |             |              |            |            |                 |                                                                                 |
+  |                         |                                    |             |          |             |              |            |            | [mIoU]          |                                                                                 |
+  |                         |                                    |             |          |             |              |            |            | 0.638184(INT8). |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **CenterNet**           | 1x3x512x512                        | 48.19       | 8.4940   | 117.730     | 32.311       | 70.17      | 35.88      | [IoU=0.50:0.95] | https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/Centernet      |
+  | (backbone= ResNet50)    |                                    |             |          |             |              |            |            | 0.313(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **FCOS**                | 1x3x512x512                        | 4.68        | 73.8498  | 13.541      | 4.322        | 8.95       | 5.54       | [IoU=0.50:0.95] | TBD                                                                             |
+  | (backbone=              |                                    |             |          |             |              |            |            | 0.345(INT8);    |                                                                                 |
+  | EfficientNetb0)         |                                    |             |          |             |              |            |            |                 |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+
+Release Note
+---------------------
+
+.. role:: red
+
+.. role:: gray
+
+:red:`v1.12.3`
+
+1. **Runtime** 新增 ``hbDNNGetInputName`` 和 ``hbDNNGetOutputName`` 接口用于获取模型输入/输出张量名称
+#. **Runtime** 新增预测库头文件 ``properties.alignedByteSize`` 字段用于分配内存
+#. **Runtime** 基础示例包（即OE包的 ``ddk/samples/ai_toolchain/horizon_runtime_sample/xj3/script`` 子路径）
+   重构了 ``00_quick_start`` 快速开始示例
+#. **HBDK** 编译器使用了新的内存分配算法. 在大多数情况下降低了内存占用. 在Bernoulli芯片上平均降低20%内存占用，
+   极大地降低了使用 ``--split-by-input-dims`` 选项编译的模型的内存占用
+#. **HorizonNN** 新增horizon onnx 和 onnxruntime域
+#. **HorizonNN** 新增 ``horizon_nn.torch.export_onnx`` 用于将PyTorch模型转换为ONNX模型
+#. **HorizonNN** 新增支持 ``Gelu`` 算子
+#. **HorizonNN** 新增支持 ``GridSample`` 算子
+#. **HorizonNN** 新增支持量化 ``Transpose`` 算子
+#. **HorizonNN** 新增支持量化 ``keepdims=0`` 的 ``argmax`` 算子
+#. **HorizonNN** 优化了Python代码测试范围
+#. ``hb_model_verifier`` 工具新增对多batch模型的判断，同时在数据读取和生成时进行相应匹配
+#. ``hb_perf`` 工具优化，当模型输入为NV12时，将画出NV12到YUV444的转换过程中的内部转换节点
+#. ``hb_perf`` 工具优化了生成的HTML中对模型性能的展示
+#. **HBDK** Torch前端新增mean算子
+#. **《HB Mapper工具手册》** 和 **《AI-Benchmark使用说明》** 新增 ``hb_eval_preprocess`` 工具说明，
+   该工具用于模型精度评测过程中对图片数据进行预处理
+
+:gray:`v1.10.5`
+
+1. 地平线为用户使用提供芯片工具链所需的公共数据集
+#. **horizon_xj3_open_explorer** 发布物示例中新增校准数据集
+#. **HBDK** 支持 ``dilation`` 为 ``16x16`` 的卷积
+#. **HBDK** ``hbdk-model-verifier`` 在没有指定输入数据时支持自动生成随机输入数据
+#. **HBDK** ``max pooling`` 算子的 ``stride`` 限制从 ``[1, 256]`` 修改为 ``[1, 185]``
+#. **horizon_model_convert_sample** 模型转换示例包杂项示例（05_miscellaneous/）新增以 ``bgr`` 和 ``yuv444`` 为 ``input_type_rt`` 的MobileNetv1模型示例
+   并优化了部分现有示例
+#. ``hb_mapper makertbin`` 模型编译命令的YAML配置文件的输入信息参数组新增 ``input_batch`` 参数用于设置输入网络的 ``batch_size``
+#. **Runtime** 开放了CPU算子batch能力
+#. **Runtime** 新增模型输出能力级功能
+#. **HorizonNN** 新增用于创建 ``HzQuantize`` 和 ``HzDequantize`` 节点的函数
+#. **HorizonNN** 新增qat modification pass并修复qat compile
+
+:gray:`v1.9.2`
+
+1. ``hb_model_verifier`` 模型验证工具优化了模型结果不对齐时的结果展示
+#. **horizon_model_convert_sample** 模型转换示例包优化了示例YAML文件
+#. ``hb_mapper`` 工具的 ``checker`` 模型检查子命令和 ``makertbin`` 模型转换子命令新增支持batch模型转换
+#. **Runtime** opset11新增支持 ``Concat``, ``Pad``, ``Slice`` 和 ``resize`` 算子
+#. **HorizonNN** 新增split并将batchnorm移动到concat通道之前
+#. **HorizonNN** 优化了quanti mul以支持量化乘积为单标量的 ``Mul``
+#. **HorizonNN** 将校准节点转换为量化和反量化节点
+#. **HorizonNN** 优化了 ``HzPreQuantConv`` 到 ``HzSQuantizedConv`` 的转换
+#. **HorizonNN** 新增一个 ``SetConvScalesAndBits`` 通道用于找到Conv的输入输出量化系数
+#. **HorizonNN** 新增支持将已校准模型转换为量化模型
+#. **HorizonNN** 优化了Conv量化和 ``ConvTranspose`` 算子
+#. **HorizonNN** 将quantizer相关通道移至quantizer路径
+#. **HorizonNN** 将optimizer相关通道移至optimizer路径
+#. **HorizonNN** 的 ``RunGraphTransformations`` 新增支持infershape
+#. **HorizonNN** 新增 ``GraphTransformationsSet`` 用于模型转换通道管理
+#. **HorizonNN** 将 ``quantize`` 和 ``dequantize`` 节点移至optimizer
+#. 取消对Ubuntu 16的支持
+
+:gray:`v1.8.6`
+
+1. **Runtime** **DNN** 支持含bool类型OP的模型
+#. **Runtime** 调整 ``resizer`` 模型的 ``infer`` 接口
+#. **dnn_tools** 模型dump输出txt文件，float数据支持指定小数点位数
+#. **dnn_tools** 增加模型第一次加载时间统计
+#. **dnn_tools** 运行 ``perf`` 功能时，支持指定输入文件
+#. **HorizonNN** 校准节点支持per-channel量化
+#. **HorizonNN** 新增 ``min-max`` calibrater用于获取张量的范围
+#. **HorizonNN** 新增用于转换hat模型的部分API
+#. **HorizonNN** 优化了节点名称过长的模型的量化信息打印
+#. **HorizonNN** 优化了 reshape mutation opt pass 用于支持更多激活算子
+#. **HorizonNN** 优化了 ``quanti`` 和 ``dequantize``
+#. **HorizonNN** 优化了pytorch qat转换API
+#. ``HBDK`` 发布的wheel包中不再包含运行时的头文件和改动记录。这些文件被移动到了另一个包中
+#. ``HBDK`` 编译器的Python接口增加了一个参数用于指定 ``hbdk-cc`` 的额外参数
+#. ``HBDK`` 在J5芯片微架构上 ``hbrtBilinearRoiResize`` 系列的接口不再支持输出 ``NHCW_4H4W8C_4PEN`` 的layout
+#. **Runtime** ``dequantize`` / ``quantize`` 逻辑修改
+#. **Runtime libdnn** 发布x86预测库
+#. 模型转换示例包更新了FCOS等模型的前处理 ``transform``
+
+:gray:`v1.7.8`
+
+1. **HorizonNN** 新增打印校准数据MD5码功能
+#. ``HBDK`` 在bernoulli和bernoulli2架构上支持 ``broadcast_add`` 算子
+#. ``HBDK`` 的PyTorch模型支持 ``elementwise_mul`` 和 ``pad_one_axis`` 算子
+#. ``HBDK`` 为运行时的 ``roiresize`` 系列的接口增加缩放尺度的检查。当缩放尺度不满足硬件限制时报错
+#. **runtime** 重构示例包目录结构，精度测评通过挂载模型前处理数据，读取静态图进行评测，脚本修订为accuracy.sh
+#. **runtime** 性能及latency评测方式不变，脚本修订为fps.sh 和latency.sh
+#. **runtime** 新增 efficient_det_no_dequanti_512x512_nv12.bin 模型示例
+#. ``hrt_model_exec`` 工具新增 ``--per_time`` 配置，用于指定perf时间；``--node_profile`` 修改为 ``--profile_path``
+   ``--core_num`` 修改为 ``--core_id``；详情参考《AI芯片工具链用户手册》文档4.7小节内容
+#. ``hb_model_modifier`` 工具优化
+#. 模型发布物 **model_zoo** 移除了efficient_det模型临时文件和se_resnet_gray模型
+#. ``horizon_tc_ui`` 新增自动更新版本号脚本
+#. 模型转换示例包更新了示例模型的数据校准策略
+#. ``hb_mapper_info`` 和 ``hb_mapper_makertbin`` 工具更新了log输出，使其保持一致
+#. 《模型转换示例包》文档新增2.5 FAQ说明如何运行原始浮点模型
+#. 《AI芯片工具链用户手册》新增其他应用开发工具章节，介绍 ``hrt_bin_dump`` 和 ``hrt_model_exec`` 工具
+
+:gray:`v1.6.6`
+
+1. **HorizonNN** 新增 ``lut`` 特殊激活配置
+#. **HorizonNN** 移除了编译阶段的 ``ir_version`` 检查报错
+#. **HorizonNN** 从ONNX通道initializer获取张量时新增迭代检查
+#. **HorizonNN** 优化了不对称量化参数
+#. **HorizonNN** 优化了默认校准
+#. **HorizonNN** 优化了节点适配器支持广播相加与相乘（broadcast add and mul）
+#. **HBDK** 支持在bernoulli2架构上编译PyTorch模型
+#. **HBDK** 在 ``hbdk-disas`` 的JSON输出中增加了内存占用信息
+#. **HBDK** 支持输入不带转置的矩阵相乘
+#. **HBDK** 添加 ``HBRT`` API ``hbrtRiNextSegmentInvolveCpu``。
+   使用这个API的前提是在调用 ``hbrtRiStart`` 时， 设置 ``ri_config.enable_bpu_segment_done_check`` 为 ``true``
+#. **HBDK**  ``HBRT`` 中增加对输入数据地址对齐的检查
+#. **HBDK** 当 ``hbdk-cc`` 和 ``hbdk-model-check`` 中为HBIR模型指定了 ``-s`` 选项时报错。HBIR模型不支持动态输入尺寸
+#. **HBDK**  ``hbrtQuantize`` 和 ``hbrtQuantizeByScale`` 在结果溢出时进行饱和
+#. ``hb_model_modifier`` 工具新增删除输出部分反量化的功能
+
+:gray:`v1.5.9`
+
+1. 开放了使用GPU推理ONNX模型的能力
+#. 对各模型转换工具进行了优化，提升了用户友好度
+#. 模型转换示例中默认 ``input_type`` 参数进行了统一
+#. **Runtime** 示例包和API文档改为HTML格式
+#. **Runtime** 新增支持非对称量化OP
+#. **Runtime** Reduction OP支持 ``axes`` 默认值
+#. **model_zoo** 模型发布物中的bin模型名称改为：\*\*\*.bin
+#. **Runtime** ai_benchmark示例包脚本适配模型名称修改
+#. **Runtime** 示例精度测试模型改为nv12模型
+#. **HorizonNN** 优化了C++中的log输出
+#. **HorizonNN** 优化了没有BPU节点时的log输出
+#. **HorizonNN** 新增节点属性检查
+#. **HorizonNN** 将 ``exit()`` 替换为引发异常
+#. **HorizonNN** 支持使用校正模型评估模型准确率
+#. **HorizonNN** 支持CPU版本 ``HzDequantize`` 中的 ``zero-point``
+#. **HorizonNN** 支持GPU版本 ``HzDequantize`` 中的 ``zero-point``
+#. **HorizonNN** ``HzDequantize`` 和 ``HzQuantize`` 中新增zero point属性测试
+#. **HBDK** 为fasterRCNN类的模型增加运行时 ``code cache`` 机制。
+   当 ``code cache`` 被正确配置时，模型的CPU时间将显著下降。
+   通过设置运行时环境变量 ``HBRT_CODE_CACHE_SIZE`` 可以限制 ``code cache`` 的最大内存占用。
+   环境变量的内存单位是KB。只有重新编译模型，``code cache`` 才能生效。
+   注意 ``code cache`` 是默认关闭的，需要显式设置 ``HBRT_CODE_CACHE_SIZE`` 才能打开
+#. **HBDK** 为运行时即时编译产生的BPU functioncall增加了预估执行时间。
+   在先前的版本中，这些functioncall的预估执行时间是0
+#. **HBDK** 提高了J5芯片的 ``hbdk-perf`` 准确性
+#. **Runtime** 各发布物中移除了 ``bpu-predict``, ``appsdk``, ``xstream`` 和 ``xproto`` 相关的库
+#. **Runtime** 的 ``hrt_model_exec`` 工具支持featuremap输入
+#. **HorizonNN** 新增BPU输入维度检查
+#. **HorizonNN** 优化了quantize resize
+#. **Runtime** 定点模型支持scale量化方法
+#. **Runtime** 优化了dequantize
+
+:gray:`v1.4.7`
+
+1. 各模型示例包新增FCOS模型示例
+#. ReduceMax算子新增arm支持 
+#. **x3_tc_ui** 工具更名为 **horizon_tc_ui**，且 **x3_tc_ui** 的使用方式仍然支持 
+#. **hb_mapper** 优化配置了 ``norm_type`` 时的交互逻辑
+#. **HBDK** 在许多 `hbrt` 的API中增加了对空指针参数的检查和报错
+#. **HBDK** ``hbdk-cc`` 和 ``hbdk-model-check`` 现在对H*W超过18,432的模型报错。这些模型在BPU开发板上无法正确执行
+#. **HBDK** 废弃运行时API ``hbrtGetResizerRoiHeightAlignment``, ``hbrtGetResizerRoiWidthAlignment`` 
+   和 ``hbrtGetModelPeNumber``。这些API将在未来版本中被彻底移除
+#. ``hb_pack`` 模型打包工具不支持对打包后的模型进一步打包
+#. ``hb_model_verifier`` 模型验证工具不支持验证打包模型，在输入为打包模型时给出不支持提示
+#. ``hb_model_modifier`` 工具不支持处理打包模型，在输入为打包模型时给出不支持提示
+
+【文档包】
+
+1. 重构了原《地平线天工开物工具链（X3/J3）》文档，新文档《Horizon AI Toolchain User Guide》位于
+   open_explorer发布包中的：
+   `horizon_xj3_open_explorer_${version}_${date}/ddk/doc/navigation/ai_toolchain/docs_cn/horizon_ai_toolchain_user_guide/`
+   路径下
+#. 优化了原《Supported Caffe OP List》算子列表文件，新文档《supported_op_list_and_restrictions_release_${version}》
+   位于open_explorer发布包中的：
+   `horizon_xj3_open_explorer_${version}_${date}/ddk/doc/navigation/ai_toolchain/docs_cn/supported_op_list_and_restrictions/`
+   路径下
+
+:gray:`v1.3.3`
+
+1. **HorizonNN** 支持Mish算子量化
+#. **HorizonNN** 支持MatMul至Gemm通道转换
+#. **HorizonNN** 贝叶斯1微框架支持逐元素量化
+#. **HorizonNN** onnxruntime中的squantizedconv新增int4支持
+#. **HorizonNN** 在quantize conv pass中新增int4量化
+#. **HorizonNN** 支持模型输入layout转换
+#. **HorizonNN** 调整了优化通道顺序
+#. **HorizonNN** 新增关于不支持的conv1d算子的报错log
+#. **HorizonNN** 使用一个示例加速默认编译流程
+#. **HorizonNN** 重构了默认校准方法
+#. **HorizonNN** 优化了onnxruntime中的逐元素加法
+#. 各模型示例包中新增 `CenterNet` 模型示例
+#. 模型转换支持 `MatMul` 转换到BPU上
+#. ``hb_mapper`` 新增 `hb_model_modifier` 工具是用于对指定的 **runtime** 模型中
+   输入端的Transpose及Quantize节点进行删除操作, 并将删除节点的信息存放在bin模型中
+   通过 ``hb_model_info`` 进行查看
+#. **runtime** 新增日志重定向接口，支持开发者通过user log获取更加详细的板端运行信息
+#. **runtime** 新老接口头文件分离
+#. ``hb_mapper`` 重构并在 ``input`` 配置增加 ``layout`` 指定功能
+#. **runtime** 示例拆分为：基本示例（即：`horizon_xj3_basic_sample-{version}.tar.gz`）
+   和AI benchmark（即：`horizon_xj3_ai_benchmark-{version}.tar.gz`）。
+   其中基础示例用于API教学和特殊功能使用场景教学；AI benchmark用于模型精度和性能测试演示
+#. ``hb_mapper`` 删除了配置文件中的 `output_layout` 选项
+#. ``hb_mapper`` 的原始模型input配置增加layout指定功能，增加 ``input_layout_train`` 选项支持用户指定网络训练时的数据排布
+
+:gray:`v1.2.3`
+
+1. **HorizonNN** 升级了 `HBIR RoiResize` 接口
+#. **HorizonNN** 重构了校准模块中的数据加载操作
+#. **HorizonNN** 新增 `ConsistencyChecker` 用于比较 `original_model` 和 `optimized_model` 的一致性
+#. **HorizonNN** 的 `ConsistencyChecker` 新增支持每个针对Conv节点输出的一致性比较
+#. **HorizonNN** 的CenterNet benchmark新增更多模型
+#. **HorizonNN** 新增 `CalibrationDataSet` 管理校准数据
+#. ``hb_mapper`` 模型转换工具限制模型输出个数为32
+#. 模型校准参数中的 `input_type_train` 参数支持设置为YUV444
+#. ``hb_mapper`` 模型转换工具示例包与 **Runtime** 嵌入式开发示例包进行了拆分
+#. **HBDK** 编译器更新了 `Roiresize` 和 `Concat` 的模型检查规则
+#. **HBDK** 编译器的 `hbrtBilinearRoiResize*` 接口的缩放系数范围从[1/256, 256)修正为[1/185, 256)
+#. X3/J3的 `fully connected layer` 指令限制更新。
+   旧限制：输出类型为 int32 时：`kernel_h * DivCeil(kernel_w, 8) * DivCeil(kernel_c, 4) <= 1024`
+   新限制：输出类型为 int32 时：`kernel_h * DivCeil(kernel_w, 8) * DivCeil(kernel_c, 4) < 1024`
+#. **HBDK** 编译器优化了加载包含多个模型的hbm文件时的速度
+#. **HBDK** 编译器的 `hbrtBilinearRoiResizeImage` 接口在使用 `pad zero` 模式时支持8192的输入/输出宽度
+#. **HBDK** 编译器在支持为超过32个输出的模型的每个输出分别指定独立的地址。包含地址的结构体需要由用户申请内存。
+   此修改变更了 `hbrt_ri_config_t` 的结构体， 但保持此结构体的总大小不变， 原结构体重命名为 `hbrt_ri_config_t_deprecated`
+   `hbrtRiStart` 同时支持两种结构体。此改动对老代码ABI兼容，API不兼容。
+#. **HBDK** 编译器新增 ``hbrt`` 接口 ``hbrtDumpSnapshot`` 用于转储 ``hbrt`` 的内部数据来辅助故障定位
+#. **HBDK** 编译器新增对SMean Operator 的支持
+#. **Runtime** 嵌入式开发新增支持偶现问题 dump 更多 debug 信息
+#. **Runtime** 嵌入式开发基础示例包新增 ``hrt_bin_dump`` 工具用于模型一致性检校
+#. **Runtime** 嵌入式开发基础示例包 ``hrt_model_exec`` 和 ``hrt_bin_dump`` 工具新增示例脚本
+
+:gray:`v1.1.21`
+
+1. **Runtime** 新增 ``hrt_model_exec`` 工具，用户可使用.bin模型和运行参数快速了解模型性能
+#. Softmax量化支持分割算法中获取每个像素点的置信度
+#. 新增了对模型尾部CONV高精度输出的控制，优化了 **Runtime** 中的pooling运行效率和整体计算性能
+#. 新增了示例中的部分模型来源和改动说明
+#. 新增了对ONNX opset10对equal OP的支持
+#. 新增了 ``bpu_predict`` 和 ``lib_hbrt_bernoulli*`` 静态库
+#. ``hb_mapper makertbin`` 支持打印cos similarity对应的样本名称
+#. **Runtime** 的 ``bpu_predict`` 新增了系统软件dma拷贝接口
+#. ``bpu_runwithbox`` 新增支持浮点模型
+#. 示例中的yaml文件和代码新增英文注释
+#. 优化了 **Runtime** 相关依赖库的安装和使用方式
+#. 优化了bpu sdk api中 ``align`` 参数设置，提升用户体验
+#. 优化了default自动推荐最优量化模型功能
+#. 变更了 ``hb_perf`` 和 ``hbdk_perf`` 的部分参数
+#. 修复了模拟器使用 ``resize`` 接口导致的平台不匹配问题
+#. 取消了 **Runtime** 的 ``BPU_IO`` 接口支持
+
+:gray:`v1.1.20`
+
+1. 新增示例脚本支持使用浮点ONNX模型进行inference
+#. 新增 ``hb_pack`` 工具用于多个二进制模型打包
+#. 浮点模型转换过程支持用户配置yaml文件指定CPU节点不进行量化
+#. 优化了多输入示例
+#. 修复了安装脚本引起的CentOS或Ubuntu系统中使用Docker镜像时示例包不可用问题
+#. 修复了 ``runwithbox`` 接口因部分box不符合resize硬件限制推理失败的问题，并开放了 ``pyramidbox`` 相关的结构信息
+#. 变更了发布物集成方式：将原来的 **浮点转换工具链发布物** **horizon_x3_tc_{version}** 拆分为 **模型转换示例发布物** **horizon_model_convert_sample_{version}** 和 **浮点模型发布物** **modelzoo**
+
+:gray:`v1.1.19`
+
+1. 新增 EfficientDet 检测模型示例
+#. 新增 Unet 分割模型示例
+#. 模型转换易用性提升，针对异常情况给出详细解释
+#. ``hb_perf`` 工具提升，以html形式输出混合模型的性能
+#. 支持用户可在配置文件中通过 ``layername`` 配置输出节点
+#. 模型校准 ``Promoter`` 功能下线
+
+:gray:`v1.1.18`
+
+[新增]
+
+1. 新增自定义CPU功能的支持
+#. 新增对YUV BT601 NARROW和WIDE两种标准的支持
+
+**Runtime**
+
+[新增]
+
+1. **Runtime** api推理api支持不定尺寸输入（基于resizer功能进行实现）
+
+**集成**
+
+[新增]
+
+1. 新增mobilenet-ssd示例
+#. 针对 ``mean/scale`` 配置文件重构
+
+[变更]
+
+1. 将示例中的googlenet修改为无LRN版本
+
+**horizon-nn**
+
+[变更]
+
+1. 删除了模型转换生成的dot文件
+
+:gray:`v1.1.17`
+
+**集成**
+
+[新增]
+
+1. 新增用于图像格式转换的源代码示例
+
+[优化]
+
+1. 优化了模型精度异常定位工具 ``vec_diff`` 的示例脚本，用户基于示例脚本使用该工具更加方便
+#. YOLOV2/V3示例去掉transpose节点耗时提升评测效果
+#. 优化了YOLOV5示例，性能提升
+
+[变更]
+
+1. ``hb_mapper`` 编译器debug参数修改默认值为 ``false``
+
+**horizon_nn**
+
+[新增]
+
+1. 新增 ``-np`` 参数指定示例性能评测时是否测试后处理
+
+**Runtime**
+
+[新增]
+
+1. 新增Runtime进阶示例包
+
+[优化]
+
+1. 板端声明 ``export HR_NODE_PROFILER=true`` 后，可以生成各节点耗时情况的TXT文件
+
+**HBDK**
+
+[新增]
+
+1. 支持argmax op
+
+:gray:`v1.16`
+
+:发布时间:
+
+   2020年9月23日
+
+**集成**
+
+[新增]
+
+1. 示例中YOLOv5的示例删除多余的CPU上reshape和transpose节点，提高了帧率
+#. ``hb_mapper checker`` 命令添加转runtime bin文件的检查
+
+[优化]
+
+1. 添加se-resnet灰度图示例
+#. 支持Ubuntu18.04版本
+
+**horizon_nn**
+
+[新增]
+
+1. 新增支持shufflenet
+
+**Runtime**
+
+[新增]
+
+1. 增加HzSoftmax op能够支持任意维度上进行Softmax计算
+#. 示例·中添加Runtime YOLOv5示例
+#. CICD输出个开发板性能报告
+#. 新增debug工具，可打印包括cpu op的每一层输出
+#. 新增支持计算MAPS的可运行sample
+
+:gray:`v1.15`
+
+:发布时间:
+
+   2020年8月21日
+
+**集成**
+
+[新增]
+
+1. 新增mobilenet_onnx、efficientnet_lite_onnx、faster rcnn等用户示例
+#. 新增 ``model_info`` 工具用于获取模型在编译时的依赖信息
+#. 新增 ``model_verifier`` 命令行工具用于校验ONNX模型infer与混合模型在模拟器和上板结果的一致性
+#. yaml配置文件新增 ``optimize_level`` 接口用于描述编译器模型优化等级参数
+#. **x3_tc_ui** 工具的 ``preprocess_on`` 设置为 ``True`` 的预处理时，增加“彩色图to灰度图转换”补充提示说明
+
+[变更]
+
+1. yaml配置文件输入列表化，无需配置输入节点名称
+#. 模型量化优化工具Finetune模式更名为Promoter
+#. **x3_tc_ui** 工具封装ONNX Runtime -128操作，对齐前处理，节省用户的额外操作和使用成本
+
+
+[修复]
+
+1. ``vec_diff`` 工具yuv444输入与gray输入示例对齐
+
+**horizon_nn**
+
+[新增]
+
+1. 新增 ``build_onnx`` 接口用于支持ONNX模型的量化
+#. 支持对典型PyTorch模型转换的ONNX模型的量化支持，包括：AlexNet、VGG-16、ResNet-18、ResNet-50、ResNet-152、SqueezeNet 1.0、SqueezeNet 1.1、Densenet-161、Inception v3、GoogleNet、ShuffleNet V2、MobileNet V2、ResNeXt-50-32x4d、ResNeXt-101-32x8d、Wide ResNet-50-2、MNASNet 1.0、YOLOv5s/m/l/x、efficientnet-lite0/1/2/3/4、EfficientNet
+#. 支持LSTM、SENet和STN模型量化
+
+[变更]
+
+1. 实现Per-channel量化方式，在一些典型模型上量化精度会提升
+
+**HBDK**
+
+[新增]
+
+1. BilinearResizeNV12接口支持小于4K的图片输入
+#. BPU支持elementwise mul和lookup table op
+#. BPU支持任意stride和任意kernel的maxpooling op
+#. split算子支持h/w方向
+#. Global average pooling支持更大的输入feature, feature HxW <= 4096
+
+**Runtime**
+
+[新增]
+
+1. 新增EfficientNet-Lite模型上板运行示例
+#. 新增pad op用于评测
+#. 新增DepthTospace op支持CPU计算
+#. 新增STN CPU相关op
+#. 新增网络结构兼容用于客户网络修改
+#. 支持双核双帧示例
+#. 支持多任务抢占
+#. 内存查看工具，查看模型加载以及运行时、BPU、CPU内存使用情况
+#. 新增接口用于将内存物理地址映射到虚拟地址
+
+[变更]
+
+1. 修改BPU API图像数据表示方式
+#. ``resize`` 接口内部调整，优先调用 ``pym``，次优先再调用 ``roiresize``，同时优化resize在CPU上的性能
+#. 删除SDK中多余的so库，与系统软件解耦
+
+
+:gray:`v1.0`
+
+:发布时间:
+
+   2020年6月2日
+
+[新增]
+
+1. 添加 ``hb_mapper`` 命令行工具，用于模型转换。支持转换rgbp/bgrp/featuremap/gray输入类型的模型
+#. 添加 ``hb_perf`` / ``vec_diff`` 工具，用于用户debug
+#. 添加yolo/mobilenet/googlenet/resnet等sample
+#. 支持Caffe 1.0模型的转化、量化和编译
+#. 支持Normalize、PSROIPooling、Proposal、ROIPooling、Upsample、Permute、PassThrough、MatMul、RReLU、CReLU、Axpy、ReLU6、Resize扩展OP
+#. 支持基于最大值和KL的校准
+#. 添加了支持异构模型的runtime API
+#. 支持 ``HB_BPU_resize`` 的输入/输出为Y/NV12/BGR/RGB/BGRP/RGBP图像类型
+#. 支持 ``HB_BPU_resize`` 和 ``HB_BPU_runModel`` 接口设置输入数据的对齐stride
+#. 提供了一个在BPU虚拟地址和物理地址之间转换的接口
+#. 支持使用环境变量控制Runtime日志输出
+#. ``HB_BPU_runModel`` 接口支持双核跑一帧图像的功能
+
+[变更]
+
+  无
+
+[修复]
+
+  无

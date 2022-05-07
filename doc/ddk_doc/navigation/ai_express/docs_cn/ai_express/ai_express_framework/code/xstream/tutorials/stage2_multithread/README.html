@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>多线程支持 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>多线程支持</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_framework/code/xstream/tutorials/stage2_multithread/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>多线程支持<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>1. 编译<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>进入stage2_multithread目录，执行如下步骤</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>  mkdir build
+  <span class="nb">cd</span> build
+  cmake .. -DINDEPENDENT_BUILD<span class="o">=</span>ON
+  make
+  make install
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>2. 运行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>将stage2_multithread目录下生产的output目录拷贝至XJ3系统，即可运行。运行使用如下命令</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>  ./stage2_multithread_example  multithread_workflow.json
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>3. 多线程示例<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>本节将介绍在workflow中启动多线程。</p>
+<p>首先我们来实现一个计算输入数组<code class="docutils literal notranslate"><span class="pre">平均值</span></code>、以及<code class="docutils literal notranslate"><span class="pre">标准差</span></code>的workflow。workflow输入数据是一个float数组, 先后经过Average以及StandardDeviation两个节点运算，最终输出平均值average和标准差standard_deviation。注意到下面的workflow中，节点中的关键字<code class="docutils literal notranslate"><span class="pre">&quot;thread_count&quot;</span></code>，该字段表示节点的线程数，默认为1。这里我们设置两个节点的线程数都为2。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+    &quot;inputs&quot;: [&quot;input_array&quot;],
+    &quot;outputs&quot;: [&quot;average&quot;, &quot;standard_deviation&quot;],
+    &quot;workflow&quot;: [
+      {
+        &quot;thread_count&quot;: 2,  // 节点的线程数
+        &quot;method_type&quot;: &quot;Average&quot;,
+        &quot;unique_name&quot;: &quot;average&quot;,
+        &quot;inputs&quot;: [
+          &quot;input_array&quot;
+        ],
+        &quot;outputs&quot;: [
+          &quot;average&quot;
+        ]
+      },
+      {
+        &quot;thread_count&quot;: 2,     // 节点的线程数
+        &quot;method_type&quot;: &quot;StandardDeviation&quot;,
+        &quot;unique_name&quot;: &quot;standard_deviation&quot;,
+        &quot;inputs&quot;: [
+          &quot;input_array&quot;
+        ],
+        &quot;outputs&quot;: [
+          &quot;standard_deviation&quot;
+        ]
+      }
+    ]
+}
+</pre></div>
+</div>
+<div class="section" id="xstreamfloatvalue">
+<h3>3.1. 定义XStream框架FloatValue数据结构<a class="headerlink" href="#xstreamfloatvalue" title="Permalink to this headline">¶</a></h3>
+<p>确定好workflow后，我们还需要定义workflow中用到的数据结构。由于XStream Framework中的数据都是基于BaseData，因此需要构建BaseData的派生数据结构。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// method/value.h</span>
+<span class="k">struct</span> <span class="nc">FloatValue</span> <span class="o">:</span> <span class="k">public</span> <span class="n">BaseData</span> <span class="p">{</span>
+  <span class="n">FloatValue</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="n">FloatValue</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">value_</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">float</span> <span class="n">value_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>另外，框架中也内置了<code class="docutils literal notranslate"><span class="pre">BaseDataVector</span></code>的数据结构表示数组，本示例中workflow的输入数据是float数组，我们可以通过该结构表示FloatValue Array。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">BaseDataVector</span> <span class="o">:</span> <span class="k">public</span> <span class="n">BaseData</span> <span class="p">{</span>
+  <span class="n">BaseDataVector</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">datas_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="methodmethodinfo">
+<h3>3.2. 自定义Method以及属性MethodInfo<a class="headerlink" href="#methodmethodinfo" title="Permalink to this headline">¶</a></h3>
+<p>现在需要实现Average、StandardDeviation Method的核心功能。XStream中定义了Method基础类，我们需要在此基础上实现自定义Method，并根据需要实现<code class="docutils literal notranslate"><span class="pre">DoProcess</span></code>这个核心处理函数。同时对基类Method中的成员函数<code class="docutils literal notranslate"><span class="pre">GetMethodInfo()</span></code>进行重写，对实现的Method设置属性。</p>
+<div class="section" id="methodinfo">
+<h4><strong>设置MethodInfo</strong><a class="headerlink" href="#methodinfo" title="Permalink to this headline">¶</a></h4>
+<p>首先来看一下Method属性(MethodInfo)的定义，包括is_thread_safe_、is_need_reorder_、is_src_ctx_dept_三种属性。本节主要介绍<code class="docutils literal notranslate"><span class="pre">is_thread_safe_</span></code>字段，该字段默认值为false。如果is_thread_safe_ = false，即非线程安全，表示一个Method的实例只能与一个thread绑定。若设置一个节点为多线程，则框架中会创建多个Method实例，每个实例跑在不同的线程；如果is_thread_safe_ = true，即线程安全，表示一个Method实例可以同时运行在多个线程上，即使设置一个节点为多线程，框架也仅创建一个Method实例。但需要注意，使用线程安全的属性，要求Method本身在业务上是可重入的。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">MethodInfo</span> <span class="p">{</span>
+  <span class="c1">/// is thread safe</span>
+  <span class="kt">bool</span> <span class="n">is_thread_safe_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="c1">/// is need reorder, the order of outputdata must be same as the inputdata</span>
+  <span class="kt">bool</span> <span class="n">is_need_reorder_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="c1">/// is dependent on inputdata source</span>
+  <span class="kt">bool</span> <span class="n">is_src_ctx_dept_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>本节中Average和StandardDeviation两个Method在本质上都是线程安全的，为了演示两种不同的属性特点，我们设置Average为非线程安全(is_thread_safe_ = false)，StandardDeviation为线程安全(is_thread_safe_ = true).</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">MethodInfo</span> <span class="nf">Average::GetMethodInfo</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">MethodInfo</span> <span class="n">method_info</span> <span class="o">=</span> <span class="n">MethodInfo</span><span class="p">();</span>
+  <span class="n">method_info</span><span class="p">.</span><span class="n">is_thread_safe_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  <span class="c1">// 设置该Method非线程安全</span>
+  <span class="k">return</span> <span class="n">method_info</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">MethodInfo</span> <span class="nf">StandardDeviation::GetMethodInfo</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">MethodInfo</span> <span class="n">method_info</span> <span class="o">=</span> <span class="n">MethodInfo</span><span class="p">();</span>
+  <span class="n">method_info</span><span class="p">.</span><span class="n">is_thread_safe_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">// 设置该Method线程安全</span>
+  <span class="k">return</span> <span class="n">method_info</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">DoProcess</span></code>的实现，计算数组的平均值、标准差；为了说明is_thread_safe_属性，这里我们在两个DoProcess函数中加入打印，分别打印对应Method实例的this对象、以及本次运行的thread id：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Average::DoProcess</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">Average</span><span class="o">::</span><span class="n">DoProcess</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Start Average::DoProcess...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Average Instance id: &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">this</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Average Thread id: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">get_id</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">;</span>
+  <span class="c1">// one batch</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">input</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">output</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">FloatValue</span><span class="o">&gt;</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">state_</span> <span class="o">==</span> <span class="n">DataState</span><span class="o">::</span><span class="n">INVALID</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;input slot &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; is invalid&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 计算输入数组的平均值</span>
+    <span class="k">auto</span> <span class="n">in_datas</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">BaseDataVector</span><span class="o">&gt;</span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="k">auto</span> <span class="n">out_data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">FloatValue</span><span class="o">&gt;</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="kt">float</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">in_data</span> <span class="p">:</span> <span class="n">in_datas</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">auto</span> <span class="n">data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">FloatValue</span><span class="o">&gt;</span><span class="p">(</span><span class="n">in_data</span><span class="p">);</span>
+      <span class="n">sum</span> <span class="o">+=</span> <span class="n">data</span><span class="o">-&gt;</span><span class="n">value_</span><span class="p">;</span>
+      <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">out_data</span><span class="o">-&gt;</span><span class="n">value_</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">/</span> <span class="n">count</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// StandardDeviation::DoProcess</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">StandardDeviation</span><span class="o">::</span><span class="n">DoProcess</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Start StandardDeviation::DoProcess...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;StandardDeviation Instance id: &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">this</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;StandardDeviation Thread id: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">get_id</span><span class="p">()</span>
+            <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">;</span>
+  <span class="c1">// one batch</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">input</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">output</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">FloatValue</span><span class="o">&gt;</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">state_</span> <span class="o">==</span> <span class="n">DataState</span><span class="o">::</span><span class="n">INVALID</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;input slot &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; is invalid&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 计算输入数组的标准差</span>
+    <span class="k">auto</span> <span class="n">in_datas</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">BaseDataVector</span><span class="o">&gt;</span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="k">auto</span> <span class="n">out_data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">FloatValue</span><span class="o">&gt;</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="kt">float</span> <span class="n">average</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">standard_deviation</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">// 平均值</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">in_data</span> <span class="p">:</span> <span class="n">in_datas</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">auto</span> <span class="n">data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">FloatValue</span><span class="o">&gt;</span><span class="p">(</span><span class="n">in_data</span><span class="p">);</span>
+      <span class="n">average</span> <span class="o">+=</span> <span class="n">data</span><span class="o">-&gt;</span><span class="n">value_</span><span class="p">;</span>
+      <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">average</span> <span class="o">/=</span> <span class="n">count</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">in_data</span> <span class="p">:</span> <span class="n">in_datas</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">auto</span> <span class="n">data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">FloatValue</span><span class="o">&gt;</span><span class="p">(</span><span class="n">in_data</span><span class="p">);</span>
+      <span class="n">standard_deviation</span> <span class="o">+=</span> <span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">value_</span> <span class="o">-</span> <span class="n">average</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">value_</span> <span class="o">-</span> <span class="n">average</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">standard_deviation</span> <span class="o">/=</span> <span class="n">count</span><span class="p">;</span>
+    <span class="n">standard_deviation</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">standard_deviation</span><span class="p">);</span>
+    <span class="n">out_data</span><span class="o">-&gt;</span><span class="n">value_</span> <span class="o">=</span> <span class="n">standard_deviation</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="workflow">
+<h3>3.3. 运行workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h3>
+<p>首先需要创建XStream SDK并初始化，SDK是运行workflow的对外接口对象。通过<code class="docutils literal notranslate"><span class="pre">SetConfig()</span></code>接口配置workflow json文件，然后调用<code class="docutils literal notranslate"><span class="pre">Init()</span></code>进行初始化。由于设置了多线程，所以我们这里需要运行在异步模式下，需要通过<code class="docutils literal notranslate"><span class="pre">SetCallback()</span></code>配置输出结果的回调函数。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="c1">// Create xstream sdk object</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span> <span class="o">*</span><span class="n">flow</span> <span class="o">=</span> <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span><span class="o">::</span><span class="n">CreateSDK</span><span class="p">();</span>
+  <span class="c1">// Set config_file</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetConfig</span><span class="p">(</span><span class="s">&quot;config_file&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">);</span>
+  <span class="c1">// Init</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="c1">// Set CallBack Func For Async Mode</span>
+  <span class="n">Callback</span> <span class="n">callback</span><span class="p">;</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetCallback</span><span class="p">(</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Callback</span><span class="o">::</span><span class="n">OnCallback</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">callback</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>创建输入数组，随机生成一组大小为10的float数组，并封装成框架数据InputData；并将输入数据送入框架进行两次异步运算：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Prepare input data</span>
+    <span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+    <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">random_device</span> <span class="n">rd</span><span class="p">;</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">default_random_engine</span> <span class="nf">eng</span><span class="p">(</span><span class="n">rd</span><span class="p">());</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">uniform_real_distribution</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">distr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+      <span class="n">FloatValuePtr</span> <span class="n">float_value</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">FloatValue</span><span class="o">&gt;</span><span class="p">(</span><span class="n">distr</span><span class="p">(</span><span class="n">eng</span><span class="p">));</span>
+      <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">float_value</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;input_array&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+    <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+
+    <span class="n">flow</span><span class="o">-&gt;</span><span class="n">AsyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>来看下经过上述workflow后的结果：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Average</span><span class="p">::</span><span class="n">Init</span>
+<span class="n">Average</span><span class="p">::</span><span class="n">Init</span>
+<span class="n">StandardDeviation</span><span class="p">::</span><span class="n">Init</span>
+
+<span class="n">Start</span> <span class="n">Average</span><span class="p">::</span><span class="n">DoProcess</span><span class="o">...</span>
+<span class="n">Average</span> <span class="n">Instance</span> <span class="nb">id</span><span class="p">:</span> <span class="mh">0xaf03f10</span>
+<span class="n">Average</span> <span class="n">Thread</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">548091961792</span>
+
+<span class="n">Start</span> <span class="n">Average</span><span class="p">::</span><span class="n">DoProcess</span><span class="o">...</span>
+<span class="n">Average</span> <span class="n">Instance</span> <span class="nb">id</span><span class="p">:</span> <span class="mh">0xaf04190</span>
+<span class="n">Average</span> <span class="n">Thread</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">548083569088</span>
+
+<span class="n">Start</span> <span class="n">StandardDeviation</span><span class="p">::</span><span class="n">DoProcess</span><span class="o">...</span>
+<span class="n">StandardDeviation</span> <span class="n">Instance</span> <span class="nb">id</span><span class="p">:</span> <span class="mh">0xaf053c0</span>
+<span class="n">StandardDeviation</span> <span class="n">Thread</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">548075176384</span>
+
+<span class="n">Start</span> <span class="n">StandardDeviation</span><span class="p">::</span><span class="n">DoProcess</span><span class="o">...</span>
+<span class="n">StandardDeviation</span> <span class="n">Instance</span> <span class="nb">id</span><span class="p">:</span> <span class="mh">0xaf053c0</span>
+<span class="n">StandardDeviation</span> <span class="n">Thread</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">548066783680</span>
+</pre></div>
+</div>
+<p>可以看到虽然workflow中设置了两个节点的线程都为2，但Average非线程安全，实际上注册了两个实例(0xaf03f10,0xaf04190)，而StandardDeviation线程安全，实际注册了一个实例(0xaf053c0)。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+``hb_model_verifier`` 工具
+===================================
+
+``hb_model_verifier`` 工具是用于对指定的定点模型和runtime模型进行结果验证的工具。
+该工具会使用指定图片，进行定点模型推理，runtime模型在模拟器上的推理，
+runtime模型在板端的推理(|:bulb:| 如果给定ip可以ping通)， 并对其结果进行两两比较，给出是否通过的结论。
+若未指定图片，则工具会用默认图片进行推理( |:bulb:| featuremap模型会随机生成tensor数据)。
+
+使用方式
+---------
+
+.. code-block:: bash
+
+    hb_model_verifier -q ${quanti_model} \
+                      -b ${bin_model} \
+                      -a ${board_ip} \
+                      -i ${input_img} \
+                      -d ${digits}
+
+命令行参数
+-------------------
+
+.. data:: hb_model_verifier的命令行参数
+
+  \-\-quanti_model, -q
+    定点模型名称。
+
+  \-\-bin_model, -b
+    bin模型名称。
+
+  \-\-arm-board-ip, -a
+    上板测试使用的arm board ip地址。
+
+  \-\-input-img, -i
+    推理测试时使用的图片。 若不指定则会使用默认图片或随机tensor。 对于二进制形式的图片文件需要后缀名为 ``.bin`` 形式。
+
+  \-\-compare_digits, -d
+    推理测试时使用的图片。 若不指定则会自动比较5位。
+
+
+
+输出内容解析
+----------------------
+
+结果对比最终会在终端展示, 工具会对比ONNX模型运行结果, 模拟器运行及上板结果的两两对比情况, 若无问题应显示如下:
+
+.. code-block:: bash
+
+  Quanti onnx and Arm result Strict check PASSED
+
+在定点模型和runtime模型精度不一致时会输出不一致结果的具体信息。 ``mismatch line num`` 为两种模型精度不一致结果的个数，包括三种不一致情况： ``mismatch.line_miss num`` 为输出结果数量不一致个数； ``mismatch.line_diff num`` 为输出结果差距过大个数； ``mismatch.line_nan num`` 为输出为nan的个数。 ``total line num`` 为输出数据总个数。 ``mismatch rate`` 为不一致数据个数占输出数据总个数的比例。
+
+.. code-block:: bash
+
+  INFO mismatch line num: 39
+  INFO ****************************
+  INFO mismatch.line_miss num: 0
+  INFO mismatch.line_diff num: 39
+  INFO mismatch.line_nan num: 0
+  INFO ****************************
+  INFO total line num: 327680
+  INFO mismatch rate: 0.0001190185546875
+
+.. attention::
+
+  1. ``hb_model_verifier`` 目前只支持单输入模型。
+  2. 若模型有多个输出，则只会比较第一个输出的结果情况。
+  3. 暂时不支持对已打包的*.bin模型进行验证，否则工作台将产生以下提示：
+
+.. code-block:: bash
+
+  ERROR pack model is not supported
+

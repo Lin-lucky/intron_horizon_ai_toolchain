@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmultitask_predict_method.a  CMakeFiles/multitask_predict_method.dir/src/multitask_predict_method.cc.o
+/usr/bin/ranlib libmultitask_predict_method.a

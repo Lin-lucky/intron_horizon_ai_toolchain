@@ -1,0 +1,26 @@
+Model Convert Sample Doc
+==================================
+
+Horizon's **Model Conversion Sample Package (AKA horizon_model_convert_sample)** is composed 
+by rich algorithm model sample scripts, it aims to help developers quickly understand how to use the 
+model conversion and performance evaluation tools provided by the **ASIC Toolchain**. 
+Developers can convert the open source DL frameworks trained FPMs (floating-point model) into the HGM (heterogenous model) 
+which can be supported by Horizon's ASICs, deploy models into production.
+
+.. 由于libdnn暂不支持x86，此处暂时删除仿真环境内容。
+.. 删除内容： or evaluate models in simulator
+
+.. note::
+
+  1. More information about Horizon's ASIC Toolchain please refer to the `Horizon AI Toolchain User Guide` document.
+  2. More information about the ``hb_mapper`` tools please refer to the `HB Mapper Tools Guide` document.
+
+
+.. toctree::
+  :maxdepth: 2
+  :numbered:
+  :includehidden:
+
+  samples/01_general_descriptions
+  samples/02_algorithm_sample
+  samples/03_misc_sample

@@ -1,0 +1,303 @@
+Setup Development Environment
+====================================
+
+1. About OpenExplorer Release Package
+-----------------------------------------------
+
+Below list displays the directory structure of release package of OpenExplorer development platform 
+and describes its features:
+
+.. csv-table::
+  :header: "DIRECTORY STRUCTURE", "DESCRIPTIONS"
+  :widths: 35, 65
+
+  "/bsp", "This folder contains prebuild image and source code content of system software"
+  "/bsp/X3J3-Img-{version}.tgz", "This package contains the prebuild image of system software. It can quickly generate system firmware files of dev board."
+  "/bsp/X3J3-PlatformSDK-{version}.tgz", "This package contains source code of system software. It allows users to modify the system by needs and generate private system image by compilation"
+  "/tools", "This folder contains the hbupdate tool of system firmware and Windows serial port driver."
+  "/tools/0A_*.zip", "This subfolder contains serial port drivers fits various Windows system hardware. Users can validate whether a driver can fit their systems by installing them one by one"
+  "/tools/0B_hbupdate_*.tar.gz", "This package contains the hbupdate tool of image, it is compatible with both Windows and Linux."
+  "/tools/0B_hbupdate_burn_secure-key1.zip", "This package contains secure system image required files."
+  "/ddk", "This folder contains application development package."
+  "/ddk/package", "This subfolder contains the application development package. It is composed by libraries and tools for host machine and dev board."
+  "/ddk/package/host", "This subfolder contains host machine libraries and tools, it is composed by the development environment of Horizon AI Toolchain and some basic libraries." 
+  "/ddk/package/board", "This subfolder contains dev board tools"
+  "/ddk/samples", "This subfolder contains samples in source code. After installing required environment in the /ddk/package subfolder, users can execute compilation and deployment using sample scripts."
+  "/ddk/samples/ai_benchmark", "There are many build-in models for executing accuracy and performance evaluations in Horizon's SoC."
+  "/ddk/samples/ai_toolchain", "This subfolder contains Horizon AI Toolchain related samples, including: model conversion samples, model training samples and runtime specific embedded inference samples."
+  "/ddk/samples/ai_express", "This subfolder contains samples of the AI Express Application Development Component & Framework, such as: XStream, XProto and demos related components."
+  "/ddk/samples/solution_zoo", "This subfolder contains samples for AI application reference solutions."
+  "/ddk/tools", "This subfolder contains application development supporting tools, it consists of: cross-compilation environment, GDC debugging tool, camera ISP debugging and visualization tool."
+
+Wherein, users need to install **BSP system software development** and **AI Application Software Development** environment. 
+Please refer to below contents.
+
+2. System Software Development
+---------------------------------------
+
+Please refer to the first part of the firmware upgrade manual to build the system software environment
+
+3. AI Application Development
+--------------------------------------
+
+AI application development consists of 2 parts, namely algorithm model development and application software development. 
+Horizon Robotics provides developers with 2 development environments: Docker and host machine. 
+
+3.1 Docker Development Environment
+++++++++++++++++++++++++++++++++++++++++
+
+Please install Docker basic environment before using Docker image. The following are required:
+
+- Docker (>=1.12, 18.03.0-ce is recommended), Installation Documentation: https://docs.docker.com/install/.
+- NVIDIA Docker (2.0.3), Installation Documentation: NVIDIA/nvidia-docker.
+
+Run below commands to add non-root user into Docker usergroup after installing Docker basic environment:
+
+.. code-block:: shell
+  
+  sudo groupadd docker
+  sudo gpasswd -a ${USER} docker
+  sudo systemctl restart docker  # Centos7
+  # relogin
+
+Next, pull the docker image:
+
+.. code-block:: shell
+  
+  docker pull openexplorer/ai_toolchain_centos_7:{version}
+
+After the pull command is successfully executed,
+you will get the image required to start docker,
+and the prompt is as follows(note that the version number will be different for different versions):
+
+.. code-block:: shell
+  
+  {version}: Pulling from openexplorer/ai_toolchain_centos_7
+  Digest: sha256:733681611a67a679eb080adec246e081ae994501440de5984d8b6e21c2cde0aa
+  Status: Downloaded newer image for openexplorer/ai_toolchain_centos_7:{version}
+
+Congratulations! You can now develop your own AI models and applications using Docker image.
+
+3.2 Development Environment of Host Machine
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+If you are not used to Docker based development, you can choose to install the development environment in host machine. 
+Refer to below Horizon Robotics' suggested conditions:
+
+- CPU: CPU I3 plus or E3/E5 equivalent processors 
+- Memory: 16G or plus
+- GPU: 1080ti or plus is recommended
+- OS: CentOS7 or Ubuntu18/16 
+
+When installing host machine environment, you need to firstly install cross-compilation toolkit, 
+please obtain cross-compilation toolkit from the ``/ddk/tools`` directory:
+
+.. code-block:: shell
+
+  /ddk/tools
+  ├── gcc_linaro_6.5.0_2018.12_x86_64_aarch64_linux_gnu.tar.xz
+
+It is suggested to uncompress cross-compiler into the ``/opt`` directory, 
+the directory structure after installaton should look like the following:
+
+.. code-block:: shell
+
+    /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/
+    ├── aarch64-linux-gnu
+    ├── bin
+    ├── gcc-linaro-6.5.0-2018.12-linux-manifest.txt
+    ├── include
+    ├── lib
+    ├── libexec
+    └── share
+
+Continue to install DDK development package, refer to the ``/ddk/package/host/`` directory:
+
+.. warning::
+  Some dependencies will change due to iteration. Please refer to the actual version
+
+
+.. code-block:: shell
+
+    ddk/package/host/
+    ├── ai_toolchain
+    │   ├── file_list.md
+    │   ├── hbdk-3.24.1-py3-none-linux_x86_64.whl
+    │   ├── hbdk_model_verifier-3.24.1-py3-none-linux_x86_64.whl
+    │   ├── horizon_nn-0.11.1-py3-none-any.whl
+    │   ├── horizon_nn_gpu-0.11.1-py3-none-any.whl
+    │   ├── horizon_tc_ui-1.3.44-py3-none-any.whl
+    │   └── install_ubuntu_deps.sh
+    ├── ddk_vcs-0.1.8-py3-none-any.whl
+    ├── host_package
+    │   ├── xj3_aarch64
+    │   └── xj3_x86_64_gcc_4.8.5
+    ├── install_ai_toolchain.sh
+    ├── install_host_package.sh
+    └── source_code
+        ├── image_utils
+        ├── model_inference
+        ├── rtsp_server
+        ├── third_party
+        ├── uvc_server
+        ├── video_source
+        ├── xproto
+        └── xstream
+
+* Run the ``install_ai_toolchain.sh`` script to install Python whl packages in ``/ai_toolchain`` directory. 
+  There are also supporting command-line tools and Python library packages.
+* Run the ``install_host_package.sh`` script to install library/header files in the ``host_package`` directory. 
+  The installation path is in the ``${HOME}/.horizon`` directory.
+
+.. warning::
+  Corresponding path etc. information will be added into the ``~/.bashrc`` system environment variable after running the 
+  ``install_ai_toolchain.sh`` and ``install_host_package.sh`` scripts. You can either reboot and open a new terminal or 
+  run ``source ~/.bashrc`` to put current terminal configuration into effect.
+
+There are following contents (assume that both x3 and j3 versions are installed):
+
+.. code-block:: shell
+
+    ~/.horizon/ddk/
+    ├── xj3_aarch64
+    │   ├── appsdk
+    │   │   └── appuser
+    │   ├── appsdk_1.9.0.tar.gz
+    │   ├── bpu_predict
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── bpu_predict_1.10.2.tar.gz
+    │   ├── dnn
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── dnn_1.1.2a.tar.gz
+    │   ├── hobotsdk
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── hobotsdk_1.9.13.tar.gz
+    │   ├── image_utils
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── image_utils_1.1.10c.tar.gz
+    │   ├── model_inference
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── model_inference_1.0.13.tar.gz
+    │   ├── rtsp_server
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── rtsp_server_1.0.13.tar.gz
+    │   ├── uvc_server
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── uvc_server_1.0.13.tar.gz
+    │   ├── video_source
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── video_source_1.0.13.tar.gz
+    │   ├── xproto
+    │   │   ├── include
+    │   │   └── lib
+    │   ├── xproto_1.1.10c.tar.gz
+    │   ├── xstream
+    │   │   ├── include
+    │   │   └── lib
+    │   └── xstream_1.1.10c.tar.gz
+    └── xj3_x86_64_gcc_4.8.5
+        ├── bpu_predict
+        │   ├── include
+        │   └── lib
+        ├── bpu_predict_1.10.2.tar.gz
+        ├── dnn_x86
+        │   ├── include
+        │   └── lib
+        ├── dnn_x86_1.1.2a.tar.gz
+        ├── hobotsdk
+        │   ├── include
+        │   └── lib
+        ├── hobotsdk_1.9.13.tar.gz
+        ├── xproto
+        │   ├── include
+        │   └── lib
+        ├── xproto_1.1.10c.tar.gz
+        ├── xstream
+        │   ├── include
+        │   └── lib
+        └── xstream_1.1.10c.tar.gz
+
+Wherein, the ``/appsdk`` contains system software related header files and libraries, 
+based on which users can develop their own applications. 
+Please refer to the documentations in the ``/ddk/doc`` to learn more about library usage.
+
+Lastly, run script to install some supporting tools in dev board. 
+Please refer to the ``/ddk/package/board/`` directory.
+
+.. code-block:: shell
+
+  /ddk/package/board/
+  ├── ai_express_webservice_display
+  ├── hrt_bin_dump
+  ├── hrt_model_exec
+  └── install.sh
+
+Run the ``install.sh`` script to quickly install required tools into the ``/userdata/.horizon`` directory. 
+Usage of tools please refer to the documentations in the ``/ddk/doc`` directory.
+
+3.3 Remote GDB 
+++++++++++++++++++++++++
+
+X3/J3 board systems comes with build-in gdbserver, you can use the gdbserver to remotely debug your application programs, 
+but make sure that there is sound internet connection between your dev machine and dev board.
+
+The usage is very simple:
+
+.. code-block:: shell
+
+  // on the dev board, use gdbserver to start the application program.
+  gdbserver :8000 <myapp>
+
+  // in physical machine, use gdb to connect server and debug. run below command
+  target remote <board ip>:<port>
+
+.. note:: 
+  Add the ``-g`` option when cross-compiling your application program to compile debuggable binary files.
+
+
+4. Get toolchain ``eval`` test dataset
+---------------------------------------------
+
+Dataset address: ``vrftp.horizon.ai/Open_Explorer/eval_dataset``
+
+.. code-block:: shell
+
+  /Open_Explorer/eval_dataset
+  ├── VOC.tar.gz
+  ├── imagenet.tar.gz
+  ├── coco.tar.gz
+  ├── cityscapes.tar.gz
+  └── cifa-10.tar.gz
+
+4.1 Linux
+++++++++++++++++++++++++++++++++++
+
+Under linux environment, please ensure that you have Internet access capability and can use ``wget``
+
+Please use the following command to download the corresponding data set as required.
+
+
+.. code-block:: shell
+
+    wget ftp://vrftp.horizon.ai/Open_Explorer/eval_dataset/[dataset name]
+
+
+4.2 Windows
++++++++++++++
+
+Under Windows please use ``Filezilla`` as download tool, `click here <https://filezilla-project.org/download.php?type=client>`_
+enter download page.
+
+After installation, please download according to the following figure
+
+.. image:: ./xj3_soc_images/ftp_win_en.png
+  :align: center
+  :scale: 50%

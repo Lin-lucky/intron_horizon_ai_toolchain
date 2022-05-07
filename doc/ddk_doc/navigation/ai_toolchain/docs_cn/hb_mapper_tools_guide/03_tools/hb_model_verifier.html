@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.6. hb_model_verifier 工具 &mdash; hb_mapper_tools_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="2.7. hb_model_modifier 工具" href="hb_model_modifier.html" />
+    <link rel="prev" title="2.5. hb_pack 工具" href="hb_pack.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> hb_mapper_tools_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_model_conversion_details.html">1. 模型转换过程详解</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../02_tools.html">2. 工具详细介绍</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hb_mapper.html">2.1. <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_perf.html">2.2. <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vec_diff.html">2.3. <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_info.html">2.4. <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_pack.html">2.5. <code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> 工具</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.6. <code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> 工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">2.6.1. 使用方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2.6.2. 命令行参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2.6.3. 输出内容解析</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hb_model_modifier.html">2.7. <code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_custom_op.html">2.8. <code class="docutils literal notranslate"><span class="pre">hb_custom_op</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_eval_preprocess.html">2.9. <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> 工具</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">hb_mapper_tools_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../02_tools.html"><span class="section-number">2. </span>工具详细介绍</a> &raquo;</li>
+      <li><span class="section-number">2.6. </span><code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> 工具</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/03_tools/hb_model_verifier.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hb-model-verifier">
+<h1><span class="section-number">2.6. </span><code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> 工具<a class="headerlink" href="#hb-model-verifier" title="永久链接至标题"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> 工具是用于对指定的定点模型和runtime模型进行结果验证的工具。
+该工具会使用指定图片，进行定点模型推理，runtime模型在模拟器上的推理，
+runtime模型在板端的推理(💡 如果给定ip可以ping通)， 并对其结果进行两两比较，给出是否通过的结论。
+若未指定图片，则工具会用默认图片进行推理( 💡 featuremap模型会随机生成tensor数据)。</p>
+<section id="id1">
+<h2><span class="section-number">2.6.1. </span>使用方式<a class="headerlink" href="#id1" title="永久链接至标题"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_model_verifier -q <span class="si">${</span><span class="nv">quanti_model</span><span class="si">}</span> <span class="se">\</span>
+                  -b <span class="si">${</span><span class="nv">bin_model</span><span class="si">}</span> <span class="se">\</span>
+                  -a <span class="si">${</span><span class="nv">board_ip</span><span class="si">}</span> <span class="se">\</span>
+                  -i <span class="si">${</span><span class="nv">input_img</span><span class="si">}</span> <span class="se">\</span>
+                  -d <span class="si">${</span><span class="nv">digits</span><span class="si">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2><span class="section-number">2.6.2. </span>命令行参数<a class="headerlink" href="#id2" title="永久链接至标题"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="hb_model_verifier">
+<span id="hb_model_verifier的命令行参数"></span><span class="sig-name descname"><span class="pre">hb_model_verifier的命令行参数</span></span><a class="headerlink" href="#hb_model_verifier" title="永久链接至目标"></a></dt>
+<dd><dl class="simple">
+<dt>--quanti_model, -q</dt><dd><p>定点模型名称。</p>
+</dd>
+<dt>--bin_model, -b</dt><dd><p>bin模型名称。</p>
+</dd>
+<dt>--arm-board-ip, -a</dt><dd><p>上板测试使用的arm board ip地址。</p>
+</dd>
+<dt>--input-img, -i</dt><dd><p>推理测试时使用的图片。 若不指定则会使用默认图片或随机tensor。 对于二进制形式的图片文件需要后缀名为 <code class="docutils literal notranslate"><span class="pre">.bin</span></code> 形式。</p>
+</dd>
+<dt>--compare_digits, -d</dt><dd><p>推理测试时使用的图片。 若不指定则会自动比较5位。</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id3">
+<h2><span class="section-number">2.6.3. </span>输出内容解析<a class="headerlink" href="#id3" title="永久链接至标题"></a></h2>
+<p>结果对比最终会在终端展示, 工具会对比ONNX模型运行结果, 模拟器运行及上板结果的两两对比情况, 若无问题应显示如下:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Quanti onnx and Arm result Strict check PASSED
+</pre></div>
+</div>
+<p>在定点模型和runtime模型精度不一致时会输出不一致结果的具体信息。 <code class="docutils literal notranslate"><span class="pre">mismatch</span> <span class="pre">line</span> <span class="pre">num</span></code> 为两种模型精度不一致结果的个数，包括三种不一致情况： <code class="docutils literal notranslate"><span class="pre">mismatch.line_miss</span> <span class="pre">num</span></code> 为输出结果数量不一致个数； <code class="docutils literal notranslate"><span class="pre">mismatch.line_diff</span> <span class="pre">num</span></code> 为输出结果差距过大个数； <code class="docutils literal notranslate"><span class="pre">mismatch.line_nan</span> <span class="pre">num</span></code> 为输出为nan的个数。 <code class="docutils literal notranslate"><span class="pre">total</span> <span class="pre">line</span> <span class="pre">num</span></code> 为输出数据总个数。 <code class="docutils literal notranslate"><span class="pre">mismatch</span> <span class="pre">rate</span></code> 为不一致数据个数占输出数据总个数的比例。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>INFO mismatch line num: <span class="m">39</span>
+INFO ****************************
+INFO mismatch.line_miss num: <span class="m">0</span>
+INFO mismatch.line_diff num: <span class="m">39</span>
+INFO mismatch.line_nan num: <span class="m">0</span>
+INFO ****************************
+INFO total line num: <span class="m">327680</span>
+INFO mismatch rate: <span class="m">0</span>.0001190185546875
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> 目前只支持单输入模型。</p></li>
+<li><p>若模型有多个输出，则只会比较第一个输出的结果情况。</p></li>
+<li><p>暂时不支持对已打包的*.bin模型进行验证，否则工作台将产生以下提示：</p></li>
+</ol>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ERROR pack model is not supported
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hb_pack.html" class="btn btn-neutral float-left" title="2.5. hb_pack 工具" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="hb_model_modifier.html" class="btn btn-neutral float-right" title="2.7. hb_model_modifier 工具" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

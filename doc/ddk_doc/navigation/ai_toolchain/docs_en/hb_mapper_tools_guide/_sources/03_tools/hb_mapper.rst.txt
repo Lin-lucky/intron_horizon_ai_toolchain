@@ -1,0 +1,388 @@
+The ``hb_mapper`` Tools
+=============================
+
+The ``hb_mapper`` is a collection of 3 tools (AKA command-lines/subcommands), it can map the FPMs into quantized models 
+and provide some additional validation features. 
+Wherein, the ``hb_mapper checker`` is used for model checking, 
+the ``hb_mapper makertbin`` is used for model conversion, while the ``hb_mapper infer`` is used for inference and it can 
+also dump vector outputs of conv layers at various stages. The following contents describe all the abovementioned tools.
+
+.. _hb_mapper checker:
+
+Model Checking Tool (``hb_mapper checker``)
+-----------------------------------------------------------
+
+In engineering practice, FPMs must be checked before conversion because not all of them can be converted into HGMs.
+In general, the checking process walks through the model coversion process, while simplifies some time-consuming OP 
+conversions, and the tool will dump checking results along with the information that whether an OP is run in BPU or CPU.
+
+.. data:: How To Use:
+
+  .. code-block:: bash
+
+    hb_mapper checker --model-type ${model_type} \
+                      --march ${march} \
+                      --proto ${proto} \
+                      --model ${caffe_model/onnx_model} \
+                      --input-shape ${input_node} ${input_shape} \
+                      --output ${output} 
+
+.. data:: Parameters:
+
+  --model-type
+    This parameter specifies the model type of the model to be converted, 
+    either ``caffe`` or ``onnx``.
+
+  --march
+    BPU's micro architectures: it should be specified as ``bernoulli2``.
+
+  --proto
+    This parameter specifies the prototxt file when using Caffe model. 
+
+  --model
+    This parameter specifies the Caffe/ONNX model file.
+
+  --input-shape
+    This is an optional parameter that specifies the input node and the input shape of the node. 
+    It should be separated by ``x``, e.g. ``data 1x3x224x224``.
+
+  --output
+    This parameter specifies the file in which contains checking result, the default value is ``hb_mapper_checker.log``.
+
+  --help
+    Shows help information and exit.
+
+Model Compiling Tool (``hb_mapper makertbin``)
+----------------------------------------------------
+
+This tool generates a quantized ONNX model and a runtime model which simulates the model run in dev board. 
+Settings of the configuration file please refer to descriptions in the: 
+:ref:`Configuration File Details <hb_mapper_config>`.
+
+.. data:: How To Use:
+
+  .. code-block:: bash
+
+    hb_mapper makertbin --config ${config_file}  \
+                        --model-type  ${model_type}
+
+.. data:: Parameters:
+
+  -c, --config
+    This parameter specifies the model's configuration file in YAML.
+
+  --model-type
+    ``caffe`` or ``onnx``.
+
+  --help
+    Shows help information and exit.
+
+The compilation generated log file will be stored into the directory in which the 
+command-line is ran. The default log file name is ``hb_mapper_makertbin.log``.
+
+.. _hb_mapper_infer:
+
+Inference Tool (``hb_mapper infer``)
+------------------------------------------
+
+This tool runs inference using the FPM and HGM and saves inference results into the ``--output-dir`` specified directory.
+
+Specify the ``layer_out_dump`` in the configuration file as ``True`` in order to 
+validate and analyze if the FPM is correctly converted. 
+This tool will dump the inference results of conv and output nodes. Users can also analyze if the model 
+is correctly compiled using the ``vec_diff`` tool.
+
+.. data:: How To Use:
+
+  .. code-block:: bash
+
+    hb_mapper infer --config ${config_file} \
+                    --model-file ${quantized_model_file}  \
+                    --model-type ${caffe/onnx} \
+                    --image-file ${input_node} ${image_file} \
+                    --input-layout ${input_layout} \
+                    --output-dir ${quantized_output_dir}
+
+To ensure that the input data processing in the configuration file is corrent when running ``hb_mapper infer``,  
+please use the same configuration file as when running ``hb_mapper makertbin``. 
+In other words, when running ``hb_mapper infer``, use the same images and data as when you run ``hb_mapper makertbin``.
+
+.. attention::
+
+  Your choices of input data when running ``hb_mapper infer`` are related to below parts in the configuration file:
+
+  - When ``preprocess_on: True``, the tool can receive JPEG images, automatically proceed resize etc. pre-processing 
+    and convert into the ``input_type_rt`` specified format.
+  - When ``preprocess_on: False``, the tool can only receive the pre-processed binary image files because users need to 
+    pre-process images by themselves and convert images into corresponding binary files 
+    (please refer to the 02_preprocess.sh script).
+
+.. data:: Parameters:
+
+  -c, --config
+    This parameter specifies the path to the configuration file when compiling the model.
+
+  --model-file
+    This parameter specifies the path to the model file to inference. 
+    It can be either floating-point or quantized ONNX model.
+  
+  --model-type
+    This parameter specifies type of the original floating-point model. 
+    It can be specified as either ``caffe`` or ``onnx``.
+
+  --image-file
+    This parameter specifies input node name and the corresponding image file for running inference. 
+    E.g. ``input_name1 kite.jpg``.
+
+  --input-layout
+    This is an optional parameter to specify the layout of input model.
+
+  --output-dir
+    This parameter specifies the directory to save inference results. 
+    If the input is a quantized model, inference results will be dequantized floating-point data.
+  
+  --help
+    Shows help information and exit.
+
+The output of this tool are stored into the `output_dir` directory and the naming rule is: ``${layername}_float.bin``.
+
+Introduction To Those Key Configuration Parameters
+-----------------------------------------------------------
+
+``calibration_parameters.preprocess_on``
+++++++++++++++++++++++++++++++++++++++++++++++
+
+
+.. code-block:: yaml
+    :emphasize-lines: 10
+
+    calibration_parameters:
+        # the directory into where model quantization uses calibration images are saved,image formats including: 
+        # JPEG, BMP etc, input images should cover typical scenarios. Usually 20~100 images are selected from the 
+        # the testing dataset. In addition please try not to use those overexposed, saturated, blurred, pure black 
+        # or pure white images.
+        # In case there are multiple input parameters, use ';' to separate them
+        cal_data_dir: './calibration_data_bgr_f32'
+        # When image file size is different from those during the training and the preprocess_on parameter is specified
+        # as True, please use default pre-processing method (i.e. skimage resize) to resize or crop images into specified 
+        # size. Otherwise users will must modify image size into the same as in model training.
+        #preprocess_on: False
+
+
+**When you specify the** ``preprocess_on=True``:
+
+The tool can automatically pre-process calibration images when the ``preprocess_on`` is specified as ``True`` and 
+the directory to save those calibration used JPEG images is specified by the ``cal_data_dir``. 
+By doing so, when calibrating the model, the tool will load JPEG images using the skimage library, resize images into 
+the specified ``input_shape`` in the configuration file using skimage's resize method and modify images into the 
+``input_type_rt`` specified format.
+
+For example, if the input is a 608x608 JPEG image, the default pre-processing will then resize it into a 224x224 bgr (NCHW) 
+image whose pixel values range between 0~255.
+
+Below code block tell you more about the default pre-processing logic:
+
+.. code-block:: python
+
+    def data_transformer(norm_type, input_dim, input_type_train):
+        image_width = input_dim[2]
+        image_height = input_dim[1]
+        transformers = [
+            ResizeTransformer((image_width, image_height)),
+            HWC2CHWTransformer(),  # to CXHXW
+            RGB2BGRTransformer(),
+        ]
+
+        transformers.append(ScaleTransformer(255))
+
+**When you specify the** ``preprocess_on=False``:
+
+You will need to process the images by yourself, modify images into the  ``input_type_train`` specified format and 
+save them into binary files, so that the tool will automatically add the conversion from the ``input_type_train`` 
+to the ``input_type_rt`` specified format.
+
+.. note::
+
+  File format is: the uint8/float32 as described in the `Row-major order`_.
+
+.. _Row-major order: https://en.wikipedia.org/wiki/Row-_and_column-major_order
+
+.. _hb_mapper_config:
+
+Configuration File Details
+-------------------------------------
+
+Reference And Descriptions
+++++++++++++++++++++++++++++++++++++
+
+The configuration file uses YAML file, details please refer to the annotations as shown below:
+
+.. code-block:: yaml
+
+  # model conversion related parameters
+  model_parameters:
+    # the model file of floating-point Caffe neural network data
+    caffe_model: '../../../01_common/model_zoo/mapper/classification/mobilenet/mobilenet.caffemodel'
+    # the file describes the structure of Caffe neural network
+    prototxt: '../../../01_common/model_zoo/mapper/classification/mobilenet/mobilenet_deploy.prototxt'
+    # the applicable BPU architecture
+    march: "bernoulli2"
+    # specifies whether or not to dump the intermediate results of all layers in conversion
+    # if set to True, then the intermediate results of all layers shall be dumped
+    layer_out_dump: False
+    # output control parameter of log file(s),
+    # if set to 'debug', then details of model conversion will be dumped
+    # if set to 'info', then only important information will be dumped
+    # if set to 'warn', then information ranked higher than 'warn' and 'error' will be dumped
+    log_level: 'debug'
+    # the directory in which model conversion results are stored
+    working_dir: 'model_output'
+    # model conversion generated name prefix of those model files used for dev board execution
+    output_model_file_prefix: 'mobilenetv1_224x224_nv12'
+
+  # model input related parameters,
+  # please use ";" to separate when inputting multiple nodes,
+  # please use None for default setting
+  input_parameters: 
+    # (Optional) node name of model input,
+    # it shall be the same as the name of model file, otherwise an error will be reported,
+    # the node name of model file will be used when left blank
+    input_name: "data"
+    # the data formats to be passed into neural network when actually performing neural network
+    # available options: nv12/rgb/bgr/yuv444/gray/featuremap,
+    # if input data is yuv444 and bgr(NCHW) is used in model training, then hb_mapper will automatically insert 
+    # the conversion from YUV to BGR(NCHW)
+    input_type_rt: 'nv12'
+    # the input data layout that the HGM needs to match, can be specified as NHWC/NCHW
+    # If input_type_rt is configured as nv12, then this parameter does not need to be configured
+    #input_layout_rt: ''
+    # the data formats in network training
+    # available options: rgb/bgr/gray/featuremap/yuv444
+    input_type_train: 'bgr'
+    # the data layout in network training, available options: NHWC/NCHW
+    input_layout_train: 'NCHW'
+    # (Optional)the input size of model network, seperated by 'x'
+    # note that the network input size of model file will be used if left blank
+    # otherwise it will overwrite the input size of model file
+    # input_shape: ''
+    # preprocessing methods of network input, available options:
+    # 'no_preprocess' indicates that no preprocess will be made 
+    # 'data_mean' indicates that to minus the channel mean, i.e. mean_value
+    # 'data_scale' indicates that image pixels to multiply data_scale ratio
+    # 'data_mean_and_scale' indicates that to multiply scale ratio after channel mean is minused
+    norm_type: 'data_mean_and_scale'
+    # the mean value minused by image
+    # note that values must be seperated by space if channel mean value is used
+    mean_value: 103.94 116.78 123.68
+    # scale value of image preprocess
+    # note that values must be seperated by space if channel scale value is used
+    scale_value: 0.017
+
+  # model calibration parameters
+  calibration_parameters:
+    # the directory where reference images of model quantization are stored
+    # image formats include JPEG, BMP etc.
+    # should be classic application scenarios, usually 20~100 images are picked out from test datasets
+    # in addition, note that input images should cover typical scenarios
+    # and try to avoid those overexposed, oversaturated, vague, 
+    # pure blank or pure white images
+    # use ';' to separate when there are multiple input nodes
+    cal_data_dir: './calibration_data_bgr_f32'
+    # In case the size of input image file is different from that of in model training
+    # and that preprocess_on is set to True,
+    # shall the default preprocess method(skimage resize) be used
+    # i.e., to resize or crop input image into specified size
+    # otherwise user must keep image size as that of in training in advance
+    #preprocess_on: False
+    # it can be specified as default, kl, max or load
+    # amongst, default refers to an automatic searching strategy which will try to find out 
+    # the best calibration parameter from a series of calibration parameters
+    # it is recommended to firstly use default, in case the accuracy fails to satisfy your expectation
+    # then try either kl or max
+    # both kl and max are types of model quantization algorithms, usually kl will meet the need
+    # in addition, if converted model is quantized model exported from QAT, then choose load
+    calibration_type: 'kl'
+
+  # compiler related parameters
+  compiler_parameters:
+    # compilation strategy, there are 2 available optimization modes: 'bandwidth' and 'latency'
+    # the 'bandwidth' mode aims to optimize ddr access bandwidth
+    # while the 'latency' mode aims to optimize inference duration
+    compile_mode: 'latency'
+    # the compiler's debug mode will be enabled by setting to True
+    # this will dump performance simulation related information
+    # such as: frame rate, DDR bandwidth usage etc.
+    debug: False
+    # specifies number of cores to be used in model compilation 
+    # as default, single core is used as this value left blank
+    # please delete the "# " below to enable dual-core mode when compiling dual-core model
+    # core_num: 2
+    # optimization level ranges between O0~O3
+    # O0 indicates that no optimization will be made 
+    # the faster the compilation, the lower optimization level will be
+    # O1-O3: as optimization levels increase gradually, model execution, after compilation, shall become faster
+    # while compilation will be prolonged
+    # it is recommended to use O2 for fastest verification
+    optimize_level: 'O3'
+
+
+About the ``input_type_rt``/ ``input_type_train``
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+To boost ASIC performance, there are 2 assumptions when designing the ASIC's micro architecture:
+
+1. All inputs are quantized int8 data.
+2. All camera captured data are nv12.
+
+Therefore, if you use the rgb (NCHW) format used in model training and expect 
+the model to be able to process nv12 data efficiently, then you will need to configure as follow:
+
+.. code-block:: yaml
+
+  input_parameters:
+      input_type_rt: 'nv12'
+      input_type_train: 'rgb'
+      input_layout_train: 'NCHW'
+
+.. tip::
+
+  When gray format is used in model training, while actual model input is nv12, 
+  specify both the ``input_type_rt`` and ``input_type_train`` as ``gray`` in model conversion, 
+  so that only use the y channel address of nv12 data in runtime application development.
+
+In addition to the feature of converting input data into nv12, 
+the tool can also support using different rgb-orders in training and runtime infer. 
+More information about the ``input_type_rt`` / ``input_type_train`` supported image types please refer to below table 
+(Y represents supported image types, while N represent unsupported image types):
+
+
+.. table::
+  :align: center
+  
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | ``input_type_train`` \\ ``input_type_rt`` | nv12 | yuv444 | rgb | bgr | gray | featuremap |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | yuv444                                    | Y    | Y      | N   | N   | N    | N          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | rgb                                       | Y    | Y      | Y   | Y   | N    | N          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | bgr                                       | Y    | Y      | Y   | Y   | N    | N          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | gray                                      | N    | N      | N   | N   | Y    | N          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+  | featuremap                                | N    | N      | N   | N   | N    | Y          |
+  +-------------------------------------------+------+--------+-----+-----+------+------------+
+
+.. note::
+
+  To adhere to Horizon ASICs' requirements on input data type (int8) and reduce inference costs, 
+  when the ``input_type_rt`` is specified as rgb(NHWC/NCHW)/bgr(NHWC/NCHW), 
+  the input data type of tool converted model will be ``int8``. 
+  I.e., pixel values of regular image formats will substract 128 
+  (this is executed by the API and users do not need to deal with it).
+
+  Since v1.3.0, the ``input_type_rt`` and ``input_type_train`` did not anymore contain layout information, 
+  while the layout information begun to be split into the ``input_layout_rt`` and ``input_layout_train``. 
+  If user specified ``input_type`` is non ``nv12``, then the corresponding ``input_layout`` must be specified, 
+  otherwise an error will be reported.
+

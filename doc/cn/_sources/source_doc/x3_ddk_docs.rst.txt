@@ -1,0 +1,98 @@
+附录：开发手册
+================
+
+.. note::
+    下面配套手册会因为交付权限问题，导致部分文档链接会失效。如果您遇到相关问题，请联系地平线技术支持或销售进行解决。
+
+1. AI芯片工具链手册
+------------------------
+
+.. csv-table::
+    :header: "编号", "名称", "文件地址", "备注"
+    :align: left
+    :widths: 5, 30, 50, 50
+
+
+    "1", "Horizon AI Toolchain User Guide", horizon_ai_toolchain_user_guide_, "本手册全面介绍芯片工具链产品，帮助开发者了解：环境部署、模型部署、应用开发、自定义算子开发等工具链开发全流程。此外，还展示了一系列算法模型的Benchmark性能数据。"
+    "2", "HB Mapper工具手册", hb_mapper_tools_guide_, "详细介绍模型转换过程和使用到的 ``horizon_tc_ui`` 浮点模型转换工具链。"
+    "3", "模型转换示例包手册", hb_mapper_sample_doc_, "介绍horizon_model_convert_sample模型转换示例包及其使用方法。提供了使用浮点模型转换工具链快速完成浮点模型转换定点模型的示例，同时包括了x86端单张推理和精度验证示例。"
+    "4", "算子支持与约束列表", supported_op_list_and_restrictions_, "详细介绍地平线平台支持的Caffe和ONNX算子及其约束条件。"
+    "5", "模型加密功能介绍", model_encryption_, "介绍如何使用地平线模型加密功能。"
+    "6", "BPU SDK API手册", bpu_sdk_api_doc_, "介绍地平线runtime SDK的API、数据、结构体、排布和对齐规则。"
+    "7", "基础示例包使用说明", basic_sample_, "介绍 horizon_runtime_sample 嵌入式开发基础示例包及其使用方法。提供了使用API完成单张图片推理、含自定义算子模型的实现和推理，多模型批量推理等示例，帮助开发者快速完成模型部署。"
+    "8", "AI-Benchmark使用说明", ai_benchmark_, "介绍 ai_benchmark 嵌入式应用开发示例包及其使用方法。开发者使用该示例包可以体验模型部署和模型性能评估相关的应用开发。示例脚本包括性能评测和精度评测两部分。"
+
+.. _horizon_ai_toolchain_user_guide: ../../ddk_doc/navigation/ai_toolchain/docs_cn/horizon_ai_toolchain_user_guide/index.html
+.. _hb_mapper_tools_guide: ../../ddk_doc/navigation/ai_toolchain/docs_cn/hb_mapper_tools_guide/index.html
+.. _hb_mapper_sample_doc: ../../ddk_doc/navigation/ai_toolchain/docs_cn/hb_mapper_sample_doc/index.html
+.. _supported_op_list_and_restrictions: ../../ddk_doc/navigation/ai_toolchain/docs_cn/supported_op_list_and_restrictions/supported_op_list_and_restrictions_release.xlsx
+.. _model_encryption: ../../ddk_doc/navigation/ai_toolchain/docs_cn/model_encryption.pdf
+.. _bpu_sdk_api_doc: ../../ddk_doc/navigation/ai_toolchain/docs_cn/bpu_sdk_api_doc/index.html
+.. _basic_sample: ../../ddk_doc/navigation/ai_toolchain/docs_cn/embedded_sample/basic_sample/index.html
+.. _ai_benchmark: ../../ddk_doc/navigation/ai_toolchain/docs_cn/embedded_sample/ai_benchmark/index.html
+
+
+
+
+1. AI Express应用开发组件&框架手册
+-----------------------------------------
+
+.. csv-table::
+    :header: "编号", "名称", "文件地址"
+    :widths: 5, 30, 50
+   
+    "1", "AI Express应用开发组件&框架用户手册", XJ3_AI_Express_Docs_
+    "2", "AI应用参考解决示例手册", XJ3_AI_Solution_Docs_
+    "3", "XStream算法SDK开发框架示例手册", XJ3_AI_Express_XStream_Sample_Docs_
+    "4", "XProto应用开发框架示例手册", XJ3_AI_Express_XProto_Sample_Docs_
+    "5", "ModelInference开发者手册", XJ3_Model_Inference_Docs_
+    "6", "VideoSource开发者手册", XJ3_Video_Source_Docs_
+    "7", "RtspServer开发者手册", XJ3_Rtsp_Server_Docs_
+    "8", "UvcServer开发者手册", XJ3_Uvc_Server_Docs_
+
+
+.. _XJ3_AI_Express_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/ai_express/index.html
+.. _XJ3_AI_Solution_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/solution_zoo/index.html
+.. _XJ3_AI_Express_XStream_Sample_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/ai_express/xstream/README.html
+.. _XJ3_AI_Express_XProto_Sample_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/ai_express/xproto/README.html
+.. _XJ3_Video_Source_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/video_source/index.html
+.. _XJ3_Model_Inference_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/model_inference/index.html
+.. _XJ3_Rtsp_Server_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/rtsp_server/index.html
+.. _XJ3_Uvc_Server_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/uvc_server/index.html
+
+3. 系统软件手册
+------------------------
+
+.. csv-table::
+    :header: "编号", "名称", "文件地址"
+    :widths: 5, 30, 50
+   
+    "1", "XJ3 平台系统软件开发手册.pdf", MU-2520-3-J-X3J3平台系统软件开发手册.pdf_
+    "2", "X3 平台系统软件用户手册.pdf", MU-2520-2-H-X3平台系统软件用户手册.pdf_
+    "3", "XJ3 平台系统软件基础接口手册.pdf", MU-2520-1-I-X3J3平台系统软件基础接口手册.pdf_
+    "4", "XJ3 平台AIOT媒体系统接口手册.pdf", MU-2520-4-L-X3J3平台AIOT媒体系统接口手册.pdf_
+    "5", "XJ3 平台AIOT图像系统接口手册.pdf", MU-2520-5-K-X3J3平台AIOT图像系统接口手册.pdf_
+    "6", "XJ3 平台CameraTuningTool使用说明.pdf", U-2520-7-E-X3J3平台CameraTuningTool使用说明.pdf_
+    "7", "X3 平台ISP图像调试指引.pdf", MU-2520-9-C-X3平台ISP图像调试指引.pdf_
+    "8", "XJ3 媒体处理性能调试指南.pdf", AN-2521-4-C-X3J3媒体处理性能调试指南.pdf_
+    "9", "XJ3 图像媒体模块调试指南.pdf", MU-2520-11-C-X3J3图像媒体模块调试指南.pdf_
+    "10", "XJ3 DDR编程指南.pdf", AN-2521-7-B-X3J3DDR编程指南.pdf_
+    "11", "XJ3 平台PMIC驱动修改指导.pdf", AN-2521-1-B-X3J3平台PMIC驱动修改指导.pdf_
+    "12", "XJ3 OTA参数实现原理和使用方法.pdf", AN-2521-3-C-地平线系统软件OTA参数实现原理和使用方法.pdf_
+    "13", "XJ3 平台uboot启动流程和新增内容说明.pdf", AN-2521-5-A-X3J3平台uboot启动流程和新增内容说明.pdf_
+    "14", "XJ3 安全启动与加密使用说明.pdf", AN-2521-6-C-X3J3安全启动与加密使用说明.pdf_
+
+.. _MU-2520-2-H-X3平台系统软件用户手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/user_manual/MU-2520-2-H-X3平台系统软件用户手册.pdf
+.. _MU-2520-1-I-X3J3平台系统软件基础接口手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-1-I-X3J3平台系统软件基础接口手册.pdf
+.. _MU-2520-4-L-X3J3平台AIOT媒体系统接口手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-4-L-X3J3平台AIOT媒体系统接口手册.pdf
+.. _MU-2520-5-K-X3J3平台AIOT图像系统接口手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-5-K-X3J3平台AIOT图像系统接口手册.pdf
+.. _AN-2521-3-C-地平线系统软件OTA参数实现原理和使用方法.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-3-C-地平线系统软件OTA参数实现原理和使用方法.pdf
+.. _AN-2521-5-A-X3J3平台uboot启动流程和新增内容说明.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-5-A-X3J3平台uboot启动流程和新增内容说明.pdf
+.. _AN-2521-6-C-X3J3安全启动与加密使用说明.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-6-C-X3J3安全启动与加密使用说明.pdf
+.. _U-2520-7-E-X3J3平台CameraTuningTool使用说明.pdf: ../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-7-E-X3J3平台CameraTuningTool使用说明.pdf
+.. _MU-2520-3-J-X3J3平台系统软件开发手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/MU-2520-3-J-X3J3平台系统软件开发手册.pdf
+.. _AN-2521-4-C-X3J3媒体处理性能调试指南.pdf: ../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/AN-2521-4-C-X3J3媒体处理性能调试指南.pdf
+.. _MU-2520-9-C-X3平台ISP图像调试指引.pdf: ../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-9-C-X3平台ISP图像调试指引.pdf
+.. _MU-2520-11-C-X3J3图像媒体模块调试指南.pdf: ../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-11-C-X3J3图像媒体模块调试指南.pdf
+.. _AN-2521-7-B-X3J3DDR编程指南.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-7-B-X3J3DDR编程指南.pdf
+.. _AN-2521-1-B-X3J3平台PMIC驱动修改指导.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-1-B-X3J3平台PMIC驱动修改指导.pdf

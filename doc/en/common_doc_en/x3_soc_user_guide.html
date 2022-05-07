@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>About Sunrise 3 (X3) AI Processor</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="X3 vs. J3" href="xj3_soc_contrast.html" />
+  <link rel="prev" title="Horizon X3/J3 SOC Development Manual" href="../index.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">X/J3 SOC Dev Manual</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://en.horizon.ai/"
+        class="nav-link external">
+          Horizon <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          Community <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          Feedback <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://en.horizon.ai/"
+        class="nav-link external">
+          Horizon <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          Community <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          Feedback <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">General Descriptions</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About SoCs</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">About Sunrise 3 (X3) AI Processor</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#about-sunrise-3-x3-ai-processor" class="reference internal">About Sunrise 3 (X3) AI Processor</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_soc_contrast.html" class="reference internal ">X3 vs. J3</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About DevKits</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="xj3_board_overview.html" class="reference internal ">About DevKits</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_sdb_overview.html" class="reference internal ">X3 SDB Eco DevKits</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_update_guide.html" class="reference internal ">Firmware Upgrade Manual</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_command.html" class="reference internal ">Frequently-used System Commands</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About OpenExplorer</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_user_guide.html" class="reference internal ">About Development Platform</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_quick_start.html" class="reference internal ">Setup Development Environment</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_sample.html" class="reference internal ">Application Development Samples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_docs.html" class="reference internal ">Appendix: Development Manual</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">Others</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="other_sources.html" class="reference internal ">More Technical Support</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>About Sunrise 3 (X3) AI Processor</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="../index.html"
+       title="previous chapter">← Horizon X3/J3 SOC Development Manual</a>
+  </li>
+  <li class="next">
+    <a href="xj3_soc_contrast.html"
+       title="next chapter">X3 vs. J3 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="about-sunrise-3-x3-ai-processor">
+<h1>About Sunrise 3 (X3) AI Processor<a class="headerlink" href="#about-sunrise-3-x3-ai-processor" title="Permalink to this headline">¶</a></h1>
+<p>Sunrise 3 (X3) is a low-power high-performance AIoT specific processor.
+X3 can be divided into X3M and X3E according to different user application scenarios.</p>
+<p>X3 Features please refer to below block diagram:</p>
+<a class="reference internal image-reference" href="../_images/soc_chip_block.png"><img alt="../_images/soc_chip_block.png" class="align-center" src="../_images/soc_chip_block.png" style="width: 1210.0px; height: 656.0px;" /></a>
+<ol class="arabic simple">
+<li><p><strong>CPU Specifications</strong>: X3 SoC uses ARM® Cortex®-A53 as host controller chip, size of L1 Cache is 32KB, size of L2 Cache is 512KB.
+X3 SoC can support FPU &amp; NEON accelerations, its Typical operating frequency is 1.2GHz and can support frequency control
+at software level. X3M has quad-core CPUs; while X3E has build-in dual-core CPUs.</p></li>
+<li><p><strong>BPU Specifications</strong>: Brain Processing Unit (BPU) is an AI accelerating IP core based on Horizon Robotics’ own-developed
+Bernoulli2 microarchitecture. Wherein, typical operating frequency of X3M’s dual-core BPUs is 1.2GHz,
+while typical operating frequency of X3E’s dual-core BPUs is 0.6GHz. Peak computes of the 2 can reach 5 TOPs and 3 TOPs
+respectively.</p></li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The flexible multi-core scheduling strategies of X3 SoCs’ build-in dual-core BPUs makes model scheduling at business level
+easier:</p>
+<ol class="arabic simple">
+<li><p>The <strong>single-frame single-core</strong> model scheduling strategy can manually dispatch a single inference to a single BPU core
+so as to implement the physical separation between those high-priority models who requires full image detection and
+some low-priority models in the detection + classification scenario.</p></li>
+<li><p>While the <strong>single-frame dual-core</strong> model scheduling strategy can execute a single inference in 2 BPU cores
+in order to implement <strong>true dual-core</strong> execution. It can significantly reduce the latency of single inference.</p></li>
+</ol>
+<p>The single-frame single-core model scheduling strategy can guarantee inference separation in 2 BPU cores when DDR etc.
+resources are not fully consumed. While the multi-threading <strong>multi-frame dual-core</strong> strategy can raise x2 FPS.
+The single-frame dual-core strategy can dramatically reduce the latency of a single inference of big model;
+however, the multi-threading <strong>multi-frame dual-core</strong> strategy may fail to implement x2 FPS due to the costs of
+dual-core scheduling.</p>
+<p>More technical details about high-efficient dual-core usage please refer to AI Toolchain’s relevant documentation.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Video Channel Capacities</strong>: X3 AI processor comes with complete Video In, Video Out, Video CODEC (encoding/decoding)
+and Image Process etc. video channel modules, please refer to below framework diagram:</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/soc_video.png"><img alt="../_images/soc_video.png" class="align-center" src="../_images/soc_video.png" style="width: 1164.8px; height: 572.8000000000001px;" /></a>
+<ul class="simple">
+<li><p><strong>Video In module</strong> accepts MIPI and DVP image sensor inputs.
+Wherein, MIPI Rx is divided into Rx0, Rx1/3 and Rx2, there are 8 lanes in total,
+design bandwidth of each lane can support sensor inputs e.g. 2Gbps, YUV422 8/10bit and Raw 8, 10, 12, 14.</p></li>
+<li><p><strong>SIF module</strong> retransmits from the virtual channel of Video In module to downstream ISP/IPU modules
+and can retransmit Video In data to third party SoC via bypass feature.</p></li>
+<li><p><strong>ISP module</strong> can support LSC/LDC/DIS/DPC/SNR etc., and can obtain high-quality images in wide dynamic or
+low-light scenarios. Meanwhile, it provides ISP Tuning tool for users to implement ISP tuning by themselves.</p></li>
+<li><p><strong>VPS hardware</strong> provides image processing capacities such as: resize, flip, rotation, correction, flow control and pyramid etc.
+In hardware, it is composed by single IPU, single pyramid (PYM) and 2 GDCs.
+In software, it implements time-sharing hardware multiplexing by grouping,
+and can support 8-group time-sharing multiplexing at maximum.</p></li>
+<li><p><strong>VENC/VDEC module</strong> can offer at maximum 8M&#64;60fps H.265 and 8M&#64;30fps H.264 encoding/decoding capacities.
+as well as 16M pixels JPEG encoding/decoding capacity.</p></li>
+<li><p><strong>Video Out module</strong> can support BT1120, BT656 and MIPI etc output scenarios.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Video In module can support not only MIPI and DVP RAW type sensor inputs, it also can support USB sensor input.
+Typically, it obtains USB input images in JPEG etc. formats from USB driver, then decode images using the VDEC module and
+dumps YUV data to VPS module.</p>
+<p>More information about basic video channel and USB camera usages please refer to basic APIs of system software,
+or simplify your usage using the VideoSource application development component.</p>
+</div>
+<p>More information about X3’s other peripherals and ports please refer to X3M/X3E Datasheets.</p>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="../index.html"
+       title="previous chapter">← Horizon X3/J3 SOC Development Manual</a>
+  </li>
+  <li class="next">
+    <a href="xj3_soc_contrast.html"
+       title="next chapter">X3 vs. J3 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

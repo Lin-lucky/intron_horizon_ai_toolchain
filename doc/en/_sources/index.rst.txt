@@ -1,0 +1,74 @@
+Horizon X3/J3 SOC Development Manual
+===============================================
+
+Sunrise3 (X3) and Journey3 (J3) AI processors are power-efficient and high-performance system-on-chip (SOC) rolled out 
+by Horizon Robotics in 2020. The Sunrise series are tailored for AIoT; while the Journey series are made for autonomous 
+driving domain. Wherein, X3 AI processors can be divided into X3M and X3E versions according to different application 
+scenarios.
+
+In terms of compute capacity, both X3M and J3 come with in-built Quad-core Cortex A53 CPU and Dual-core BPU 
+(Brain Processing Unit) AI accelerators. Wherein, the Bernoulli 2.0 micro architecture based BPU accelerator can 
+provide 5TOPS AI compute.
+
+.. note::
+    
+    BPU is Horizon's own-developed AI accelerator that can satisfy AIoT/Auto scenario requirements by design. 
+    The hardware-software joint optimizations in algorithm, computing architecture and compiler raise AI compute 
+    performance by multiple times without increase in power consumption.
+
+    The dual-core Bernoulli-architecture v2 BPU in X3 and J3 AI processors can dramatically boost CNN network support, 
+    effectively reduce DDR bandwidth usage and can support real-time pixel level video segmentation and structured video 
+    analysis etc. capacities.
+
+In terms of image processing capacities, the 12M in-built Pixels ISP allows X3 and J3 to obtain high-quality images in 
+wide dynamic range and low-light conditions. Meanwhile, X3 and J3 come with rich image processing acceleration modules e.g. 
+in-built 3D Noise Reduction (3DNR), Lens Distortion Correction (LDC), Geometric Distortion Correction (GDC), image rotation, 
+resizing, pyramid, H.265/H.264/MJPEG video encoding/decoding etc. With 4K\@60pfs peak compute, they can also support 4~8 lane 
+synchronous processing of camera sensor input in various resolutions. 
+
+In addition, X3 and J3 each comes with one integrated DDR4/LPDDR4/LPDDR4X DDE controller, one USB3.0 host/device module, 
+one Gigabit Ethernet MAC with RMII/RGMII interface, bypass video/display output interface, I2S audio port etc. and 
+can thus satisfy requirements in different application scenarios.
+
+Lastly but most significantly, to unleash X3 and J3's AI capacities to the full, Horizon provides users with a full set of 
+dev board kits, AI development platform and customized industrial solutions. You are about to find out more in later chapters. 
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: General Descriptions
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: About SoCs
+
+   ./common_doc_en/x3_soc_user_guide.rst
+   ./common_doc_en/xj3_soc_contrast.md
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: About DevKits
+
+   ./common_doc_en/xj3_board_overview.rst
+   ./common_doc_en/x3_sdb_overview.rst
+   ./common_doc_en/xj3_board_update_guide.rst
+   ./common_doc_en/xj3_board_command.rst
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: About OpenExplorer
+   
+   ./source_doc/x3_ddk_user_guide.rst
+   ./common_doc_en/xj3_ddk_quick_start.rst
+   ./common_doc_en/xj3_ddk_sample.rst
+   ./source_doc/x3_ddk_docs.rst
+
+.. toctree::
+   :hidden:
+   :maxdepth: 3
+   :caption: Others
+
+   ./common_doc_en/other_sources.rst

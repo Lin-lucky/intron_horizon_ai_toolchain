@@ -1,0 +1,49 @@
+The ``hb_eval_preprocess`` Tool
+==========================================
+
+The ``hb_eval_preprocess`` tool is used for preprocessing image data on x86 system.
+Proprocess refers to some specific image data operations before being fed into the model,
+e.g. resizing, cropping or padding etc.
+
+How To Use
+--------------------------------
+
+.. code-block::
+
+  hb_eval_preprocess [OPTIONS]
+
+Parameters
+--------------------------------
+
+.. data:: hb_eval_preprocess's parameters
+
+  \-\-version
+    This parameter displays version information and exit.
+
+  -m, \-\-model_name
+    This parameter is used for specifying model name.
+    Please use the ``hb_eval_preprocess --help`` command to check out the range of supported models.
+
+  -i, \-\-image_dir
+    This parameter is used for specifying input image directory.
+
+  -o, \-\-output_dir
+    This parameter is used for specifying the output directory.
+
+  -v, \-\-val_txt
+    This parameter is used for specifying the file in which contains the the names of evaluation images.
+    I.e., the names of the preprocessed images will correspond to the names in this file.
+
+  -h, \-\-help
+    This parameter displays help information and exit.
+
+Output
+--------------------------------
+
+The ``hb_eval_preprocess`` tool will generate image binary files in the directory specified
+by the ``--output_dir`` parameter.
+
+.. tip::
+  More information about the model accuracy evaluation use case using the ``hb_eval_preprocess`` tool 
+  please refer to the `Data Pre-process <../../embedded_sample/ai_benchmark/ai-benchmark.htmll#data-pre-process>`_
+  section in the AI Benchmark User Guide for embedded application development.

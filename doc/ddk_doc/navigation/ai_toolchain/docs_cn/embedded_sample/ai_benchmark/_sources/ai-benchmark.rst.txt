@@ -1,0 +1,1007 @@
+前言
+====
+
+​AI Benchmark示例包提供了常见的分类、检测和分割模型的评测示例，包括性能评测和精度评测两部分。
+其中性能评测包括单帧延迟评测和多线程调度充分利用双核情况下的速度评测。
+开发包中预置了源码、可执行程序和评测脚本，开发者可以直接在地平线开发板上体验并基于这些示例进行应用开发，降低开发门槛。
+
+交付物说明
+==========
+
+​交付物主要包括以下内容：
+
+.. table::
+
+  +----------+----------+----------------------------+
+  | **编号** | **名称** | **内容**                   |
+  +----------+----------+----------------------------+
+  | 1        | code     | 包含示例源代码和编译脚本。 |
+  +----------+----------+----------------------------+
+  | 2        | xj3      | 示例包上板运行环境。       |
+  +----------+----------+----------------------------+
+
+.. note::
+
+  有关以上交付物中的评测数据集data的获取请参考
+  `《模型转换示例包文档》 <../../hb_mapper_sample_doc/index.html>`_。
+
+示例代码包
+-----------------
+
+​示例包结构如下所示：
+
+.. code-block:: bash
+
+  +---ai_benchmark
+  | +---code                           # 示例源码文件夹
+  | | +---build_ptq_xj3.sh
+  | | +---CMakeLists.txt
+  | | +---deps                         # 第三方依赖库
+  |   | +---aarch64
+  | | +---include                      # 源码头文件
+  |   | +---base
+  |   | +---input
+  |   | +---method
+  |   | +---output
+  |   | +---plugin
+  |   | +---utils
+  | | +---src                          # 示例源码
+  |   | +---input
+  |   | +---method
+  |   | +---output
+  |   | +---plugin
+  |   | +---utils
+  |   | +---simple_example.cc          # 示例主程序
+  | +---xj3                             # 示例包运行环境
+  |   +---ptq                          # 后量化模型示例
+  |   | +---data                       # 模型精度评测数据集
+  |   | +---mini_data                  # 模型性能评测数据集
+  |   | +---model                      # 后量化nv12模型
+  |   | +---script                     # 执行脚本
+  |   | | +---aarch64                  # 编译产生可执行文件及依赖库
+  |   | | +---base_config.sh
+  |   | | +---config
+  |   | | +---classification           # 分类模型示例
+  |   | | | +---efficientnet_lite0
+  |   | | | | +---accuracy.sh          # 模型精度示例脚本
+  |   | | | | +---fps.sh               # 模型性能示例脚本
+  |   | | | | +---latency.sh           # 模型单帧延时示例脚本
+  |   | | | | +---workflow_accuracy.json
+  |   | | | | +---workflow_fps.json
+  |   | | | | +---workflow_latency.json
+  |   | | | +---efficientnet_lite1
+  |   | | | +---efficientnet_lite2
+  |   | | | +---efficientnet_lite3
+  |   | | | +---efficientnet_lite4
+  |   | | | +---googlenet
+  |   | | | +---mobilenetv1
+  |   | | | +---mobilenetv2
+  |   | | | +---resnet18
+  |   | | +---detection                # 检测模型示例
+  |   | | | +---efficient_det
+  |   | | | +---centernet
+  |   | | | +---fcos
+  |   | | | +---mobilenet_ssd
+  |   | | | +---yolov2
+  |   | | | +---yolov3
+  |   | | | +---yolov5
+  |   | | +---segmentation             # 分割模型示例
+  |   | | | +---mobilenet_unet
+  |   | +---tools                      # 精度评测工具
+  |   | | +---python_tools
+  |   | | | +---accuracy_tools
+  |   | | | +---voc_metric
+
+- **code**：该目录内是评测程序的源码，利用地平线XStream框架开发的一个应用程序，用来进行模型性能和精度评测。
+- **xj3**：提供了已经编译好的应用程序，以及各种评测脚本，用来测试多种模型在地平线BPU上运行的性能，精度等。
+- build_ptq_xj3.sh：真机程序一键编译脚本。
+- **deps**：示例代码所需要的依赖，主要如下所示:
+
+  .. code-block:: bash
+
+    gflags  glog  opencv  rapidjson  xproto  xstream
+
+示例模型
+-----------
+
+**​model** 来源于 **open_explorer发布包** 中的
+**horizon_x3_open_explorer/ddk/samples/ai_toolchain/model_zoo/runtime**， 
+里面包含常用的分类、检测和分割模型，模型的命名规则为：{model_name}_{input_size}_{input_type}
+**model** 里的模型都是通过模型转换发布包编译出来的。
+原始模型详细信息可以查看模型转换发布包中的模型。
+
+.. table::
+  :align: center
+
+  +--------------------+----------------------------------------------+
+  | MODEL              | MODEL NAME                                   |
+  +====================+==============================================+
+  | centernet          | centernet_512x512_nv12.bin                   |
+  +--------------------+----------------------------------------------+
+  |                    | efficient_det_512x512_nv12.bin               |
+  | efficient_det      +----------------------------------------------+
+  |                    | efficient_det_no_dequanti_512x512_nv12.bin   |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite0 | efficientnet_lite0_224x224_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite1 | efficientnet_lite1_240x240_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite2 | efficientnet_lite1_260x260_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite3 | efficientnet_lite1_280x280_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | efficientnet_lite4 | efficientnet_lite1_300x300_nv12.bin          |
+  +--------------------+----------------------------------------------+
+  | fcos               | fcos_512x512_nv12.bin                        |
+  +--------------------+----------------------------------------------+
+  | googlenet          | googlenet_224x224_nv12.bin                   |
+  +--------------------+----------------------------------------------+
+  | googlenet_cop      | googlenet_cop_224x224_nv12.bin.bin           |
+  +--------------------+----------------------------------------------+
+  | lenet_gray         | lenet_28x28_gray.bin                         |
+  +--------------------+----------------------------------------------+
+  | mobilenet_multi    | mobilenet_multi_224x224_gray.bin             |
+  +--------------------+----------------------------------------------+
+  | mobilenet_ssd      | mobilenet_ssd_300x300_nv12.bin               |
+  +--------------------+----------------------------------------------+
+  | mobilenet_unet     | mobilenet_unet_1024x2048_nv12.bin            |
+  +--------------------+----------------------------------------------+
+  |                    | mobilenetv1_224x224_nv12.bin                 |
+  |                    +----------------------------------------------+
+  | mobilenetv1        | mobilenetv1_224x224_nv12_dump.bin            |
+  +--------------------+----------------------------------------------+
+  | mobilenetv2        | mobilenetv2_224x224_nv12.bin                 |
+  +--------------------+----------------------------------------------+
+  | resnet18           | resnet18_224x224_nv12.bin                    |
+  +--------------------+----------------------------------------------+
+  | resnet50_feature   | resnet50_64x56x56_featuremap.bin             |
+  +--------------------+----------------------------------------------+
+  |                    | yolov2_608x608_nv12.bin                      |
+  | yolov2             +----------------------------------------------+
+  |                    | yolov2_preempted_608x608_nv12.bin            |
+  +--------------------+----------------------------------------------+
+  |                    | yolov3_416x416_nv12.bin                      |
+  | yolov3             +----------------------------------------------+
+  |                    | yolov2_preempted_416x416_nv12.bin            |
+  +--------------------+----------------------------------------------+
+  | yolov5             | yolov5_672x672_nv12.bin                      |
+  +--------------------+----------------------------------------------+
+
+
+公共数据集
+---------------
+
+示例中用到的数据集主要有VOC数据集、COCO数据集、ImageNet数据集和Cityscapes数据集。
+用于精度评测的数据集需要经过工具 ``hb_eval_preprocess`` 进行模型的预处理，生成模型对应的前处理二进制.bin文件，
+程序通过lst文件（如coco.lst）完成对预处理文件的读入，完成数据集推理。
+
+.. tip::
+
+  1. 以上评测数据集的获取请参见《模型转换示例包手册》中的 `如何准备数据集 <../../hb_mapper_sample_doc/samples/02_algorithm_sample.html#id2>`_ 一小节内容。
+  2. 关于 ``hb_eval_preprocess`` 工具在模型精度评测示例中的应用，请参见： :ref:`数据预处理 <data_preprocess>` 一小节内容。
+  3. 关于 ``hb_eval_preprocess`` 工具命令行参数，可键入 ``hb_eval_preprocess -h``， 或查看《HB Mappper工具手册》中的
+     `hb_eval_preprocess工具 <../../hb_mapper_tools_guide/03_tools/hb_eval_preprocess.html#hb-eval-preprocess>`_ 一节内容。
+
+- VOC数据集：该数据集主要用于MobileNet_SSD模型的评测，
+  其目录结构如下，示例中主要用到 **Main** 文件下的val.txt文件，
+  **JPEGImages** 中的源图片和 **Annotations** 中的标注数据：
+
+  .. code-block:: shell
+
+    .
+    └── VOCdevkit                  # 根目录
+        └── VOC2012                # 不同年份的数据集，这里只下载了2012的，还有2007等其它年份的
+            ├── Annotations        # 存放xml文件，与JPEGImages中的图片一一对应，解释图片的内容等等
+            ├── ImageSets          # 该目录下存放的都是txt文件，txt文件中每一行包含一个图片的名称，末尾会加上±1表示正负样本
+            │   ├── Action
+            │   ├── Layout
+            │   ├── Main
+            │   └── Segmentation
+            ├── JPEGImages         # 存放源图片
+            ├── SegmentationClass  # 存放的是图片，语义分割相关
+            └── SegmentationObject # 存放的是图片，实例分割相关
+
+对数据集进行预处理：
+
+.. code-block:: bash
+
+  hb_eval_preprocess -m mobilenet_ssd -i VOCdevkit/VOC2012/JPEGImages -v VOCdevkit/VOC2012/ImageSets/Main/val.txt -o ./pre_mobilenet_ssd
+
+- COCO数据集：该数据集主要用于YOLOv2、YOLOv3、YOLOv5、Efficient_Det、FCOS和CenterNet模型的评测，
+  其目录如下，示例中主要用到 **annotations** 文件夹下的instances_val2017.json标注文件和 **images** 中的图片：
+
+  .. code-block:: shell
+
+    .
+    ├── annotations    # 存放标注数据
+    └── images         # 存放源图片
+
+对数据集进行预处理：
+
+.. code-block:: bash
+
+  hb_eval_preprocess -m model_name -i coco/coco_val2017/images -o ./pre_model_name
+
+- ImageNet数据集：该数据集主要用于EfficientNet_lite0、EfficientNet_Lite1、EfficientNet_Lite2、
+  EfficientNet_Lite3、EfficientNet_Lite4、MobileNet、GoogleNet、ResNet等分类模型的评测，
+  示例中主要用到了标注文件val.txt 和 **val** 目录中的源图片:
+
+  .. code-block:: shell
+
+    .
+    ├── val.txt
+    └── val
+
+对数据集进行预处理：
+
+.. code-block:: bash
+
+  hb_eval_preprocess -m model_name -i imagenet/val -o ./pre_model_name
+
+- Cityscapes数据集：该数据集用于MobileNet_Unet模型的评测。
+   示例中主要用到了 **./gtFine/val** 中的标注文件和 **./leftImg8bit/val** 中的源图片。
+
+  .. code-block:: shell
+
+    .
+    ├── gtFine
+    │   └── val
+    │       ├── frankfurt
+    │       ├── lindau
+    │       └── munster
+    └── leftImg8bit
+        └── val
+            ├── frankfurt
+            ├── lindau
+            └── munster
+
+对数据集进行预处理：
+
+.. code-block:: bash
+
+  hb_eval_preprocess -m mobilenet_unet -i cityscapes/leftImg8bit/val -o ./pre_mobilenet_unet
+
+环境构建
+========
+
+开发板准备
+-----------
+
+1. 拿到开发板后，按照刷机说明升级系统镜像到示例包推荐的系统镜像版本。
+
+2. 确保本地开发机和开发板可以远程连接。
+
+编译
+--------
+
+​编译需要当前环境安装好交叉编译工具gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu。
+然后执行 **code** 目录下的build_ptq_xj3.sh脚本即可一键编译真机环境下的可执行程序，可执行
+程序和对应依赖会自动复制到 **xj3/ptq/script** 目录下的 **aarch64** 目录下。
+
+.. note::
+
+  需要注意build_ptq_xj3.sh脚本里指定的交叉编译工具链的位置是 **/opt** 目录下，用户如果安装在其他位置，可以手动修改下build_ptq_xj3.sh。
+
+.. code-block:: shell
+
+  export CC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc
+  export CXX=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
+
+示例使用
+========
+
+评测示例
+----------
+
+​评测示例脚本主要在 **script** 和 **tools** 目录下。 **script** 是板上运行的评测脚本，包括常见分类，检测和分割模型。每个模型下面有三个脚本，分别表示：
+
+- fps.sh利用XStream框架实现fps统计（多线程调度，用户可以根据需求自由设置线程数）。
+- latency.sh实现单帧延迟性能统计（一个线程，单帧）。
+- accuracy.sh用于精度评测。
+
+.. code-block:: shell
+
+  script:
+
+  ├── aarch64             # 编译产生的可执行文件及依赖库
+  │   ├── bin
+  │   ├── lib
+  ├── base_config.sh      # 基础配置
+  ├── config              # image_name配置文件
+  │   ├── coco_detlist.list
+  |   |   ├── coco_detlist.list
+  │   |   ├── imagenet.list
+  │   |   ├── voc_detlist.list
+  ├── classification      # 分类模型评测
+  │   ├── efficientnet_lite0
+  │   │   ├── accuracy.sh
+  │   │   ├── fps.sh
+  │   │   ├── latency.sh
+  │   │   ├── workflow_accuracy.json
+  │   │   ├── workflow_fps.json
+  │   │   ├── workflow_latency.json
+  │   ├── mobilenetv1
+  │   ├── .....
+  │   ├── resnet18
+  ├── detection           # 检测模型
+  |   ├── centernet
+  │   │   ├── accuracy.sh
+  │   │   ├── fps.sh
+  │   │   ├── latency.sh
+  │   │   ├── workflow_accuracy.json
+  │   │   ├── workflow_fps.json
+  │   │   ├── workflow_latency.json
+  │   ├── yolov2
+  │   ├── yolov3
+  │   ├── ...
+  │   ├── efficient_det
+  └── segmentation       # 分割模型
+      └──mobilenet_unet
+          ├── accuracy.sh
+          ├── fps.sh
+          ├── latency.sh
+          ├── workflow_accuracy.json
+          ├── workflow_fps.json
+          ├── workflow_latency.json
+
+**tools** 目录下是精度评测需要的脚本。主要包括 **python_tools** 下的精度计算脚本。
+
+.. code-block:: shell
+
+  tools:
+
+  python_tools
+    ├── accuracy_tools
+    └── voc_metric
+
+.. attention::
+
+  评测前需要执行以下命令，将 **ptq** 目录拷贝到开发板上，然后将 **model_zoo/runtime** 拷贝到 **ptq/model** 目录下。
+
+.. code-block:: shell
+   
+  scp -r ddk/samples/ai_benchmark/xj3/ptq root@192.168.1.1:/userdata/ptq/
+  scp -r ddk/samples/ai_toolchain/model_zoo/runtime root@192.168.1.1:/userdata/ptq/model/
+
+
+
+性能评测
+---------------
+
+性能评测分为latency和fps两方面。
+
+使用说明
+~~~~~~~~
+
+latency:
+进入到需要评测的模型目录下 执行 ``sh latency.sh`` 即可测试出单帧延迟。如下图所示：
+
+.. code-block:: shell
+
+  I0118 13:12:58.946164 24510 utils.cc:270]  Inference   avg latency:  15.116ms  max:  18.809ms  min:  15.001ms
+  I0118 13:12:58.951250 24523 utils.cc:270]  PostProcess avg latency:  4.279ms  max:  4.370ms  min:  4.238ms
+
+.. note::
+
+  - ``infer`` 表示模型推理耗时。
+  - ``Post process`` 表示后处理耗时。
+
+fps:
+该功能采用多线程并发方式，旨在让模型可以在BPU上达到极致的性能。由于多线程并发及数据采样的原因，在程序启动阶段帧率值会较低，之后帧率会上升并逐渐趋于稳定，帧率的浮动范围控制在0.5%之内。
+进入到需要评测的模型目录下执行 ``sh fps.sh`` 即可测试出帧率。如下图所示：
+
+.. code-block:: shell
+
+  I0118 13:11:48.034074 24492 output_plugin.cc:50]  frame_rate: 142.952     # 模型帧率
+
+命令行参数说明
+~~~~~~~~~~~~~~~
+
+accuracy.sh脚本内容如下：
+
+.. code-block:: shell
+  :linenos:
+  
+  #!/bin/sh
+
+  source ../../base_config.sh                      # 加载基础配置
+  export SHOW_FPS_LOG=1                            # 设置环境变量，打印fps级别log
+
+  ${app} \                                         # 可执行程序，在accuracy.sh脚本中定义
+    --config_file=workflow_accuracy.json \         # 加载精度测试workflow配置文件
+    --log_level=2                                  # 设置log等级
+
+fps.sh脚本内容如下：
+
+.. code-block:: shell
+
+  #!/bin/sh
+
+  source ../../base_config.sh
+  export SHOW_FPS_LOG=1
+
+  ${app} \
+    --config_file=workflow_fps.json \
+    --log_level=1
+
+latency.sh脚本内容如下：
+
+.. code-block:: shell
+
+  #!/bin/sh
+
+  source ../../base_config.sh
+  export SHOW_LATENCY_LOG=1                            # 设置环境变量，打印latency级别log
+
+  ${app} \
+    --config_file=workflow_latency.json \
+    --log_level=1
+
+配置文件说明
+~~~~~~~~~~~~~
+
+以fcos模型为例
+accuray workflow配置文件内容如下：
+
+.. code-block::
+
+  {
+    "input_config": {
+      "input_type": "preprocessed_image",
+      "height": 512,
+      "width": 512,
+      "data_type": 1,
+      "image_list_file": "../../../data/coco/coco.lst",
+      "need_pre_load": false,
+      "need_loop": false,
+      "max_cache": 10
+    },
+    "output_config": {
+      "output_type": "eval",
+      "eval_enable": true,
+      "output_file": "./eval.log",
+      "mask_output_file": "./mask.log"
+    },
+    "inputs": [
+      "input_data"
+    ],
+    "outputs": [
+      "input_data",
+      "perception_data"
+    ],
+    "workflow": [
+      {
+        "thread_count": 2,
+        "method_type": "InferMethod",
+        "unique_name": "InferMethod",
+        "inputs": [
+          "input_data"
+        ],
+        "outputs": [
+          "tensors"
+        ],
+        "method_config": {
+          "core": 0,
+          "model_file": "../../../model/runtime/fcos/fcos_512x512_nv12.bin"
+        }
+      },
+      {
+        "thread_count": 2,
+        "method_type": "PTQFcosPostProcessMethod",
+        "unique_name": "PTQFcosPostProcessMethod",
+        "inputs": [
+          "input_data",
+          "tensors"
+        ],
+        "outputs": [
+          "perception_data"
+        ],
+        "method_config": {
+          "strides": [8, 16, 32, 64, 128],
+          "class_num": 80,
+          "score_threshold": 0.05,
+          "topk": 1000,
+          "det_name_list": "../../config/data_name_list/coco_detlist.list"
+        }
+      }
+    ]
+  }
+
+fps workflow配置文件内容如下：
+
+.. code-block::
+
+  {
+    "input_config": {
+      "input_type": "image",
+      "height": 512,
+      "width": 512,
+      "data_type": 1,
+      "image_list_file": "../../../mini_data/coco/coco.lst",
+      "need_pre_load": true,
+      "limit": 4,
+      "need_loop": true,
+      "max_cache": 10
+    },
+    "output_config": {
+      "output_type": "image",
+      "image_list_enable": true,
+      "image_output_dir": "./output_images"
+    },
+    "inputs": [
+      "input_data"
+    ],
+    "outputs": [
+      "input_data",
+      "perception_data"
+    ],
+    "workflow": [
+      {
+        "thread_count": 4,
+        "method_type": "InferMethod",
+        "unique_name": "InferMethod",
+        "inputs": [
+          "input_data"
+        ],
+        "outputs": [
+          "tensors"
+        ],
+        "method_config": {
+          "core": 0,
+          "model_file": "../../../model/runtime/fcos/fcos_512x512_nv12.bin"
+        }
+      },
+      {
+        "thread_count": 2,
+        "method_type": "PTQFcosPostProcessMethod",
+        "unique_name": "PTQFcosPostProcessMethod",
+        "inputs": [
+          "input_data",
+          "tensors"
+        ],
+        "outputs": [
+          "perception_data"
+        ],
+        "method_config": {
+          "strides": [8, 16, 32, 64, 128],
+          "class_num": 80,
+          "score_threshold": 0.3,
+          "topk": 1000,
+          "det_name_list": "../../config/data_name_list/coco_detlist.list"
+        }
+      }
+    ]
+  }
+
+latency workflow如下：
+
+.. code-block::
+
+  {
+    "input_config": {
+      "input_type": "image",
+      "height": 512,
+      "width": 512,
+      "data_type": 1,
+      "image_list_file": "../../../mini_data/coco/coco.lst",
+      "need_pre_load": true,
+      "limit": 2,
+      "need_loop": true,
+      "max_cache": 10
+    },
+    "output_config": {
+      "output_type": "image",
+      "image_list_enable": true,
+      "image_output_dir": "./output_images"
+    },
+    "inputs": [
+      "input_data"
+    ],
+    "outputs": [
+      "input_data",
+      "perception_data"
+    ],
+    "workflow": [
+      {
+        "thread_count": 1,
+        "method_type": "InferMethod",
+        "unique_name": "InferMethod",
+        "inputs": [
+          "input_data"
+        ],
+        "outputs": [
+          "tensors"
+        ],
+        "method_config": {
+          "core": 0,
+          "model_file": "../../../model/runtime/fcos/fcos_512x512_nv12.bin"
+        }
+      },
+      {
+        "thread_count": 1,
+        "method_type": "PTQFcosPostProcessMethod",
+        "unique_name": "PTQFcosPostProcessMethod",
+        "inputs": [
+          "input_data",
+          "tensors"
+        ],
+        "outputs": [
+          "perception_data"
+        ],
+        "method_config": {
+          "strides": [8, 16, 32, 64, 128],
+          "class_num": 80,
+          "score_threshold": 0.3,
+          "topk": 1000,
+          "det_name_list": "../../config/data_name_list/coco_detlist.list"
+        }
+      }
+    ]
+  }
+
+精度评测
+------------
+
+​模型评测分为四步：
+
+1. 数据预处理。
+2. 数据挂载。
+3. 模型推理。
+4. 精度计算。
+
+.. _data_preprocess:
+
+数据预处理
+~~~~~~~~~~~~~
+
+​数据预处理需要在x86环境下运行 ``hb_eval_preprocess`` 工具，对数据集进行预处理。
+所谓预处理是指图片数据在送入模型之前的特定处理操作。
+比如：图片resize、crop和padding等。
+该工具集成于 ``horizon_tc_ui`` 工具中，安装过相应install脚本即可使用.
+直接运行 ``hb_eval_preprocess --help`` 可以查看工具使用规则，各模型的预处理命令可以查看前文数据集介绍部分。
+
+数据集获取
+
+生成预处理文件之后，还需要生成对应的lst文件，lst文件中包含了需要读取的每一张前处理文件的路径，参考生成方式如下：
+
+.. code-block:: shell
+
+  find ../../../data/coco/fcos -name "*jpg*" > ../../../data/coco/coco.lst
+
+数据挂载
+~~~~~~~~~~~
+
+由于数据集相对较大，不适合直接放在开发板上，可以采用挂载的方式供开发板读取。
+服务器PC端（需要root权限）：
+
+1. 编辑 /etc/exports, 增加一行：
+   ``/nfs *(insecure,rw,sync,all_squash,anonuid=1000,anongid=1000,no_subtree_check)``。
+   ``/nfs`` 表示本机挂载路径，可替换为用户指定目录
+2. 执行命令 ``exportfs -a -r``，使/etc/exports 生效。
+
+板端：
+
+1. 创建需要挂载的目录：``mkdir -p /mnt``。
+2. ``mount -t nfs {PC端IP}:/nfs /mnt -o nolock``。
+
+完成将PC端的/nfs文件夹挂载至板端/mnt文件夹。按照此方式，将包含预处理数据的文件夹挂载至板端，并将/data目录软链接至板端/ptq目录下，与/script同级目录。
+
+
+模型推理
+~~~~~~~~
+
+挂载完数据后，登录开发板，执行 **fcos/** 目录下的accuracy.sh脚本，如下图所示：
+
+.. code-block:: bash
+
+  root@j3dvbj3-hynix2G-3200:/userdata/ptq/script/detection/fcos# sh accuracy.sh
+  ../../aarch64/bin/example --config_file=workflow_accuracy.json --log_level=2
+  ...
+  I0118 14:02:43.635543 24783 ptq_fcos_post_process_method.cc:157] PTQFcosPostProcessMethod DoProcess finished,
+  predict result: [{"bbox":[-1.518860,71.691170,574.934631,638.294922],"prob":0.750647,"label":21,"class_name":"
+  I0118 14:02:43.635716 24782 ptq_fcos_post_process_method.cc:150] PostProcess success!
+  I0118 14:02:43.636156 24782 ptq_fcos_post_process_method.cc:152] release output tensor success!
+  I0118 14:02:43.636204 24782 ptq_fcos_post_process_method.cc:157] PTQFcosPostProcessMethod DoProcess finished,
+  predict result: [{"bbox":[3.432283,164.936249,157.480042,264.276825],"prob":0.544454,"label":62,"class_name":"
+  ...
+
+板端程序会在当前目录生成eval.log文件，该文件就是预测结果文件。
+
+精度计算
+~~~~~~~~~
+
+​精度计算的脚本在 **python_tools** 目录下，其中 **accuracy_tools** 中的：
+cls_eval.py是用来计算分类模型的精度；
+det_eval.py是用来计算使用COCO数据集评测的检测模型的精度；
+parsing_eval.py是用来计算使用Cityscapes数据集评测的分割模型的精度。
+
+**voc_metric** 中/det_eval.py是用来计算使用VOC数据集评测的检测模型的精度。
+
+分类模型
+^^^^^^^^
+
+- 使用CIFAR-10数据集和ImageNet数据集的分类模型计算方式如下：
+
+  .. code-block:: shell
+
+    #!/bin/sh
+
+    python3 cls_eval.py --log_file=eval.log --gt_file=val.txt
+
+  .. note::
+
+    - ``log_file``：分类模型的预测结果文件。
+    - ``gt_file``：CIFAR-10和ImageNet数据集的标注文件。
+
+检测模型
+^^^^^^^^
+
+- 使用COCO数据集的检测模型精度计算方式如下：
+
+  .. code-block:: shell
+
+    #!/bin/sh
+
+    python3 det_eval.py --eval_result_path=eval.log --annotation_path=instances_val2017.json
+
+  .. note
+
+    - ``eval_result_path``：检测模型的预测结果文件。
+    - ``annotation_path``：COCO数据集的标注文件。
+
+- 使用VOC数据集的检测模型精度计算方式如下：
+
+  .. code-block:: shell
+
+    #!/bin/sh
+
+    python3 det_eval.py --eval_result_path=eval.log --annotation_path=../Annotations --val_txt_path=../val.txt
+
+  .. note::
+
+    - ``eval_result_path``：检测模型的预测结果文件。
+    - ``annotation_path``：VOC数据集的标注文件。
+    - ``val_txt_path``：VOC数据集中 **.../ImageSets/Main** 文件夹下的val.txt文件。
+
+分割模型
+^^^^^^^^
+
+- 使用Cityscapes数据集的分割模型精度计算方式如下：
+
+  .. code-block:: shell
+    :linenos:
+
+    #!/bin/sh
+
+    python3 parsing_eval.py --log_file=eval.log --gt_path=cityscapes/gtFine/val
+
+  .. note::
+
+    - ``log_file``：分割模型的预测结果文件。
+    - ``gt_path``：Cityscapes数据集的标注文件。
+
+
+模型集成
+==========
+
+后处理集成主要有2个步骤，以CenterNet模型集成为例：
+
+1. 增加后处理文件ptq_centernet_post_process_method.cc，以及头文件ptq_centernet_post_process_method.h。
+2. 增加模型运行脚本及配置文件。
+
+后处理文件添加
+---------------
+
+后处理代码文件可直接复用src/method目录下任意后处理文件，主要修改 ``InitFromJsonString`` 函数，以及 ``PostProcess`` 函数即可。
+
+``InitFromJsonString`` 函数主要是读取workflow.json中的后处理相关的参数配置，用户可自定义设置相应的输入参数。
+``PostProcess`` 函数主要完成后处理的逻辑。
+
+后处理.cc文件放置于 **ai_benchmark/code/src/method/** 路径下，
+.h头文件放置于 **ai_benchmark/code/include/method/** 路径下：
+
+.. code-block:: bash
+
+  +---ai_benchmark
+  | +---code                                  # 示例源码
+  | | +---include
+  | | | +---method                            # 在此文件夹中添加头文件
+  | | | | +---ptq_centernet_post_process_method.h
+  | | | | +---.....
+  | | | | +---ptq_yolo5_post_process_method.h
+  | | +---src
+  | | | +---method                            # 在此文件夹中添加后处理.cc文件
+  | | | | | +---ptq_centernet_post_process_method.cc
+  | | | | | +---....
+  | | | | | +---ptq_yolo5_post_process_method.cc
+
+增加模型运行脚本及配置文件
+-----------------------------
+
+脚本目录结构如下：
+
+.. code-block:: bash
+
+  +---ai_benchmark
+  | +---xj3/ptq/script                                    # 示例脚本文件夹
+  | | +---detection
+  | | | +---centernet
+  | | | | +---accuracy.sh                                # 精度测试脚本
+  | | | | +---fps.sh                                     # 性能测试脚本
+  | | | | +---latency.sh                                 # 单帧延时示例脚本
+  | | | | +---workflow_accuracy.json                     # 精度配置文件
+  | | | | +---workflow_fps.json                          # 性能配置文件
+  | | | | +---workflow_latency.json                      # 单帧延时配置文件
+
+辅助工具和常用操作
+====================
+
+日志
+----
+
+​日志主要包括 **示例日志** 和 **DNN日志** 两部分。
+其中示例日志是指交付包示例代码中所应用的日志；
+DNN日志是指嵌入式runtime库中的日志。
+用户根据不同的需求可以设置不同的日志。
+
+示例日志
+~~~~~~~~
+
+1. 日志等级。示例日志主要采用glog中的vlog，主要分为四个自定义等级：
+
+  - ``0`` (SYSTEM)，该等级主要用来输出报错信息；
+  - ``1`` (REPORT)，该等级在示例代码中主要用来输出性能数据；
+  - ``2`` (DETAIL)，该等级在示例代码中主要用来输出系统当前状态信息；
+  - ``3`` (DEBUG)，该等级在示例代码中主要用来输出调试信息。
+    日志等级设置规则：假设设置了级别为 ``P``，如果发生了一个级别 ``Q`` 比 ``P`` 低，
+    则可以启动，否则屏蔽掉；默认DEBUG>DETAIL>REPORT>SYSTEM。
+
+2. 日志等级设置。通过 ``log_level`` 参数来设置日志等级，在运行示例的时候，指定 ``log_level`` 参数来设置等级，
+   比如指定 ``log_level=0``，即输出SYSTEM日志；如果指定 ``log_level=3``，
+   则输出DEBUG、DETAIL、REPORT和SYSTEM日志。
+
+``dnn`` 日志
+~~~~~~~~~~~~~~~~~~~~~~~
+
+关于 ``dnn`` 日志的配置，请阅读 《bpu_sdk_api_doc》文档中的
+`配置信息 <../../bpu_sdk_api_doc/bpu_sdk_api_doc_cn.html#id20>`_ 一节内容。
+
+算子耗时
+--------
+
+概述
+~~~~
+
+​对OP性能的统计是通过设置 ``HB_DNN_PROFILER_LOG_PATH`` 环境变量实现的。
+对该变量的类型和取值说明如下：
+
+-  ``HB_DNN_PROFILER_LOG_PATH=${path}``：表示OP节点dump的输出路径，程序正常运行完退出后，产生profiler.log文件。
+
+示例
+~~~~
+
+以下代码块以YOLOv3模型为例，开启2个线程同时RunModel，设置 ``HB_DNN_PROFILER_LOG_PATH=./``，则统计输出的信息如下：
+
+.. code-block:: c
+  :linenos:
+
+  {
+    "model_latency": {
+      "Darkent2Caffe_subgraph_0": {
+        "avg_time": 162.989,
+        "max_time": 162.989,
+        "min_time": 162.989
+      },
+      "Darkent2Caffe_subgraph_0_output_layout_convert": {
+        "avg_time": 0.25125,
+        "max_time": 0.266,
+        "min_time": 0.25
+      },
+      "layer106-conv_1_HzDequantize": {
+        "avg_time": 2.35912,
+        "max_time": 3.767,
+        "min_time": 2.304
+      },
+      "layer82-conv_1_HzDequantize": {
+        "avg_time": 0.15062,
+        "max_time": 0.252,
+        "min_time": 0.148
+      },
+      "layer94-conv_1_HzDequantize": {
+        "avg_time": 0.60265,
+        "max_time": 0.939,
+        "min_time": 0.578
+      }
+    },
+    "task_latency": {
+      "TaskRunningTime": {
+        "avg_time": 173.83456,
+        "max_time": 176.033,
+        "min_time": 173.744
+      },
+      "TaskScheduleTime": {
+        "avg_time": 0.023030000000000002,
+        "max_time": 0.161,
+        "min_time": 0.02
+      },
+      "TaskSubmitTime": {
+        "avg_time": 0.01066,
+        "max_time": 0.03,
+        "min_time": 0.009
+      }
+    }
+  }
+  
+以上输出了 model_latency 和 task_latency。其中model_latency中输出了模型每个OP运行所需要的耗时情况，task_latency中输出了模型运行中各个task模块的耗时情况。
+
+.. note::
+
+  程序只有正常退出才会输出profiler.log文件。
+
+dump工具
+--------
+
+​通过开启 ``HB_DNN_DUMP_PATH`` 这个环境变量可以dump出模型推理过程中每个节点的输入和输出。
+通过dump工具，可以排查模拟器和真机是否存在一致性问题：即相同模型，相同输入，真机和模拟器的输出结果是否完全相同。
+
+常用操作
+--------
+
+查看开发板镜像版本
+~~~~~~~~~~~~~~~~~~~
+
+​使用 ``uname -a`` 命令可以查看到系统的版本，执行命令后如下图所示，
+
+.. code-block:: shell
+
+  root@x3dvbx3-micron1G-3200:/userdata# uname -a
+  Linux x3dvbx3-micron1G-3200 4.14.74 #2 SMP PREEMPT Fri Oct 23 10:47:39 CST 2020 aarch64 GNU/Linux
+
+.. note::
+
+   - ``SMP`` 代表该系统支持对称多处理（Symmetrical Multi-Processing）。
+   - ``PREEMPT`` 代表系统支持抢占式内核。
+   - ``Oct 23 10:47:39 CST 2020`` 代表系统镜像发布时间。
+   - ``aarch64`` 代表系统支持平台为aarch64平台。
+
+查看系统日志
+~~~~~~~~~~~~
+
+​使用 ``dmesg`` 命令可以查看系统日志，如下图所示：
+
+.. code-block:: shell
+
+  root@x3dvbx3-micron1G-3200:/userdata# dmesg
+  [    0.000000] Booting Linux on physical CPU 0x0
+  [    0.000000] Linux version 4.14.74 (jenkins@sysgbj8) (gcc version 6.5.0 (Linaro GCC 6.5-2018.12)) #2 SMP PREEMPT Fri Oct 23 10:47:39 CST 2020
+  [    0.000000] Boot CPU: AArch64 Processor [410fd034]
+  [    0.000000] Machine model: Hobot X3 SOC MP DVB
+  [    0.000000] earlycon: hobot0 at MMIO 0x00000000a5000000 (options '')
+  [    0.000000] bootconsole [hobot0] enabled
+  ...
+
+在上板运行程序的时候，假如发生系统错误（比如程序被killed或者mem分配失败等），执行 ``dmesg`` 后可以看到系统发生错误的具体原因。
+
+查看BPU使用率
+~~~~~~~~~~~~~~
+
+​使用 ``hrut_somstatus`` 命令可以查看当前开发板的BPU使用率，执行命令后如下图所示：
+
+.. code-block:: shell
+
+  =====================1=====================
+  temperature-->
+    BOARD    : 31.5 (C)
+    CPU      : 33.7 (C)
+  cpu frequency-->
+          min	    cur	    max
+    cpu0: 240000	1200000	1200000
+    cpu1: 240000	1200000	1200000
+    cpu2: 240000	1200000	1200000
+    cpu3: 240000	1200000	1200000
+  bpu status information---->
+          min	      cur       max       ratio
+    bpu0: 400000000	1000000000	1000000000	0      // bpu核0使用率
+    bpu1: 400000000	1000000000	1000000000	0      // bpu核1使用率
+  root@x3dvbx3-micron1G-3200:~#
+

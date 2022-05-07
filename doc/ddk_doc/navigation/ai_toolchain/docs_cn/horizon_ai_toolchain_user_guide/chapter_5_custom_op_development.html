@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5. 自定义算子开发 &mdash; horizon_ai_toolchain_user_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="6. 附录" href="chapter_6_appendix.html" />
+    <link rel="prev" title="4. 应用开发" href="chapter_4_application_development.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> horizon_ai_toolchain_user_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AI工具链:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter_1_introduction.html">1. 产品介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_2_prerequisites.html">2. 环境部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. 模型转换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_4_application_development.html">4. 应用开发</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. 自定义算子开发</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">5.1. 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">5.2. 含自定义算子的模型转换</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">5.2.1. 模型文件修改</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">5.2.2. 算子实现</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">5.3. 含自定义算子的上板运行</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#c">5.3.1. 自定义算子C++模版</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">5.3.2. 自定义算子注册</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_6_appendix.html">6. 附录</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">horizon_ai_toolchain_user_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">5. </span>自定义算子开发</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/chapter_5_custom_op_development.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">5. </span>自定义算子开发<a class="headerlink" href="#id1" title="永久链接至标题"></a></h1>
+<section id="id2">
+<h2><span class="section-number">5.1. </span>简介<a class="headerlink" href="#id2" title="永久链接至标题"></a></h2>
+<p>地平线工具链中已经支持了丰富的算子，在大多数情况下，您的模型应该可以通过前文所述模型转换顺利部署到地平线芯片上。
+少部分算子不支持情况下，我们建议您先尝试下替换算子的可能性，这样有利于将地平线芯片能力充分发挥出来。</p>
+<p>自定义算子只提供CPU上算子开发能力，一个完整的自定义算子应用过程包括创建模板、算子实现、算子编译、
+含自定义算子模型转换和运行含自定义op模型几个阶段。具体流程如下图所示:</p>
+<img alt="_images/custom_op_development.png" class="align-center" src="_images/custom_op_development.png" />
+<p>如图所示，定义自定义OP需要有两部分的任务，在模型转换阶段，需要提供自定义OP的python代码，在模拟器/上板运行推理阶段，
+需要提供自定义OP的C++代码，要确保这两部分的代码运算的一致性。</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">5.2. </span>含自定义算子的模型转换<a class="headerlink" href="#id3" title="永久链接至标题"></a></h2>
+<section id="id4">
+<h3><span class="section-number">5.2.1. </span>模型文件修改<a class="headerlink" href="#id4" title="永久链接至标题"></a></h3>
+<p>在准备好自定义算子实现后，为了将算子应用起来，您需要从原始模型文件和模型转换配置两个方面做出相应调整
+(下面分别以 <code class="docutils literal notranslate"><span class="pre">Caffe</span></code> 模型和 <code class="docutils literal notranslate"><span class="pre">ONNX</span></code> 模型为例)。</p>
+<ul class="simple">
+<li><p><strong>Caffe 模型</strong></p></li>
+</ul>
+<p>原始模型文件中，将自定义算子对应的算子类型标记为 <code class="docutils literal notranslate"><span class="pre">Custom</span></code>，并提供一组 <code class="docutils literal notranslate"><span class="pre">custom_param</span></code>，示例如下。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">layer</span> <span class="p">{</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;hr_op&quot;</span>
+  <span class="nb">type</span><span class="p">:</span> <span class="s2">&quot;Custom&quot;</span>
+  <span class="n">bottom</span><span class="p">:</span> <span class="s2">&quot;res3d_in&quot;</span>
+  <span class="n">top</span><span class="p">:</span> <span class="s2">&quot;res3d&quot;</span>
+  <span class="n">custom_param</span> <span class="p">{</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="s2">&quot;CustomIdentity&quot;</span>
+    <span class="n">shape</span> <span class="p">{</span>
+      <span class="n">dim</span><span class="p">:</span> <span class="mi">1</span>
+      <span class="n">dim</span><span class="p">:</span> <span class="mi">512</span>
+      <span class="n">dim</span><span class="p">:</span> <span class="mi">28</span>
+      <span class="n">dim</span><span class="p">:</span> <span class="mi">28</span>
+    <span class="p">}</span>
+    <span class="n">params</span><span class="p">:</span> <span class="s2">&quot;&#39;kernel_size&#39;: 10 </span><span class="se">\n</span><span class="s2">&#39;threshold&#39;: 0.5&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>以上完整 <code class="docutils literal notranslate"><span class="pre">custom_param</span></code> 示例中。
+<code class="docutils literal notranslate"><span class="pre">kind</span></code> 是自定义算子的内部实现名称，该自定义OP为恒等OP，因此命名为 <code class="docutils literal notranslate"><span class="pre">CustomIdentity</span></code>，该名称在后续Python及C++代码中均会体现；
+<code class="docutils literal notranslate"><span class="pre">shape</span></code> 是算子的输出尺寸，需要完整指定；<code class="docutils literal notranslate"><span class="pre">params</span></code> 是算子的传入参数指定形式为 <code class="docutils literal notranslate"><span class="pre">'param_name':</span> <span class="pre">param_value</span></code>，
+多个参数之间使用 <code class="docutils literal notranslate"><span class="pre">\n</span></code> 分隔。</p>
+<p>在模型转换配置中，使用自定义算子需要在配置文件中加入一个新的自定义op参数组如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#...</span>
+
+<span class="n">custom_op</span><span class="p">:</span>
+  <span class="c1"># 自定义op的校准方式</span>
+  <span class="n">custom_op_method</span><span class="p">:</span> <span class="n">register</span>
+
+  <span class="c1"># 自定义OP的实现文件, 多个文件可用&quot;;&quot;分隔</span>
+  <span class="n">op_register_files</span><span class="p">:</span> <span class="n">sample_custom</span><span class="o">.</span><span class="n">py</span>
+
+  <span class="c1"># 自定义OP实现文件所在的文件夹, 请使用相对路径</span>
+  <span class="n">custom_op_dir</span><span class="p">:</span> <span class="o">./</span><span class="n">custom_op</span>
+</pre></div>
+</div>
+<p>对于 <code class="docutils literal notranslate"><span class="pre">Caffe</span></code> 模型，以上参数组中，三个参数都是必须配置的。<code class="docutils literal notranslate"><span class="pre">custom_op_method</span></code> 固定使用 <code class="docutils literal notranslate"><span class="pre">register</span></code>；
+<code class="docutils literal notranslate"><span class="pre">op_register_files</span></code> 是自定义算子计算的实现文件，
+如果有多份实现，使用 <code class="docutils literal notranslate"><span class="pre">‘;’</span></code> 将各个文件分开即可；<code class="docutils literal notranslate"><span class="pre">custom_op_dir</span></code> 是存放 <code class="docutils literal notranslate"><span class="pre">op_register_files</span></code> 系列文件的路径名称，请使用相对路径。</p>
+<p>完成这些配置后，模型转换的后续步骤与其他一般模型转换过程一致。</p>
+<ul class="simple">
+<li><p><strong>ONNX 模型</strong></p></li>
+</ul>
+<ol class="arabic">
+<li><p>含有自定义算子的Onnx模型的获取:</p>
+<ol class="loweralpha simple">
+<li><p>从pytorch 等其他框架转换而来</p></li>
+</ol>
+<blockquote>
+<div><p>参考代码:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">horizon_nn.horizon_onnx.onnx_pb</span> <span class="kn">import</span> <span class="n">TensorProto</span>
+<span class="kn">from</span> <span class="nn">torch.onnx.symbolic_helper</span> <span class="kn">import</span> <span class="n">parse_args</span>
+<span class="kn">from</span> <span class="nn">torch.onnx.utils</span> <span class="kn">import</span> <span class="n">register_custom_op_symbolic</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;pytorch/vision:v0.10.0&#39;</span><span class="p">,</span> <span class="s1">&#39;googlenet&#39;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_transform_input</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">_transform_input</span> <span class="o">=</span> <span class="n">_transform_input</span>
+
+<span class="nd">@parse_args</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">horizon_pool</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">output_size</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">g</span><span class="o">.</span><span class="n">op</span><span class="p">(</span>
+        <span class="s1">&#39;horizon.custom::PyOp&#39;</span><span class="p">,</span> <span class="c1">#required, ! must be &#39;horizon.custom&#39; domain !</span>
+        <span class="nb">input</span><span class="p">,</span>
+        <span class="n">class_name_s</span><span class="o">=</span><span class="s2">&quot;GlobalAveragePool&quot;</span><span class="p">,</span>  <span class="c1">#required ! must match the class def name in sample_custom python file !</span>
+        <span class="n">compute_s</span><span class="o">=</span><span class="s2">&quot;compute&quot;</span><span class="p">,</span>  <span class="c1">#optional, &#39;compute&#39; by default</span>
+        <span class="n">module_s</span><span class="o">=</span><span class="s2">&quot;sample_custom&quot;</span><span class="p">,</span>  <span class="c1">#required ! must match the file name of the &quot;op_register_files&quot; !</span>
+        <span class="n">input_types_i</span><span class="o">=</span><span class="p">[</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">],</span>  <span class="c1">#required</span>
+        <span class="n">output_types_i</span><span class="o">=</span><span class="p">[</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">],</span>  <span class="c1">#required</span>
+        <span class="n">output_shape_s</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1, 1024, 1, 1&quot;</span><span class="p">])</span> <span class="c1">#required</span>
+
+<span class="n">d_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
+<span class="n">register_custom_op_symbolic</span><span class="p">(</span><span class="s1">&#39;::adaptive_avg_pool2d&#39;</span><span class="p">,</span>
+                            <span class="n">horizon_pool</span><span class="p">,</span>
+                            <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">d_input</span><span class="p">,</span> <span class="s2">&quot;googlenet_cop.onnx&quot;</span><span class="p">,</span> <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li><p>直接修改onnx模型</p></li>
+</ol>
+<blockquote>
+<div><p>参考代码：</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">horizon_nn</span> <span class="kn">import</span> <span class="n">horizon_onnx</span>
+<span class="kn">from</span> <span class="nn">horizon_nn.horizon_onnx</span> <span class="kn">import</span> <span class="n">helper</span>
+<span class="kn">from</span> <span class="nn">horizon_nn.horizon_onnx.onnx_pb</span> <span class="kn">import</span> <span class="n">TensorProto</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">horizon_onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;googlenet.onnx&quot;</span><span class="p">)</span>
+
+<span class="c1"># print(helper.printable_graph(model.graph))</span>
+
+<span class="n">py1_node</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span>
+    <span class="n">op_type</span><span class="o">=</span><span class="s1">&#39;PyOp&#39;</span><span class="p">,</span>  <span class="c1">#required, must be &#39;PyOp&#39;</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;hr_op&#39;</span><span class="p">,</span> <span class="c1">#required</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;368&#39;</span><span class="p">],</span>  <span class="c1">#required</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;368_py&#39;</span><span class="p">],</span>  <span class="c1">#required</span>
+    <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;horizon.custom&#39;</span><span class="p">,</span>  <span class="c1">#required, ! must be &#39;horizon.custom&#39; domain !</span>
+    <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">],</span>  <span class="c1">#required</span>
+    <span class="n">output_types</span><span class="o">=</span><span class="p">[</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">],</span>  <span class="c1">#required</span>
+    <span class="n">module</span><span class="o">=</span><span class="s1">&#39;sample_custom&#39;</span><span class="p">,</span>  <span class="c1">#required, ! must match the file name of the &quot;op_register_files&quot; !</span>
+    <span class="n">class_name</span><span class="o">=</span><span class="s1">&#39;CustomIdentity&#39;</span><span class="p">,</span>  <span class="c1">#required ! must match the class def name in sample_custom python file !</span>
+    <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;compute&#39;</span><span class="p">,</span>  <span class="c1">#optional, &#39;compute&#39; by default</span>
+    <span class="n">kernel_size</span><span class="o">=</span><span class="s1">&#39;10&#39;</span><span class="p">,</span>  <span class="c1">#optional,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="s1">&#39;1.2&#39;</span><span class="p">)</span>  <span class="c1">#optional,</span>
+
+<span class="n">custom_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">for</span> <span class="n">node_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node_index</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Conv_4&quot;</span><span class="p">:</span>  <span class="c1"># insert pyop at certain point in the original model</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node_index</span><span class="p">]</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;368_py&quot;</span>
+        <span class="n">custom_index</span> <span class="o">=</span> <span class="n">node_index</span>
+
+<span class="k">if</span> <span class="n">custom_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;target node not found&quot;</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">custom_index</span><span class="p">,</span> <span class="n">py1_node</span><span class="p">)</span>
+
+<span class="n">pyop_value_info</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;368_py&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span>  <span class="c1">#  value info is needed for onnx shape infer.</span>
+                                                <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">56</span><span class="p">])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">value_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyop_value_info</span><span class="p">)</span>
+
+<span class="n">pyop_opset</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_operatorsetid</span><span class="p">(</span><span class="s2">&quot;horizon.custom&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">opset_import</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyop_opset</span><span class="p">)</span>
+
+<span class="n">horizon_onnx</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;modified.onnx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>Onnx模型中PyOp属性的注意点:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>domain 属性一定要设置, 不然的话会被默认成 onnx 标准domain 从而报错</p></li>
+<li><p>module 需要与注册时使用的注册文件同名.  若注册文件在当前目录的子文件夹中, 则需要修改module内容. 例如: 若 <code class="docutils literal notranslate"><span class="pre">sample_custom.py</span></code>  在当前路径的custom_op 文件夹中, 则该module应设置为 <code class="docutils literal notranslate"><span class="pre">custom_op.sample_custom</span></code></p></li>
+<li><p>class_name 需要与注册文件中的class名称相同</p></li>
+</ol>
+</div></blockquote>
+</div>
+</div></blockquote>
+</li>
+<li><p>与 <code class="docutils literal notranslate"><span class="pre">Caffe</span></code> 模型一致，需要在模型转换配置中，使用自定义算子需要在配置文件中加入一个新的自定义op参数组如下：</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#...</span>
+
+<span class="n">custom_op</span><span class="p">:</span>
+  <span class="c1"># 自定义op的校准方式</span>
+  <span class="n">custom_op_method</span><span class="p">:</span> <span class="n">register</span>
+
+  <span class="c1"># 自定义OP的实现文件, 多个文件可用&quot;;&quot;分隔</span>
+  <span class="n">op_register_files</span><span class="p">:</span> <span class="n">sample_custom</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>对于 <code class="docutils literal notranslate"><span class="pre">ONNX</span></code> 模型，以上参数组中的两个参数都是必须配置的。<code class="docutils literal notranslate"><span class="pre">custom_op_method</span></code> 固定使用 <code class="docutils literal notranslate"><span class="pre">register</span></code>；
+<code class="docutils literal notranslate"><span class="pre">op_register_files</span></code> 是自定义算子计算的实现文件，如果有多份实现，使用 <code class="docutils literal notranslate"><span class="pre">‘;’</span></code> 将各个文件分开即可；</p>
+<p>完成这些配置后，模型转换的后续步骤与其他一般模型转换过程一致。</p>
+</section>
+<section id="id5">
+<h3><span class="section-number">5.2.2. </span>算子实现<a class="headerlink" href="#id5" title="永久链接至标题"></a></h3>
+<p>在模型转换阶段, 需要提供自定义算子的Python实现, 工具会利用该实现函数完成模型的浮点转定点转换。</p>
+<p>Python模板文件(sample_custom.py)如下:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1">#sample_custom.py</span>
+
+<span class="kn">from</span> <span class="nn">horizon_nn.custom.op_registration</span> <span class="kn">import</span> <span class="n">op_implement_register</span><span class="p">,</span> <span class="n">op_shape_infer_register</span>
+
+<span class="nd">@op_implement_register</span><span class="p">(</span><span class="s2">&quot;CustomIdentity&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">CustomIdentity</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_size</span> <span class="o">=</span> <span class="n">kernel_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+
+    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span>
+
+<span class="nd">@op_shape_infer_register</span><span class="p">(</span><span class="s2">&quot;CustomIdentity&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">infer_shape</span><span class="p">(</span><span class="n">inputs_shape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Infer the output shapes of the custom operator.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        input_shapes: A list of input shapes.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Return a list of custom operator&#39;s output shapes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">outputs_shape</span> <span class="o">=</span> <span class="n">inputs_shape</span>
+    <span class="k">return</span> <span class="n">outputs_shape</span>
+</pre></div>
+</div>
+<p>该文件的名字(sample_custom.py)需要填入模型转换的yaml配置文件中 <code class="docutils literal notranslate"><span class="pre">op_register_files</span></code>，否则工具无法正常import这个module，
+并且修饰器 <code class="docutils literal notranslate"><span class="pre">op_implement_register</span></code> 注册的custom op名称 <code class="docutils literal notranslate"><span class="pre">CustomIdentity</span></code> 需要与自定义OP的类型（<code class="docutils literal notranslate"><span class="pre">Kind</span></code>）一致。</p>
+<p>对于 <code class="docutils literal notranslate"><span class="pre">Caffe</span></code> 模型， <code class="docutils literal notranslate"><span class="pre">init</span></code> 函数中的参数(<code class="docutils literal notranslate"><span class="pre">kernel_size,</span> <span class="pre">threshold</span></code>)都是通过prototxt文件中的 <code class="docutils literal notranslate"><span class="pre">params</span></code> 传入的， 用于自定义op模块的初始化。如果在prototxt里已经说明op的形状， 则这里可以不用进行shape注册（<code class="docutils literal notranslate"><span class="pre">op_shape_infer_register</span></code>），
+<code class="docutils literal notranslate"><span class="pre">op_shape_infer_register</span></code> 注册的函数只在prototxt中没有 <code class="docutils literal notranslate"><span class="pre">shape</span></code> 信息时才会被调用。</p>
+<p><code class="docutils literal notranslate"><span class="pre">op_shape_infer_register</span></code> 的输入参数为 <code class="docutils literal notranslate"><span class="pre">inputs_shape</span></code>, 自定义OP的输入数据的 <code class="docutils literal notranslate"><span class="pre">shape</span></code> （即上一个OP的输出 <code class="docutils literal notranslate"><span class="pre">shape</span></code>）。</p>
+<p>上述操作完成后即可进行浮点转定点的操作, 得到相应的bin文件 （即 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> <a class="reference external" href="../../hb_mapper_tools_guide/01_model_conversion_details.html#hb-mapper-makertbin">命令</a> ）。</p>
+</section>
+</section>
+<section id="id7">
+<h2><span class="section-number">5.3. </span>含自定义算子的上板运行<a class="headerlink" href="#id7" title="永久链接至标题"></a></h2>
+<p>在拿到bin文件后，还不能直接在开发板上运行。在运行之前需要先提供自定义算子的C++代码实现。
+您可以使用下文提供的模板进行修改并添加到示例代码中进行使用。</p>
+<p>如果您只是希望测试自定义算子的功能，也可以直接使用我们提供的模版文件，模版文件中将输入直接赋值为输出使用，
+所以这个自定义算子并不会对结果造成任何影响。</p>
+<section id="c">
+<h3><span class="section-number">5.3.1. </span>自定义算子C++模版<a class="headerlink" href="#c" title="永久链接至标题"></a></h3>
+<p>Runtime模板文件如下:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// custom_identity.h</span>
+<span class="cp">#ifndef ADVANCED_SAMPLES_CUSTOM_IDENTITY_H_</span>
+<span class="cp">#define ADVANCED_SAMPLES_CUSTOM_IDENTITY_H_</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/hb_dnn.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/plugin/hb_dnn_layer.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/plugin/hb_dnn_ndarray.h&quot;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">hobot</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">dnn</span> <span class="p">{</span>
+
+<span class="n">Layer</span> <span class="o">*</span><span class="n">CustomIdentity_layer_creator</span><span class="p">();</span>
+
+<span class="k">class</span> <span class="nc">CustomIdentity</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Layer</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">CustomIdentity</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+  <span class="o">~</span><span class="n">CustomIdentity</span><span class="p">()</span> <span class="k">override</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+
+<span class="k">public</span><span class="o">:</span>
+  <span class="kt">int32_t</span> <span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">Attribute</span> <span class="o">&amp;</span><span class="n">attributes</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="kt">int32_t</span> <span class="nf">Forward</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">NDArray</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">bottomBlobs</span><span class="p">,</span>
+                  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">NDArray</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">topBlobs</span><span class="p">,</span>
+                  <span class="k">const</span> <span class="n">hbDNNInferCtrlParam</span> <span class="o">*</span><span class="n">inferCtrlParam</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">GetType</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;CustomIdentity&quot;</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">module_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="p">}</span>  <span class="c1">// namespace dnn</span>
+<span class="p">}</span>  <span class="c1">// namespace hobot</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// custom_identity.cpp</span>
+<span class="cp">#include</span> <span class="cpf">&quot;custom_identity.h&quot;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">hobot</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">dnn</span> <span class="p">{</span>
+
+<span class="n">Layer</span> <span class="o">*</span><span class="n">CustomIdentity_layer_creator</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">new</span> <span class="n">CustomIdentity</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="kt">int32_t</span> <span class="n">CustomIdentity</span><span class="o">::</span><span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">Attribute</span> <span class="o">&amp;</span><span class="n">attributes</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// unused attribute, just demonstrating</span>
+  <span class="n">attributes</span><span class="p">.</span><span class="n">GetAttributeValue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">module_</span><span class="p">,</span> <span class="s">&quot;module&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int32_t</span> <span class="n">CustomIdentity</span><span class="o">::</span><span class="n">Forward</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">NDArray</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">bottomBlobs</span><span class="p">,</span>
+                                <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">NDArray</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">topBlobs</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="n">hbDNNInferCtrlParam</span> <span class="o">*</span><span class="n">inferCtrlParam</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="n">NDArray</span> <span class="o">*</span><span class="n">input</span> <span class="o">=</span> <span class="n">bottomBlobs</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">NDArray</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">topBlobs</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="k">const</span> <span class="k">auto</span> <span class="o">*</span><span class="n">input_data</span> <span class="o">=</span> <span class="n">input</span><span class="o">-&gt;</span><span class="n">Dptr</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="k">auto</span> <span class="o">*</span><span class="n">out_data</span> <span class="o">=</span> <span class="n">out</span><span class="o">-&gt;</span><span class="n">Dptr</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="kt">uint32_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">input</span><span class="o">-&gt;</span><span class="n">Size</span><span class="p">();</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0U</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">out_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">}</span>  <span class="c1">// namespace dnn</span>
+<span class="p">}</span>  <span class="c1">// namespace hobot</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>该函数名称的前缀(即 <code class="docutils literal notranslate"><span class="pre">CustomIdentity</span></code>) 需要与自定义OP的类型（<code class="docutils literal notranslate"><span class="pre">Kind</span></code>）一致, 其传入的参数为:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bottom_blobs</span></code> → 自定义OP节点输入数据。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">top_blobs</span></code> → 自定义OP节点输出数据。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inferCtrlParam</span></code> → 自定义算子初始化阶段的输入参数。</p></li>
+</ul>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>模板中的运算规则均为输出等于输入, 因此后续用户若要定义其他行为, 则需相应的更改运算规则即可。</p>
+</div>
+</section>
+<section id="id8">
+<h3><span class="section-number">5.3.2. </span>自定义算子注册<a class="headerlink" href="#id8" title="永久链接至标题"></a></h3>
+<p>当您完成C++版本模版的修改后，仅需要在示例的CMakeLists.txt中添加对模版文件的包含，
+并在示例中增加对算子的注册即可，注册请参考以下代码：</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;custom_identity.h&quot;</span><span class="cp"></span>
+
+<span class="n">hbDNNRegisterLayerCreator</span><span class="p">(</span><span class="s">&quot;CustomIdentity&quot;</span><span class="p">,</span>
+                            <span class="n">hobot</span><span class="o">::</span><span class="n">dnn</span><span class="o">::</span><span class="n">CustomIdentity_layer_creator</span><span class="p">);</span>
+<span class="p">....</span>
+</pre></div>
+</div>
+<p>当您完成对模版文件的依赖及算子注册后，即可对含有自定义算子的模型进行执行等操作。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>在使用前，请您确认模型的自定义算子名称与注册的算子名称是相同的。</p>
+</div>
+<p>参考文档，请参阅 Runtime 示例中的 <a class="reference external" href="../../embedded_sample/basic_sample/_source/basic-sample.html#advanced-samples">advanced_samples</a> 。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chapter_4_application_development.html" class="btn btn-neutral float-left" title="4. 应用开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="chapter_6_appendix.html" class="btn btn-neutral float-right" title="6. 附录" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

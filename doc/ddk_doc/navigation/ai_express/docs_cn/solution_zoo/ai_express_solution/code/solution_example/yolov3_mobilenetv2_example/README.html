@@ -1,0 +1,1546 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>示例：如何基于AI-EXPRESS集成模型 &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>示例：如何基于AI-EXPRESS集成模型</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/ai_express_solution/code/solution_example/yolov3_mobilenetv2_example/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ai-express">
+<h1>示例：如何基于AI-EXPRESS集成模型<a class="headerlink" href="#ai-express" title="Permalink to this headline">¶</a></h1>
+<p>当我们使用浮点定点工具转换得到一个异构模型bin文件时，如何集成到AI-Express？</p>
+<p>本章节解决该问题！</p>
+<p>解决该问题，我们需要关注这几个模块：</p>
+<ul class="simple">
+<li><p>图像获取</p></li>
+<li><p>智能预测</p></li>
+<li><p>效果展示</p></li>
+<li><p>运行部署</p></li>
+</ul>
+<p>图像获取部分主要是复用XProto中video_source_plugin中定义的VioPlugin。其中需要修改的地方是金字塔的配置：建议配置金字塔中存在一层图像，该层的分辨率直接是全图检测/分割模型需要的输入大小，避免需要ARM上软件缩放图像。</p>
+<p>智能预测模块主要是复用XProto中的SmartPlugin，SmartPlugin内部会调用XStream-Framework接口，完成workflow的计算。集成新模型需要我们关注的主要是这几个地方：模型编译、感知结果数据结构定义、模型预测Method的开发、workflow的构建。</p>
+<p>模型编译配置，建议将全图检测/分割模型，编译为NV12输入：因为XJ3上获取到的图像都是NV12图，避免送入检测/分割模型，需要颜色空间转换。对于ROI分类回归模型，则无该建议。</p>
+<p>每种模型输出的结果均需要定义一个具体的数据结构，为了能够在XStream-Framework框架中传递，该数据结果需要继承BaseData。</p>
+<p>每类模型前后处理不会完全一样，需要继承XStream-Framework框架提供的DnnPredictMethod与DnnPostProcessMethod，分别重写模型的预处理与后处理接口。</p>
+<p>效果展示模块需要我们关注的是感知数据结构的序列化接口、AI-Express中定义的xprotobuf数据结构描述文件x3.proto。</p>
+<p>运行部署部分主要是解决新增模块的编译、run_example.sh脚本的更新等。</p>
+<ul class="simple">
+<li><p>VioPlugin: 用于获取图像，直接复用，适配新的sensor比较麻烦，暂时建议不要对它做扩展。</p></li>
+<li><p>SmartPlugin: 从XProto总线上获取图像，调用XStream，完成workflow的预测，向总线推送感知结果消息。感知结果与SmartPlugin均可以通过继承进行扩展，用于支持新的感知消息数据类型。</p></li>
+<li><p>ExampleWebDisplayPlugin: 从XProto总线上获取图像与感知结果，对图像进行编码，对感知结果进行序列化，完成图像与感知结果的匹配，通过websocket方式发给PC浏览器。可通过继承进行扩展，支持不同的感知消息类型。</p></li>
+</ul>
+<div class="section" id="id1">
+<h2>一. 图像获取<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>VioPlugin提供了图像获取的能力，支持从MIPI Camera、 外接usb camera、本地图像获取图像，计算生成金字塔。</p>
+<p>金字塔的原理这里不做详细描述，主要介绍VioPlugin如何配置金字塔每层的大小。</p>
+<p>目前AI-EXPRESS适配了几种camera以及回灌图像，对于其他camera型号或者回灌图像大小需求，请找地平线相关AE支持。</p>
+<p>VioPlugin金字塔大小配置的文件在：<strong>solution/common/video_source_plugin/configs/vio/x3dev</strong>目录。该目录有的文件如下：</p>
+<p><img alt="vio配置" src="../../../../_images/vio_files.png" /></p>
+<p>只需要关注红色框框住的文件，其他文件是单元测试代码需要。</p>
+<p>各个文件的用途说明如下表：</p>
+<p>|文件|功能说明|
+| ——– | —– |
+| iot_vio_x3_1080_fb.json | 1080P本地图像回灌的金字塔配置|
+|iot_vio_x3_2160_fb.json|2160P本地图像回灌的金字塔配置|
+|iot_vio_x3_imx327.json|MIPI camera 327的金字塔配置，原图为1080P|
+|iot_vio_x3_os8a10.json|MIPI camera os8a10的金字塔配置，原图设置为2160P|
+|iot_vio_x3_os8a10_1080p.json|MIPI camera os8a10的金字塔配置，原图设置为1080P|
+|iot_vio_x3_s5kgm1sp.json|MIPI camera s5kgm1sp，原图设置为4000x3000|
+|iot_vio_x3_s5kgm1sp_2160p.json|MIPI camera s5kgm1sp，原图设置为2160P|
+|iot_vio_x3_usb_cam_1080p.json|外接usb camera，原图分辨率为1080P|</p>
+<p>以上所有文件，金字塔每层的配置都是类似的。以iot_vio_x3_usb_cam_1080p.json为例。</p>
+<p>金字塔配置在 <strong>pym_ds_config</strong>这个节点，该节点配置金字塔缩放层。</p>
+<p>金字塔包含基本层与缩放层，基本层为0，4，8，12，16，20这6层，图像分辨率分别为原图、原图/2、原图/4等等。 其他层为缩放层，缩放层的缩放范围可以配置，基本层缩放比例上固定的，不需要配置。</p>
+<p>金字塔1-3层，为基于基本层0的缩放层；</p>
+<p>金字塔5-7层，为基于基本层4的缩放层；以此类推。</p>
+<p>通过设置roi_x_i、roi_y_i、roi_w_i、roi_h_i，从对应基本层中扣取该区域ROI；</p>
+<p>factor_i用于表示相对对应的基本层，需要缩放的倍数。缩放倍数计算公式为： 64/(64+factor)， factor取值范围为[1-63], factor设置为0表示该层不使能。</p>
+<p>最终该缩放层的大小为： ROI * 64/(64+factor)，宽与高分别向下取整。</p>
+<p>比如iot_vio_x3_usb_cam_1080p.json这个文件中</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;roi_x_6&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s2">&quot;roi_y_6&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s2">&quot;roi_w_6&quot;</span><span class="p">:</span> <span class="mi">960</span><span class="p">,</span>
+<span class="s2">&quot;roi_h_6&quot;</span><span class="p">:</span> <span class="mi">540</span><span class="p">,</span>
+<span class="s2">&quot;factor_6&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>第6层为缩放层，对应的基本层为第4层。原图为1920x1080分辨率，所以第4层分辨率为960x540。 第6层中设置的ROI区域大小为960x540，为整个第4层，缩放系数为64 / (64 + 32) = 2 / 3。 所以第6层图像的大小为 640 x 360</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">width_6</span> <span class="o">=</span> <span class="mi">960</span> <span class="n">x</span> <span class="mi">64</span> <span class="o">/</span> <span class="p">(</span><span class="mi">64</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span> <span class="o">=</span> <span class="mi">640</span>
+<span class="n">height_6</span> <span class="o">=</span> <span class="mi">540</span> <span class="n">x</span> <span class="mi">64</span> <span class="o">/</span> <span class="p">(</span><span class="mi">64</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span> <span class="o">=</span> <span class="mi">360</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>二. 智能预测<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>2.1 模型编译<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>检测模型的输入大小可以根据需要修改模型参数配置；</p>
+<p>模型输入修改为NV12，也是可以通过浮点定点转换工具进行配置。</p>
+<p>具体模型编译相关问题可以咨询地平线的AE。</p>
+</div>
+<div class="section" id="method">
+<h3>2.2 模型预测Method的开发<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h3>
+<p>XStream-Framework推荐一个模型，使用两个Method完成，一个Method用于模型的预处理，调用bpu-predict的异步预测接口；一个Method用于获取异步预测的结果，进行模型后处理。这样设计的好处是让模型预测与模型后处理在多线程中异步执行，当输入任务足够时，整个pipeline吞吐大，bpu使用率高。</p>
+<p>XStream-Framework对这两个Method做了封装，分别为DnnPredictMethod与DnnPostProcessMethod。对于每个模型，需要分别继承它们，重写前后处理接口。</p>
+<ul class="simple">
+<li><p>DnnPredictMethod： 完成模型的加载、输入与输出Tensor的分配、异步/同步bpu-predict接口调用。支持以Tensor方式预测，或者ROI方式预测。 继承者需要实现将Method的输入拷贝到输入Tensor，或者将Method的输入拷贝到金字塔与ROI数组中。</p></li>
+<li><p>DnnPostProcessMethod: 调用HB_BPU_waitModelDone等待异步任务完成，然后进行后处理；或者对于同步任务，直接进行后处理。 继承者需要实现将模型的输出转成Method的输出的接口。</p></li>
+</ul>
+<p>solution_zoo/common/xstream_methods/dnn_predict_method定义了模型预测Method的基类。</p>
+<p>solution_zoo/common/xstream_methods/dnn_postprocess_method定义了模型后处理Method的基类。</p>
+<p>solution_zoo/common/xstream_methods/dnn_async_data.h中定义了模型预测Method与模型后处理Method之间通信的数据结构。</p>
+<div class="section" id="dnnasyncdata">
+<h4>2.2.1 DnnAsyncData<a class="headerlink" href="#dnnasyncdata" title="Permalink to this headline">¶</a></h4>
+<p>XStream框架定义了DnnAsyncData，用于DnnPredictMethod与DnnPostProcessMethod之间传递的数据。DnnAsyncData的定义与说明如下：</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">DnnAsyncData</span> <span class="o">:</span> <span class="k">public</span> <span class="n">BaseData</span> <span class="p">{</span>
+  <span class="c1">// 模型handle,解析结果时需要通过它获取模型的信息，比如shape、shift等</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">BPUModelWrapper</span><span class="o">&gt;</span> <span class="n">dnn_model</span><span class="p">;</span>
+  <span class="c1">// 输入tensor, 需要由DnnPostProcess进行资源释放</span>
+  <span class="c1">// 最外层的vector,表示bpu任务的数量,与task_handle的维度一致,对于全图检测框类,维度应该为1</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;&gt;</span> <span class="n">input_tensors</span><span class="p">;</span>
+  <span class="c1">// 输出tensor,异步方式需要由DnnPostProcess进行资源释放</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;&gt;</span> <span class="n">output_tensors</span><span class="p">;</span>
+  <span class="c1">// 任务handle, 调用HB_BPU_waitModelDone接口需要</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TASK_HANDLE</span><span class="o">&gt;</span> <span class="n">task_handle</span><span class="p">;</span>
+  <span class="c1">// 是否调用bpu-predict同步接口</span>
+  <span class="kt">bool</span> <span class="n">dnn_is_sync</span><span class="p">;</span>
+
+  <span class="c1">// 对于ROI类输入需要，需要在后处理中</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">valid_box</span><span class="p">;</span>
+  <span class="c1">// pyramid + roi方式，后处理可能依赖ROI</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_BBOX</span><span class="o">&gt;</span> <span class="n">dnn_input_box</span><span class="p">;</span>
+
+  <span class="c1">// 原始图像大小,后处理坐标映射需要</span>
+  <span class="kt">int</span> <span class="n">src_image_width</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">src_image_height</span><span class="p">;</span>
+
+  <span class="kt">void</span> <span class="o">*</span><span class="n">reserved</span><span class="p">;</span>  <span class="c1">// 保留字段,用于扩展</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dnnpredictmethod">
+<h4>2.2.2 DnnPredictMethod<a class="headerlink" href="#dnnpredictmethod" title="Permalink to this headline">¶</a></h4>
+<p>DnnPredictMethod的接口说明如下,通过提供模型预处理接口，赋能其他模型完成模型的集成。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DnnPredictMethod</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SimpleMethod</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">DnnPredictMethod</span><span class="p">();</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">DnnPredictMethod</span><span class="p">();</span>
+  <span class="c1">// 读取配置文件，加载模型</span>
+  <span class="c1">// DnnPredictMethod::Init中提供了几个配置字段，继承类可以重写Init接口，</span>
+  <span class="c1">// 扩展配置，建议派生类Init接口中调用DnnPredictMethod::Init</span>
+  <span class="c1">// 完成基础参数的读写以及模型加载工作。</span>
+  <span class="kt">int</span> <span class="nf">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">cfg_path</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="nf">Finalize</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="c1">// 主逻辑，完全复用，派生类不需要再实现DoProcess;</span>
+  <span class="c1">// 继承者大部分情况不需要重写DoProcess接口，DoProcess接口内部</span>
+  <span class="c1">// 会调用虚函数PrepareInputData接口，完成模型预处理工作;</span>
+  <span class="c1">// DoProcess接口返回DnnAsyncData这个数据结构对象，</span>
+  <span class="c1">// DnnAsyncData这个结构在XStream框架中定义，</span>
+  <span class="c1">// 用于将模型的相关信息、bpu任务信息传递给模型模型后处理模块</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">DoProcess</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">model_path_</span><span class="p">;</span>  <span class="c1">// 模型文件，Init()时从配置文件读取</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">BPUModelWrapper</span><span class="o">&gt;</span> <span class="n">dnn_model_</span><span class="p">;</span>
+  <span class="c1">// DNN预测结构方式，默认异步,Init()时从配置文件读取</span>
+  <span class="kt">bool</span> <span class="n">dnn_is_sync_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="c1">// 是否是ROI方式,根据它实现不同的PrepareInputData接口，</span>
+  <span class="c1">// 默认非roi输入,Init()时从配置文件读取</span>
+  <span class="kt">bool</span> <span class="n">dnn_run_with_roi_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+  <span class="c1">// 是否开启group模式，Init()时从配置文件读取</span>
+  <span class="kt">bool</span> <span class="n">dnn_model_group_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="c1">// 运行的控制信息,主要设置模型运行的core_id，Init()时从配置文件读取</span>
+  <span class="n">BPU_RUN_CTRL_S</span> <span class="n">dnn_ctrl_</span><span class="p">;</span>
+  <span class="c1">// 原图的宽，Init()时从配置文件读取</span>
+  <span class="kt">int</span> <span class="n">src_image_witdh_</span><span class="p">;</span>
+  <span class="c1">// 原图的高，Init()时从配置文件读取</span>
+  <span class="kt">int</span> <span class="n">src_image_height_</span><span class="p">;</span>
+
+  <span class="c1">// 根据加载的模型，申请模型输入InputTensor大小，</span>
+  <span class="kt">int</span> <span class="nf">AllocInputTensor</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input_tensors</span><span class="p">);</span>
+  <span class="c1">// 根据加载的模型，申请模型输出OutputTensor大小</span>
+  <span class="kt">int</span> <span class="nf">AllocOutputTensor</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">output_tensors</span><span class="p">);</span>
+  <span class="c1">// 释放InputTensor/OutputTensor</span>
+  <span class="kt">void</span> <span class="nf">FreeTensor</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">tensors</span><span class="p">);</span>
+
+  <span class="c1">// 派生类需要实现</span>
+  <span class="c1">// PrepareInputData内部需要根据一帧图像目标数量，</span>
+  <span class="c1">// 多次调用AllocInputTensor分配空间.</span>
+  <span class="c1">// PrepareInputData接口内部需要调用</span>
+  <span class="c1">// AllocInputTensor/AllocOutputTensor，完成输入与输出的Tensor分配</span>
+  <span class="c1">// IN: input, param; 对应workflow配置的该Method的输入，</span>
+  <span class="c1">// 正常情况输入都是图片，不排除会有多个输入，比如图像+检测框。param基本不会用，可以不关注</span>
+  <span class="c1">// OUT: input_tensors: PrepareInputData接口需要将预处理后的结果，填充到input_tensors中</span>
+  <span class="c1">// OUT: output_tensors:PrepareInputData接口内部主要需要申请输出空间</span>
+  <span class="c1">// 返回码：0，成功；否则失败；</span>
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">PrepareInputData</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">InputParamPtr</span><span class="o">&gt;</span> <span class="n">param</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">input_tensors</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">output_tensors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 派生类需要实现，两个PrepareInputData，根据是否ROI，二选一实现即可。</span>
+  <span class="c1">// 该模式是特殊用法，只支持对所有的ROI打包一起，</span>
+  <span class="c1">// 调用一次预测接口，提高预测速度.</span>
+  <span class="c1">// 模型必须是NV12输入，模型的预处理过程必须是根据roi检测框在原图抠图NV12，</span>
+  <span class="c1">// 缩放到模型输入大小。其他预处理方式均不适用！</span>
+  <span class="c1">// PrepareInputData接口内部需要调用AllocInputTensor/AllocOutputTensor，</span>
+  <span class="c1">// 完成输入与输出的Tensor分配.</span>
+  <span class="c1">// IN: input, param; 对应workflow配置的该Method的输入，</span>
+  <span class="c1">// 正常情况都是图像+检测框两个输入。param基本不会用，可以不关注</span>
+  <span class="c1">// OUT: pyramid: 将input中的图像解析出来，赋值到</span>
+  <span class="c1">// hobot::vision::PymImageFrame，用于 调用bpu-predict接口。</span>
+  <span class="c1">// OUT: input_bbox: 原图分辨率，ROI坐标框，预测需要.</span>
+  <span class="c1">// OUT: valid_box，相对应input中检测框，每个input中的检测框是否送入bpu运算的标志，</span>
+  <span class="c1">// 后处理模块需要.</span>
+  <span class="c1">// OUT: output_tensors:PrepareInputData接口内部主要需要申请输出空间.</span>
+  <span class="c1">// 返回码：0，成功；否则失败</span>
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">PrepareInputData</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">InputParamPtr</span><span class="o">&gt;</span> <span class="n">param</span><span class="p">,</span>
+      <span class="n">hobot</span><span class="o">::</span><span class="n">vision</span><span class="o">::</span><span class="n">PymImageFrame</span> <span class="o">&amp;</span><span class="n">pyramid</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_BBOX</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input_bbox</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">valid_box</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">output_tensors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 用于获取原图分辨率的配置，后处理可能需要。</span>
+  <span class="c1">// 建议将原图大小配置在配置文件中，Init的时候获取大小，</span>
+  <span class="c1">// GetSrcImageSize的地方直接返回，</span>
+  <span class="c1">// 若程序支持多分辨率输入，</span>
+  <span class="c1">// GetSrcImageSize则可以运行时根据输入返回原图的大小</span>
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">GetSrcImageSize</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="kt">int</span> <span class="o">&amp;</span><span class="n">src_image_height</span><span class="p">,</span>
+      <span class="kt">int</span> <span class="o">&amp;</span><span class="n">src_image_width</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>DnnPredictMethod 支持的配置参数如下：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;model_file_path&quot;</span><span class="p">:</span> <span class="s2">&quot;parth to hbm/bin&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dnn_is_sync&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;dnn_run_with_roi&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;dnn_model_group&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;dnn_model_group_id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&quot;core_id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&quot;src_image_witdh&quot;</span><span class="p">:</span> <span class="mi">1920</span><span class="p">,</span>
+  <span class="nt">&quot;src_image_height&quot;</span><span class="p">:</span> <span class="mi">1080</span><span class="p">,</span>
+  <span class="nt">&quot;others&quot;</span><span class="p">:</span> <span class="s2">&quot;inheritor can add other field&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>配置相关的说明：</p>
+<ul class="simple">
+<li><p>model_file_path: 模型hbm/bin文件路径，建议使用绝对路径</p></li>
+<li><p>dnn_is_sync：使用bpu-predict同步方式与否，true表示同步方式，false为异步方式，建议为异步方式</p></li>
+<li><p>dnn_run_with_roi：是否上ROI输入类型，true表示ROI输入。ROI输入方式表示BpuPredictMethod的内部实现会调用HB_BPU_runModelWithBbox完成预测，继承者需要实现PrepareInputData(for Rio)这个接口。非ROI方式输入，表示BpuPredictMethod的内部实现会调用HB_BPU_runModel完成预测，继承者需要实现PrepareInputData(for tensor)这个接口。</p></li>
+<li><p>dnn_model_group：表示是否开启了group方式。对于开启model group方式，则需要设置一个group_id。注意：DnnPredictMethod本身不负责model group的创建，即DnnPredictMethod实现中不会调用HB_BPU_createGroup、HB_BPU_setGroupProportion、HB_BPU_deleteGroup等接口，只有可能调用HB_BPU_setModelGroup。</p></li>
+<li><p>dnn_model_group_id： group模式，该模型的group id。</p></li>
+</ul>
+<p>进一步看下DnnPredictMethod::DoProcess的实现，大致可以了解模型预测的工作。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">DnnPredictMethod</span><span class="o">::</span><span class="n">DoProcess</span><span class="p">(</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;DnnPredictMethod DoProcess&quot;</span><span class="p">;</span>
+  <span class="n">HOBOT_CHECK</span><span class="p">(</span><span class="o">!</span><span class="n">input</span><span class="p">.</span><span class="n">empty</span><span class="p">());</span>
+  <span class="n">RUN_PROCESS_TIME_PROFILER</span><span class="p">(</span><span class="s">&quot;DnnPredictMethod_DoProcess&quot;</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">;</span>
+  <span class="p">{</span>
+    <span class="c1">// 创建BpuAsyncData，用于传递给DnnPostProcessMethod，或者同步预测结果解析使用</span>
+    <span class="k">auto</span> <span class="n">dnn_result</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">DnnAsyncData</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">output</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dnn_result</span><span class="p">;</span>
+
+    <span class="c1">// bpu 任务句柄</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TASK_HANDLE</span><span class="o">&gt;</span> <span class="n">task_handle</span><span class="p">;</span>
+
+    <span class="c1">// 本次预测任务返回码，若添加任务失败，则DnnAsyncData中不需传递相关变量</span>
+    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">dnn_run_with_roi_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">RUN_PROCESS_TIME_PROFILER</span><span class="p">(</span><span class="s">&quot;Run_Model_ROI&quot;</span><span class="p">);</span>
+      <span class="n">task_handle</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+      <span class="c1">// 输入一个金字塔， 加上一系列ROI</span>
+      <span class="c1">// 预测库bpu-predict内部根据金字塔每层大小以及ROI，自动完成抠图，缩放到模型输入大小</span>
+      <span class="c1">// ROI输入方式，调用HB_BPU_runModelWithBbox进行预测，需要准备金字塔与ROI</span>
+      <span class="c1">// X2和X3版本的金字塔数据结构不同, 需要根据平台做不同处理</span>
+      <span class="n">PyramidImageFrame</span> <span class="n">pyramid</span><span class="p">;</span>  <span class="c1">// get from input</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_BBOX</span><span class="o">&gt;</span> <span class="n">input_box</span><span class="p">;</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">valid_box</span><span class="p">;</span>  <span class="c1">// 大小和Method输入的检测框一样，框是否有效</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;</span> <span class="n">output_tensor</span><span class="p">;</span>
+      <span class="p">{</span>
+        <span class="n">RUN_PROCESS_TIME_PROFILER</span><span class="p">(</span><span class="s">&quot;DnnPredictMethod_PrepareInputData&quot;</span><span class="p">);</span>
+        <span class="c1">// 调用派生类实现的预处理部分</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">PrepareInputData</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">pyramid</span><span class="p">,</span> <span class="n">input_box</span><span class="p">,</span> <span class="n">valid_box</span><span class="p">,</span>
+                                <span class="n">output_tensor</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="kt">int</span> <span class="n">resizable_cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="c1">// 调用BPU-Predict接口完成预测</span>
+      <span class="n">ret</span> <span class="o">=</span> <span class="n">HB_BPU_runModelWithBbox</span><span class="p">(</span>
+          <span class="o">&amp;</span><span class="n">dnn_model_</span><span class="o">-&gt;</span><span class="n">bpu_model</span><span class="p">,</span>
+          <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">BPU_ADDR_INFO_S</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pyramid</span><span class="p">.</span><span class="n">img_</span><span class="p">.</span><span class="n">down_scale</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+          <span class="n">pyramid</span><span class="p">.</span><span class="n">img_</span><span class="p">.</span><span class="n">ds_pym_layer</span><span class="p">,</span> <span class="n">input_box</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">input_box</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>
+          <span class="n">output_tensor</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">output_tensor</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">dnn_ctrl_</span><span class="p">,</span>
+          <span class="n">dnn_is_sync_</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">resizable_cnt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">task_handle</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">LOGE</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;HB_BPU_runModel failed: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">HB_BPU_getErrorName</span><span class="p">(</span><span class="n">ret</span><span class="p">);</span>
+        <span class="c1">// 释放output_tensor,task_handle</span>
+        <span class="n">FreeTensor</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">);</span>
+        <span class="n">HB_BPU_releaseTask</span><span class="p">(</span><span class="o">&amp;</span><span class="n">task_handle</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="n">task_handle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="c1">// 这部分逻辑，解决pyramid选层失败，导致roi未送入模型，避免出现bpu结果与输入roi错位的问题</span>
+      <span class="n">LOGI</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;resizable count: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">resizable_cnt</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bpu_box_idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">valid_box</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">valid_box</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>
+          <span class="n">valid_box</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_box</span><span class="p">[</span><span class="n">bpu_box_idx</span><span class="p">].</span><span class="n">resizable</span><span class="p">;</span>
+          <span class="n">bpu_box_idx</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="c1">// 赋值DnnAsyncData,roi方式不需要input_tensors</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">dnn_model</span> <span class="o">=</span> <span class="n">dnn_model_</span><span class="p">;</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">output_tensors</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">);</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">task_handle</span> <span class="o">=</span> <span class="n">task_handle</span><span class="p">;</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">valid_box</span> <span class="o">=</span> <span class="n">valid_box</span><span class="p">;</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">dnn_input_box</span> <span class="o">=</span> <span class="n">input_box</span><span class="p">;</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">dnn_is_sync</span> <span class="o">=</span> <span class="n">dnn_is_sync_</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">RUN_PROCESS_TIME_PROFILER</span><span class="p">(</span><span class="s">&quot;Run_Model&quot;</span><span class="p">);</span>
+      <span class="c1">// Tensor输入方式，调用HB_BPU_runModel完成预测，需要创建输入与输出tensor</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;&gt;</span> <span class="n">input_tensor</span><span class="p">;</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;&gt;</span> <span class="n">output_tensor</span><span class="p">;</span>
+      <span class="c1">// 调用派生类实现的预处理部分  TODO</span>
+      <span class="kt">int</span> <span class="n">rv</span> <span class="o">=</span> <span class="n">GetSrcImageSize</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">src_image_height</span><span class="p">,</span>
+                                <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">src_image_width</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">rv</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">LOGE</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Error getting src image size&quot;</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="p">{</span>
+        <span class="n">RUN_PROCESS_TIME_PROFILER</span><span class="p">(</span><span class="s">&quot;DnnPredictMethod_PrepareInputData&quot;</span><span class="p">);</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">PrepareInputData</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">,</span> <span class="n">output_tensor</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">task_handle</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">input_tensor</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 申请input_tensor或output_tensor失败</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">input_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">output_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// 调用bpu-predict接口完成预测</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">HB_BPU_runModel</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dnn_model_</span><span class="o">-&gt;</span><span class="n">bpu_model</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">(),</span>
+                              <span class="n">input_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">(),</span> <span class="n">output_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">(),</span>
+                              <span class="n">output_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">dnn_ctrl_</span><span class="p">,</span>
+                              <span class="n">dnn_is_sync_</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">task_handle</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">LOGE</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;HB_BPU_runModel failed: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">HB_BPU_getErrorName</span><span class="p">(</span><span class="n">ret</span><span class="p">);</span>
+          <span class="c1">// 释放input_tensor,output_tensor,task_handle</span>
+          <span class="c1">// DnnPostProcessMethod中可通过这些字段判断是否需要后处理解析</span>
+          <span class="n">FreeTensor</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+          <span class="n">FreeTensor</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+          <span class="n">HB_BPU_releaseTask</span><span class="p">(</span><span class="o">&amp;</span><span class="n">task_handle</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+          <span class="n">task_handle</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+      <span class="c1">// 赋值BpuAsyncData</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">dnn_model</span> <span class="o">=</span> <span class="n">dnn_model_</span><span class="p">;</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">input_tensors</span> <span class="o">=</span> <span class="n">input_tensor</span><span class="p">;</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">output_tensors</span> <span class="o">=</span> <span class="n">output_tensor</span><span class="p">;</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">task_handle</span> <span class="o">=</span> <span class="n">task_handle</span><span class="p">;</span>
+      <span class="n">dnn_result</span><span class="o">-&gt;</span><span class="n">dnn_is_sync</span> <span class="o">=</span> <span class="n">dnn_is_sync_</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;DnnPredictMethod DoProcess Success&quot;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>接下来重点解释下模型预处理这个接口的含义。这两个接口，用于不同的模型，实现其中一个即可。</p>
+<p>ROI方式使用限制很多，在后续章节会有补充的说明。大部分模型，均建议使用非ROI方式。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span>  <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">PrepareInputData</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">InputParamPtr</span><span class="o">&gt;</span> <span class="n">param</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">input_tensors</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">output_tensors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/*</span>
+<span class="cm">      接口返回0表示成功，其他值失败。</span>
+<span class="cm">      input为预测Method一帧图像的输入，在workflow json文件中配置，比如输入的是图像；</span>
+<span class="cm">      或者输入的是图像+人体检测框；或者输入的是图像+人体关键点等等。</span>
+
+<span class="cm">      param参数主要是使用XStream框架完成参数动态更新的需求。若无该需求，可以不关注它</span>
+
+<span class="cm">      input_tensors,是该接口的输出。每个模型可能有多个输入，每个输入用一个BPU_TENSOR_S表示。</span>
+<span class="cm">      所以std::vector&lt;BPU_TENSOR_S&gt;表示的是模型的一次输入。</span>
+<span class="cm">      对于全图检测，一帧图像可能只需要一次预测就可以。但是对于基于检测框做的一些分类任务，一帧图像</span>
+<span class="cm">      可能含有多个检测框，每个检测框需要单独进行预测，那么这种场景，一帧图像就需要对每个检测框分别</span>
+<span class="cm">      预处理，得到每个检测框的输入，所以input_tensors有个外围的vector。input_tensors里面对应</span>
+<span class="cm">      每个目标的输入，顺序与input中传进来的检测框是一致的。</span>
+
+<span class="cm">      output_tensors，是该模型的输出，PrepareInputData中主要根据模型的输出数量分配模型一次预测</span>
+<span class="cm">      的输出tensor空间std::vector&lt;BPU_TENSOR_S&gt;。对应一帧中有多个检测框，则会对每个检测框的预测</span>
+<span class="cm">      单独分配输出空间。</span>
+<span class="cm">    */</span>
+  <span class="p">}</span>
+
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">PrepareInputData</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">InputParamPtr</span><span class="o">&gt;</span> <span class="n">param</span><span class="p">,</span>
+      <span class="n">hobot</span><span class="o">::</span><span class="n">vision</span><span class="o">::</span><span class="n">PymImageFrame</span> <span class="o">&amp;</span><span class="n">pyramid</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_BBOX</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input_bbox</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">valid_box</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">output_tensors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/*</span>
+<span class="cm">      接口返回0表示成功，其他值失败。</span>
+<span class="cm">      input为预测Method一帧图像的输入，在workflow json文件中配置，该种模式输入一般是</span>
+<span class="cm">      图像+检测框。</span>
+
+<span class="cm">      param参数主要是使用XStream框架完成参数动态更新的需求。若无该需求，可以不关注它。</span>
+
+<span class="cm">      pyramid为输出参数，用于从input中，获得图像金字塔信息，然后将金字塔结果赋值到pyramid中。</span>
+
+<span class="cm">      input_bbox为需要送入模型分析的检测框，和input中传入的检测框区别是input中可能存在一些检测框，</span>
+<span class="cm">      其数据的状态为无效或者被过滤，则input_bbox中不应该包含这些检测框。</span>
+
+<span class="cm">      valid_box主要用于和input中传入的检测框映射，模型后处理需要，模型后处理需要这个valid_box,</span>
+<span class="cm">      将bpu的预测结果与具体的input的检测框匹配。</span>
+
+<span class="cm">      output_tensors, 目前该参数与上一个接口有些诧异，主要是由BPU-PREDICT接口差异导致。</span>
+<span class="cm">      为理解方便，可以假设ROI模式，模型的输出只有一个；对于输出有多个的，当前的接口不是很好解释，</span>
+<span class="cm">      不建议使用ROI模式。鉴于此，该接口后续可能伴随着BPU-PREDICT接口的升级而发生改变。</span>
+<span class="cm">    */</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dnnpostprocessmethod">
+<h4>2.2.3 DnnPostProcessMethod<a class="headerlink" href="#dnnpostprocessmethod" title="Permalink to this headline">¶</a></h4>
+<p>DnnPostProcessMethod的作用是对bpu的预测结果进行模型后处理，解析成物理有意义的数据结构。DnnPostProcessMethod通过提供模型后处理接口，赋能其他模型的集成。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DnnPostProcessMethod</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SimpleMethod</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">DnnPostProcessMethod</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">DnnPostProcessMethod</span><span class="p">()</span> <span class="p">{}</span>
+
+  <span class="c1">// 内部加载了配置文件，生成了json对象config_,派生类可以基于该对象解析派生类需要的字段</span>
+  <span class="kt">int</span> <span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">cfg_path</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="nf">Finalize</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="c1">// 主逻辑，完全复用，派生类不需要再实现DoProcess</span>
+  <span class="c1">// 继承者大部分情况不需要重写DoProcess接口，DoProcess接口内部</span>
+  <span class="c1">// 会调用HB_BPU_waitModelDone获得BPU的预测结果，然后会调用</span>
+  <span class="c1">// 派生类实现的ParseDnnResult结果完成模型后处理的解析</span>
+  <span class="c1">// 最后会释放模型输入与输出tensor</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">DoProcess</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="c1">// 释放InputTensor/OutputTensor</span>
+  <span class="kt">void</span> <span class="n">FreeTensor</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BPU_TENSOR_S</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">tensors</span><span class="p">);</span>
+
+  <span class="c1">// 派生类需要实现</span>
+  <span class="c1">// 完成模型的后处理，以及转换成Method输出格式;不需考虑tensor的释放</span>
+  <span class="c1">// IN: dnn_result. OUT: frame_result</span>
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">ParseDnnResult</span><span class="p">(</span><span class="n">DnnAsyncData</span> <span class="o">&amp;</span><span class="n">dnn_result</span><span class="p">,</span>
+                             <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">frame_result</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>DnnPostProcessMethod的DoProcess比较简单，如下所述：</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;&gt;</span> <span class="n">DnnPostProcessMethod</span><span class="o">::</span><span class="n">DoProcess</span><span class="p">(</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;DnnPostProcessMethod DoProcess&quot;</span><span class="p">;</span>
+  <span class="n">HOBOT_CHECK</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;only support DnnAsyncData&quot;</span><span class="p">;</span>
+  <span class="n">RUN_PROCESS_TIME_PROFILER</span><span class="p">(</span><span class="s">&quot;DnnPostProcessMethod_DoProcess&quot;</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">;</span>
+  <span class="p">{</span>
+    <span class="c1">// DnnPostProcessMethod的输入只有一个，输入数据就是DnnAsyncData</span>
+    <span class="k">auto</span> <span class="n">dnn_async_data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">DnnAsyncData</span><span class="o">&gt;</span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="c1">// 调用HB_BPU_waitModelDone接口，等待bpu异步任务完成</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">dnn_is_sync</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">task_handle</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">BPU_TASK_HANDLE</span> <span class="o">&amp;</span><span class="n">task_handle</span> <span class="o">=</span> <span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">task_handle</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">task_handle</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">HB_BPU_waitModelDone</span><span class="p">(</span><span class="o">&amp;</span><span class="n">task_handle</span><span class="p">))</span> <span class="p">{</span>
+          <span class="n">HB_BPU_releaseTask</span><span class="p">(</span><span class="o">&amp;</span><span class="n">task_handle</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 调用派生类的接口，完成模型后处理，将结果转换成Method的输出格式</span>
+    <span class="p">{</span>
+      <span class="n">RUN_PROCESS_TIME_PROFILER</span><span class="p">(</span><span class="s">&quot;ParseDnnResult&quot;</span><span class="p">);</span>
+      <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">ParseDnnResult</span><span class="p">(</span><span class="o">*</span><span class="n">dnn_async_data</span><span class="p">,</span> <span class="n">output</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">LOGE</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ParseDnnResult failed&quot;</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// 释放输入与输出Tensor</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">input_tensors</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">input_tensors</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">FreeTensor</span><span class="p">(</span><span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">input_tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">output_tensors</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">output_tensors</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">FreeTensor</span><span class="p">(</span><span class="n">dnn_async_data</span><span class="o">-&gt;</span><span class="n">output_tensors</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>下面说明下后处理接口，接口描述也很简单</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">ParseDnnResult</span><span class="p">(</span><span class="n">DnnAsyncData</span> <span class="o">&amp;</span><span class="n">dnn_result</span><span class="p">,</span>
+                             <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">frame_result</span><span class="p">)</span>
+<span class="cm">/*</span>
+<span class="cm">  接口返回0表示成功，其他值失败。</span>
+<span class="cm">  dnn_result为模型预处理与模型后处理传递的数据，调用ParseDnnResult时，说明模型输出</span>
+<span class="cm">  的Tensor已经赋值。</span>
+
+<span class="cm">  frame_result为该Methd一帧图像对应的输出。</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="roi">
+<h4>2.2.4 ROI方式进一步解释<a class="headerlink" href="#roi" title="Permalink to this headline">¶</a></h4>
+<p>DnnPredictMethod中ROI方式对应的预处理接口中input_bbox、valid_box以及method输入检测框的关系，用下面一个示例说明。</p>
+<p><img alt="valid_box" src="../../../../_images/valid_box.png" /></p>
+<p>这里的示例，预测Method输入5个BOX，其中BOX3 可能被之前的Method模块处理，标志为过滤状态，所以不需要送入到模型中预测。</p>
+<p>因此派生类在实现PrepareInputData接口的时候，应该将valid_box设置为[1,1,0,1,1]。valid_box大小与Method输入的检测框大小一致，而把input_bbox设置为[BOX1, BOX2, BOX4, BOX5],表示希望对这4个检测框做预测。</p>
+<p>ROI方式，内部实现是基于地平线芯片中图像金字塔与硬件Resize模块完成图像抠图缩放，硬件Resize有缩放比例限制，导致不是所有的检测框，都可以缩放到模型输入大小，所有我们预处理后，需要分析的4个检测框，可能不能完全得到预测，比如BOX2。</p>
+<p>当DnnPredictMethod::DoProcess接口内部调用完BPU-PREDICT的HB_BPU_runModelWithBbox接口，就可以知道哪些检测框不符合金字塔选层缩放规则，所以DnnPredictMethod::DoProcess内部会更新valid_box的状态，设置为[1,0,0,1,1]，同时送入bpu的任务其实只有BOX1， BOX4， BOX5。</p>
+<p>这样当后处理Method得到模型的预测结果后，解析得到三个结果，再通过valid_box，就可以得知预测结果与哪个检测框匹配。</p>
+</div>
+<div class="section" id="id4">
+<h4>2.2.5 模型集成的示例<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>待补充。计划放在XStream的tutorial中。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>三. 效果展示<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>当我们将模型的前后处理均实现好后，可以尝试复用smart_plugin，完成模型的预测，使用web_display_plugin将图像与感知结果通过websocket方式发给web浏览器。</p>
+<div class="section" id="customsmartmessage">
+<h3>3.1 CustomSmartMessage<a class="headerlink" href="#customsmartmessage" title="Permalink to this headline">¶</a></h3>
+<p>solution_zoo/common/xproto_plugins/smart_plugin/include/smart_plugin/message/custom_smart_message.h中定义了xproto::message::CustomSmartMessage。</p>
+<p>CustomSmartMessage为SmartPlugin内部调用xstream执行workflow得到的智能感知结果，用于推送到xproto消息总线。</p>
+<p>当前CustomSmartMessage参杂着一些业务代码，但是不影响可扩展。后续CustomSmartMessage可能择机重构。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#define TYPE_SMART_MESSAGE &quot;XPLUGIN_SMART_MESSAGE&quot;</span>
+
+<span class="k">struct</span> <span class="nc">CustomSmartMessage</span> <span class="o">:</span> <span class="n">SmartMessage</span> <span class="p">{</span>
+  <span class="k">explicit</span> <span class="n">CustomSmartMessage</span><span class="p">(</span>
+    <span class="n">xstream</span><span class="o">::</span><span class="n">OutputDataPtr</span> <span class="n">out</span><span class="p">)</span> <span class="o">:</span> <span class="n">smart_result</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 消息类型。派生类需要换另外一个名字</span>
+    <span class="n">type_</span> <span class="o">=</span> <span class="n">TYPE_SMART_MESSAGE</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// 序列化，可以先不关注该接口</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">Serialize</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="c1">// 序列化，发送给web展示端的图像，可能是基于原图做了缩放</span>
+  <span class="c1">// 所以需要将对应的感知结果，缩放到web图的大小。</span>
+  <span class="c1">// CustomSmartMessage的smart_result保存的都是原图分辨率下的坐标信息</span>
+  <span class="c1">// 派生类需要重点实现该接口。</span>
+  <span class="c1">// 该接口的实现依赖x3.proto。具体描述如下</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">Serialize</span><span class="p">(</span><span class="kt">int</span> <span class="n">ori_w</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ori_h</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dst_w</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dst_h</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+ <span class="k">protected</span><span class="o">:</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">OutputDataPtr</span> <span class="n">smart_result</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>扩展方式：</p>
+<p>1） 评估是否可以直接复用CustomSmartMessage，大概率是可以</p>
+<p>2） 若必须扩展，则继承CustomSmartMessage，设置不同的type_类别，根据需要重写Serialize接口。</p>
+</div>
+<div class="section" id="smartlegiblemessage">
+<h3>3.2 SmartLegibleMessage<a class="headerlink" href="#smartlegiblemessage" title="Permalink to this headline">¶</a></h3>
+<p>先安装host packet包.
+/home/xxx/.horizon/ddk/xj3_aarch64/xproto/include/xproto/msg_type/smart_legible_message.h中定义了xproto::message::SmartLegibleMessage
+SmartPlugin内部调用xstream执行workflow得到的智能感知结果，SmartPlugin根据感知结果进一步转换成SmartLegibleMessage并推送到数据总线。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#define TYPE_SMART_LEGIBLE_MESSAGE &quot;XPLUGIN_SMART_LEGIBLE_MESSAGE&quot;</span>
+<span class="cm">/**</span>
+<span class="cm"> * Target</span>
+<span class="cm"> * @type_: 目标类型</span>
+<span class="cm"> * @track_id_: 目标id</span>
+<span class="cm"> * @snap_img_: 抓拍图集合</span>
+<span class="cm"> * @boxs_: 人体框/人脸框等集合</span>
+<span class="cm"> * @lmks_: 人体关键点/人脸关键点等集合</span>
+<span class="cm"> * @attributes_: 年龄/性别/手势识别结果等集合</span>
+<span class="cm"> * @face_feature_: 非加密人脸特征</span>
+<span class="cm"> * @face_pose_: 人脸朝向</span>
+<span class="cm"> * @body_seg_: 人体分割集合</span>
+<span class="cm"> * @map_seg_: 全图分割结果</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="nc">XPROTO_EXPORT</span> <span class="n">Target</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">type_</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">track_id_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ImageFramePtr</span><span class="o">&gt;</span> <span class="n">snap_img_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BBoxPtr</span><span class="o">&gt;</span> <span class="n">boxs_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">LandmarksPtr</span><span class="o">&gt;</span> <span class="n">lmks_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">AttributePtr</span><span class="o">&gt;</span> <span class="n">attributes_</span><span class="p">;</span>
+  <span class="n">FloatFeaturePtr</span> <span class="n">face_feature_</span><span class="p">;</span>
+  <span class="n">Pose3DPtr</span> <span class="n">face_pose_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">SegmentationPtr</span><span class="o">&gt;</span> <span class="n">body_seg_</span><span class="p">;</span>
+  <span class="n">SegmentationPtr</span> <span class="n">map_seg_</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Target</span><span class="o">&gt;</span> <span class="n">TargetPtr</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * SmartData</span>
+<span class="cm"> * @timestamp_: 原视频帧的时间戳</span>
+<span class="cm"> * @error_code_: 错误码</span>
+<span class="cm"> * @targets_: 目标集合</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="nc">XPROTO_EXPORT</span> <span class="n">SmartData</span> <span class="p">{</span>
+  <span class="kt">uint32_t</span> <span class="n">error_code_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TargetPtr</span><span class="o">&gt;</span> <span class="n">targets_</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="cm">/**</span>
+<span class="cm"> * SmartMessage</span>
+<span class="cm"> * @time_stamp_: 时间戳</span>
+<span class="cm"> * @sequence_id_: 帧序号</span>
+<span class="cm"> * @background_img_: 背景图像数据, nv12/jepg等</span>
+<span class="cm"> * @smart_message_: 智能信息</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="nc">XPROTO_EXPORT</span> <span class="nl">SmartLegibleMessage</span> <span class="p">:</span> <span class="k">public</span> <span class="n">xproto</span><span class="o">::</span><span class="n">XProtoMessage</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">channel_id_</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">time_stamp_</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">frame_id_</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">sequence_id_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">image_name_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">img_serialize_type_</span><span class="p">;</span>
+  <span class="n">ImageFramePtr</span> <span class="n">background_img_</span><span class="p">;</span>  <span class="c1">//  仅包含原图编码后的jpg图像, 即金字塔0层图像</span>
+  <span class="n">ImageFramePtr</span> <span class="n">paramid_img_</span><span class="p">;</span>  <span class="c1">//  金字塔图像数据，仅限进程内使用</span>
+  <span class="n">SmartData</span> <span class="n">smart_data_</span><span class="p">;</span>
+
+  <span class="n">SmartLegibleMessage</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">type_</span> <span class="o">=</span> <span class="n">TYPE_SMART_LEGIBLE_MESSAGE</span><span class="p">;</span>
+    <span class="n">background_img_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="n">paramid_img_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="n">img_serialize_type_</span> <span class="o">=</span> <span class="n">kSmartImageTypeJpg</span><span class="p">;</span>  <span class="c1">// default jpg</span>
+  <span class="p">}</span>
+  <span class="n">SmartLegibleMessage</span><span class="p">(</span><span class="k">const</span> <span class="n">SmartLegibleMessage</span> <span class="o">&amp;</span><span class="n">example</span><span class="p">);</span>
+  <span class="n">SmartLegibleMessage</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">SmartLegibleMessage</span> <span class="o">&amp;</span><span class="n">example</span><span class="p">);</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">SmartLegibleMessage</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">Serialize</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">DeSerialize</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">Serialize</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ori_w</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ori_h</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dst_w</span><span class="p">,</span>
+                         <span class="kt">int</span> <span class="n">dst_h</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>SmartLegibleMessage相比workflow得到的只能感知结果更易读，并且提供了序列化/反序列化接口，用户直接使用即可，不需要修改此message。</p>
+</div>
+<div class="section" id="x3-proto">
+<h3>3.3 x3.proto<a class="headerlink" href="#x3-proto" title="Permalink to this headline">¶</a></h3>
+<p>上面提到CustomSmartMessage或者CustomSmartMessage的序列化接口Serialize，需要将感知结果通过proto-buf序列化成字符串。</p>
+<p>AI-Express根据经验，整理了x3.proto，应付大部分场景。使用者可以直接复用。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>syntax = &quot;proto3&quot;;
+package x3;
+option optimize_for = LITE_RUNTIME;
+
+/**
+ * 字节数组
+ * @type_ {1} 类型名称
+ * @score_ {2} 置信度
+ * @array_ {3} 字节数组
+ * @name_ {4} 数据名称
+ * @specific_type_ {5} 数据别称
+ */
+message CharArray {
+  string type_ = 1;
+  float score_ = 2;
+  bytes array_ = 3;
+  string name_ = 4;
+  string specific_type_ = 5;
+}
+
+/**
+ * Float 数组
+ * @type_ {1} 类型名称
+ * @score_ {2} 置信度
+ * @value_ {3} 值
+ * @name_ {4} 数据名称
+ * @specific_type_ {5} 数据别称
+ */
+message FloatArray {
+  string type_ = 1;
+  float score_ = 2;
+  repeated float value_ = 3;
+  string name_ = 4;
+  string specific_type_ = 5;
+}
+
+/**
+ * Float 2维矩阵
+ * @type_ {1} 类型名称
+ * @score_ {2} 置信度
+ * @arrays_ {3} float数组
+ * @name_ {4} 数据名称
+ * @specific_type_ {5} 数据别称
+ */
+message FloatMatrix {
+  string type_ = 1;
+  float score_ = 2;
+  repeated FloatArray arrays_ = 3;
+  string name_ = 4;
+  string specific_type_ = 5;
+}
+
+/**
+ * 坐标点
+ * @x_ {1} x坐标
+ * @y_ {2} y坐标
+ * @score_ {3} 置信度
+ */
+message Point {
+  float x_ = 1;
+  float y_ = 2;
+  float score_ = 3;
+}
+
+/**
+ * 坐标点集合
+ * @type_ {1} 类型名称
+ * @points_ {2} 坐标点集合
+ * @name_ {3} 数据名称
+ * @specific_type_ {4} 数据别称
+ */
+message Points {
+  string type_ = 1;
+  repeated Point points_ = 2;
+  string name_ = 3;
+  string specific_type_ = 4;
+}
+
+/**
+ * 检测框
+ * @type_ {1} 类型名称
+ * @top_left_ {2} 左上点
+ * @bottom_right_ {3} 右下点
+ * @score_ {4} 置信度
+ * @name_ {5} 数据名称
+ * @specific_type_ {6} 数据别称
+ */
+message Box {
+  string type_ = 1;
+  Point top_left_ = 2;
+  Point bottom_right_ = 3;
+  float score_ = 4;
+  string name_ = 5;
+  string specific_type_ = 6;
+}
+
+/**
+ * 属性
+ * @type_ {1} 类型名称，包括年龄、性别、眼镜、口罩、活体信息、车辆信息、非机动车信息,道路状况
+ * @value_ {2} 值
+ * @value_string_ {3} 字符串表示
+ * @score_ {4} 置信度
+ * @name_ {5} 数据名称
+ */
+message Attributes {
+  string type_ = 1;
+  float value_ = 2;
+  string value_string_ = 3;
+  float score_ = 4;
+  string name_ = 5;
+}
+
+/**
+ *  图片信息
+ * @buf_ {1} 图片二进制流
+ * @buf_ {2} 图片类型，如：灰度图、YUV420、NV21、NV12、BGR、JPEG
+ * @width_ {3} 图片宽度
+ * @height_ {4} 图片高度
+ */
+message Image {
+  bytes buf_ = 1;
+  string type_ = 2;
+  uint32 width_ = 3;
+  uint32 height_ = 4;
+}
+
+/**
+ * 智能帧跟踪目标信息
+ * @type_ {1} 跟踪目标类型名称，如：人、车、动物、非机动车
+ * @track_id_ {2} 跟踪目标ID号
+ * @imgs_ {3} 抓拍图
+ * @sub_targets_ {4} 子目标，目前车牌作为车的子目标存在
+ * @boxes_ {5} 检测框集合
+ * @attributes_  {6} 属性集合，如：年龄、性别、眼镜、口罩、活体信息、车辆类型、车辆颜色、车辆速度、车辆所在车道
+ * @points_  {7} 多个坐标点集合，如：人脸关键点、人体骨骼点、人体分割图的坐标点
+ * @float_arrays_  {8} Float点集合，比如人脸姿态，gis信息
+ * @float_matrixs_  {9} Float矩阵集合，比如人体分割结果
+ * @char_arrays_ {10} 字节数组集合，如加密后的特征
+ */
+message Target {
+  string type_ = 1;
+  uint64 track_id_ = 2;
+  repeated Image imgs_ = 3;
+  repeated Target sub_targets_ = 4;
+  repeated Box boxes_ = 5;
+  repeated Attributes attributes_ = 6;
+  repeated Points points_ = 7;
+  repeated FloatArray float_arrays_ = 8;
+  repeated FloatMatrix float_matrixs_ = 9;
+  repeated CharArray char_arrays_ = 10;
+}
+
+/**
+ * 智能帧信息
+ * @timestamp_ {1} 原视频帧的时间戳
+ * @error_code_ {2} 错误码
+ * @sequence_id_ {3} 图像预测序号
+ * @channel_id_ {4} 图像channel
+ * @frame_id_ {5} 预测frame id
+ * @targets {6} 跟踪目标集合
+ */
+message SmartLegibleMessage {
+  fixed64 timestamp_ = 1;
+  uint32 error_code_ = 2;
+  uint64 sequence_id_ = 3;
+  uint32 channel_id_ = 4;
+  uint64 frame_id_ = 5;
+  repeated Target targets_ = 6;
+}
+
+/**
+ * 统计信息
+ * @targets {1} 统计信息集合
+ */
+ message StatisticsMessage {
+   repeated Attributes attributes_ = 1;
+ }
+
+/**
+ * 控制信息
+ * @type_ {1} request/reply或其他自定义字段
+ * @timestamp_ {2} 时间戳, 返回此状态获取的时间戳
+ * @cmd_id_ {3} 控制命令id, 唯一代表一次命令请求
+ * @value_ {4} 控制命令内容
+ */
+message ControlMessage {
+  string type_ = 1;
+  fixed64 timestamp_ = 2;
+  uint64 cmd_id_ = 3;
+  bytes value_ = 4;
+}
+
+/**
+ * X3 Protobuf: Last Result Message
+ * @timestamp_ {1} timestamp
+ * @img_ {2} orc img
+ * @smart_msg_ {3} smart frame info
+ * @capture_msg_ {4} capture frame info
+ * @Statistics_msg_ {5} statistics info
+ * @control_msg_ {6} command info
+ */
+message FrameMessage {
+  fixed64 timestamp_ = 1;
+  Image img_ = 2;
+  SmartLegibleMessage smart_msg_ = 3;
+  CaptureMessage capture_msg_ = 4;
+  StatisticsMessage Statistics_msg_ = 5;
+  ControlMessage control_msg_ = 6;
+}
+</pre></div>
+</div>
+<p>具体序列化示例，可以参考CustomSmartMessage::Serialize(int ori_w, int ori_h, int dst_w, int dst_h)接口实现，或者示例soluton中的实现。</p>
+</div>
+<div class="section" id="smartplugin">
+<h3>3.4 SmartPlugin<a class="headerlink" href="#smartplugin" title="Permalink to this headline">¶</a></h3>
+<p>solution_zoo/common/xproto_plugins/smart_plugin中定义了类xproto::SmartPlugin。SmartPlugin内部会加载xstream workflow，订阅iotvioplugin产生的金字塔图像消息，送入xstream中进行预测，获得预测结果后，转换成感知结果，推送到xproto消息总线。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SmartPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">XPluginAsync</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">SmartPlugin</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+  <span class="c1">// 派生类的构造函数需要调用</span>
+  <span class="c1">// SmartPlugin::SmartPlugin(const std::string&amp; config_file)</span>
+  <span class="k">explicit</span> <span class="n">SmartPlugin</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">config_file</span><span class="p">);</span>
+  <span class="c1">// 下面几个接口，派生类可以不需要重写</span>
+  <span class="o">~</span><span class="n">SmartPlugin</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="nf">Init</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="nf">DeInit</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="nf">Start</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="nf">Stop</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">desc</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;SmartPlugin&quot;</span><span class="p">;</span> <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="c1">// 获取单路图像，workflow配置的图像输入节点名字</span>
+  <span class="c1">// SmartPlugin派生类可以根据需要修改输入节点的名字</span>
+  <span class="c1">// 但是必须保证该接口返回的图像输入节点名字和xstream json配置中一致</span>
+  <span class="c1">// 派生类需要关注该接口，若workflow输入也定义为image，则可以不重写</span>
+  <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">GetWorkflowInputImageName</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s">&quot;image&quot;</span><span class="p">;</span>  <span class="c1">// 当前沉淀的solution均使用image这个</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 创建xproto框架下感知结果的消息对象</span>
+  <span class="c1">// 感知结果消息对象必须是CustomSmartMessage或者集成自CustomSmartMessage</span>
+  <span class="c1">// 输入参数xstream_out为xstream workflow执行完成，xstream回调返回的数据对象</span>
+  <span class="c1">// 派生类需要关注该接口，若需要生成其他的消息，则需要重写该接口</span>
+  <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">CustomSmartMessage</span><span class="o">&gt;</span>
+  <span class="n">CreateSmartMessage</span><span class="p">(</span><span class="n">xstream</span><span class="o">::</span><span class="n">OutputDataPtr</span> <span class="n">xstream_out</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 当前沉淀的解决方案，默认为CustomSmartMessage对象</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">CustomSmartMessage</span><span class="o">&gt;</span><span class="p">(</span><span class="n">xstream_out</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="c1">// 放在单独线程中实现, 自动将workflow结果转换成SmartLegibleMessage结果</span>
+  <span class="kt">void</span> <span class="n">CreateSmartLegibleMessage</span><span class="p">(</span><span class="n">xstream</span><span class="o">::</span><span class="n">OutputDataPtr</span> <span class="n">xstream_out</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>由于iotvioplugin当前不支持扩展，产生的消息类型是固定的，所以对于SmartPlugin，未提供订阅图像消息的扩展接口。</p>
+<p>使用SmartPlugin，需要关注的配置文件如下,主要是需要配置xstream的workflow配置文件。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;xstream_workflow_file&quot;</span><span class="p">:</span> <span class="s2">&quot;det_mot.json&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;codec_param&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;use_vb&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&quot;jpeg_quality&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+      <span class="nt">&quot;frame_buf_depth&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&quot;is_cbr&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;bitrate&quot;</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
+      <span class="nt">&quot;jpg_encode_time&quot;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>扩展方式：</p>
+<p>1）评估现有SmartPlugin，一般情况是可以复用。但是若需要发送的消息类型不是CustomSmartMessage，则必须要继承SmartPlugin</p>
+<p>2）若继承SmartPlugin，则需要重写GetWorkflowInputImageName以及CreateSmartMessage这两个接口，构造函数中调用SmartPlugin::SmartPlugin(const std::string&amp; config_file)。派生类的实现使用XPLUGIN_REGISTER_MSG_TYPE注册下感知结果消息。其他接口不太需要关注。</p>
+</div>
+<div class="section" id="webdisplayplugin">
+<h3>3.5 WebDisplayPlugin<a class="headerlink" href="#webdisplayplugin" title="Permalink to this headline">¶</a></h3>
+<p>solution_zoo/common/xproto_plugins/smart_plugin/web_display_plugin中定义了WebDisplayPlugin。</p>
+<p>WebDisplayPlugin内部会从消息总线获取vioplugin发过来的图像消息，以及smartplugin发送过来的感知结果消息。</p>
+<p>WebDisplayPlugin内部会对图像进行jpg编码，同时调用感知结果消息的序列化接口进行序列化，再进行图像与感知结果的匹配，最后通过websocket发送给web前端。</p>
+<p>WebDisplayPlugin的定义如下：</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">WebDisplayPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">xproto</span><span class="o">::</span><span class="n">XPluginAsync</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">WebDisplayPlugin</span><span class="p">()</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+  <span class="c1">// 派生类构造的时候需要调用WebsocketPlugin::WebsocketPlugin(std::string config_path)</span>
+  <span class="k">explicit</span> <span class="n">WebDisplayPlugin</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">config_path</span><span class="p">);</span>
+  <span class="o">~</span><span class="n">WebDisplayPlugin</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="c1">// 派生类对下面这几个接口均不需要重写</span>
+  <span class="kt">int</span> <span class="nf">Init</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="nf">Start</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="nf">Stop</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">desc</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;WebsocketPlugin&quot;</span><span class="p">;</span> <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="c1">// 这里需要与SmartPlugin产生的感知消息匹配</span>
+  <span class="c1">// 一般情况，若SmartPlugin的派生类产生新的消息类型</span>
+  <span class="c1">// (继承CustomSmartMessage),则需要新建类继承WebDisplayPlugin，</span>
+  <span class="c1">// 重写GetSmartMessageType接口</span>
+  <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">GetSmartMessageType</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 当前解决方案默认使用TYPE_SMART_MESSAGE</span>
+    <span class="k">return</span> <span class="n">TYPE_SMART_MESSAGE</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>WebsocketPlugin的配置信息如下：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;layer&quot;</span><span class="p">:</span> <span class="mi">4</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>layer主要设置iotvioplugin产生的图像的哪一个基础层【0， 4， 8， 12， 16】之类，将该层图像编码成jpg，发送给web。</p>
+<p>若layer不是第0层，则调用感知消息的Serialize(int ori_w, int ori_h, int dst_w, int dst_h)接口时，会将感知结果中的检测框与坐标点之类的结果，缩放到对应layer层分辨率上，确保发给web的图像与感知结果，分辨率空间是一致。</p>
+<p>扩展方式：</p>
+<p>1）若SmartPlugin未被继承，则大概率WebDisplayPlugin也不需要被继承，可以直接复用。</p>
+<p>2）若需要继承WebDisplayPlugin，则简单重写GetSmartMessageType接口，在派生类构造中调用WebDisplayPlugin::WebDisplayPlugin(std::string config_path)即可。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>四. 运行部署<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>打包的示例solution，需要提供Method的工厂接口实现，main函数中需要完成Plugin的创建与启动。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="nn">xstream</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="nn">method_factory</span> <span class="p">{</span>
+<span class="n">MethodPtr</span> <span class="nf">CreateMethod</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">method_name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="s">&quot;Yolov3PredictMethod&quot;</span> <span class="o">==</span> <span class="n">method_name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">MethodPtr</span><span class="p">(</span><span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">Yolov3PredictMethod</span><span class="p">());</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="s">&quot;Yolov3PostProcessMethod&quot;</span> <span class="o">==</span> <span class="n">method_name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">MethodPtr</span><span class="p">(</span><span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">Yolov3PostProcessMethod</span><span class="p">());</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="s">&quot;Mobilenetv2PredictMethod&quot;</span> <span class="o">==</span> <span class="n">method_name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">MethodPtr</span><span class="p">(</span><span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">Mobilenetv2PredictMethod</span><span class="p">());</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="s">&quot;Mobilenetv2PostProcessMethod&quot;</span> <span class="o">==</span> <span class="n">method_name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">MethodPtr</span><span class="p">(</span><span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">Mobilenetv2PostProcessMethod</span><span class="p">());</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">MethodPtr</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">}</span>  <span class="c1">//  namespace method_factory</span>
+<span class="p">}</span>  <span class="c1">//  namespace xstream</span>
+</pre></div>
+</div>
+<p>main函数的参考实现如下：</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">signal_handle</span><span class="p">(</span><span class="kt">int</span> <span class="n">param</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;recv signal &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">param</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, stop&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">param</span> <span class="o">==</span> <span class="n">SIGINT</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">exit_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">vio_config_file</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">smart_config_file</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">websocket_config_file</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+
+  <span class="n">signal</span><span class="p">(</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">signal_handle</span><span class="p">);</span>
+  <span class="n">signal</span><span class="p">(</span><span class="n">SIGPIPE</span><span class="p">,</span> <span class="n">signal_handle</span><span class="p">);</span>
+
+  <span class="c1">// 创建plugin对象</span>
+  <span class="k">auto</span> <span class="n">vio_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">VioPlugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vio_config_file</span><span class="p">);</span>
+  <span class="k">auto</span> <span class="n">smart_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">SmartPlugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">smart_config_file</span><span class="p">);</span>
+  <span class="k">auto</span> <span class="n">websocket_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">WebsocketPlugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">websocket_config_file</span><span class="p">);</span>
+ 
+  <span class="c1">// 分别初始化</span>
+  <span class="k">auto</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">vio_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">smart_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">websocket_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+  
+  <span class="c1">// 分别启动</span>
+  <span class="n">vio_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  <span class="n">smart_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  <span class="n">websocket_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">exit_</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">microseconds</span><span class="p">(</span><span class="mi">40</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="n">vio_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">vio_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="n">vio_plg</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="n">smart_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">websocket_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">smart_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="n">websocket_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>五. 模型集成示例说明<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>示例中使用的模型为YoloV3与MobilenetV2。通过VioPlugin获取图像，开发两个模型的预测Method与后处理Method，通过SmartPlugin完成模型预测。最后通过WebDisplayPlugin将图像与感知结果发送给PC浏览器。</p>
+<div class="section" id="id8">
+<h3>5.1 模型描述<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>YoloV3模型文件yolov3_nv12_hybrid_horizonrt.bin，模型信息描述如下【通过bpu_predict接口获取模型信息】：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Input num:1：
+input[0]: data type: BPU_TYPE_IMG_YUV_NV12, shape:(1,3,416,416), layout: BPU_LAYOUT_NCHW, aligned shape:(1,4,416,416)
+
+Output num:3
+output[0]: data type: BPU_TYPE_TENSOR_F32, shape:(1,13,13,255), layout: BPU_LAYOUT_NHWC, aligned shape:(1,13,13,255)
+output[1]: data type: BPU_TYPE_TENSOR_F32, shape:(1,26,26,255), layout: BPU_LAYOUT_NHWC, aligned shape:(1,26,26,255)
+output[2]: data type: BPU_TYPE_TENSOR_F32, shape:(1,52,52,255), layout: BPU_LAYOUT_NHWC, aligned shape:(1,52,52,255)
+</pre></div>
+</div>
+<p>MobilenetV2模型文件mobilenetv2_nv12_hybrid_horizonrt.bin，模型信息描述如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Input num:1：
+input[0]: data type: BPU_TYPE_IMG_YUV_NV12, shape:(1,3,224,224), layout: BPU_LAYOUT_NCHW, aligned shape:(1,4,224,224)
+
+Output num:1
+output[0]: data type: BPU_TYPE_TENSOR_F32, shape:(1,1000,1,1), layout: BPU_LAYOUT_NCHW, aligned shape:(1,1000,1,1)
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>5.2 模型预测与后处理Method开发<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>以模型YoloV3与MobilenetV2为例，集成检测+分类的预测与后处理Method开发。其中检测包括Yolov3PredictMethod、Yolov3PostProcessMethod，分类包括Mobilenetv2PredictMethod、Mobilenetv2PostProcessMethod。详细代码可以参考<code class="docutils literal notranslate"><span class="pre">solution_zoo/common/xstream_messages/</span></code>。</p>
+<p>框架中已包括模型预测+后处理的Method基础类，即DnnPredictMethod与DnnPostProcessMethod。用户集成具体的模型时，需要根据需要实现基类中的成员函数，具体可以参考<a class="reference external" href="#DnnPredictMethod">DnnPredictMethod</a>.</p>
+<div class="section" id="yolov3">
+<h4>5.2.1 YoloV3<a class="headerlink" href="#yolov3" title="Permalink to this headline">¶</a></h4>
+<p>根据模型描述信息，该模型的输入是416x416大小的nv12数据，在预测方法Yolov3PredictMethod中，核心工作是在函数<code class="docutils literal notranslate"><span class="pre">PrepareInputData()</span></code>中准备模型的输入数据。由于输入是nv12数据，所以可以直接使用金字塔图像数据，因此需要<strong>配置金字塔层数</strong>，详细可以参考<a class="reference external" href="#VioPlugin%E9%87%91%E5%AD%97%E5%A1%94%E9%85%8D%E7%BD%AE">VioPlugin金字塔配置</a>，这里不展开描述金字塔的配置。</p>
+<p>若对金字塔图像直接缩放，缩放至416x416，势必会产生形变。为了保证模型效果，我们对图像做了padding后，再进行缩放。思路为：直接在原图底部填充黑色，将原图padding为宽高相同的图像（padding_image），再将padding_image缩放至416x416大小。这里为了减小计算量，我们选择合适的金字塔层做输入。</p>
+<p>以原图1920x1080为例，金字塔第0层大小为1920x1080，第4层为960x540，第8层为480x270。yolov3模型输入大小是416x416，我们避免padding过多影响算法效果，选择宽高都大于模型输入大小的金字塔图像作为输入。需要以第4层(960x540)为基础层，padding到960x960大小，再缩放到416x416。</p>
+<p>以原图3840x2160为例，金字塔第0层大小为3840x2160，第4层为1920x1080，第8层为960x540，需要以第8层(960x540)为基础层，padding到960x960大小，再缩放到416x416。</p>
+<p>以原图4000*3000为例，金字塔第0层大小为4000x3000，第4层为2000x1500，第8层为1000x750，第12层为500x375。需要以第8层(1000x750)为基础层，padding到1000x1000大小，再缩放到416x416。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// PrepareInputData的逻辑
+// 参考common/xstream/framework/tutorials/stage10/method/Yolov3PredictMethod
+1. 从指定金字塔层中取数据，并检查图像宽高大小是否大于模型输入大小(416x416)。若不满足需要报错，一般是vio金字塔配置错误;
+2. 申请input_tensor和output_tensor, 基类已实现，可以直接调用;
+3. 申请padding_image空间，封装为BPU_Tensor结构，注意使用结束需要释放;
+4. 复制金字塔图像数据到padding_image;
+5. 缩放padding_image数据到input_tensor;
+6. 释放padding_image;
+</pre></div>
+</div>
+<p>另外，由于模型输出的检测结果是基于输入数据的，所以后续需要缩放到原分辨率大小(后处理中)，这里预测前需要获取原图分辨率<code class="docutils literal notranslate"><span class="pre">GetSrcImageSize()</span></code>。</p>
+<p>后处理中，核心工作是在函数<code class="docutils literal notranslate"><span class="pre">ParseDnnResult()</span></code>中解析bpu输出结果output_tensor。需要注意的是，这里直接解析出的检测结果是基于输入数据的分辨率，需要将其坐标映射回原图分辨率。假设原图大小(金字塔第0层)1920x1080，金字塔第4层960x540，取金字塔第4层960x540，padding到960x960大小，再缩放到416x416后输入模型预测。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">映射关系</span><span class="p">,</span> <span class="n">原图坐标</span><span class="p">(</span><span class="n">x</span><span class="s1">&#39;, y&#39;</span><span class="p">),</span> <span class="n">输出结果</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">x</span><span class="s1">&#39; = [x * (960.0 / 416.0)] * (1980 / 960)</span>
+<span class="n">y</span><span class="s1">&#39; = [y * (960.0 / 416.0)] * (1080 / 540)</span>
+</pre></div>
+</div>
+<p>这里还需注意的是，由于对原图做了底部的padding，因此需要对映射后的坐标(x’, y’)【主要是y’】，限制在原图坐标范围内。</p>
+<p>后处理解析的检测框使用<code class="docutils literal notranslate"><span class="pre">xstream::BBox</span></code>数据结构来表示。此外，在函数<code class="docutils literal notranslate"><span class="pre">ParseDnnResult()</span></code>中还需要将解析后的数据封装为xstream-frame框架支持的BaseData数据结构。由于全图可能存在多个目标，结果会有多个检测框，这里需要使用派生数据结构xstream::BaseDataVector，将检测框封装到成员变量datas_中，Yolov3PostProcessMethod的输出数据结构是xstream::BaseDataVector<a class="reference external" href="xstream::BBox">xstream::BBox</a>.</p>
+</div>
+<div class="section" id="mobilenetv2">
+<h4>5.2.2 MobilenetV2<a class="headerlink" href="#mobilenetv2" title="Permalink to this headline">¶</a></h4>
+<p>根据模型描述信息，该模型的输入是224x224大小的nv12数据，该分类模型需要将roi数据送入模型进行预测。因此在预测方法Mobilenetv2PredictMethod中，需要输入的数据包括金字塔数据以及Yolov3PostProcessMethod输出的roi数据。在函数<code class="docutils literal notranslate"><span class="pre">PrepareInputData()</span></code>中，核心操作是抠取原图上的roi数据，并缩放到224x224大小。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// PrepareInputData的逻辑
+1. 检查输入数据，包括金字塔图像image，以及roi框;
+2. 获取金字塔原图数据，设置roi信息, 注意按照Yolov3PostProcessMethod输出的roi格式进行解析;
+3. 申请input_tensor和output_tensor, 基类已实现，可以直接调用;
+4. 调用bpu接口将原图中roi数据缩放到input_tensor中
+</pre></div>
+</div>
+<p>后处理中，核心工作是在函数<code class="docutils literal notranslate"><span class="pre">ParseDnnResult()</span></code>中解析bpu输出结果output_tensor，并封装成框架兼容的BaseData数据类型。与Yolov3PostProcessMethod输出类似，这里同样用<code class="docutils literal notranslate"><span class="pre">xstream::BBox</span></code>数据结构来表示分类结果。Mobilenetv2PostProcessMethod的输出数据结构是<code class="docutils literal notranslate"><span class="pre">xstream::BaseDataVector&lt;xstream::BBox&gt;</span></code>.</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h3>5.3 SmartPlugin<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>在solution_zoo/yolov3_mobilenetv2_example目录下实现ExampleSmartplugin继承SmartPlugin,使用新的消息SmartLegibleMessage，其消息类型为TYPE_SMART_LEGIBLE_MESSAGE。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExampleSmartPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SmartPlugin</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">ExampleSmartPlugin</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">config_file</span><span class="p">);</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">GetWorkflowInputImageName</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s">&quot;image&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>这里使用了新的消息TYPE_SMART_LEGIBLE_MESSAGE，此消息是SmartPlugin中生成。</p>
+</div>
+<div class="section" id="id11">
+<h3>5.4 WebDisplayPlugin<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>yolov3_mobilenetv2_example实现派生类ExamapleWebDisplayPlugin，用于接收ExampleSmartPlugin产生的消息，然后将消息发送给前端展示。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExampleWebDisplayPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">WebDisplayPlugin</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">ExampleWebDisplayPlugin</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">config_path</span><span class="p">);</span>
+
+ <span class="k">protected</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">GetSmartMessageType</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// return the message type from exampel_smart_plugin</span>
+    <span class="k">return</span> <span class="n">TYPE_SMART_LEGIBLE_MESSAGE</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>派生类实现接口GetSmartMessageType()，返回ExampleSmartPlugin产生的消息类型，用于基类WebsocketPlugin注册消息类型时使用，以获得对应的感知结果。</p>
+</div>
+<div class="section" id="main">
+<h3>5.5 main 函数实现<a class="headerlink" href="#main" title="Permalink to this headline">¶</a></h3>
+<p>基于派生类ExampleSmartPlugin，ExampleWebDisplayPlugin以及VioPlugin，我们可以串联完整的workflow，实现yolov3_solution。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">vio_config_file</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">smart_config_file</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">websocket_config_file</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">log_level</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">log_level</span> <span class="o">==</span> <span class="s">&quot;-i&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SetLogLevel</span><span class="p">(</span><span class="n">HOBOT_LOG_INFO</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">log_level</span> <span class="o">==</span> <span class="s">&quot;-d&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SetLogLevel</span><span class="p">(</span><span class="n">HOBOT_LOG_DEBUG</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">log_level</span> <span class="o">==</span> <span class="s">&quot;-w&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SetLogLevel</span><span class="p">(</span><span class="n">HOBOT_LOG_WARN</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">log_level</span> <span class="o">==</span> <span class="s">&quot;-e&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SetLogLevel</span><span class="p">(</span><span class="n">HOBOT_LOG_ERROR</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">log_level</span> <span class="o">==</span> <span class="s">&quot;-f&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SetLogLevel</span><span class="p">(</span><span class="n">HOBOT_LOG_FATAL</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">LOGE</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;log option: [-i/-d/-w/-f] &quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">signal</span><span class="p">(</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">signal_handle</span><span class="p">);</span>
+  <span class="n">signal</span><span class="p">(</span><span class="n">SIGPIPE</span><span class="p">,</span> <span class="n">signal_handle</span><span class="p">);</span>
+
+  <span class="c1">// 创建plugin对象</span>
+  <span class="k">auto</span> <span class="n">vio_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">VioPlugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">vio_config_file</span><span class="p">);</span>
+  <span class="k">auto</span> <span class="n">smart_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ExampleSmartPlugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">smart_config_file</span><span class="p">);</span>
+  <span class="k">auto</span> <span class="n">websocket_plg</span> <span class="o">=</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ExampleWebDisplayPlugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">websocket_config_file</span><span class="p">);</span>
+
+  <span class="k">auto</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">vio_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">smart_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">websocket_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">vio_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  <span class="n">smart_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  <span class="n">websocket_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">exit_</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">microseconds</span><span class="p">(</span><span class="mi">40</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="n">vio_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">vio_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="n">vio_plg</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="n">smart_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">websocket_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">smart_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="n">websocket_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>在main函数中，分别创建VioPlugin,ExampleSmartPlugin,ExampleWebsocketplugin，并调用Init和Start接口，运行workflow。其中smart_config_file为ExampleSmartPlugin的配置文件，在这里为yolov3_mobilenetv2_example/configs/solution_yolov3.json。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;xstream_workflow_file&quot;</span><span class="p">:</span> <span class="s2">&quot;./yolov3_solution/configs/workflow_yolov3.json&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;codec_param&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;use_vb&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&quot;jpeg_quality&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+    <span class="nt">&quot;frame_buf_depth&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nt">&quot;is_cbr&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;bitrate&quot;</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
+    <span class="nt">&quot;jpg_encode_time&quot;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>其中配置了soluton的workflow文件，即./yolov3_solution/configs/workflow_yolov3.json。</p>
+</div>
+<div class="section" id="yolov3-solution">
+<h3>5.6 运行yolov3_solution<a class="headerlink" href="#yolov3-solution" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">//</span> <span class="n">开发机上进行编译打包</span>
+    <span class="n">bash</span> <span class="n">build_and_deploy</span><span class="o">.</span><span class="n">sh</span>
+
+    <span class="o">//</span> <span class="n">x3上运行</span>
+    <span class="n">cd</span> <span class="n">deploy</span>
+    <span class="n">sh</span> <span class="n">run_example</span><span class="o">.</span><span class="n">sh</span>
+    
+</pre></div>
+</div>
+<p>这样就完成了yolov3_solution从编译到部署的全部步骤。</p>
+</div>
+<div class="section" id="workflow">
+<h3>5.6 workflow配置升级<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h3>
+<p>solution的workflow配置文件，即./yolov3_solution/configs/workflow_yolov3.json。
+workflow中增加了”declaration”声明，支持SmartPlugin根据此配置转换Workflow的输出结果到具体数据结构SmartLegibleMessage，包含两个主要元素：</p>
+<ul class="simple">
+<li><p>typenames: 这里指定了固定的数据类型，目前只支持这7种，不能修改</p></li>
+<li><p>targets: 指定target包含的属性字段，比如objects这个target类别，包含检测框和分类属性，objects这个字段可以随意定义；targets属性：采用”name:type”的形式, 其中type是typenames指定的类型，name是outputs种的输出字段</p></li>
+</ul>
+<p>以下述workflow为例说明targets含义，targets定义了一个目标类型”objects”:
+objects包含的属性：</p>
+<ul class="simple">
+<li><p>“detect_box:BBox”：detect_box代表检测框，来自outputs中第二个元素，数据类型为BBox</p></li>
+<li><p>“classify:Classification”：classify代表检测结果，来自outputs中第三个元素，数据类型为Classification</p></li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;declaration&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;typenames&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;Image&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;BBox&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Landmarks&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Classification&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Segmentation&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;FloatFeature&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Pose3D&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;targets&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;objects&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;detect_box:BBox&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;classify:Classification&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;max_running_count&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+  <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;image&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;detect_box&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;classify&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Yolov3PredictMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Yolov3PredictMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;image&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;dnn_yolo&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;./yolov3_predict_method.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Yolov3PostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Yolov3PostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;dnn_yolo&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;detect_box&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;./yolov3_post_process_method.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Mobilenetv2PredictMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Mobilenetv2PredictMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;detect_box&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;dnn_mobilenet&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;./mobilenetv2_predict_method.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Mobilenetv2PostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Mobilenetv2PostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;dnn_mobilenet&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;classify&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;./mobilenetv2_post_process_method.json&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>注意：</p>
+<ul class="simple">
+<li><p>typenames定义了SmartPlugin支持自动转换的数据类型，数据类型固定，不支持修改</p></li>
+<li><p>targets中的属性定义，采用”name:type”的形式，其中name随意定义但是必须和outputs中的输出字段保持一致，type必须为typenames中的类型，name或者type前后允许有空格</p></li>
+<li><p>如果不定义targets，workflow输出无法自动转换成SmartLegibleMessage</p></li>
+<li><p>SmartPlugin转换workflow结果保存到SmartLegibleMessage类型</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

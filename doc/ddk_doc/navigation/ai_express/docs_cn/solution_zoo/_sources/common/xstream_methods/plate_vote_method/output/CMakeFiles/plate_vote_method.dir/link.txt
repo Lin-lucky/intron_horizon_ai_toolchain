@@ -1,0 +1,2 @@
+/usr/bin/ar qc libplate_vote_method.a  CMakeFiles/plate_vote_method.dir/src/plate_vote_method.cc.o
+/usr/bin/ranlib libplate_vote_method.a

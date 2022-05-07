@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdistance_method.a  CMakeFiles/distance_method.dir/src/distance_method.cc.o
+/usr/bin/ranlib libdistance_method.a

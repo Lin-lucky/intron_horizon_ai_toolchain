@@ -1,0 +1,45 @@
+``hb_eval_preprocess`` 工具
+================================
+
+用于对模型精度进行评估时，在x86环境下对图片数据进行预处理。
+所谓预处理是指图片数据在送入模型之前的特定处理操作。
+比如：图片resize、crop和padding等。
+
+使用方法
+--------------------------------
+
+.. code-block::
+
+  hb_eval_preprocess [OPTIONS]
+
+命令行参数
+--------------------------------
+
+.. data:: hb_eval_preprocess的命令行参数
+
+  \-\-version
+    显示版本并退出。
+
+  -m, \-\-model_name
+    设置模型名称，支持的模型范围可通过 ``hb_eval_preprocess --help`` 查看。
+
+  -i, \-\-image_dir
+    输入图片路径。
+
+  -o, \-\-output_dir
+    输出路径。
+
+  -v, \-\-val_txt
+    设置评测所需图片的文件名称，预处理生成的图片将于此文件中的图片名称对应。
+
+  -h, \-\-help
+    显示帮助信息。
+
+输出内容
+--------------------------------
+
+``hb_eval_preprocess`` 命令将会在 ``--output_dir`` 指定的路径下生成图片二进制文件。
+
+.. tip::
+  更多关于 ``hb_eval_preprocess`` 工具在上板模型精度评估中的应用示例请参见嵌入式应用开发《AI-Benchmark使用说明》中的
+  `数据预处理 <../../embedded_sample/ai_benchmark/ai-benchmark.html#id17>`_ 一节内容。

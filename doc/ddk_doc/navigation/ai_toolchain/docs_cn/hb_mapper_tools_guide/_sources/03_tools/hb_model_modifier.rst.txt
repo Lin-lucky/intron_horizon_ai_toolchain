@@ -1,0 +1,80 @@
+``hb_model_modifier`` 工具
+=================================
+
+``hb_model_modifier`` 工具用于对指定的runtime模型中输入端的Transpose及Quantize节点进行删除操作，
+并将删除节点的信息存放在BIN模型中，可以通过 ``hb_model_info`` 进行查看。
+
+.. note::
+
+  1. 工具仅用于删除输入端的Transpose、Quantize节点和输出端的Transpose、Dequantize节点，且Transpose节点必须直连输入或输出数据。对于Transpose和Quantize节点，一次仅能删除一个节点；对于Dequantize节点，会删除该Dequantize节点及该节点后续的所有节点。Dequantize后的节点上的操作, 则需放到后处理中。
+  2. 对于Transpose和Quantize节点，模型的输入节点与待删除节点之间的所有节点（如有）均为单输入输出节点；对于Dequantize节点，待删除节点与模型的输出节点之间的所有节点（如有）均为单输入输出节点。
+  3. 工具不支持对打包的模型进行处理，否则将提示：``ERROR pack model is not supported``。
+  4. Quantize节点会将数据类型由浮点转换为定点，如删除Quantize节点后，模型的输入端数据类型需要用户方自己处理为定点类型；Dequantize节点会将数据类型由定点转换为浮点，如删除Dequantize节点后，模型的输出端数据类型需要用户方自己处理为浮点类型并进行后处理。
+
+使用方式
+---------
+
+.. code-block:: bash
+
+  hb_model_modifier ${model_file} -r ${node_name}
+
+命令行参数
+-------------------
+
+.. data:: hb_model_modifier的命令行参数
+
+  model_file
+    runtime 模型文件名称。
+
+  -r
+    后接指定删除节点的名称。
+
+  -o
+    后接修改后的模型输出名称(仅在有 ``-r`` 参数时生效)
+
+输出内容解析
+----------------------
+
+若工具后不接任何参数，则工具会打印出可供候选的可删除节点（即模型中的所有transpose、quantize和Dequantize节点）。
+quanti节点的计算公式为：:math:`qx = clamp(round(x / scale) + zero\_point, -128, 127)`，其中 `round(x)` 实现浮点数的四舍五入， `clamp(x)` 函数实现将数据钳位在-128~127之间的整数数值。
+dequantize节点的计算公式为：:math:`deqx = (x - zero\_point) * scale`，deqx重新缩放回float或double类型数值
+删除quantize节点后，模型的数据输入类型应为int8类型；删除dequantize节点后，模型的数据输出类型为int8或int32两种类型。`zero_point` 为非对称量化零点偏移值，对称量化时 `zero_point = 0` 。
+
+.. note::
+
+  目前工具仅支持删除：
+
+  1. 输入部位的节点为quantize或transpose节点；
+  2. 输出部位的节点为dequantize或transpose节点。
+  
+  因此用户需自己查看确保删除节点若为quantize类型则节点需在BPU输入之前，若为dequantize类型则节点需在BPU输入之后。
+
+工具打印信息如下：
+
+.. code-block:: bash
+
+  hb_model_modifier resnet50_feature_hybrid_horizonrt.bin
+  2021-07-01 11:37:47,035 INFO Nodes that might be deleted: ['data_res2a_branch1_HzQuantize_TransposeInput0', 'data_res2a_branch1_HzQuantize', 'replaced_fc1000_1_HzDequantize']
+
+在指定 ``-r`` 选项后，工具会打印模型中该节点的类型，储存在bin文件中的节点信息以及告知指定节点已被删除：
+
+.. code-block:: bash
+
+  hb_model_modifier resnet50_64x56x56_feature.bin -r data_res2a_branch1_HzQuantize
+  Node 'data_res2a_branch1_HzQuantize' found, its OP type is 'Quantize'
+  Node info 'data_res2a_branch1_HzQuantize: [0.13579604029655457]' saved
+  Node 'data_res2a_branch1_HzQuantize' is removed
+  modified model saved as resnet50_64x56x56_feature.bin_modified.bin
+
+之后可以通过 ``hb_model_info`` 工具查看被删除节点信息，输出信息末尾会打印被删除节点的名称，同时会生成 ``deleted_nodes_info.txt`` 文件，文件中每一行记录了对应被删除节点的初始信息。打印被删除节点的名称如下所示：
+
+.. code-block:: bash
+
+  hb_model_info resnet50_64x56x56_feature_no_dequant.bin
+  Start hb_model_info....
+  hb_model_info version 1.3.27
+  ********* resnet50_64x56x56_feature info *********
+  ...
+  --------- deleted nodes -------------------
+  deleted nodes: data_res2a_branch1_HzQuantize
+

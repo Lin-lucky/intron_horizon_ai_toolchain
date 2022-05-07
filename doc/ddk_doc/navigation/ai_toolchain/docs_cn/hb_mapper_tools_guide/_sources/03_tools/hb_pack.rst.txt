@@ -1,0 +1,40 @@
+``hb_pack`` 工具
+=====================
+
+``hb_pack`` 是用于将多个混合模型(\*.bin)文件打包为一个模型文件的工具。
+
+使用方法
+--------------
+
+.. code-block::
+
+  hb_pack [OPTIONS] BIN_FILE1 BIN_FILE2 BIN_FILE3 -o comb.bin
+
+命令行参数
+-------------------
+
+.. data:: hb_pack的命令行参数
+
+  \-\-version
+    显示版本并退出。
+
+  -o, \-\-output_name
+    pack模型的输出名称        
+
+  \-\-help
+    显示帮助信息。
+
+输出内容
+----------------------
+
+打包的模型会输出在当前目录文件夹中，该模型会被命名为 ``output_name`` 指定名称。
+该打包模型中所有子模型的编译信息及性能信息均可通过 ``hb_model_info`` 及 ``hb_perf`` 获取得到。
+
+.. attention::
+
+  注意，``hb_pack`` 不支持对已经打包的模型再次进行打包，否则工作台将会产生以下提示：
+
+.. code-block:: bash
+
+  ERROR exception in command: pack
+  ERROR model: xxx.bin is a packed model, it can not be packed again!

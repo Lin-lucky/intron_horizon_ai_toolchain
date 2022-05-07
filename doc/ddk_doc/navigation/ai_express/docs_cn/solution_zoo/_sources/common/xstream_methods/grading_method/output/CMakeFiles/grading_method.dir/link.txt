@@ -1,0 +1,2 @@
+/usr/bin/ar qc libgrading_method.a  CMakeFiles/grading_method.dir/src/grading_method.cc.o CMakeFiles/grading_method.dir/src/weight_grading.cc.o
+/usr/bin/ranlib libgrading_method.a

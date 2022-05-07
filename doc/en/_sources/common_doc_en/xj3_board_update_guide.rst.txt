@@ -1,0 +1,395 @@
+Firmware Upgrade Manual
+===============================
+
+This chapter describes how to upgrade firmware, note that J3 DVB's firmware upgrading is similar.
+
+1. System Image
+-------------------
+
+XJ3 AI processors use ``embedded Linux`` operating system, firmware release uses precompiled image 
+``X3J3-Img-PL2.0-${version}.tgz`` and PlatformSDK source code ``X3J3-PlatformSDK-PL2.0-${version}.tgz``, 
+please refer to the `bsp/` release directory. Users can remove modules or modify the PlatformSDK release package 
+in accordance with their own needs and compile to generate their private system images.
+
+The PlatformSDK sourcecode package comes with cross-compilation toolchain and preset compilation scripts. 
+See the ``bsp/PlatformSDK/prebuilts/host`` directory. Users only need to create compilation environment so as to quickly 
+accomplish source code compilation of system image. Presently PlatformSDK can be compiled in either Ubuntu18.04 or CentOS7. 
+
+Create your compilation environment in Ubuntu18.04 by running the following commands:
+
+.. code-block:: shell
+
+  sudo apt install build-essential
+  sudo apt-get install make
+  sudo apt install cmake
+  sudo apt install bison
+  sudo apt install flex
+  sudo apt-get install python-numpy
+  sudo apt install android-tools-fsutils
+  sudo apt install mtd-utils
+  sudo apt install zlib1g-dev
+
+Likewise, create your compilation environment in CentOS7 by running the following commands:
+
+.. code-block:: shell
+
+  yum install glib cmake gcc bison flex minicom python-pip
+  pip install numpy
+  yum install make_ext4fs-1.0.0-1.el7.x86_64.rpm
+  yum install zlib-devel
+  yum install mtd-utils-1.5.0-2.el6.nux.x86_64.rpm
+  
+Run below commands to compile after configuring your environment:
+
+.. code-block:: shell
+
+  source ./build/envsetup.sh
+  lunch
+  ./build.sh -m {memory_type} -f {frequency} -i2
+
+
+The ``build.sh`` configurable parameters are as follows.
+Users can compile the corresponding image according to the hardware configuration of the development board
+
+.. code-block::
+
+  bash build.sh -h
+    [-c src|pre|mod|none] [-h]
+    [-b <xj3|cvb|x3dvb|j3dvb|customer|fpga>_<ap|uart|emmc|nor|nand>]
+    [-f 2133|2666|3200|3733|4266]
+    [-e uboot|all|ut|nor|nand|ft|gui|ful|cramfs|squashfs|cpio]
+    [-E DDR ECC pre defined mode select |0|1|2|3|4]
+    [-k sdk|exsdk]
+    [-d dual_boot]
+    [-v db|dt]
+    [-r recovery]
+    [-u ubifs]
+    [-n ddr_name]
+    [-m hynix|micron|samsung]
+    [-t LPDDR4|LPDDR4X|DDR4|DDR3L]
+    [-a 1|2|4]
+    [-o x3som|j3som]
+    [-p yes|no]
+    [-g stresstest|gcov]
+    [-s all | secure | kernel | avb_dm]
+    [-x 0|1]
+    [-l]
+    [-i] set ddr_alternative, no blank bewteen i and set value
+    [-I] enable dfs
+    [modulename [action]]
+  The complete parameters are as follows:
+    -c              default is mod
+      'src' means build minimal rootfs from yocto and all modules in MODULES_MANIFEST
+      'mod' means get rootfs from prebuilts and build all modules in MODULES_MANIFEST
+      'pre' means get binaries from prebuilts
+      'none' means build specified module
+    -k              build sdk
+      'sdk' contains include,lib and example
+      'exsdk' contains more contents
+    -v              build version db - daily build   dt - distribution release
+    -e              build image
+      'uboot' means build image up until uboot
+      'all' means all partitions combine in, no unittest
+      'ut' means unittest will be combined in
+      'ft' means factory test image
+      'nor' means norflash
+      'nand' means nandflash
+      'nand_4096' means nandflash with 4096 pagesize
+      'gui' means rootfs with minigui
+      'ful' means rootfs with large size for app debug
+      'cramfs' means rootfs type is cramfs, according to ramdisk.manifest
+      'squashfs' means rootfs type is squashfs, according to ramdisk.manifest
+      'cpio' means Image with cpio according to ramdisk.manifest
+    -E              ddr ECC pre defined mode select
+      0--off
+      1--gran 0(1/8) map 127(01111111) , default option
+      2--gran 0(1/8) map 15(00001111)
+      3--gran 1(1/16) map 127(01111111)
+      4--gran 1(1/16) map 15(00001111)
+      append: DDR_SBR_PATTERN0 DDR_SBR_PATTERN1 can be set,to initialize related registers at ddr initialization
+    -f              ddr frequences. Default is 2666
+    -b              choose board type and boot mode and set environment BOARD_TYPE and BOOT_MODE. i.e., svb_emmc. Default is 0som_emmc
+    -d              dual boot partiton
+    -r              build recovery.gz
+      'recovery' means support recovery mode
+    -u              flash file system selection
+      'ubifs' means using ubifs file system in flash
+    -n              ddr manufacturer's name, default is ddrphy_phyinit
+    -F              enable FDE(Full Disk Encryption) feature
+    -g              special test options
+      'stresstest' means using test spl image
+      'gcov' means build gcov coverage test image
+    -s              select secure image type, by default, ONLY Kernel verification is enabled
+      'all' means build all images with different verification modes where disk.img is the default image
+      'secure' means EFUSE encryption, Kernel verification and dm-verity are enalbed
+      'kernel' means ONLY Kernel verification is enabled (NO EFUSE or dm-verity)
+      'avb_dm'  means ONLY Kernel verification and dm-verity is enalbed (NO EFUSE)
+    -x              BPU framework version default, version 0
+      '0':bpu framework version 0
+      '1':bpu framework version 1
+    -i              set ddr_alternative in boardid, set to 1(default) in xg-1g is used for compile dfs image,
+            set to 2 is xg-2g,no blank bewteen i and set value
+    -l              gets the minimum boot log image, include spl, bl31, uboot and kernel log
+    modulename      module in the MODULES_MANIFEST. If not selected, no module will be rebuild.
+      if 'all' is present, it means all modules in MODULES_MANIFEST are selected
+    action          all, all_32, clean
+      'all' means compile 64-bit module, only used when TARGET_BIT is 64
+      'all_32' means compile 32-bit module, only used when TARGET_BIT is 32
+      'clean' means clean up module
+  Refer to below samples:
+    build xj3 sdb samsung 3200 image : ./build.sh -m samsung -f 3200 -i2 -s secure
+
+After compilation, an ``out/horizon_x3-release.64/target/deploy/`` folder will be output based on the ``PlatformSDK`` folder, who is supposed to be the same with the unzipped
+directory structure of ``X3J3-Img-PL2.0-${version}.tgz`` package:
+
+.. code-block:: shell
+
+  PLATFORMSDK_OUT
+  ├── 30500020-emmc-3200-all-gpt.conf
+  ├── 30500020-emmc-3200-all-gpt-dual.conf
+  ├── bl31
+  ├── bl31.img
+  ├── boot
+  ├── boot.img
+  ├── bpu
+  ├── combind_disk_app
+  ├── cr5
+  ├── ddr
+  ├── ddr.img
+  ├── disk.img
+  ├── fastboot_config.json
+  ├── gen_disk.sh
+  ├── gen_ota.sh
+  ├── gpt_backup_dual.img
+  ├── gpt_backup.img
+  ├── gpt_main_dual.img
+  ├── gpt_main.img
+  ├── mbr
+  ├── mbr.bin
+  ├── ota
+  ├── recovery
+  ├── recovery.img
+  ├── sbl
+  ├── sbl.img
+  ├── system
+  ├── system.img
+  ├── uboot
+  ├── ubootbak
+  ├── uboot.img
+  ├── usb_uart_pkg
+  ├── vbmeta
+  ├── vbmeta.img
+  ├── veeprom
+  └── veeprom.img
+
+The ``PLATFORMSDK_OUT`` directory contains all partition images and the ``gen_disk.sh`` packaging script, 
+as below described:
+
+.. code-block:: shell
+
+  bash gen_disk.sh -h
+    usage: gen_disk.sh <-b board> [-s] [-u] [-t Debug/Release] [-i uboot] [ -l ] [-o output_file] [-F]
+    avaliable board  : -b xj3(auto detect), x3_dvb, j3_dvb, xj3_cvb, xj3_sdb, xj3_cus(customer) board
+    output file name : -o specify the output file name instead of generate automatically
+    secure image     : -s generate secure image
+    unittests        : -u generate images with unittests
+    uboot image      : -i uboot    contain the image before uboot partition
+    optimize boot    : -l reduce boot log for performance test and projects that are needed
+    ddr type         : -m specify ddr type, e.g. hynix_lpddr4
+    dual_boot        : -d generate dual_boot disk image, currently only supported on emmc
+    force generate   : -F ignore any missing files and generate disk.img
+    dfs boot         : -k generate image to support dfs, supported in only non-secure image
+    cvb power test   : -c generate image to support cvb 3200 power test
+    pin secure mode  : -p generate image to support boot pin secure mode to test suspend/resume
+    ddr_alternative  : -a set ddr_alternative, set to 2 in xg is used for xg-2g
+    4096 nand page   : --nand_4096 generate nand image of 4096 page size
+  Refer to below samples:
+    build xj3 UT disk image           :   ./gen_disk.sh -b xj3 -u
+    build xj3 normal disk image       :   ./gen_disk.sh -b xj3
+    build xj3 micron ddr4 disk image  :   ./gen_disk.sh -b xj3 -m micron_ddr4
+    build xj3 secure disk image       :   ./gen_disk.sh -b xj3 -s -F
+    build xj3 UT dual boot disk image :   ./gen_disk.sh -b xj3 -u -d
+    build xj3 samsung 3200 image      :   ./gen_disk.sh -b xj3 -u -t Release -m samsung -a 2 -F -s
+
+The final image file for system upgrading firmware can be generated using the ``gen_disk.sh`` script.
+
+2. Upgrade Tools
+-----------------------
+
+We provide the one-click ``hbupdate`` tool for board system upgrade. 
+Board system can be upgraded using either ethernet port, serial port or USB port. 
+Complete toolset please refer to the ``tools/`` directory:
+
+1. **0A_PL2302-USB-to-Serial-Comm-Port.zip**: PL2303 serial port driver
+2. **0A_CP210x_USB2UART_Driver.zip**: CP210X serial port driver
+3. **0A_PL2303-M_LogoDriver_Setup_v202_20200527.zip**: PL2302 serial port driver
+4. **0B_hbupdate_win64_${version}.zip**: is used for one-click upgrading tool in Window 64
+5. **0B_hbupdate_linux_cli_${version}.tgz**: is used for command-line upgrading tool in Ubuntu
+6. **0B_hbupdate_linux_gui_${version}.tgz**: is used for one-click upgrading tool in Ubuntu
+7. **0B_hbupdate_mac_${version}.app.tar.gz**: is used for one-click upgrading tool in MacOS
+8. **0B_hbupdate_burn_secure-key1.zip**: is used for burn chip into ``hbupdate`` upgrading tool of secure chip
+
+.. note::
+  Secure chip is a kind of system security protection machenism used for preventing the SoC software system 
+  from forcedly crack during operation, and thus enhance application system and data safety. If you're using a non 
+  secure chip, then please convert it into a secure chip using the ``0B_hbupdate_burn_secure-key1.zip`` tool when you use it 
+  for the first time. Afterwards, you can upgrade using the regular ``hbupdate`` tool. Please note that the secure chip is 
+  an irreversible process, after successfully upgrade using the ``0B_hbupdate_burn_secure-key1.zip`` tool, you will need to 
+  keep using the ``./gen_disk.sh -b xj3 -F -s secure`` to generate secured system images.
+
+  Because secure chip is not sensitive to application layer, you are recommended to upgrade the chip into secure chip 
+  so as to guarantee that the future application system is consistent with chip development system.
+  
+.. important::
+  Images of secure chip and non-secure chip are incompatible, i.e., a secure chip dev board cannot burn an image of 
+  a non-secure chip, and vice versa.
+
+Before running ``hbupdate``, please install serial port driver into your host OS. 
+By default, the CP210X, PL2302 and PL2303 serial port drivers are provided. 
+Please choose to install according to your host OS, or just try to install them one by one. 
+If you find that neither can work, please contact Horizon Robotics for technical support.
+
+.. warning::
+
+  Before running ``hbupdate``, please add it into the whitelist of your antivirus software or 
+  turn off your antivirus software, otherwise upgrade may fail.
+
+You will see below operating interface when you open the ``hbupdate`` upgrading tool: 
+(Here takes the ``hbupdate v0.8.4`` and system image 20210601 ``disk_xj3_secure_ut_emmc202106011037.img`` as an example, 
+operating method is similar while tool version varies.)
+
+.. image:: ./xj3_soc_images/fastboot_upgrade.png
+  :scale: 60%
+
+1. **Product Type**: Supported products can be selected. As for X3 SDB (xj3_sdb), please select ``XJ3-key1``.
+2. **Product Name**: Please select the name of your dev board. As for X3 SDB (xj3_sdb), please select ``xj3_sdb``.
+3. **Download Mode**: Please select among ``ota``, ``uboot`` and ``uart``.
+4. **Download Method**: Please select either ``fastboot`` or ``tftp``. 
+   This parameter works in conjunction with **Download Mode**.
+5. **SDRam Type**: xj3_sdb utlized Samsung Particle by default, so you don't need to specify this parameter.
+6. **Verify Afterwards**: It only applies to ``uboot`` and ``uart`` download modes. 
+   If checked, the tool will send the board to reboot to verify if the board can boot into Linux Shell. 
+   If successfully boot into Linux shell, upgrade success, otherwise failure. 
+7. **Display Serial Output**: If checked, the serial output from the board will be displayed under ``Upgrade Message``. 
+   The messages displayed can be used to debug. 
+8. **Product Configuration**: including the IP address of dev board, Gateway Address, MAC Address and Subnet Mask. 
+   These information will be sent to dev board during upgrade, network segment must be the same as the IP address 
+   (first 3 segments should be the same) in your host machine configuration.
+9.  **Computer Configuration**: including Serial Port and IP Address.
+10. **Image File**: Select a .img file. Note that there mustn't be Chinese characters or spaces.
+
+.. warning:: 
+  1. As default Baud rate of upgrade tool serial port is 921600, 
+     the DIP switch of dev board must be adjusted to 921600 mode.
+  2. There mustn't be Chinese characters or spaces in upgrade tool's decompression path and image file's storing path.   
+  3. The serial port cannot be opened repeatedly, There is a prompt for it after clicking ``start download``. 
+     There may be a situation that the serial port can be opened repeatedly under Ubuntu system,
+     but it will still lead to the failure of download.
+  4. The update tool will start a tftp service. 
+     If the tool cannot apply to port 69, the system software will shut down after an error is reported.
+     At this time, it needs to check (1) whether there are other applications in the system to open the tftp service,
+     or whether the system has its own tftp service, (2) whether to open the update tool multiple times.
+  5. Most download modes require a network. 
+     Please make sure that the device IP and PC IP are in the same network segment.
+     There cannot be duplicate IP in the network segment, and the IP mask on both sides must be the same.
+  6. The upgrade tool won't upgrade the ``/userdata`` directory in order to prevent that userdata to be overwritten.
+  7. After image is created, only the ``/app`` and ``/userdata`` directories have write permission. 
+     If you wish all partitions and directories to have write permission, please run:
+     ``mount -o remount,rw /`` to obtain write permission.
+  8.  In the ``Product Type`` menu in ``hbupdate``'s GUI, the ``XJ3-normal`` applies to non-secure image authoring.
+   
+3. Upgrade Method
+----------------------
+
+There are 4 methods to upgrade SoC image: **Ethernet Port Uboot, USB Uboot, UART and OTA**. 
+Wherein, Ethernet Port Uboot, USB Uboot and OTA are recommended as long as the dev board system is available; 
+otherwise choose UART to recover and upgrade when the dev board system is unavailable.
+
+3.1 Ethernet Port Uboot Upgrade Method
++++++++++++++++++++++++++++++++++++++++++++++
+
+Ethernet Port Uboot refers to an upgrade method to transmit and upgrade image files via ethernet port 
+when you can power the dev board and enter host OS. The tool will send reboot command via serial port 
+and stay in Uboot.
+
+Due to the fact that tool network transmission is restricted by TFTP, user must guarantee that there isn't any other 
+softwares taking up TFTP service, and that dev board and PC are in the same network segment 
+(i.e. the IP addresses of the first 3 segments are the same).
+
+Please refer to the following upgrading configurations:
+
+.. note::
+  Note that tool GUI varies by versions, here is just an example.
+
+1.  ``Product Type``: choose ``XJ3-key1``.
+2.  ``Product Name``: choose ``xj3_sdb``.
+3.  ``Download Mode``: choose ``uboot``.
+4.  ``Download Method``: choose ``tftp``.
+5.  ``CP IP Address``: configure before upgrade, the first 3 IP segments should be the same.
+6.  ``Gateway Address``: configure before upgrade.
+7.  Computer ``IP Address``: run ``ping`` command to ensure that dev board IP is accessible. 
+    The first 3 IP segments should be the same.
+8.  ``Serial Port``: default Baud rate is 921600.
+9.  ``Image File``: choose .img file. There mustn't be Chinese characters or spaces in paths or filenames.
+
+.. image:: ./xj3_soc_images/uboot_upgrade.png
+  :scale: 40%
+
+3.2 USB Uboot Upgrade Method
+++++++++++++++++++++++++++++++++++++
+
+USB Uboot refers to the upgrade method when dev board is turned on and enters the OS, the tool will send reboot command 
+via serial port and stay in Uboot, then use USB fastboot to accomplish image file transmission and upgrade.
+
+Wherein, fastboot transmission requires support of computer driver, users need to install fastboot driver in computer 
+and the X3 fastboot port can be recognized.
+
+Follow below graph to configure upgrade tool:
+
+1.  ``Product Type``, choose ``XJ3-key1``.
+2.  ``Product Name``, choose ``xj3_sdb``.
+3.  ``Download Mode``, choose ``uboot``.
+4.  ``Download Method``, choose ``fastboot``.
+5.  ``image file``, choose a .img file whose path and filename cannot contain either Chinese character or spaces.
+6.  ``Serial Port``, default Baud rate is ``921600``.
+7.  ``PC IP``, no need to choose this field.
+
+.. image:: ./xj3_soc_images/usb_uboot.png
+  :scale: 60%
+
+3.3 UART Upgrade Method
+++++++++++++++++++++++++++++++++++++
+
+To upgrade UART, sends UART start-up command via serial port using the tool before X3 dev board is powered, 
+so that the system will enter UART start-up mode when the powered X3 dev board receives the command. 
+Having done all above, the tool will be able to send the build-in SPL and Uboot images using UART, and the dev board 
+will enter Uboot and upgrade user specified images via either USB or ethernet port.
+
+When X3 SDB becomes brick or blank, it can be recovered and upgraded using the UART method. 
+Please configure as following:
+
+1.  ``Download Mode``, choose ``uart``.
+2.  ``Memory Type``, choose ``lpddr4-samsung-sec`` because X3 SDB uses Samsung particle.
+
+.. image:: ./xj3_soc_images/uart_upgrade.png
+  :scale: 60%
+
+3.4 OTA Upgrade Method
+++++++++++++++++++++++++++++++++++++
+
+OTA upgrade method is an online upgrade method for X3 SDB, it can implement basic online upgrade feature and upgrade 
+the partition files after Uboot, including: kernel and rootfs etc.
+
+After PlatformSDK compilation, a corresponding OTA package will be generated in the 
+out/horizon_x3-release.64/target/deploy/ota/all_disk.zip.
+
+1.  ``Product Type``, choose ``XJ3-key1``.
+2.  ``Product Name``, choose ``xj3_sdb``.
+3.  ``Download Mode``, choose ``ota``.
+4.  ``Download Method``, choose ``tftp``.
+5.  ``Image File``, choose ``all_disk.zip``. Paths and filenames mustn't contain Chinese characters or spaces.
+6.  ``CP IP Address`` must be in the same segment with the computer.
+7.  ``Serial Port``, default Baud rate is ``921600``.
+
+.. image:: ./xj3_soc_images/ota_upgrade.png
+  :scale: 60%

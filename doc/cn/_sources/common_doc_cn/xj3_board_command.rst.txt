@@ -1,0 +1,212 @@
+常见系统命令
+=================
+
+1. 系统版本检查
+----------------
+
+使用以下命令检查当前系统的版本。
+
+.. code-block:: shell
+  
+  cat /etc/version
+
+
+2. ``hrut_utilities`` 工具集
+----------------------------------
+
+``hrut_utilities`` 是一套用于芯片侧采集/设置系统信息的工具集，主要包括板卡 ID 查询/设置，BPU 状态监控，DDR 状态监控，
+温度传感器读数及 CPU/BPU 频率实时信息查询，IP/MAC 地址查询与设置等，具体说明如下：
+
+2.1 ``hrut_boardid``
++++++++++++++++++++++++++++++
+用于获取/设置开发板 ``Boardid``。其中具体 ID 定义为:
+
+.. csv-table::
+ :header: "", "含义", "长度", "取值范围"
+ :widths: 10, 10, 10, 40
+
+ "Model", "DDR 厂商", "4Bits", "0x0:自动检测；0x1:海力士；0x2:镁光；0x3:三星"
+ "DDR Type", "DDR 类型", "4Bits", "0x0:自动检测；0x1: LPDDR4；0x2: LPDDR4X；0x3: DDR4；0x4: DDR3L"
+ "Frequency", "DDR 频率", "4Bits", "0x0:自动检测；0x1: 667；0x2: 1600；0x3: 2133；0x4: 2666；0x5: 3200；0x6: 3733；0x7: 4266"
+ "Capacity", "DDR 容量", "4Bits", "0x0:自动检测；0x1: 1GB；0x2: 2GB；0x3: 4GB"
+ "ECC", "ECC 配置", "4Bits", "0x0: Default；0x1: inline ECC All；0x2: inline ECC option1；0x3: inline ECC option2"
+ "SOM Type", "SOM 类型", "4Bits", "0x0:自动检测；0x1: X3；0x2: J3"
+ "Alternative", "额外设置", "4Bits", "0x0: Default；0x1: Config1"
+ "Board Type", "底板类型", "4Bits", "0x1: X3 DVB；0x2: J3 DVB；0x3: CVB"
+
+命令与示例如下所示：
+
+.. code-block:: shell
+
+  Example: hrut_boardid g
+  Options:
+    g get board id(veeprom)
+    s set board id(veeprom)
+    G get board id(bootinfo)
+    S set board id(bootinfo)
+    c clear board id(veeprom)
+    C clear board id(bootinfo)
+    h  display this help text
+
+  // 读取 boardid(veeprom)
+  root@x3dvbx3-hynix1G-2666:~# hrut_boardid g
+  11410101
+
+  // 设置 boardid(veeprom)
+  root@x3dvbx3-hynix1G-2666:~# hrut_boardid s 11410101
+  set board id = 11410101
+
+  // 读取 boardid(bootinfo)
+  root@x3dvbx3-hynix1G-2666:~# hrut_boardid G
+  00
+
+  // 设置 boardid(bootinfo)
+  root@x3dvbx3-hynix1G-2666:~# hrut_boardid S 11410101
+  change board id from 0 to 11410101
+
+.. tip::
+  注意 ``Boardid`` 会影响到启动时，SOM板的初始化，请谨慎设置。
+
+2.2 ``hrut_bpuprofile``
++++++++++++++++++++++++++++++
+
+用于设置 BPU 状态，例如调节每个 BPU 频率、电源上电/掉电、时钟打开/关闭，脚本帮助文档如下：
+
+.. code-block:: shell
+
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile
+  bpu core error,you should select 0/1/2
+  BPU PROFILE HELP INFORMATION
+  >>> -b/--bpu         [BPU CORE,0--bpu0,1--bpu1,2--ALL BPU] (required)
+  >>> -p/--power       [POWER OFF/ON,0--OFF,1--ON]
+  >>> -c/--clock       [CLOCK OFF/ON,0--OFF,1--ON]
+  >>> -e/--enabletime  [GET FC TIME/ON,0--OFF,1--ON]
+  >>> -t/--time        [GET FC TIME,NO ARGUMENT]
+  >>> -f/--frq         [SET BPU FREQUENCY,ARGUMENT:N]
+  >>> -r/--ratio       [BPU RATIO,N--N TIMES,0--FOREVER]
+
+
+常见使用方式包括：
+
+.. code-block:: shell
+
+  // 查看 2 个 bpu 的使用率
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 2 -r 0
+  BPU   RATIO    FREE QUEUE
+  0     99%       1020
+  1     99%       1024
+
+  // 设置 bpu0 的频率为 400M
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 0 -f 400000000
+
+  // bpu1 掉电
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 1 -p 0
+
+  // 查看 fc 执行时间
+  // 首先开始记录 fc 执行时间功能
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 2 -e 1
+  // 查看记录的 fc 执行时间
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 2 -t
+  // 不使用该功能之后，可以将其关闭
+  root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b 2 -e 0
+
+2.3 ``hrut_mac``
++++++++++++++++++++
+
+用于设置当前板子网卡 MAC 相关参数
+
+.. code-block:: shell
+
+  // 写入
+  hrut_mac s aa:bb:cc:dd:ee:ff
+
+  // 读取
+  hrut_mac g
+
+2.4 ``hrut_somstatus``
+++++++++++++++++++++++++++++++++
+
+用于实时查询温度传感器读数及 CPU/BPU 频率实时信息
+
+.. code-block:: shell
+
+  root@x3sdbx3-samsung2G-3200:~# hrut_somstatus
+  =====================1=====================
+  temperature-->
+      CPU      : 72.8 (C)
+  cpu frequency-->
+        min       cur     max
+      cpu0: 240000    1200000 1200000
+      cpu1: 240000    1200000 1200000
+      cpu2: 240000    1200000 1200000
+      cpu3: 240000    1200000 1200000
+  bpu status information---->
+        min        cur             max             ratio
+      bpu0: 400000000 1000000000      1000000000      100
+      bpu1: 400000000 1000000000      1000000000      100
+
+
+2.5 ``hurt_ipfull``
++++++++++++++++++++++++++++
+用于设置板子 IP 相关参数。配置完成，板子下次上电会自动配置 IP，MASK，GATEWAY 信息。
+
+.. code-block:: shell
+
+  // 写入
+  // hrut_ipfull s IP MASK GATEWAY
+  root@x3sdbx3-samsung2G-3200:~# hrut_ipfull s 192.168.1.10 255.255.255.0 192.168.1.255
+
+  // 读取
+  root@x3sdbx3-samsung2G-3200:~# hrut_ipfull g
+  ip=192.168.1.10
+  mask=255.255.255.0
+  gw=192.168.1.255
+
+  // 清除
+  // 一旦清除后，板子下次上电会使用默认地址 192.168.1.10
+  root@x3sdbx3-samsung2G-3200:~# hrut_ipfull c
+
+2.6 ``hrut_ddr``
++++++++++++++++++++
+设置 DDR Qos，查询 DDR 各个端口的带宽，详细请参考 `ddk\doc\dsp` 目录下的《X3平台系统软件用户手册》和《J3平台系统软件用户手册》。
+
+3. Thermal 配置使用指南
+------------------------------------------
+在 x3 里面一共有三个 cooling(降温)设备，分别为 `cooling_device0：cnn0`，`cooling_device1: cnn1`，`cooling_device2: cpu`。
+目前对于这些设备采用默认降温策略为 ``step_wise``，你可以根据你的需求进行调整。
+
+.. code-block:: shell
+
+  // 查询当前策略
+  cat /sys/class/thermal/thermal_zone0/policy
+
+  // 支持的策略类型为 “user_space”、“step_wise”。
+  cat /sys/class/thermal/thermal_zone0/available_policies
+
+  // 切换到 user_space
+  echo user_space > /sys/class/thermal/thermal_zone0/policy
+  ls -l /sys/devices/virtual/thermal/thermal_zone0
+  // 可看到有三个 trip_point。目前默认选择的 trip_point 是 trip_point_1_temp(温度是 75 度)。
+  // 如果想要调整 trip_point_1_temp 温度值
+  echo 85000 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_1_temp
+
+4. CPU 调频说明
+------------------------
+CPU 的调频策略默认是 “ondemand”，会根据负载自动调整频率。在作某些性能测试时，可以把 CPU 频率固定在最高值或设定为某个值。
+
+.. code-block:: shell
+
+  // CPU 频率固定在最高值:
+  echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+  // 固定为某个值:
+  // 首先，设置 userspace 为当前调频策略:
+  echo userspace> /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+  // 查看有哪些频率:
+  cat /sys/devices/system/cpu/cpufreq/policy0/scaling_available_frequencies
+  // 设为 500M:
+  echo 500000 > /sys/devices/system/cpu/cpufreq/policy0/scaling_setspeed
+
+  // 查看 CPU 当前频率:
+  cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq
+

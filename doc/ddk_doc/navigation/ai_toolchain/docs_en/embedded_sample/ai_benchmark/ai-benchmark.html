@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Foreword &mdash; AI Benchmark  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="AI Benchmark User Guide" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> AI Benchmark
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Foreword</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#about-the-deliverables">2. About the Deliverables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-sample-code-package">2.1. The Sample Code Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-models">2.2. Sample Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#public-datasets">2.3. Public Datasets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#development-environment">3. Development Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prepare-the-dev-board">3.1. Prepare the Dev Board</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compilation">3.2. Compilation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#how-to-use">4. How to Use</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#evaluation-scripts">4.1. Evaluation Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-evaluation">4.2. Performance Evaluation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-use-performance-evaluation-scripts">4.2.1. How to Use Performance Evaluation Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#about-command-line-parameters">4.2.2. About Command-line Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#about-configuration-file">4.2.3. About Configuration File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-accuracy-evaluation">4.3. Model Accuracy Evaluation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-pre-process">4.3.1. Data Pre-process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-mounting">4.3.2. Model Mounting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-inference">4.3.3. Model Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-accuracy-computing">4.3.4. Model Accuracy Computing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classification-models">4.3.4.1. Classification Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#detection-models">4.3.4.2. Detection Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#segmentation-models">4.3.4.3. Segmentation Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#model-integration">5. Model Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#add-post-processing-file">5.1. Add Post-processing File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-model-execution-and-configuration-files">5.2. Add Model Execution and Configuration Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#helper-tools-and-frequently-used-operations">6. Helper Tools and Frequently-used Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#log">6.1. Log</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sample-log">6.1.1. Sample Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dnn-log">6.1.2. <code class="docutils literal notranslate"><span class="pre">dnn</span></code> Log</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#op-time-consumption">6.2. OP Time Consumption</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general-descriptions">6.2.1. General Descriptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sample">6.2.2. Sample</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dump-tool">6.3. Dump Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#frequently-used-operations">6.4. Frequently-used Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#check-out-dev-board-s-image-version">6.4.1. Check out dev board’s image version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-system-logs">6.4.2. Check system logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-bpu-utilization">6.4.3. Check BPU Utilization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AI Benchmark</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">1. </span>Foreword</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ai-benchmark.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="foreword">
+<h1><span class="section-number">1. </span>Foreword<a class="headerlink" href="#foreword" title="Permalink to this headline"></a></h1>
+<p>Horizon’s X3/J3 <strong>AI Benchmark Sample Package</strong> (hereafter referred to as the <strong>ABP</strong>) contains the most frequently used
+performance and accuracy evaluation samples of classification, detection and segmentation models.
+In model performance evaluation samples, developers are able, not only to evaluate the single frame latency,
+but also to evaluate the dual-core latency using multi-thread scheduling.
+The prebuilt source code, executable programs and evaluation scripts in the ABP allow developers
+to experience the samples, develop their own applications and make development easier.</p>
+</section>
+<section id="about-the-deliverables">
+<h1><span class="section-number">2. </span>About the Deliverables<a class="headerlink" href="#about-the-deliverables" title="Permalink to this headline"></a></h1>
+<p>Please see below table to find all the deliverables in the ABP.</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 78%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>NO.</strong></p></td>
+<td><p><strong>NAME</strong></p></td>
+<td><p><strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>code</p></td>
+<td><p>This folder contains sample source code and compilation scripts.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>xj3</p></td>
+<td><p>Dev board operating environment of the ABP.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>More information to obtain the <strong>data</strong> evaluation datasets please refer to:
+<a class="reference external" href="../../hb_mapper_sample_doc/index.html">Model Conversion Sample Package Docs</a>.</p>
+</div>
+<section id="the-sample-code-package">
+<h2><span class="section-number">2.1. </span>The Sample Code Package<a class="headerlink" href="#the-sample-code-package" title="Permalink to this headline"></a></h2>
+<p>Directory of the sample code package is shown as below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>+---ai_benchmark
+<span class="p">|</span> +---code                           <span class="c1"># sample source code</span>
+<span class="p">|</span> <span class="p">|</span> +---build_ptq_xj3.sh
+<span class="p">|</span> <span class="p">|</span> +---CMakeLists.txt
+<span class="p">|</span> <span class="p">|</span> +---deps                         <span class="c1"># third party dependencies</span>
+<span class="p">|</span>   <span class="p">|</span> +---aarch64
+<span class="p">|</span> <span class="p">|</span> +---include                      <span class="c1"># source code header files</span>
+<span class="p">|</span>   <span class="p">|</span> +---base
+<span class="p">|</span>   <span class="p">|</span> +---input
+<span class="p">|</span>   <span class="p">|</span> +---method
+<span class="p">|</span>   <span class="p">|</span> +---output
+<span class="p">|</span>   <span class="p">|</span> +---plugin
+<span class="p">|</span>   <span class="p">|</span> +---utils
+<span class="p">|</span> <span class="p">|</span> +---src                          <span class="c1"># sample source code</span>
+<span class="p">|</span>   <span class="p">|</span> +---input
+<span class="p">|</span>   <span class="p">|</span> +---method
+<span class="p">|</span>   <span class="p">|</span> +---output
+<span class="p">|</span>   <span class="p">|</span> +---plugin
+<span class="p">|</span>   <span class="p">|</span> +---utils
+<span class="p">|</span>   <span class="p">|</span> +---simple_example.cc          <span class="c1"># sample main program</span>
+<span class="p">|</span> +---xj3                            <span class="c1"># ABP&#39;s operating environment</span>
+<span class="p">|</span>   +---ptq                          <span class="c1"># post-training model samples</span>
+<span class="p">|</span>   <span class="p">|</span> +---data                       <span class="c1"># accuracy evaluation dataset</span>
+<span class="p">|</span>   <span class="p">|</span> +---mini_data                  <span class="c1"># performance evaluations dataset</span>
+<span class="p">|</span>   <span class="p">|</span> +---model                      <span class="c1"># post-training nv12 models</span>
+<span class="p">|</span>   <span class="p">|</span> +---script                     <span class="c1"># execution script</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> +---aarch64                  <span class="c1"># compilation generated executable files and dependencies</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> +---base_config.sh
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> +---config
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> +---classification           <span class="c1">#  samples classification models</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---efficientnet_lite0
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---accuracy.sh          <span class="c1"># an accuracy sample script</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---fps.sh               <span class="c1"># a performance sample script</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---latency.sh           <span class="c1"># a single-frame latency sample script</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---workflow_accuracy.json
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---workflow_fps.json
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---workflow_latency.json
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---efficientnet_lite1
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---efficientnet_lite2
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---efficientnet_lite3
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---efficientnet_lite4
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---googlenet
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---mobilenetv1
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---mobilenetv2
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---resnet18
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> +---detection                <span class="c1"># detection model samples</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---efficient_det
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---centernet
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---fcos
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---mobilenet_ssd
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---yolov2
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---yolov3
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---yolov5
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> +---segmentation             <span class="c1"># segmentation model samples</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---mobilenet_unet
+<span class="p">|</span>   <span class="p">|</span> +---tools                      <span class="c1"># accuracy evaluation tools</span>
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> +---python_tools
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---accuracy_tools
+<span class="p">|</span>   <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---voc_metric
+</pre></div>
+</div>
+<ul>
+<li><p>The <strong>code</strong> directory contains source code of an evaluation program developed based on Horizon Robotics’ XStream
+framework. This application program is used for evaluating model accuracy and performance.</p></li>
+<li><p>The <strong>xj3</strong> directory contains various pre-compiled application programs and evaluation scripts used for evaluating the
+accuracy and performance of different models in Horizon’s BPU (Brain Processing Unit).</p></li>
+<li><p>The build_ptq_xj3.sh script is an one-click real machine compilation script.</p></li>
+<li><p>The <strong>deps</strong> sub-directory contains sample code required dependencies, including:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gflags  glog  opencv  rapidjson  xproto  xstream
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="sample-models">
+<h2><span class="section-number">2.2. </span>Sample Models<a class="headerlink" href="#sample-models" title="Permalink to this headline"></a></h2>
+<p>The <strong>​model</strong> directory contains the most frequently used classification, detection and segmentation models in the
+<strong>horizon_x3_open_explorer/ddk/samples/ai_toolchain/model_zoo/runtime</strong> of the <strong>open_explorer package</strong>.
+please see below table to find model details. Model’s naming rule is: <code class="docutils literal notranslate"><span class="pre">{model_name}_{input_size}_{input_type}</span></code>.
+All models in the <strong>model</strong> directory are compiled from the <strong>model conversion sample package</strong>.</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>MODEL</p></th>
+<th class="head"><p>MODEL NAME</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>centernet</p></td>
+<td><p>centernet_512x512_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td rowspan="2"><p>efficient_det</p></td>
+<td><p>efficient_det_512x512_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>efficient_det_no_dequanti_512x512_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>efficientnet_lite0</p></td>
+<td><p>efficientnet_lite0_224x224_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>efficientnet_lite1</p></td>
+<td><p>efficientnet_lite1_240x240_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>efficientnet_lite2</p></td>
+<td><p>efficientnet_lite1_260x260_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>efficientnet_lite3</p></td>
+<td><p>efficientnet_lite1_280x280_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>efficientnet_lite4</p></td>
+<td><p>efficientnet_lite1_300x300_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>fcos</p></td>
+<td><p>fcos_512x512_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>googlenet</p></td>
+<td><p>googlenet_224x224_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>googlenet_cop</p></td>
+<td><p>googlenet_cop_224x224_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>lenet_gray</p></td>
+<td><p>lenet_28x28_gray.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>mobilenet_multi</p></td>
+<td><p>mobilenet_multi_224x224_gray.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>mobilenet_ssd</p></td>
+<td><p>mobilenet_ssd_300x300_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>mobilenet_unet</p></td>
+<td><p>mobilenet_unet_1024x2048_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td rowspan="2"><p>mobilenetv1</p></td>
+<td><p>mobilenetv1_224x224_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>mobilenetv1_224x224_nv12_dump.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>mobilenetv2</p></td>
+<td><p>mobilenetv2_224x224_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>resnet18</p></td>
+<td><p>resnet18_224x224_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>resnet50_feature</p></td>
+<td><p>resnet50_64x56x56_featuremap.bin</p></td>
+</tr>
+<tr class="row-even"><td rowspan="2"><p>yolov2</p></td>
+<td><p>yolov2_608x608_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>yolov2_preempted_608x608_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td rowspan="2"><p>yolov3</p></td>
+<td><p>yolov3_416x416_nv12.bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>yolov2_preempted_416x416_nv12.bin</p></td>
+</tr>
+<tr class="row-even"><td><p>yolov5</p></td>
+<td><p>yolov5_672x672_nv12.bin</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="public-datasets">
+<h2><span class="section-number">2.3. </span>Public Datasets<a class="headerlink" href="#public-datasets" title="Permalink to this headline"></a></h2>
+<p>The public datasets required by the ABP are: VOC, COCO, ImageNet and Cityscapes.
+The accuracy evaluation required datasets must be preprocessed using the <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> tool,
+in order to generate the .bin binary files required by the preprocess.
+The tool use lst file (e.g. coco.lst) to read pre-process files and run dataset inference.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ol class="arabic simple">
+<li><p>Information about how to get the evaluation dataset please refer to the <a class="reference external" href="../../hb_mapper_sample_doc/samples/02_algorithm_sample.html#prepare-dataset">Prepare Dataset</a> section in the Model Convert Sample Doc.</p></li>
+<li><p>A use case of the <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> tool please refer to the <a class="reference internal" href="#data-preprocess"><span class="std std-ref">Data Pre-process</span></a>.</p></li>
+<li><p>More information about the useage of the <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> tool please either type in <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span> <span class="pre">-h</span></code>,
+or refer to the <a class="reference external" href="../../hb_mapper_tools_guide/03_tools/hb_eval_preprocess.html">hb_eval_preprocess Tool</a> section in the
+HB Mapper Tools Guide.</p></li>
+</ol>
+</div>
+<ul>
+<li><p>The VOC dataset is used for evaluating the mobilenet_ssd model.
+Its directory is shown as below.
+The samples in the ABP use the val.txt file in the <strong>Main</strong> folder,
+the source images in the <strong>JPEGImages</strong> folder and the annotations in the
+<strong>Annotations</strong> folder.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>.
+└── VOCdevkit     <span class="c1"># root directory</span>
+    └── VOC2012   <span class="c1"># datasets of different years. Here only contains dataset 2012, there are dataset 2007 and more</span>
+        ├── Annotations  <span class="c1"># the XML files which explain the images in corresponding to the images in the JPEGImages folder</span>
+        ├── ImageSets    <span class="c1"># this folder stores the TXT files in which each line contains an image name. the ±1 at the end denotes positive/negative samples</span>
+        │   ├── Action
+        │   ├── Layout
+        │   ├── Main
+        │   └── Segmentation
+        ├── JPEGImages         <span class="c1"># contains source images</span>
+        ├── SegmentationClass  <span class="c1"># contains semantic segmentation related images</span>
+        └── SegmentationObject <span class="c1"># contains instance segmentation related images</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Preprocess the dataset:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_eval_preprocess -m mobilenet_ssd -i VOCdevkit/VOC2012/JPEGImages -v VOCdevkit/VOC2012/ImageSets/Main/val.txt -o ./pre_mobilenet_ssd
+</pre></div>
+</div>
+<ul>
+<li><p>The COCO dataset is used for evaluating the YOLOv2, YOLOv3, YOLOv5, Efficient_Det, FCOS and CenterNet models.
+Its directory is shown as below. The samples in the ABP use the instances_val2017.json
+annotation file in the <strong>annotations</strong> folder and images in the <strong>images</strong> folder.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>.
+├── annotations    <span class="c1"># contains annotation data</span>
+└── images         <span class="c1"># contains source images</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Preprocess the dataset:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_eval_preprocess -m model_name -i coco/coco_val2017/images -o ./pre_model_name
+</pre></div>
+</div>
+<ul>
+<li><p>The ImageNet dataset is used for evaluating classification models e.g. EfficientNet_Lite0, EfficientNet_Lite1,
+EfficientNet_Lite2, EfficientNet_Lite3, EfficientNet_Lite4, MobileNet, GoogleNet and ResNet etc.
+The samples in the ABP use the val.txt file and the source images in the <strong>val</strong> folder.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>.
+├── val.txt
+└── val
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Preprocess the dataset:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_eval_preprocess -m model_name -i imagenet/val -o ./pre_model_name
+</pre></div>
+</div>
+<ul>
+<li><p>The Cityscapes dataset is used for evaluating the MobileNet_Unet model.
+The samples in the ABP use the annotation files in the <strong>./gtFine/val</strong> folder
+and the source images in the <strong>./leftImg8bit/val</strong> folder.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>.
+├── gtFine
+│   └── val
+│       ├── frankfurt
+│       ├── lindau
+│       └── munster
+└── leftImg8bit
+    └── val
+        ├── frankfurt
+        ├── lindau
+        └── munster
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Preprocess the dataset:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_eval_preprocess -m mobilenet_unet -i cityscapes/leftImg8bit/val -o ./pre_mobilenet_unet
+</pre></div>
+</div>
+</section>
+</section>
+<section id="development-environment">
+<h1><span class="section-number">3. </span>Development Environment<a class="headerlink" href="#development-environment" title="Permalink to this headline"></a></h1>
+<section id="prepare-the-dev-board">
+<h2><span class="section-number">3.1. </span>Prepare the Dev Board<a class="headerlink" href="#prepare-the-dev-board" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p>Upgrade system image to the ABP recommended version according to the upgrade instructions.</p></li>
+<li><p>Ensure the remote connection between local dev machine and the dev board.</p></li>
+</ol>
+</section>
+<section id="compilation">
+<h2><span class="section-number">3.2. </span>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline"></a></h2>
+<p>Install the gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu cross-compilation tool in current environment
+and run the build_ptq_xj3.sh script in the <strong>code</strong> folder to compile executable programs
+in real machine. Note that the executable programs and corresponding dependencies will be copied into the <strong>aarch64</strong>
+folder in the <strong>xj3/ptq/script</strong> folder automatically.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The location of the cross-compilation tool specified in the build_ptq_xj3.sh script is in the <strong>/opt</strong> folder.
+If you want to install it into some other places, please modify the build_ptq_xj3.sh script.</p>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span>/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc
+<span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span>/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
+</pre></div>
+</div>
+</section>
+</section>
+<section id="how-to-use">
+<h1><span class="section-number">4. </span>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this headline"></a></h1>
+<section id="evaluation-scripts">
+<h2><span class="section-number">4.1. </span>Evaluation Scripts<a class="headerlink" href="#evaluation-scripts" title="Permalink to this headline"></a></h2>
+<p>Evaluation sample scripts are in the <strong>script</strong> and <strong>tools</strong> folders.
+The <strong>script</strong> folder contains the scripts for evaluating frequently used classification, detection and
+segmentation models in dev board. The folder for each model consists of 3 scripts:</p>
+<ul class="simple">
+<li><p>The fps.sh script implements FPS statistics (multi-threading scheduling, users can freely specify number of thread
+according to their needs) using the XStream framework.</p></li>
+<li><p>The latency.sh implements statistics of single-frame latency (one thread, single-frame).</p></li>
+<li><p>The accuracy.sh script is used for evaluating model accuracy.</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>script:
+
+
+├── aarch64             <span class="c1"># compilation generated executable files and dependencies</span>
+│   ├── bin
+│   ├── lib
+├── base_config.sh      <span class="c1"># base config</span>
+├── config              <span class="c1"># configuration files of image_name</span>
+│   ├── coco_detlist.list
+<span class="p">|</span>   <span class="p">|</span>   ├── coco_detlist.list
+│   <span class="p">|</span>   ├── imagenet.list
+│   <span class="p">|</span>   ├── voc_detlist.list
+├── classification      <span class="c1"># classification model evaluation</span>
+│   ├── efficientnet_lite0
+│   │   ├── accuracy.sh
+│   │   ├── fps.sh
+│   │   ├── latency.sh
+│   │   ├── workflow_accuracy.json
+│   │   ├── workflow_fps.json
+│   │   ├── workflow_latency.json
+│   ├── mobilenetv1
+│   ├── .....
+│   ├── resnet18
+├── detection           <span class="c1"># detection models</span>
+<span class="p">|</span>   ├── centernet
+│   │   ├── accuracy.sh
+│   │   ├── fps.sh
+│   │   ├── latency.sh
+│   │   ├── workflow_accuracy.json
+│   │   ├── workflow_fps.json
+│   │   ├── workflow_latency.json
+│   ├── yolov2
+│   ├── yolov3
+│   ├── ...
+│   ├── efficient_det
+└── segmentation       <span class="c1"># segmentation model</span>
+    └──mobilenet_unet
+        ├── accuracy.sh
+        ├── fps.sh
+        ├── latency.sh
+        ├── workflow_accuracy.json
+        ├── workflow_fps.json
+        ├── workflow_latency.json
+</pre></div>
+</div>
+<p>The <strong>tools</strong> folder contains scripts required by accuracy evaluations, e.g. those accuracy compute scripts in the
+<strong>python_tools</strong> folder.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tools:
+
+python_tools
+  ├── accuracy_tools
+  └── voc_metric
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Run below commands before the evaluations and copy the <strong>ptq</strong> directory into the dev board,
+then copy the <strong>model_zoo/runtime</strong> directory into the <strong>ptq/model</strong> directory.</p>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>scp -r ddk/samples/ai_benchmark/xj3/ptq root@192.168.1.1:/userdata/ptq/
+scp -r ddk/samples/ai_toolchain/model_zoo/runtime root@192.168.1.1:/userdata/ptq/model/
+</pre></div>
+</div>
+</section>
+<section id="performance-evaluation">
+<h2><span class="section-number">4.2. </span>Performance Evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline"></a></h2>
+<p>Performance evaluation is divided into latency and fps.</p>
+<section id="how-to-use-performance-evaluation-scripts">
+<h3><span class="section-number">4.2.1. </span>How to Use Performance Evaluation Scripts<a class="headerlink" href="#how-to-use-performance-evaluation-scripts" title="Permalink to this headline"></a></h3>
+<p>To evaluate the latency:
+enter the directory of the model to be evaluated and run <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">latency.sh</span></code> to evaluate single frame latency.
+As shown below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>I0118 <span class="m">13</span>:12:58.946164 <span class="m">24510</span> utils.cc:270<span class="o">]</span>  Inference   avg latency:  <span class="m">15</span>.116ms  max:  <span class="m">18</span>.809ms  min:  <span class="m">15</span>.001ms
+I0118 <span class="m">13</span>:12:58.951250 <span class="m">24523</span> utils.cc:270<span class="o">]</span>  PostProcess avg latency:  <span class="m">4</span>.279ms  max:  <span class="m">4</span>.370ms  min:  <span class="m">4</span>.238ms
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">infer</span></code> denotes the time consumption of model inference.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Post</span> <span class="pre">process</span></code> denotes the time consumption of post-processing.</p></li>
+</ul>
+</div>
+<p>To evaluate the FPS:
+enter the directory of the model to be evaluated and run <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">fps.sh</span></code> to evaluate frame rate.
+This feature implements FPS evaluation using multi-threading concurrency in order to enable models reach their performance limits in BPU.
+Due to multi-threading concurrency and data sampling, the frame rate can be low at startup stage, however frame rate will gradually increase
+and tend to be stable. Note that the fluctuation range of frame rate should be within 0.5%.
+Below code block displays the output of FPS evaluation sample:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>I0118 <span class="m">13</span>:11:48.034074 <span class="m">24492</span> output_plugin.cc:50<span class="o">]</span>  frame_rate: <span class="m">142</span>.952     <span class="c1"># model framerate</span>
+</pre></div>
+</div>
+</section>
+<section id="about-command-line-parameters">
+<h3><span class="section-number">4.2.2. </span>About Command-line Parameters<a class="headerlink" href="#about-command-line-parameters" title="Permalink to this headline"></a></h3>
+<p>The accuracy.sh script is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="ch">#!/bin/sh</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="nb">source</span> ../../base_config.sh                      <span class="c1"># load basic configurations</span>
+<span class="linenos">4</span><span class="nb">export</span> <span class="nv">SHOW_FPS_LOG</span><span class="o">=</span><span class="m">1</span>                            <span class="c1"># specify environment variable, print fps level log</span>
+<span class="linenos">5</span>
+<span class="linenos">6</span><span class="si">${</span><span class="nv">app</span><span class="si">}</span> <span class="se">\ </span>                                        <span class="c1"># executable program defined in the accuracy.sh script</span>
+<span class="linenos">7</span>  --config_file<span class="o">=</span>workflow_accuracy.json <span class="se">\ </span>        <span class="c1"># load workflow configuration file of accuracy evaluation</span>
+<span class="linenos">8</span>  --log_level<span class="o">=</span><span class="m">2</span>                                  <span class="c1"># specify log level</span>
+</pre></div>
+</div>
+<p>The fps.sh script is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">source</span> ../../base_config.sh
+<span class="nb">export</span> <span class="nv">SHOW_FPS_LOG</span><span class="o">=</span><span class="m">1</span>
+
+<span class="si">${</span><span class="nv">app</span><span class="si">}</span> <span class="se">\</span>
+  --config_file<span class="o">=</span>workflow_fps.json <span class="se">\</span>
+  --log_level<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+<p>The latency.sh script is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">source</span> ../../base_config.sh
+<span class="nb">export</span> <span class="nv">SHOW_LATENCY_LOG</span><span class="o">=</span><span class="m">1</span>                            <span class="c1"># specify environment variable, print latency level log</span>
+
+<span class="si">${</span><span class="nv">app</span><span class="si">}</span> <span class="se">\</span>
+  --config_file<span class="o">=</span>workflow_latency.json <span class="se">\</span>
+  --log_level<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</section>
+<section id="about-configuration-file">
+<h3><span class="section-number">4.2.3. </span>About Configuration File<a class="headerlink" href="#about-configuration-file" title="Permalink to this headline"></a></h3>
+<p>Take fcos model for example
+Content of accuracy workflow configuration file is show as below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;input_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;input_type&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed_image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;image_list_file&quot;</span><span class="p">:</span> <span class="s2">&quot;../../../data/coco/coco.lst&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;need_pre_load&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;need_loop&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;max_cache&quot;</span><span class="p">:</span> <span class="mi">10</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;output_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;output_type&quot;</span><span class="p">:</span> <span class="s2">&quot;eval&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eval_enable&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;output_file&quot;</span><span class="p">:</span> <span class="s2">&quot;./eval.log&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mask_output_file&quot;</span><span class="p">:</span> <span class="s2">&quot;./mask.log&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;input_data&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;perception_data&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;InferMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;InferMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;input_data&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;tensors&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;method_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;core&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;model_file&quot;</span><span class="p">:</span> <span class="s2">&quot;../../../model/runtime/fcos/fcos_512x512_nv12.bin&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;PTQFcosPostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;PTQFcosPostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tensors&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;perception_data&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;method_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;strides&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
+        <span class="s2">&quot;class_num&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+        <span class="s2">&quot;score_threshold&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="s2">&quot;topk&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="s2">&quot;det_name_list&quot;</span><span class="p">:</span> <span class="s2">&quot;../../config/data_name_list/coco_detlist.list&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Content of fps workflow configuration file is shown as below：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;input_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;input_type&quot;</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;image_list_file&quot;</span><span class="p">:</span> <span class="s2">&quot;../../../mini_data/coco/coco.lst&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;need_pre_load&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">&quot;need_loop&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;max_cache&quot;</span><span class="p">:</span> <span class="mi">10</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;output_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;output_type&quot;</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;image_list_enable&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;image_output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;./output_images&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;input_data&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;perception_data&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;InferMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;InferMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;input_data&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;tensors&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;method_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;core&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;model_file&quot;</span><span class="p">:</span> <span class="s2">&quot;../../../model/runtime/fcos/fcos_512x512_nv12.bin&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;PTQFcosPostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;PTQFcosPostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tensors&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;perception_data&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;method_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;strides&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
+        <span class="s2">&quot;class_num&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+        <span class="s2">&quot;score_threshold&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+        <span class="s2">&quot;topk&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="s2">&quot;det_name_list&quot;</span><span class="p">:</span> <span class="s2">&quot;../../config/data_name_list/coco_detlist.list&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Content latency workflow configuration file is shown as below：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;input_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;input_type&quot;</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;image_list_file&quot;</span><span class="p">:</span> <span class="s2">&quot;../../../mini_data/coco/coco.lst&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;need_pre_load&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;need_loop&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;max_cache&quot;</span><span class="p">:</span> <span class="mi">10</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;output_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;output_type&quot;</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;image_list_enable&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;image_output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;./output_images&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;input_data&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;perception_data&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;InferMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;InferMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;input_data&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;tensors&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;method_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;core&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;model_file&quot;</span><span class="p">:</span> <span class="s2">&quot;../../../model/runtime/fcos/fcos_512x512_nv12.bin&quot;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;PTQFcosPostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;PTQFcosPostProcessMethod&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tensors&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;perception_data&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;method_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;strides&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
+        <span class="s2">&quot;class_num&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+        <span class="s2">&quot;score_threshold&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+        <span class="s2">&quot;topk&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="s2">&quot;det_name_list&quot;</span><span class="p">:</span> <span class="s2">&quot;../../config/data_name_list/coco_detlist.list&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="model-accuracy-evaluation">
+<h2><span class="section-number">4.3. </span>Model Accuracy Evaluation<a class="headerlink" href="#model-accuracy-evaluation" title="Permalink to this headline"></a></h2>
+<p>Model evaluation can be divided into 4 steps:</p>
+<ol class="arabic simple">
+<li><p>data pre-process.</p></li>
+<li><p>data mounting.</p></li>
+<li><p>model inference.</p></li>
+<li><p>model accuracy computing.</p></li>
+</ol>
+<section id="data-pre-process">
+<span id="data-preprocess"></span><h3><span class="section-number">4.3.1. </span>Data Pre-process<a class="headerlink" href="#data-pre-process" title="Permalink to this headline"></a></h3>
+<p>Data pre-process must run the <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> tool in x86 to pre-process data.
+The so-called pre-processing refers to the special processing operations before images are fed into the model.
+For example: resize, crop and padding etc.
+The tool is integrated into the <code class="docutils literal notranslate"><span class="pre">horizon_tc_ui</span></code> tool and it will be available after the tool is installed
+using the install script. Run <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span> <span class="pre">--help</span></code> to look up help information, refer to abovementioned
+dataset parts.</p>
+<p>After preprocess files are generated, corresponding lst files are also required.
+It contains the paths to load each preprocess file.
+The way to generate the lst file is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>find ../../../data/coco/fcos -name <span class="s2">&quot;*jpg*&quot;</span> &gt; ../../../data/coco/coco.lst
+</pre></div>
+</div>
+</section>
+<section id="model-mounting">
+<h3><span class="section-number">4.3.2. </span>Model Mounting<a class="headerlink" href="#model-mounting" title="Permalink to this headline"></a></h3>
+<p>Because datasets are huge, it is recommended to mount them for dev board to load,
+rather than to copy them into the dev board. Server PC terminal (requires root permission):</p>
+<ol class="arabic simple">
+<li><p>Edit one line into /etc/exports:
+<code class="docutils literal notranslate"><span class="pre">/nfs</span> <span class="pre">*(insecure,rw,sync,all_squash,anonuid=1000,anongid=1000,no_subtree_check)</span></code>.
+Wherein, <code class="docutils literal notranslate"><span class="pre">/nfs</span></code> denotes mounting path of local machine, it can be replaced by user specified directory.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">exportfs</span> <span class="pre">-a</span> <span class="pre">-r</span></code> to bring /etc/exports into effect.</p></li>
+</ol>
+<p>Mount the /nfs folder at PC terminal to the /mnt folder in dev board.
+In this way, mount the folder in which contains preprocessed folder to dev board and create a soft link of /data folder
+in the /ptq folder (at the same directory level as script) in dev board.</p>
+</section>
+<section id="model-inference">
+<h3><span class="section-number">4.3.3. </span>Model Inference<a class="headerlink" href="#model-inference" title="Permalink to this headline"></a></h3>
+<p>After data are mounted, log in dev board and run the accuracy.sh script in the <strong>fcos</strong> directory, as shown below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>root@j3dvbj3-hynix2G-3200:/userdata/ptq/script/detection/fcos# sh accuracy.sh
+../../aarch64/bin/example --config_file=workflow_accuracy.json --log_level=2
+...
+I0118 14:02:43.635543 24783 ptq_fcos_post_process_method.cc:157] PTQFcosPostProcessMethod DoProcess finished,
+predict result: [{&quot;bbox&quot;:[-1.518860,71.691170,574.934631,638.294922],&quot;prob&quot;:0.750647,&quot;label&quot;:21,&quot;class_name&quot;:&quot;
+I0118 14:02:43.635716 24782 ptq_fcos_post_process_method.cc:150] PostProcess success!
+I0118 14:02:43.636156 24782 ptq_fcos_post_process_method.cc:152] release output tensor success!
+I0118 14:02:43.636204 24782 ptq_fcos_post_process_method.cc:157] PTQFcosPostProcessMethod DoProcess finished,
+predict result: [{&quot;bbox&quot;:[3.432283,164.936249,157.480042,264.276825],&quot;prob&quot;:0.544454,&quot;label&quot;:62,&quot;class_name&quot;:&quot;
+...
+</pre></div>
+</div>
+<p>Inference results will be saved into the eval.log file dumped by dev board program.</p>
+</section>
+<section id="model-accuracy-computing">
+<h3><span class="section-number">4.3.4. </span>Model Accuracy Computing<a class="headerlink" href="#model-accuracy-computing" title="Permalink to this headline"></a></h3>
+<p>The model accuracy computing scripts are in the <strong>python_tools</strong> folder.
+Amongst, the cls_metric/cls_eval.py script in the <strong>accuracy_tools</strong> folder is used for computing
+accuracy of classification models. The det_eval.py script is used for computing the accuracy
+of models evaluated using the COCO dataset. The parsing_eval.py script is used for computing the accuracy
+of segmentation models evaluated using the Cityscapes dataset.</p>
+<p>The /det_eval.py script in the <strong>voc_metric</strong> is used for computing the accuracy of detection models
+using the VOC dataset.</p>
+<section id="classification-models">
+<h4><span class="section-number">4.3.4.1. </span>Classification Models<a class="headerlink" href="#classification-models" title="Permalink to this headline"></a></h4>
+<ul>
+<li><p>Method to compute the accuracy of those models using the CIFAR-10 and ImageNet datasets is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+python3 cls_eval.py --log_file<span class="o">=</span>eval.log --gt_file<span class="o">=</span>val.txt
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">log_file</span></code> refers to inference result file of classification models.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gt_file</span></code> refers to the annotation files of CIFAR-10 and ImageNet datasets.</p></li>
+</ul>
+</div>
+</li>
+</ul>
+</section>
+<section id="detection-models">
+<h4><span class="section-number">4.3.4.2. </span>Detection Models<a class="headerlink" href="#detection-models" title="Permalink to this headline"></a></h4>
+<ul>
+<li><p>Method to compute the accuracy of those models using the COCO dataset is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+python3 det_eval.py --eval_result_path<span class="o">=</span>eval.log --annotation_path<span class="o">=</span>instances_val2017.json
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eval_result_path</span></code> refers to inference result file of detection models.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annotation_path</span></code> refers to the annotation file of of the COCO dataset.</p></li>
+</ul>
+</div>
+</li>
+<li><p>Method to compute the accuracy of those detection models using the VOC dataset is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+python3 det_eval.py --eval_result_path<span class="o">=</span>eval.log --annotation_path<span class="o">=</span>../Annotations --val_txt_path<span class="o">=</span>../val.txt
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eval_result_path</span></code> refers to the inference result file of detection models.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annotation_path</span></code> refers to the annotation file of the VOC dataset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">val_txt_path</span></code> refers to the <strong>val.txt</strong> file in the <strong>…/ImageSets/Main</strong> folder in the VOC dataset.</p></li>
+</ul>
+</div>
+</li>
+</ul>
+</section>
+<section id="segmentation-models">
+<h4><span class="section-number">4.3.4.3. </span>Segmentation Models<a class="headerlink" href="#segmentation-models" title="Permalink to this headline"></a></h4>
+<ul>
+<li><p>Method to compute the accuracy of those segmentation models using the Cityscapes dataset is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="ch">#!/bin/sh</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span>python3 parsing_eval.py --log_file<span class="o">=</span>eval.log --gt_path<span class="o">=</span>cityscapes/gtFine/val
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">log_file</span></code> refers to the inference result file of segmentation models</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gt_path</span></code> refers to the annotation file of the Cityscapes dataset.</p></li>
+</ul>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section id="model-integration">
+<h1><span class="section-number">5. </span>Model Integration<a class="headerlink" href="#model-integration" title="Permalink to this headline"></a></h1>
+<p>Post-processing consists of 2 steps, take integration of CenterNet model as an example:</p>
+<ol class="arabic simple">
+<li><p>Add the post-processing file ptq_centernet_post_process_method.cc and header file ptq_centernet_post_process_method.h.</p></li>
+<li><p>Add model execution script and configuration file.</p></li>
+</ol>
+<section id="add-post-processing-file">
+<h2><span class="section-number">5.1. </span>Add Post-processing File<a class="headerlink" href="#add-post-processing-file" title="Permalink to this headline"></a></h2>
+<p>Post-processing code file can reuse any postprocess files in the src/method directory.
+You only need to modify the <code class="docutils literal notranslate"><span class="pre">InitFromJsonString</span></code> function and the <code class="docutils literal notranslate"><span class="pre">PostProcess</span></code> function.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">InitFromJsonString</span></code> function is used for loading the postprocess related parameters in the workflow.json.
+Users can specify their corresponding input parameters. The <code class="docutils literal notranslate"><span class="pre">PostProcess</span></code> function is used for implementing postprocess
+logic.</p>
+<p>The postprocess .cc files are in the <strong>ai_benchmark/code/src/method/</strong> directory.
+While .h header files are in the <strong>ai_benchmark/code/include/method/</strong> directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>+---ai_benchmark
+<span class="p">|</span> +---code                                  <span class="c1"># source code of samples</span>
+<span class="p">|</span> <span class="p">|</span> +---include
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---method                            <span class="c1"># add your header files into this folder</span>
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---ptq_centernet_post_process_method.h
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---.....
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---ptq_yolo5_post_process_method.h
+<span class="p">|</span> <span class="p">|</span> +---src
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---method                            <span class="c1"># add your .cc postprocess files into this folder</span>
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---ptq_centernet_post_process_method.cc
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---....
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---ptq_yolo5_post_process_method.cc
+</pre></div>
+</div>
+</section>
+<section id="add-model-execution-and-configuration-files">
+<h2><span class="section-number">5.2. </span>Add Model Execution and Configuration Files<a class="headerlink" href="#add-model-execution-and-configuration-files" title="Permalink to this headline"></a></h2>
+<p>Directory structure of scripts is shown as below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>+---ai_benchmark
+<span class="p">|</span> +---xj3/ptq/script                                    <span class="c1"># sample script folder</span>
+<span class="p">|</span> <span class="p">|</span> +---detection
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---centernet
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---accuracy.sh                                <span class="c1"># an accuracy evaluation script</span>
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---fps.sh                                     <span class="c1"># an performance evaluation script</span>
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---latency.sh                                 <span class="c1"># a single-frame latency sample script</span>
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---workflow_accuracy.json                     <span class="c1"># an accuracy configuration file</span>
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---workflow_fps.json                          <span class="c1"># a performance configuration file</span>
+<span class="p">|</span> <span class="p">|</span> <span class="p">|</span> <span class="p">|</span> +---workflow_latency.json                      <span class="c1"># a single-frame latency configuration file</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="helper-tools-and-frequently-used-operations">
+<h1><span class="section-number">6. </span>Helper Tools and Frequently-used Operations<a class="headerlink" href="#helper-tools-and-frequently-used-operations" title="Permalink to this headline"></a></h1>
+<section id="log">
+<h2><span class="section-number">6.1. </span>Log<a class="headerlink" href="#log" title="Permalink to this headline"></a></h2>
+<p>There are 2 types of logs: <strong>sample Log</strong> and <strong>DNN Log</strong>.
+Wherein, sample log refers to the log in the ABP deliverables;
+while DNN log refers to the log in the embedded runtime library.
+Developers can specify logs according to their own needs.</p>
+<section id="sample-log">
+<h3><span class="section-number">6.1.1. </span>Sample Log<a class="headerlink" href="#sample-log" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Log level. Both glog and vlog are used in sample log and there are 4 custom log levels:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code> (SYSTEM), in sample code this log level is used for generating error information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code> (REPORT), in sample code this log level is used for generating performance data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code> (DETAIL), in sample code this log level is used for generating current system status.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code> (DEBUG), in sample code this log level is used for generating debugging information.
+Rules to set log levels: assume that a log level <code class="docutils literal notranslate"><span class="pre">P</span></code> is specified, if <code class="docutils literal notranslate"><span class="pre">Q</span></code>,
+whose rank is inferior to that of <code class="docutils literal notranslate"><span class="pre">P</span></code> happens, then log will activated. Otherwise <code class="docutils literal notranslate"><span class="pre">Q</span></code> will be blocked.
+The default ranks of log level: DEBUG&gt;DETAIL&gt;REPORT&gt;SYSTEM.</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Set log levels. When running samples, specify the <code class="docutils literal notranslate"><span class="pre">log_level</span></code> parameter to set log levels.
+For example, if <code class="docutils literal notranslate"><span class="pre">log_level=0</span></code>, then SYSTEM log should be dumped; else if <code class="docutils literal notranslate"><span class="pre">log_level=3</span></code>,
+then DEBUG, DETAIL, REPORT and SYSTEM logs should be dumped.</p></li>
+</ol>
+</section>
+<section id="dnn-log">
+<h3><span class="section-number">6.1.2. </span><code class="docutils literal notranslate"><span class="pre">dnn</span></code> Log<a class="headerlink" href="#dnn-log" title="Permalink to this headline"></a></h3>
+<ol class="arabic">
+<li><p>Log levels. Logs in the <code class="docutils literal notranslate"><span class="pre">dnn</span></code> are composed by 4 levels:</p>
+<ul class="simple">
+<li><p>When <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_NONE</span> <span class="pre">=</span> <span class="pre">0</span></code>, no log will be printed；</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_WARNING</span> <span class="pre">=</span> <span class="pre">3</span></code>, warning information will be printed;</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_ERROR</span> <span class="pre">=</span> <span class="pre">4</span></code>, error information will be printed;</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_FATAL</span> <span class="pre">=</span> <span class="pre">5</span></code>, those errors which can cause quit will be printed.</p></li>
+</ul>
+</li>
+<li><p>Rules to set log levels:</p>
+<p>If a log event whose level is higher than your specified log level takes place, then it will be printed, otherwise blocked.
+That is to say, the lower level you specify, the more (levels of) logs you are going to get
+(except for level <code class="docutils literal notranslate"><span class="pre">0</span></code>, which means print nothing).
+E.g., if you specify log level as <code class="docutils literal notranslate"><span class="pre">3</span></code> (i.e. <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>), then level <code class="docutils literal notranslate"><span class="pre">3</span></code>, <code class="docutils literal notranslate"><span class="pre">4</span></code> and <code class="docutils literal notranslate"><span class="pre">5</span></code> logs will be printed.
+The default log level is <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_WARNING</span></code>, i.e., <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> , <code class="docutils literal notranslate"><span class="pre">ERROR</span></code> and <code class="docutils literal notranslate"><span class="pre">FATAL</span></code> logs will be printed.</p>
+</li>
+<li><p>Specify log level.
+Use the environment variable <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_LEVEL</span></code> to specify log level.
+E.g. if <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">HB_DNN_LOG_LEVEL=3</span></code>, then all logs whose level are superior to and equal to <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> will be printed.</p></li>
+</ol>
+</section>
+</section>
+<section id="op-time-consumption">
+<h2><span class="section-number">6.2. </span>OP Time Consumption<a class="headerlink" href="#op-time-consumption" title="Permalink to this headline"></a></h2>
+<section id="general-descriptions">
+<h3><span class="section-number">6.2.1. </span>General Descriptions<a class="headerlink" href="#general-descriptions" title="Permalink to this headline"></a></h3>
+<p>​Use the <code class="docutils literal notranslate"><span class="pre">HB_DNN_PROFILER_LOG_PATH</span></code> environment variable to specify statistics of OP performance.
+Types and values of this environment variable are described as below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_PROFILER_LOG_PATH=${path}</span></code>: denotes the output path of OP node.
+After the program is executed, a profiler.log file should be generated.</p></li>
+</ul>
+</section>
+<section id="sample">
+<h3><span class="section-number">6.2.2. </span>Sample<a class="headerlink" href="#sample" title="Permalink to this headline"></a></h3>
+<p>Below code block takes YOLOv3 as an example.
+2 threads are activated to run model simultaneously.
+<code class="docutils literal notranslate"><span class="pre">HB_DNN_PROFILER_LOG_PATH=./</span></code>, see below output:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="s">&quot;model_latency&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="s">&quot;Darknet2Caffe_subgraph_0&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">      </span><span class="s">&quot;avg_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">162.989</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">      </span><span class="s">&quot;max_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">162.989</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">      </span><span class="s">&quot;min_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">162.989</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="s">&quot;Darknet2Caffe_subgraph_0_output_layout_convert&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">      </span><span class="s">&quot;avg_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.25125</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">      </span><span class="s">&quot;max_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.266</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">      </span><span class="s">&quot;min_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.25</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="s">&quot;layer106-conv_1_HzDequantize&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">      </span><span class="s">&quot;avg_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">2.35912</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">      </span><span class="s">&quot;max_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">3.767</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">      </span><span class="s">&quot;min_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">2.304</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">    </span><span class="s">&quot;layer82-conv_1_HzDequantize&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">      </span><span class="s">&quot;avg_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.15062</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">      </span><span class="s">&quot;max_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.252</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">      </span><span class="s">&quot;min_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.148</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">    </span><span class="s">&quot;layer94-conv_1_HzDequantize&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">      </span><span class="s">&quot;avg_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.60265</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">      </span><span class="s">&quot;max_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.939</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">      </span><span class="s">&quot;min_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.578</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">  </span><span class="s">&quot;task_latency&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">    </span><span class="s">&quot;TaskRunningTime&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">      </span><span class="s">&quot;avg_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">173.83456</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">      </span><span class="s">&quot;max_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">176.033</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">      </span><span class="s">&quot;min_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">173.744</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">35</span><span class="w">    </span><span class="s">&quot;TaskScheduleTime&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">      </span><span class="s">&quot;avg_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.023030000000000002</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">      </span><span class="s">&quot;max_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.161</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">38</span><span class="w">      </span><span class="s">&quot;min_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.02</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">40</span><span class="w">    </span><span class="s">&quot;TaskSubmitTime&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">41</span><span class="w">      </span><span class="s">&quot;avg_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.01066</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">42</span><span class="w">      </span><span class="s">&quot;max_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.03</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">43</span><span class="w">      </span><span class="s">&quot;min_time&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.009</span><span class="w"></span>
+<span class="linenos">44</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">45</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">46</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The above output information contains <code class="docutils literal notranslate"><span class="pre">model_latency</span></code> and <code class="docutils literal notranslate"><span class="pre">task_latency</span></code>.
+Wherein, <code class="docutils literal notranslate"><span class="pre">model_latency</span></code> contains the time consumption required to run each operator of the model;
+while <code class="docutils literal notranslate"><span class="pre">task_latency</span></code> contains the time consumption of each task of the model.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The profiler.log will only be generated when the program is normally exited.</p>
+</div>
+</section>
+</section>
+<section id="dump-tool">
+<h2><span class="section-number">6.3. </span>Dump Tool<a class="headerlink" href="#dump-tool" title="Permalink to this headline"></a></h2>
+<p>Enable the <code class="docutils literal notranslate"><span class="pre">HB_DNN_DUMP_PATH</span></code> environment variable to dump the input and output of each node in inference process.
+The dump tool can check if there are consistency problems between simulator and real machine,
+i.e. whether the output of same model, same input are same on real machine and simulator.</p>
+</section>
+<section id="frequently-used-operations">
+<h2><span class="section-number">6.4. </span>Frequently-used Operations<a class="headerlink" href="#frequently-used-operations" title="Permalink to this headline"></a></h2>
+<section id="check-out-dev-board-s-image-version">
+<h3><span class="section-number">6.4.1. </span>Check out dev board’s image version<a class="headerlink" href="#check-out-dev-board-s-image-version" title="Permalink to this headline"></a></h3>
+<p>​Run <code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-a</span></code> to check system version.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>root@x3dvbx3-micron1G-3200:/userdata# uname -a
+Linux x3dvbx3-micron1G-3200 <span class="m">4</span>.14.74 <span class="c1">#2 SMP PREEMPT Fri Oct 23 10:47:39 CST 2020 aarch64 GNU/Linux</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SMP</span></code> indicates that the system can support Symmetrical Multi-Processing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PREEMPT</span></code> indicates that the system can support preemption core.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Oct</span> <span class="pre">23</span> <span class="pre">10:47:39</span> <span class="pre">CST</span> <span class="pre">2020</span></code> represents release time of the system image.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aarch64</span></code> indicates that the aarch64 platform is used.</p></li>
+</ul>
+</div>
+</section>
+<section id="check-system-logs">
+<h3><span class="section-number">6.4.2. </span>Check system logs<a class="headerlink" href="#check-system-logs" title="Permalink to this headline"></a></h3>
+<p>Run <code class="docutils literal notranslate"><span class="pre">dmesg</span></code> to check system logs, as shown below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>root@x3dvbx3-micron1G-3200:/userdata# dmesg
+<span class="o">[</span>    <span class="m">0</span>.000000<span class="o">]</span> Booting Linux on physical CPU 0x0
+<span class="o">[</span>    <span class="m">0</span>.000000<span class="o">]</span> Linux version <span class="m">4</span>.14.74 <span class="o">(</span>jenkins@sysgbj8<span class="o">)</span> <span class="o">(</span>gcc version <span class="m">6</span>.5.0 <span class="o">(</span>Linaro GCC <span class="m">6</span>.5-2018.12<span class="o">))</span> <span class="c1">#2 SMP PREEMPT Fri Oct 23 10:47:39 CST 2020</span>
+<span class="o">[</span>    <span class="m">0</span>.000000<span class="o">]</span> Boot CPU: AArch64 Processor <span class="o">[</span>410fd034<span class="o">]</span>
+<span class="o">[</span>    <span class="m">0</span>.000000<span class="o">]</span> Machine model: Hobot X3 SOC MP DVB
+<span class="o">[</span>    <span class="m">0</span>.000000<span class="o">]</span> earlycon: hobot0 at MMIO 0x00000000a5000000 <span class="o">(</span>options <span class="s1">&#39;&#39;</span><span class="o">)</span>
+<span class="o">[</span>    <span class="m">0</span>.000000<span class="o">]</span> bootconsole <span class="o">[</span>hobot0<span class="o">]</span> enabled
+...
+</pre></div>
+</div>
+<p>If system failure (e.g. the program is killed or mem allocation failed) takes place
+when running programs in dev board, run <code class="docutils literal notranslate"><span class="pre">dmesg</span></code> to see the cause of system failure.</p>
+</section>
+<section id="check-bpu-utilization">
+<h3><span class="section-number">6.4.3. </span>Check BPU Utilization<a class="headerlink" href="#check-bpu-utilization" title="Permalink to this headline"></a></h3>
+<p>Run <code class="docutils literal notranslate"><span class="pre">hrut_somstatus</span></code> to check existing BPU utilization of dev board. The output are shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="o">=====================</span><span class="nv">1</span><span class="o">=====================</span>
+<span class="linenos"> 2</span>temperature--&gt;
+<span class="linenos"> 3</span>  BOARD    : <span class="m">31</span>.5 <span class="o">(</span>C<span class="o">)</span>
+<span class="linenos"> 4</span>  CPU      : <span class="m">33</span>.7 <span class="o">(</span>C<span class="o">)</span>
+<span class="linenos"> 5</span>cpu frequency--&gt;
+<span class="linenos"> 6</span>        min       cur     max
+<span class="linenos"> 7</span>  cpu0: <span class="m">240000</span>        <span class="m">1200000</span> <span class="m">1200000</span>
+<span class="linenos"> 8</span>  cpu1: <span class="m">240000</span>        <span class="m">1200000</span> <span class="m">1200000</span>
+<span class="linenos"> 9</span>  cpu2: <span class="m">240000</span>        <span class="m">1200000</span> <span class="m">1200000</span>
+<span class="linenos">10</span>  cpu3: <span class="m">240000</span>        <span class="m">1200000</span> <span class="m">1200000</span>
+<span class="linenos">11</span>bpu status information----&gt;
+<span class="linenos">12</span>        min         cur       max       ratio
+<span class="linenos">13</span>  bpu0: <span class="m">400000000</span>     <span class="m">1000000000</span>      <span class="m">1000000000</span>      <span class="m">0</span>      // utilization rate of BPU core <span class="m">0</span>
+<span class="linenos">14</span>  bpu1: <span class="m">400000000</span>     <span class="m">1000000000</span>      <span class="m">1000000000</span>      <span class="m">0</span>      // utilization rate of BPU core <span class="m">1</span>
+<span class="linenos">15</span>root@x3dvbx3-micron1G-3200:~#
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="AI Benchmark User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Horizon Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

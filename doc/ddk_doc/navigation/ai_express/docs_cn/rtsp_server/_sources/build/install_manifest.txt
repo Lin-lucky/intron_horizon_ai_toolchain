@@ -1,0 +1,9 @@
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/include/rtsp_server/rtsp_server.h
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/lib/librtsp_server.so
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/configs//rtsp_server.json
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/data/chn0.264
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/data/chn1.264
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/data/dh5c.hevc
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/bin/rtsp_server_example
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/run.sh
+/home/jenkins/workspace/ess_ai_express_component_1.0.15b/rtsp_server/output/rtsp_server/bin/rtsp_server_gtest

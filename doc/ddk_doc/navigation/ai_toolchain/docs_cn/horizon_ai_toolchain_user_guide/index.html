@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horizon AI Toolchain User Guide &mdash; horizon_ai_toolchain_user_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="1. 产品介绍" href="chapter_1_introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> horizon_ai_toolchain_user_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AI工具链:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapter_1_introduction.html">1. 产品介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_2_prerequisites.html">2. 环境部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. 模型转换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_4_application_development.html">4. 应用开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_5_custom_op_development.html">5. 自定义算子开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_6_appendix.html">6. 附录</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">horizon_ai_toolchain_user_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Horizon AI Toolchain User Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="horizon-ai-toolchain-user-guide">
+<h1>Horizon AI Toolchain User Guide<a class="headerlink" href="#horizon-ai-toolchain-user-guide" title="永久链接至标题"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">AI工具链:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapter_1_introduction.html">1. 产品介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_1_introduction.html#id2">1.1. 工具链总览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_1_introduction.html#id3">1.2. 工具链使用流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_2_prerequisites.html">2. 环境部署</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_2_prerequisites.html#id2">2.1. 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_2_prerequisites.html#id3">2.2. 开发机部署</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_2_prerequisites.html#id6">2.3. 开发板部署</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. 模型转换</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#id2">3.1. 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#fp-model-preparation">3.2. 浮点模型准备</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#model-check">3.3. 验证模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#model-conversion">3.4. 转换模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#performance-evaluation">3.5. 模型性能分析与调优</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#accuracy-evaluation">3.6. 模型精度分析与调优</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#op-restrictions">3.7. 算子约束</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#other-tools">3.8. 其他模型工具（可选）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_3_model_conversion.html#id31">3.9. 常见问题</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_4_application_development.html">4. 应用开发</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_4_application_development.html#id2">4.1. 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_4_application_development.html#create-your-project">4.2. 工程创建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_4_application_development.html#engineer-implementation">4.3. 工程实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_4_application_development.html#compile-and-run">4.4. 工程编译与运行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_4_application_development.html#id6">4.5. 多模型控制策略</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_4_application_development.html#id8">4.6. 应用调优建议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_4_application_development.html#id9">4.7. 其他应用开发工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_4_application_development.html#id10">4.8. 常见问题</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_5_custom_op_development.html">5. 自定义算子开发</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_5_custom_op_development.html#id2">5.1. 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_5_custom_op_development.html#id3">5.2. 含自定义算子的模型转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_5_custom_op_development.html#id7">5.3. 含自定义算子的上板运行</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_6_appendix.html">6. 附录</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_6_appendix.html#benchmark">6.1. 模型性能Benchmark</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_6_appendix.html#release-note">6.2. Release Note</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chapter_1_introduction.html" class="btn btn-neutral float-right" title="1. 产品介绍" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

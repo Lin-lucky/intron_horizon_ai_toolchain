@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Introduction To The Model Conversion Process &mdash; hb_mapper_tools_guide v1.12.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Tools Usage" href="02_tools.html" />
+    <link rel="prev" title="HB Mapper Tools Guide" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> hb_mapper_tools_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Introduction To The Model Conversion Process</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#check-the-model-hb-mapper-checker">1.1. Check The Model (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prepare-calibration-images">1.2. Prepare Calibration Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-conversion-hb-mapper-makertbin">1.3. Model Conversion (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#single-image-inference">1.4. Single Image Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-accuracy-evaluations">1.5. Model Accuracy Evaluations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-performance-evaluations">1.6. Model Performance Evaluations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reference-supported-calibration-methods">1.7. [Reference] Supported Calibration Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reference-op-list">1.8. [Reference] OP List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02_tools.html">2. Tools Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">hb_mapper_tools_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">1. </span>Introduction To The Model Conversion Process</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/01_model_conversion_details.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction-to-the-model-conversion-process">
+<h1><span class="section-number">1. </span>Introduction To The Model Conversion Process<a class="headerlink" href="#introduction-to-the-model-conversion-process" title="Permalink to this headline"></a></h1>
+<p>This chapter explains how to convert the Caffe, TensorFlow, PyTorch etc. opensource ML frameworks trained FPMs <a class="footnote-reference brackets" href="#fpm" id="id1">1</a>
+into the Horizon hardwares supported HGMs <a class="footnote-reference brackets" href="#hgm" id="id2">2</a> models.</p>
+<p>In most cases, the threshold values and weights etc. of the FPMs users either obtained from either the opensource
+ML frameworks or trained by themselves are floating-point numbers (float32) and each number occupies 4 bytes.
+However, by converting the floating-point numbers into fixed-point numbers (int8), each number occupies only 1 byte,
+thus the computation volume in embedded runtime can be dramatically reduced.
+Therefore, converting floating-point models into fixed-point models with no loss or very small loss is a significant
+performance boost.</p>
+<p>Typically, model conversion can be divided into the following steps:</p>
+<ol class="arabic simple">
+<li><p>Check if there are unsupported OPs <a class="footnote-reference brackets" href="#op" id="id3">3</a> in the models to be converted.</p></li>
+<li><p>Prepare 20~100 images for calibration use at the conversion stage.</p></li>
+<li><p>Convert the FPMs into HGMs using the FPM conversion tools.</p></li>
+<li><p>Evaluate the performance and accuracy of the converted HGMs,
+in order to ensure that there isn’t huge difference in model accuracy before and after the conversion.</p></li>
+<li><p>Run models in simulator/dev board to validate model performance and accuracy.</p></li>
+</ol>
+<p>Also please refer to below flowchart to learn more about the conversion process:</p>
+<img alt="_images/hb_mapper_flow.png" class="align-center" src="_images/hb_mapper_flow.png" />
+<p>Functions of tools correspond with conversion process:</p>
+<img alt="_images/hb_mapper_func_description.png" class="align-center" src="_images/hb_mapper_func_description.png" />
+<section id="check-the-model-hb-mapper-checker">
+<h2><span class="section-number">1.1. </span>Check The Model (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code>)<a class="headerlink" href="#check-the-model-hb-mapper-checker" title="Permalink to this headline"></a></h2>
+<p>Before converting the FPMs into the HGMs,
+we should check if there are Horizon hardwares unsupported OPs in the FPMs using the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> tool.
+If yes, the tool will report the unsupported OP(s).
+Usage of the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> tool please refer to the: <a class="reference internal" href="03_tools/hb_mapper.html#hb-mapper-checker"><span class="std std-ref">Model Check Tool</span></a> section.</p>
+<p>The error report when there is an unsupported OP should be as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ERROR HorizonRT not support these cpu operators: <span class="o">{</span>name of the unsupported OP<span class="o">}</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul class="simple">
+<li><p>More information about Horizon hardware supported OPs please refer to the:
+<strong>supported_op_list_and_restrictions_release</strong> Excel table in the
+<cite>supported_op_list_and_restrictions/</cite> directory.</p></li>
+<li><p>The tool will print out a OP list in which also displays whether the OPs will run in CPU or BPU,
+and users can go ahead proceeding the next step. See below:</p></li>
+</ul>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_mapper checker --model-type caffe --proto mobilenet_deploy.prototxt <span class="se">\</span>
+--model mobilenet.caffemodel --output ./mobilenet_checker.log --march bernoulli2
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:50,471 INFO Start hb_mapper....
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:50,472 INFO hb_mapper version <span class="m">1</span>.3.69
+...
+fc7          BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+prob         CPU  --        Softmax
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:56,844 INFO <span class="o">[</span>Fri Jan  <span class="m">8</span> <span class="m">17</span>:33:53 <span class="m">2021</span><span class="o">]</span> End to Horizon NN Model Convert.
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:56,847 INFO ONNX model output num : <span class="m">1</span>
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:56,857 INFO End model checking....
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In case there is unsupported OP, you can either contact Horizon’s technical personnel to learn more about
+OP development, or add the unsupported OP using the <strong>Custom OP</strong> feature.</p>
+</div>
+</section>
+<section id="prepare-calibration-images">
+<h2><span class="section-number">1.2. </span>Prepare Calibration Images<a class="headerlink" href="#prepare-calibration-images" title="Permalink to this headline"></a></h2>
+<p>When converting the FPMs, you need to prepare 20~100 images for calibration use at the calibration stage.
+Input image formats vary widely as input types and layouts differ. Because both original (e.g. *.JPG etc.) and
+the processed images are valid, you can either feed the calibration images used in model training, or feed your own
+processed images.</p>
+<p>Users are recommended to pre-process the calibration images, finishing adjusting image channel (BGR/RGB), data layout (NHWC/NCHW),
+image size and padding (Resize&amp;Padding) etc. operations, specify the <code class="docutils literal notranslate"><span class="pre">preprcess_on</span></code> parameter in the yaml file (i.e. mobilenet_config.yaml)
+as <code class="docutils literal notranslate"><span class="pre">False</span></code>, so that the tool can feed images into calibration stage after loading them via binary files.</p>
+<p>Below takes the MobileNet as an example, displaying the required transformer operations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="n">ShortSideResizeTransformer</span><span class="p">(</span><span class="n">short_size</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span>   <span class="c1"># pad the short side to 256, in order to maintain length-width ratio</span>
+      <span class="n">CenterCropTransformer</span><span class="p">(</span><span class="n">crop_size</span><span class="o">=</span><span class="mi">224</span><span class="p">),</span>         <span class="c1"># crop a 224\*224 image from the center of the image</span>
+      <span class="n">HWC2CHWTransformer</span><span class="p">(),</span>                         <span class="c1"># switch data layout from NHWC to NCHW</span>
+      <span class="n">RGB2BGRTransformer</span><span class="p">(</span><span class="n">data_format</span><span class="o">=</span><span class="s2">&quot;CHW&quot;</span><span class="p">),</span>        <span class="c1"># switch color channel from RGB to BGR</span>
+      <span class="n">ScaleTransformer</span><span class="p">(</span><span class="n">scale_value</span><span class="o">=</span><span class="mi">255</span><span class="p">),</span>            <span class="c1"># switch number range from 0-1 to 0-255</span>
+  <span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If the color space in model training is bgr/rgb, then the color space of those images that will pass into the tool at
+the calibration stage must also be bgr/rgb, the tool can proceed the color conversion from bgr/rgb to yuv444/gray
+internally.</p>
+<p>For example, in the above code block, the actual input of the MobileNet model is specified as nv12,
+but after running the 02_preprocess.sh script, color space will be switched to bgr, and the remaining conversion from
+bgr to nv12 will be automatically executed by the tool.</p>
+</div>
+</section>
+<section id="model-conversion-hb-mapper-makertbin">
+<h2><span class="section-number">1.3. </span>Model Conversion (<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>)<a class="headerlink" href="#model-conversion-hb-mapper-makertbin" title="Permalink to this headline"></a></h2>
+<p>When you confirm that the FPM can be successfully converted using the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> tool,
+the next step is to actually convert the FPM into a Horizon hardware supported HGM using the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> tool.</p>
+<p>This tool requires users to pass in the type (<code class="docutils literal notranslate"><span class="pre">caffe</span></code> / <code class="docutils literal notranslate"><span class="pre">onnx</span></code> ) of the model to be converted and a configuration file
+(*.yaml) in which contains conversion requirements. Details of configuration please refer to the:
+<a class="reference internal" href="03_tools/hb_mapper.html#hb-mapper-config"><span class="std std-ref">Explain The Configuration File</span></a> section.</p>
+<p>When the model conversion process is over, a similarity between the FPM and HGM will be generated,
+users can therefore judge the similarity before and after conversion based on the <code class="docutils literal notranslate"><span class="pre">Cosine</span> <span class="pre">Similarity</span></code> field.
+As shown below, The <code class="docutils literal notranslate"><span class="pre">Cosine</span> <span class="pre">Similarity</span></code> value equals to <code class="docutils literal notranslate"><span class="pre">0.999979</span></code>, very close to 1,
+hence the performance of the HGM should be very close to that of the FPM before the conversion.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">config_file</span><span class="o">=</span><span class="s2">&quot;./mobilenet_config.yaml&quot;</span>
+<span class="nv">model_type</span><span class="o">=</span><span class="s2">&quot;caffe&quot;</span>
+<span class="c1"># build model</span>
+hb_mapper makertbin --config <span class="si">${</span><span class="nv">config_file</span><span class="si">}</span>  <span class="se">\</span>
+                    --model-type  <span class="si">${</span><span class="nv">model_type</span><span class="si">}</span>
+<span class="m">2021</span>-12-16 <span class="m">11</span>:03:42,852 INFO Start hb_mapper....
+<span class="m">2021</span>-12-16 <span class="m">11</span>:03:42,853 INFO hb_mapper version <span class="m">1</span>.3.69
+<span class="o">[==================================================]</span> <span class="m">100</span>%
+<span class="m">2021</span>-12-16 <span class="m">11</span>:04:16,389 INFO <span class="o">[</span>Thu Dec <span class="m">16</span> <span class="m">11</span>:04:16 <span class="m">2021</span><span class="o">]</span> End to compile the model with march bernoulli2.
+<span class="m">2021</span>-12-16 <span class="m">11</span>:04:16,391 INFO The converted model node information:
+<span class="o">==============================================================================================================</span>
+Node                    ON   Subgraph  Type                    Cosine Similarity  Threshold
+--------------------------------------------------------------------------------------------------------------
+HZ_PREPROCESS_FOR_data  BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedPreprocess  <span class="m">0</span>.999929           <span class="m">127</span>.000000
+conv1                   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.999852           <span class="m">2</span>.568122
+conv2_1/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.999241           <span class="m">2</span>.036977
+conv2_1/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.996084           <span class="m">4</span>.482006
+conv2_2/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.996833           <span class="m">3</span>.537661
+conv2_2/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.995409           <span class="m">2</span>.794526
+conv3_1/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.992831           <span class="m">1</span>.414860
+conv3_1/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.981622           <span class="m">2</span>.180573
+conv3_2/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.993764           <span class="m">1</span>.772657
+conv3_2/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.992963           <span class="m">1</span>.845023
+conv4_1/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.985572           <span class="m">1</span>.047720
+conv4_1/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.988300           <span class="m">1</span>.743298
+conv4_2/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.990737           <span class="m">0</span>.997055
+conv4_2/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.991850           <span class="m">1</span>.583990
+conv5_1/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.986620           <span class="m">0</span>.827319
+conv5_1/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.988756           <span class="m">1</span>.273479
+conv5_2/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.988272           <span class="m">0</span>.775731
+conv5_2/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.980215           <span class="m">1</span>.538180
+conv5_3/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.983713           <span class="m">0</span>.789739
+conv5_3/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.973204           <span class="m">1</span>.938199
+conv5_4/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.979052           <span class="m">0</span>.995223
+conv5_4/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.959301           <span class="m">2</span>.168504
+conv5_5/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.977367           <span class="m">1</span>.929827
+conv5_5/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.955805           <span class="m">3</span>.573682
+conv5_6/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.977817           <span class="m">2</span>.473310
+conv5_6/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.979358           <span class="m">4</span>.113862
+conv6/dw                BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.997310           <span class="m">0</span>.664771
+conv6/sep               BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.976856           <span class="m">0</span>.990642
+pool6                   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.987635           <span class="m">11</span>.520256
+fc7                     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.990641           <span class="m">5</span>.852959
+prob                    CPU  --        Softmax                 <span class="m">0</span>.835067           --
+<span class="m">2021</span>-12-16 <span class="m">11</span>:04:16,392 INFO The quantify model output:
+<span class="o">========================</span>
+Node  CosineSimilarity
+------------------------
+prob  <span class="m">0</span>.934038
+<span class="m">2021</span>-12-16 <span class="m">11</span>:04:16,392 INFO <span class="o">[</span>Thu Dec <span class="m">16</span> <span class="m">11</span>:04:16 <span class="m">2021</span><span class="o">]</span> End to Horizon NN Model Convert.
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above <code class="docutils literal notranslate"><span class="pre">CosineSimilarity</span></code> refers to the very first image among calibration images, hence it cannot fully represent
+the model accuracy similarity before and after the conversion.</p>
+</div>
+<p>A folder (by default named <cite>model_output</cite>) in which contains the following files
+will be generated after successful model conversion:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the original floating-point model (FPM): <cite>***_original_float_model.onnx</cite>.</p></li>
+<li><p>the optimized floating-point model: <cite>***_optimized_float_model.onnx</cite>.</p></li>
+<li><p>the fixed-point model: <cite>***_quantized_model.onnx</cite>.</p></li>
+<li><p>the hybrid model to run in dev board (HGM): <cite>***.bin</cite>.</p></li>
+</ul>
+</div></blockquote>
+<p>These model files are the output at some key stages during the conversion and will be used in the subsequent steps.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Use the 03_classification/01_mobilenet/mapper/03_build.sh script to experience
+the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> tool.</p></li>
+<li><p>If you want to learn more about the model conversion workflow, please read the:
+<a class="reference external" href="../horizon_ai_toolchain_user_guide/chapter_3_model_conversion.html#convert-the-model">Convert The Model</a> section
+of the <strong>Horizon AI Toolchain User Guide</strong> document.</p></li>
+<li><p>If you want to learn more about calibration methods, please read the:
+<a class="reference external" href="../horizon_ai_toolchain_user_guide/chapter_3_model_conversion.html#accuracy-evaluation">Model Accuracy Analysis And Optimization</a> section
+of the <strong>Horizon AI Toolchain User Guide</strong> document.</p></li>
+</ul>
+</div>
+</section>
+<section id="single-image-inference">
+<h2><span class="section-number">1.4. </span>Single Image Inference<a class="headerlink" href="#single-image-inference" title="Permalink to this headline"></a></h2>
+<p>The accuracy of the model conversion generated HGM must be evaluated.</p>
+<p>To do so, users are expected to have good understanding of the input/output structures of the model;
+can accurately pre-process model input images and post-process model output and code their own model execution script.
+Users can refer to the sample code in Horizon’s model conversion sample package.
+Code logic of model accuracy validation please refer to below code block:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">horizon_tc_ui</span> <span class="kn">import</span> <span class="n">HB_ONNXRuntime</span>
+
+<span class="n">sess</span> <span class="o">=</span> <span class="n">HB_ONNXRuntime</span><span class="p">(</span><span class="n">model_file</span><span class="o">=</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">output_name</span><span class="p">],</span> <span class="p">{</span><span class="n">input_name</span><span class="p">:</span> <span class="n">image_data</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>As shown above, this single image inference script is used for validating model accuracy by inferencing a zebra image.
+It converts RGB format into nv12 in the pre-process, then passes in the image and inference
+using the <code class="docutils literal notranslate"><span class="pre">HB_ONNXRuntime</span></code> command and prints out TOP5 most possible classes.</p>
+<p>The output of the script is shown as follows, the most possible class is: <code class="docutils literal notranslate"><span class="pre">label:</span> <span class="pre">340</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>I0108 <span class="m">18</span>:11:47.398328 <span class="m">140427646048000</span> cls_inference.py:89<span class="o">]</span> The input picture is classified to be:
+label <span class="m">340</span>: prob <span class="m">0</span>.97
+label <span class="m">292</span>: prob <span class="m">0</span>.02
+label <span class="m">282</span>: prob <span class="m">0</span>.00
+label <span class="m">83</span>: prob <span class="m">0</span>.00
+</pre></div>
+</div>
+<p>Classes in the <code class="docutils literal notranslate"><span class="pre">label</span></code> use ImageNet label classes,
+you can also find it in the <cite>01_common/test_data/classes.txt</cite> file in the Horizon Model Conversion Sample Package.
+As the corresponding class of <code class="docutils literal notranslate"><span class="pre">340</span></code> is zebra, the inference result is correct.</p>
+</section>
+<section id="model-accuracy-evaluations">
+<h2><span class="section-number">1.5. </span>Model Accuracy Evaluations<a class="headerlink" href="#model-accuracy-evaluations" title="Permalink to this headline"></a></h2>
+<p>It’s insufficient to determine model accuracy by single image inference,
+so there must be script to evalute model accuracy after the conversion.</p>
+<p>To do so, users must code to enable the model to loop inference images, compare the inference and standard results,
+so as to get model accuracy results.</p>
+<p>In model accuracy evaluations, images must be <strong>pre-processed</strong>, model output must be <strong>post-processed</strong>,
+so here below we provide a Python script as a sample.
+The logic of this script is the same as that of in single image inference, yet it must run the entire dataset.
+The script can evaluate model output results and dump evaluation results.
+Because it takes a long time to run the script, users can determine the number of threads to run the evaluation by
+specifying the <code class="docutils literal notranslate"><span class="pre">PARALLEL_PROCESS_NUM</span></code> environment variable.</p>
+<p>The output of the script is shown as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">===</span>REPORT-START<span class="o">{</span>MAPPER-EVAL<span class="o">}===</span>
+<span class="m">0</span>.7011
+<span class="o">===</span>REPORT-END<span class="o">{</span>MAPPER-EVAL<span class="o">}===</span>
+</pre></div>
+</div>
+<p>As you can see that the accuracy of the converted HGM is <code class="docutils literal notranslate"><span class="pre">0.7011</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Model accuracy may vary slightly due to the differences of operating systems and dependencies.</p></li>
+<li><p>Model accuracy may vary slightly due to iteration.</p></li>
+<li><p>If users find that there is accuracy loss after model conversion, please contact Horizon’s technical personnel to
+get the <strong>FPM2HGM Conversion Accuracy Loss Positioning Checklist</strong> to further investigate the cause of accuracy loss.</p></li>
+</ul>
+</div>
+</section>
+<section id="model-performance-evaluations">
+<h2><span class="section-number">1.6. </span>Model Performance Evaluations<a class="headerlink" href="#model-performance-evaluations" title="Permalink to this headline"></a></h2>
+<p>Model’s frame rate when running in dev board is considered one of the important performance indicators.
+To save developers’ trouble of dev board installation and configuration, the <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> tool provides
+the ability to analyze HGM performance.</p>
+<p>In below MobileNetv1 sample, after running the <code class="docutils literal notranslate"><span class="pre">hb_perf</span> <span class="pre">mobilenetv1_224x224_nv12.bin</span></code> command,
+users will be able to find the <cite>mobilenetv1_224x224_nv12.html</cite> HGM analysis file in the
+<cite>hb_perf_result/mobilenetv1_224x224_nv12/</cite> folder.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[horizon@gpu-dev model_output]$ hb_perf mobilenetv1_224x224_nv12.bin
+2021-06-24 10:55:08,324 INFO Start hb_perf....
+2021-06-24 10:55:08,324 INFO hb_perf version 1.3.15
+2021-06-24 10:55:08,335 INFO ********* mobilenetv1_224x224_nv12 perf **********
+2021-06-24 10:55:08,432 INFO draw graph png finished.
+2021-06-24 10:55:08,450 INFO get bpu model succeeded.
+2021-06-24 10:55:08,650 INFO get perf info succeeded.
+2021-06-24 10:55:08,650 WARNING bpu model don&#39;t have per-layer perf info.
+2021-06-24 10:55:08,650 WARNING if you need per-layer perf info please enable[compiler_parameters.debug:True] when use makertbin.
+2021-06-24 10:55:08,662 INFO generating html...
+2021-06-24 10:55:08,662 INFO html generation finished.
+[horizon@gpu-dev model_output]$ cd hb_perf_result/mobilenetv1_224x224_nv12/
+[horizon@gpu-dev mobilenetv1_224x224_nv12]$ ll
+total 8832
+-rw-rw-r-- 1 horizon horizon 2258629 Jan  8 18:16 MOBILENET_subgraph_0.html
+-rw-rw-r-- 1 horizon horizon    3053 Jan  8 18:16 MOBILENET_subgraph_0.json
+-rw-rw-r-- 1 horizon horizon     604 Jan  8 18:16 mobilenetv1_224x224_nv12
+-rw-rw-r-- 1 horizon horizon    1327 Jan  8 18:16 mobilenetv1_224x224_nv12.html
+-rw-rw-r-- 1 horizon horizon   18849 Jan  8 18:16 mobilenetv1_224x224_nv12.png
+-rw-rw-r-- 1 horizon horizon 6750208 Jan  8 18:16 temp.hbm
+</pre></div>
+</div>
+<p>In the <cite>mobilenetv1_224x224_nv12.html</cite> file, we can see the overall model performance data.
+When a model is sliced into multiple segments, an individual performance analysis report on each segment running
+in BPU will be generated.</p>
+<img alt="_images/hb_mapper_perf_2.png" class="align-center" src="_images/hb_mapper_perf_2.png" />
+<p>Performance indicators in the above graph respectively refer to:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Model</span> <span class="pre">Name</span></code>: model name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BPU</span> <span class="pre">Model</span> <span class="pre">Latency(ms)</span></code>: model’s overall time consumption (by millisecond).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Model</span> <span class="pre">DDR</span> <span class="pre">Occupation(Mb</span> <span class="pre">per</span> <span class="pre">frame)</span></code>: model’s overall operating memory occupation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Loaded</span> <span class="pre">Bytes</span> <span class="pre">per</span> <span class="pre">Frame</span></code>: model’s loaded bytes per frame.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Stored</span> <span class="pre">Bytes</span> <span class="pre">per</span> <span class="pre">Frame</span></code>: model’s stored bytes per frame.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that the abovementioned <code class="docutils literal notranslate"><span class="pre">BPU</span> <span class="pre">Model</span> <span class="pre">Latency(ms)</span></code> refers only to the time consumption of the part of model which is going to be executed by the BPU,
+however, the time consumption of the other part of model (if any) which is going to be executed by the CPU won’t count.</p>
+</div>
+</section>
+<section id="reference-supported-calibration-methods">
+<h2><span class="section-number">1.7. </span>[Reference] Supported Calibration Methods<a class="headerlink" href="#reference-supported-calibration-methods" title="Permalink to this headline"></a></h2>
+<p>Presently Horizon can support the following calibration methods:</p>
+<ol class="arabic simple">
+<li><p>max</p></li>
+</ol>
+<blockquote>
+<div><p>max refers to a calibration method to automatically choose the max value in quantized layer as threshold value.
+It can on the one hand cause oversized quantization particle granularity,
+but on the other hand it can also cause less saturation points than KL calibration method.
+Therefore, to sum up, it applies to those neural network models with more discrete data distribution.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>KL</p></li>
+</ol>
+<blockquote>
+<div><p>KL refers to a TensorRT inspired solution
+(<a class="reference external" href="http://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf">http://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf</a>)
+who uses the KL entropy value to traverse the data distribution of each quantized layer and determines threshold value
+by searching for the lowest KL entropy value.
+This method can cause more saturation points and smaller quantization particle granularity and therefore has better effects
+than max for those neural network models with more concentrated data distribution.</p>
+</div></blockquote>
+</section>
+<section id="reference-op-list">
+<h2><span class="section-number">1.8. </span>[Reference] OP List<a class="headerlink" href="#reference-op-list" title="Permalink to this headline"></a></h2>
+<p>If you want to learn more about the existing Horizon AI Toolchain supported Caffe OPs, please refer to the:
+<strong>supported_op_list_and_restrictions_release</strong> Excel table in the <cite>supported_op_list_and_restrictions/</cite> path.</p>
+<dl class="footnote brackets">
+<dt class="label" id="fpm"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>refers to the floating-point model users obtained from open source deep learning frameworks.</p>
+</dd>
+<dt class="label" id="hgm"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>refers to the heterogeneous fixed-point model converted using <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tool.</p>
+</dd>
+<dt class="label" id="op"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>refers to all types of operators</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="HB Mapper Tools Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02_tools.html" class="btn btn-neutral float-right" title="2. Tools Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Horizon Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

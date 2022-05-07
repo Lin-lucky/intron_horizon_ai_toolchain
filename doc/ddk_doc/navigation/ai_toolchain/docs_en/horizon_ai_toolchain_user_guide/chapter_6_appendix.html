@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="EN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6. Appendix &mdash; horizon_ai_toolchain_user_guide v1.12.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="5. Custom OP Development" href="chapter_5_custom_op_development.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> horizon_ai_toolchain_user_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AI Toolchain:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter_1_introduction.html">1. About The Toolchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_2_prerequisites.html">2. Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. Model Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_4_application_development.html">4. Application Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_5_custom_op_development.html">5. Custom OP Development</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#model-performance-benchmark">6.1. Model Performance Benchmark</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-note">6.2. Release Note</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">horizon_ai_toolchain_user_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">6. </span>Appendix</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/chapter_6_appendix.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="appendix">
+<h1><span class="section-number">6. </span>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline"></a></h1>
+<section id="model-performance-benchmark">
+<h2><span class="section-number">6.1. </span>Model Performance Benchmark<a class="headerlink" href="#model-performance-benchmark" title="Permalink to this headline"></a></h2>
+<p><strong>Descriptions</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Test Conditions</strong></p>
+<ul>
+<li><p>Test Board: x3sdbx3-samsung2G-3200.</p></li>
+<li><p>Number of Test Core: single.</p></li>
+<li><p>The frequency parameter to obtain model performance data is specified as: every 5 minutes.</p></li>
+<li><p>Frame Rate Description: FPS = 1,000/ITC.</p></li>
+</ul>
+</li>
+<li><p><strong>Table Header Acronyms</strong></p>
+<ul>
+<li><p>C = Computation, measured in GOPs (i.e. billion operations per second).
+Obtain this performance data using the <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> tool.</p></li>
+<li><p>FPS = Frame(s) Per Second. Run the <strong>latency.sh</strong> script with single thread of different models in the /script
+directory of ai_benchmark_j3 sample package on dev board to obtain this performance data,
+post-processing is not included.</p></li>
+<li><p>ITC = Inference Time Consumption. Run the <strong>latency.sh</strong> script with single thread of different models in the
+/script directory of ai_benchmark_j3 sample package on dev board to obtain this performance data,
+post-processing is not included.</p></li>
+<li><p>TCPP = Postprocess Time Consumption. Run the <strong>latency.sh</strong> script with single thread of different models in the
+/script directory of ai_benchmark_j3 sample package on dev board to obtain this performance data,
+post-processing is not included.</p></li>
+<li><p>RV = Read Volume of single frame. Obtain this performance data using the <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> tool.</p></li>
+<li><p>WV = Write Volume of single Frame. Obtain this performance data using the <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> tool.</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 15%" />
+<col style="width: 6%" />
+<col style="width: 4%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 7%" />
+<col style="width: 35%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>MODEL NAME</strong></p></td>
+<td><p><strong>INPUT SIZE</strong></p></td>
+<td><p><strong>C(GOPs)</strong></p></td>
+<td><p><strong>FPS</strong></p></td>
+<td><p><strong>ITC(ms)</strong></p></td>
+<td><p><strong>TCPP(ms)</strong></p></td>
+<td><p><strong>RV(mb)</strong></p></td>
+<td><p><strong>WV(mb)</strong></p></td>
+<td><p><strong>ACCURACY</strong></p></td>
+<td><p><strong>LINKS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>EfficientNet-Lite0</strong></p></td>
+<td><p>1x224x224x3</p></td>
+<td><p>0.72</p></td>
+<td><p>437.8284</p></td>
+<td><p>2.284</p></td>
+<td><p>0.078</p></td>
+<td><p>4.91</p></td>
+<td><p>0.1</p></td>
+<td><p>Top1：
+0.7469(INT8）</p></td>
+<td><p><a class="reference external" href="https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite">https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>EfficientNet-Lite1</strong></p></td>
+<td><p>1x240x240x3</p></td>
+<td><p>1.12</p></td>
+<td><p>311.7207</p></td>
+<td><p>3.208</p></td>
+<td><p>0.078</p></td>
+<td><p>5.89</p></td>
+<td><p>0.3</p></td>
+<td><p>Top1：
+0.7625(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite">https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>EfficientNet-Lite2</strong></p></td>
+<td><p>1x260x260x3</p></td>
+<td><p>1.60</p></td>
+<td><p>176.4602</p></td>
+<td><p>5.667</p></td>
+<td><p>0.075</p></td>
+<td><p>6.44</p></td>
+<td><p>0.14</p></td>
+<td><p>Top1：
+0.7716(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite">https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>EfficientNet-Lite3</strong></p></td>
+<td><p>1x280x280x3</p></td>
+<td><p>2.58</p></td>
+<td><p>116.3467</p></td>
+<td><p>8.597</p></td>
+<td><p>0.074</p></td>
+<td><p>8.71</p></td>
+<td><p>0.25</p></td>
+<td><p>Top1：
+0.7905(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite">https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>EfficientNet-Lite4</strong></p></td>
+<td><p>1x300x300x3</p></td>
+<td><p>4.76</p></td>
+<td><p>65.7507</p></td>
+<td><p>14.651</p></td>
+<td><p>0.074</p></td>
+<td><p>14.42</p></td>
+<td><p>1.3</p></td>
+<td><p>Top1：
+0.8058(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite">https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>MobileNetv1</strong></p></td>
+<td><p>1x3x224x224</p></td>
+<td><p>1.06</p></td>
+<td><p>311.1388</p></td>
+<td><p>3.214</p></td>
+<td><p>0.075</p></td>
+<td><p>4.79</p></td>
+<td><p>0.58</p></td>
+<td><p>Top1:
+0.7033(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/shicai/MobileNet-Caffe">https://github.com/shicai/MobileNet-Caffe</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>MobileNetv2</strong></p></td>
+<td><p>1x3x224x224</p></td>
+<td><p>0.80</p></td>
+<td><p>410.1723</p></td>
+<td><p>2.438</p></td>
+<td><p>0.074</p></td>
+<td><p>3.78</p></td>
+<td><p>0.1</p></td>
+<td><p>Top1：
+0.7115(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/shicai/MobileNet-Caffe">https://github.com/shicai/MobileNet-Caffe</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>MobileNet-SSD</strong></p></td>
+<td><p>1x3x300x300</p></td>
+<td><p>2.14</p></td>
+<td><p>141.1831</p></td>
+<td><p>7.083</p></td>
+<td><p>3.759</p></td>
+<td><p>8.76</p></td>
+<td><p>2.82</p></td>
+<td><p>mAP：
+0.7188(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/chuanqi305/MobileNet-SSD">https://github.com/chuanqi305/MobileNet-SSD</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>ResNet18</strong></p></td>
+<td><p>1x3x224x224</p></td>
+<td><p>3.40</p></td>
+<td><p>113.6880</p></td>
+<td><p>8.796</p></td>
+<td><p>0.075</p></td>
+<td><p>11.87</p></td>
+<td><p>0.47</p></td>
+<td><p>Top1：
+0.6836(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/HolmesShuan/ResNet-18-Caffemodel-on-ImageNet">https://github.com/HolmesShuan/ResNet-18-Caffemodel-on-ImageNet</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>GoogleNet</strong></p></td>
+<td><p>1x3x224x224</p></td>
+<td><p>2.79</p></td>
+<td><p>121.2709</p></td>
+<td><p>8.246</p></td>
+<td><p>0.074</p></td>
+<td><p>10.12</p></td>
+<td><p>3.25</p></td>
+<td><p>Top1：
+0.6996(INT8)</p></td>
+<td><p><a class="reference external" href="https://github.com/BVLC/caffe/tree/master/models/bvlc_googlenet">https://github.com/BVLC/caffe/tree/master/models/bvlc_googlenet</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>YOLOv2</strong>
+(backbone=GoogleNet)</p></td>
+<td><p>1x3x608x608</p></td>
+<td><p>58.62</p></td>
+<td><p>6.4910</p></td>
+<td><p>154.059</p></td>
+<td><p>1.699</p></td>
+<td><p>62.80</p></td>
+<td><p>13.21</p></td>
+<td><p>[IoU=0.50:0.95]
+0.271(INT8);</p></td>
+<td><p><a class="reference external" href="https://pjreddie.com/darknet/yolo/">https://pjreddie.com/darknet/yolo/</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>YOLOv3</strong>
+(backbone=DarkNet19)</p></td>
+<td><p>1x3x416x416</p></td>
+<td><p>61.37</p></td>
+<td><p>5.9890</p></td>
+<td><p>166.973</p></td>
+<td><p>9.346</p></td>
+<td><p>103.5</p></td>
+<td><p>32.59</p></td>
+<td><p>[IoU=0.50:0.95]
+0.336(INT8);</p></td>
+<td><p><a class="reference external" href="https://github.com/ChenYingpeng/caffe-yolov3/">https://github.com/ChenYingpeng/caffe-yolov3/</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>YOLOv5</strong>
+(backbone=Darknet53)</p></td>
+<td><p>1x3x672x672</p></td>
+<td><p>17.87</p></td>
+<td><p>14.8898</p></td>
+<td><p>67.160</p></td>
+<td><p>20.709</p></td>
+<td><p>42.75</p></td>
+<td><p>40.50</p></td>
+<td><p>[IoU=0.50:0.95]
+0.342(INT8);</p></td>
+<td><p><a class="reference external" href="https://github.com/ultralytics/yolov5/releases/tag/v2.0">https://github.com/ultralytics/yolov5/releases/tag/v2.0</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>EfficientDet-d0</strong>
+(backbone=EfficientNet)</p></td>
+<td><p>1x3x512x512</p></td>
+<td><p>4.59</p></td>
+<td><p>60.5804</p></td>
+<td><p>16.507</p></td>
+<td><p>24.035</p></td>
+<td><p>9.21</p></td>
+<td><p>18.23</p></td>
+<td><p>[IoU=0.50:0.95]
+0.313(INT8);</p></td>
+<td><p><a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/EfficientDet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/EfficientDet</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>UNet</strong>
+(backbone=MobileNet)</p></td>
+<td><p>1x1024x2048x3</p></td>
+<td><p>6.87</p></td>
+<td><p>24.1057</p></td>
+<td><p>41.484</p></td>
+<td><p>17.795</p></td>
+<td><p>50.62</p></td>
+<td><p>41.76</p></td>
+<td><p>[accuracy]
+0.9366(INT8);</p>
+<p>[mIoU]
+0.638184(INT8).</p>
+</td>
+<td><p><a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/MobilenetUnet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/MobilenetUnet</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>CenterNet</strong>
+(backbone= ResNet50)</p></td>
+<td><p>1x3x512x512</p></td>
+<td><p>48.19</p></td>
+<td><p>8.4940</p></td>
+<td><p>117.730</p></td>
+<td><p>32.311</p></td>
+<td><p>70.17</p></td>
+<td><p>35.88</p></td>
+<td><p>[IoU=0.50:0.95]
+0.313(INT8);</p></td>
+<td><p><a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/Centernet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/Centernet</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>FCOS</strong>
+(backbone=
+EfficientNetb0)</p></td>
+<td><p>1x3x512x512</p></td>
+<td><p>4.68</p></td>
+<td><p>73.8498</p></td>
+<td><p>13.541</p></td>
+<td><p>4.322</p></td>
+<td><p>8.95</p></td>
+<td><p>5.54</p></td>
+<td><p>[IoU=0.50:0.95]
+0.345(INT8);</p></td>
+<td><p>TBD</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="release-note">
+<h2><span class="section-number">6.2. </span>Release Note<a class="headerlink" href="#release-note" title="Permalink to this headline"></a></h2>
+<p><span class="red">v1.12.3</span></p>
+<ol class="arabic simple">
+<li><p><strong>Runtime</strong> adds the <code class="docutils literal notranslate"><span class="pre">hbDNNGetInputName</span></code> and <code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputName</span></code> interfaces that are used for obtaining models’ input/output tensor names</p></li>
+<li><p><strong>Runtime</strong> adds a new <code class="docutils literal notranslate"><span class="pre">properties.alignedByteSize</span></code> field into the header file of the prediction lib, this field is used for memory allocation</p></li>
+<li><p><strong>Runtime</strong> refactors the <code class="docutils literal notranslate"><span class="pre">00_quick_start</span></code> quickstart samples in the basic sample package
+(namely the <code class="docutils literal notranslate"><span class="pre">ddk/samples/ai_toolchain/horizon_runtime_sample/xj3/script</span></code> subdirectory in the OE package)</p></li>
+<li><p><strong>HBDK</strong> compiler utilizes a new memory allocation algorithm that can dramatically decrease memory usage in most cases,
+the memory usage of Bernoulli SOCs can drop by 20%, and the memory usage of those models compiled using the
+<code class="docutils literal notranslate"><span class="pre">--split-by-input-dims</span></code> compilation option also has substantial decrease</p></li>
+<li><p><strong>HorizonNN</strong> adds horizon onnx and onnxruntime domain</p></li>
+<li><p><strong>HorizonNN</strong> adds a new <code class="docutils literal notranslate"><span class="pre">horizon_nn.torch.export_onnx</span></code> for converting PyTorch models into ONNX models</p></li>
+<li><p><strong>HorizonNN</strong> adds support for the <code class="docutils literal notranslate"><span class="pre">Gelu</span></code> operator</p></li>
+<li><p><strong>HorizonNN</strong> adds support for the <code class="docutils literal notranslate"><span class="pre">GridSample</span></code> operator</p></li>
+<li><p><strong>HorizonNN</strong> adds support for the <code class="docutils literal notranslate"><span class="pre">Transpose</span></code> operator</p></li>
+<li><p><strong>HorizonNN</strong> adds support for the <code class="docutils literal notranslate"><span class="pre">argmax</span></code> whose <code class="docutils literal notranslate"><span class="pre">keepdims=0</span></code></p></li>
+<li><p><strong>HorizonNN</strong> refines Python code test coverage</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> adds judgement on multi-batch models and corresponding matching procedure when loading data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> refines its output to be able to dump the internal nodes during the NV12 to YUV444 conversion of NV12 input data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> refines the model performance display in HTML output</p></li>
+<li><p><strong>HBDK</strong> adds mean operation on torch front-end</p></li>
+<li><p><strong>HB Mapper Tools Guide</strong> and <strong>AI-Benchmark User Guide</strong> add a section to describe the <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> tool.
+The tool is used for image data preprocessing during the model accuracy evaluation stage.</p></li>
+</ol>
+<p><span class="gray">v1.10.5</span></p>
+<ol class="arabic simple">
+<li><p>Horizon proudly provides users with public datasets required by the Toolchain</p></li>
+<li><p><strong>horizon_xj3_open_explorer</strong> release package adds calibration datasets into samples</p></li>
+<li><p><strong>HBDK</strong> adds support for convolutions whose <code class="docutils literal notranslate"><span class="pre">dilation</span></code> is <code class="docutils literal notranslate"><span class="pre">16x16</span></code></p></li>
+<li><p><strong>HBDK</strong> <code class="docutils literal notranslate"><span class="pre">hbdk-model-verifier</span></code> adds supports for generating random input data automatically when the input data are not specified</p></li>
+<li><p><strong>HBDK</strong> updates the restriction of the <code class="docutils literal notranslate"><span class="pre">stride</span></code> of <code class="docutils literal notranslate"><span class="pre">max</span> <span class="pre">pooling</span></code> operator from <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">256]</span></code> to <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">185]</span></code></p></li>
+<li><p><strong>horizon_model_convert_sample</strong> package adds 2 new MobileNetv1 samples into the miscellaneous samples that take <code class="docutils literal notranslate"><span class="pre">bgr</span></code> and <code class="docutils literal notranslate"><span class="pre">yuv444</span></code> as their <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> model conversion command adds a new <code class="docutils literal notranslate"><span class="pre">input_batch</span></code> parameter into the <code class="docutils literal notranslate"><span class="pre">input_parameters</span></code>
+in YAML configuration file in order to specify the <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> of the neural network</p></li>
+<li><p><strong>Runtime</strong> opens up the batch capacity for CPU operators</p></li>
+<li><p><strong>Runtime</strong> adds a model output capacity level feature</p></li>
+<li><p><strong>HorizonNN</strong> adds functions for creating <code class="docutils literal notranslate"><span class="pre">HzQuantize</span></code> and <code class="docutils literal notranslate"><span class="pre">HzDequantize</span></code> nodes</p></li>
+<li><p><strong>HorizonNN</strong> adds qat modification pass and fix qat compile</p></li>
+</ol>
+<p><span class="gray">v1.9.2</span></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> model verification tool optimizes output when model results are inconsistent</p></li>
+<li><p><strong>horizon_model_convert_sample_</strong> sample package optimizes YAML files of samples</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tool’s <code class="docutils literal notranslate"><span class="pre">checker</span></code> model checking sub-command and <code class="docutils literal notranslate"><span class="pre">makertbin</span></code> model conversion sub-command
+add support for checking and converting models in batch</p></li>
+<li><p><strong>Runtime</strong> adds support for Concat, Pad, Slice and resize operators in opset11</p></li>
+<li><p><strong>HorizonNN</strong> adds split and moves batchnorm before concat pass</p></li>
+<li><p><strong>HorizonNN</strong> refines quanti mul to support quantize the <code class="docutils literal notranslate"><span class="pre">Mul</span></code> whose multiply value is a single scalar</p></li>
+<li><p><strong>HorizonNN</strong> converts calibration node to quantize and dequantized node</p></li>
+<li><p><strong>HorizonNN</strong> refines the conversion from <code class="docutils literal notranslate"><span class="pre">HzPreQuantConv</span></code> to <code class="docutils literal notranslate"><span class="pre">HzSQuantizedConv</span></code></p></li>
+<li><p><strong>HorizonNN</strong> adds a <code class="docutils literal notranslate"><span class="pre">SetConvScalesAndBits</span></code> pass to find the input and output quantization coefficients of Conv</p></li>
+<li><p><strong>HorizonNN</strong> adds support for converting calibrated model into quantized model</p></li>
+<li><p><strong>HorizonNN</strong> refines quantization Conv and <code class="docutils literal notranslate"><span class="pre">ConvTranspose</span></code> operator defs</p></li>
+<li><p><strong>HorizonNN</strong> moves the quantizer related pass to the quantizer directory</p></li>
+<li><p><strong>HorizonNN</strong> moves the optimizer related pass to the optimizer directory</p></li>
+<li><p><strong>HorizonNN</strong>’s <code class="docutils literal notranslate"><span class="pre">RunGraphTransformations</span></code> adds support for infershape</p></li>
+<li><p><strong>HorizonNN</strong> adds <code class="docutils literal notranslate"><span class="pre">GraphTransformationsSet</span></code> for the management of the model conversion pass</p></li>
+<li><p><strong>HorizonNN</strong> moves the <code class="docutils literal notranslate"><span class="pre">quantize</span></code> and <code class="docutils literal notranslate"><span class="pre">dequantize</span></code> nodes to optimizer</p></li>
+<li><p>No longer supports Ubuntu 16</p></li>
+</ol>
+<p><span class="gray">v1.8.6</span></p>
+<ol class="arabic simple">
+<li><p><strong>Runtime</strong> <strong>DNN</strong> adds support for models who contain bool type OPs</p></li>
+<li><p><strong>Runtime</strong> optimizes the <code class="docutils literal notranslate"><span class="pre">infer</span></code> API of <code class="docutils literal notranslate"><span class="pre">resizer</span></code> models</p></li>
+<li><p><strong>dnn_tools</strong> adds support for model dumping txt file, floating-point data can specify number of decimal</p></li>
+<li><p><strong>dnn_tools</strong> adds support for counting model loading time when loading the model for the 1<sub>st</sub> time</p></li>
+<li><p><strong>dnn_tools</strong> adds support for specifying input files when running the <code class="docutils literal notranslate"><span class="pre">perf</span></code> feature</p></li>
+<li><p><strong>HorizonNN</strong> adds support for per-channel quantization at the calibration node</p></li>
+<li><p><strong>HorizonNN</strong> adds <code class="docutils literal notranslate"><span class="pre">min-max</span></code> calibrater to get tensor range</p></li>
+<li><p><strong>HorizonNN</strong> adds <strong>HAT</strong> model conversion related APIs</p></li>
+<li><p><strong>HorizonNN</strong> refines quanti info print for those models whose nodes’ names are too long</p></li>
+<li><p><strong>HorizonNN</strong> refines the reshape mutation opt pass to support more activation ops</p></li>
+<li><p><strong>HorizonNN</strong> refines <code class="docutils literal notranslate"><span class="pre">quantize</span></code> and <code class="docutils literal notranslate"><span class="pre">dequantize</span></code></p></li>
+<li><p><strong>HorizonNN</strong> refines pytorch QAT conversion related apis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBDK</span></code>’s wheel package no longer contains runtime header files and change logs, those files are moved into another package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBDK</span></code> compiler’s Python API adds an additional parameter to specify <code class="docutils literal notranslate"><span class="pre">hbdk-cc</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBDK</span></code>’s <code class="docutils literal notranslate"><span class="pre">hbrtBilinearRoiResize</span></code> serial APIs in J5 ASIC’s MARCH no longer supports the outputs with <code class="docutils literal notranslate"><span class="pre">NHCW_4H4W8C_4PEN</span></code> layout</p></li>
+<li><p><strong>Runtime</strong> modifies logics of <code class="docutils literal notranslate"><span class="pre">dequantize</span></code> / <code class="docutils literal notranslate"><span class="pre">quantize</span></code></p></li>
+<li><p><strong>Runtime libdnn</strong> releases x86 prediction library</p></li>
+</ol>
+<p><span class="gray">v1.7.8</span></p>
+<ol class="arabic simple">
+<li><p><strong>HorizonNN</strong> adds new feature to print md5sum of the calibration data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBDK</span></code> adds support for <code class="docutils literal notranslate"><span class="pre">broadcast_add</span></code> operator in bernoulli and bernoulli2 march</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBDK</span></code> PyTorch models add support for  <code class="docutils literal notranslate"><span class="pre">elementwise_mul</span></code> and <code class="docutils literal notranslate"><span class="pre">pad_one_axis</span></code>  operators</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBDK</span></code> adds resizing checker for <code class="docutils literal notranslate"><span class="pre">roiresize</span></code> serial APIs who will report errors when the scaling ratio fails to satisfy hardware restrictions</p></li>
+<li><p><strong>runtime</strong> refactors the directory structure of sample package, mounting model preprocess data and loading static graphs to
+to evaluation model accuracy. The new accuracy evaluation script is accuracy.sh</p></li>
+<li><p><strong>runtime</strong> model performance and latency evaluation methods remain unchanged, while evaluation scripts are now respectively fps.sh and latency.sh</p></li>
+<li><p><strong>runtime</strong> adds new efficient_det_no_dequanti_512x512_nv12.bin model and related samples</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> tool adds new <code class="docutils literal notranslate"><span class="pre">--per_time</span></code> option to specify perf time; the <code class="docutils literal notranslate"><span class="pre">--node_profile</span></code> option is replaced by <code class="docutils literal notranslate"><span class="pre">--profile_path</span></code>;
+the <code class="docutils literal notranslate"><span class="pre">--core_num</span></code> option is replaced by <code class="docutils literal notranslate"><span class="pre">--core_id</span></code>. Refer to the Section 4.7 Horizon AI Toolchain User Guide</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> optimizes</p></li>
+<li><p><strong>model_zoo</strong> removes the tmp files of efficient_det model and se_resnet_gay model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">horizon_tc_ui</span></code> tool adds automatic version number update script</p></li>
+<li><p>Model conversion sample package updates data calibration strategy of sample models</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_mapper_info</span></code> and <code class="docutils literal notranslate"><span class="pre">hb_mapper_makertbin</span></code> tools updates log output</p></li>
+<li><p>HB Mapper Sample Doc adds new Section 2.5 FAQ, explaining how to match inference results of different floating-point models</p></li>
+<li><p>HB AI Toolchain User Guide adds Other DevTools section, introducing the <code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> and <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> tools</p></li>
+</ol>
+<p><span class="gray">v1.6.6</span></p>
+<ol class="arabic simple">
+<li><p><strong>HorizonNN</strong> adds <code class="docutils literal notranslate"><span class="pre">lut</span></code> config for special activate</p></li>
+<li><p><strong>HorizonNN</strong> removes the <code class="docutils literal notranslate"><span class="pre">ir_version</span></code> check warning during the compiler phase</p></li>
+<li><p><strong>HorizonNN</strong> adds an iterator check when get tensor from initializer in onnx passes</p></li>
+<li><p><strong>HorizonNN</strong> refines asymmetric quantization parameter</p></li>
+<li><p><strong>HorizonNN</strong> refines default calibrater</p></li>
+<li><p><strong>HorizonNN</strong> refines nodeadapter to support broadcast add and mul</p></li>
+<li><p><strong>HBDK</strong> adds support for compiling PyTorch models on the bernoulli2 march</p></li>
+<li><p><strong>HBDK</strong> adds memory usage size in <code class="docutils literal notranslate"><span class="pre">hbdk-disas</span></code>’s json output</p></li>
+<li><p><strong>HBDK</strong> adds support for inputting non-transposed matrix multiplication</p></li>
+<li><p><strong>HBDK</strong>’s <code class="docutils literal notranslate"><span class="pre">HBRT</span></code> adds a new <code class="docutils literal notranslate"><span class="pre">hbrtRiNextSegmentInvolveCpu</span></code> API to check if BPU execution is over.
+To enable it, set <code class="docutils literal notranslate"><span class="pre">ri_config.enable_bpu_segment_done_check</span> <span class="pre">=</span> <span class="pre">true</span></code> in <code class="docutils literal notranslate"><span class="pre">hbrtRiStart()</span></code></p></li>
+<li><p><strong>HBDK</strong> adds support for checking input address alignment in runtime</p></li>
+<li><p><strong>HBDK</strong>’s <code class="docutils literal notranslate"><span class="pre">hbdk-cc</span></code> and <code class="docutils literal notranslate"><span class="pre">hbdk-model-check</span></code> will report error when the <code class="docutils literal notranslate"><span class="pre">-s</span></code> option is specified for HBIR models
+as HBIR models do not support dynamic input size</p></li>
+<li><p><strong>HBDK</strong>’s <code class="docutils literal notranslate"><span class="pre">hbrtQuantize</span></code> and <code class="docutils literal notranslate"><span class="pre">hbrtQuantizeByScale</span></code> will saturate when results overflow</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_mapper_modifier</span></code> tool adds a new feature to delete dequantize nodes at model output</p></li>
+</ol>
+<p><span class="gray">v1.5.9</span></p>
+<ol class="arabic simple">
+<li><p>Open ONNX model inference capacity using GPU</p></li>
+<li><p>Optimize the model conversion tools in order to improve user-friendliness</p></li>
+<li><p>Unify the <code class="docutils literal notranslate"><span class="pre">input_type</span></code> parameter in the <strong>Horizon model conversion sample package</strong></p></li>
+<li><p>Optimize <strong>Runtime</strong> sample packages and API documents into HTML format</p></li>
+<li><p>The <strong>Runtime</strong> adds support for the asymmetric quantization OP</p></li>
+<li><p>The <strong>Runtime</strong> Reduction OP adds support for the <code class="docutils literal notranslate"><span class="pre">axes</span></code> default value</p></li>
+<li><p>Names of the .bin models in the <strong>model_zoo</strong> model release package are changed into:
+***.bin</p></li>
+<li><p>The <strong>Runtime</strong>’s ai_benchmark sample package modifies model names to fit .bin model name changes in <strong>model_zoo</strong></p></li>
+<li><p>Accuracy evaluation models in <strong>Runtime</strong> samples are replaced by NV12 models</p></li>
+<li><p>The <strong>HorizonNN</strong> optimizes C++ logs</p></li>
+<li><p>The <strong>HorizonNN</strong> optimizes those logs without BPU nodes</p></li>
+<li><p>The <strong>HorizonNN</strong> adds new node check</p></li>
+<li><p>The <strong>HorizonNN</strong> replaces <code class="docutils literal notranslate"><span class="pre">exit()</span></code> with throw exception</p></li>
+<li><p>The <strong>HorizonNN</strong> adds support to evaluate accuracy with the calibrated model</p></li>
+<li><p>The <strong>HorizonNN</strong> adds support for <code class="docutils literal notranslate"><span class="pre">zero-point</span></code> in <code class="docutils literal notranslate"><span class="pre">HzDequantize</span></code> cpu version</p></li>
+<li><p>The <strong>HorizonNN</strong> adds support for <code class="docutils literal notranslate"><span class="pre">zero-point</span></code> in <code class="docutils literal notranslate"><span class="pre">HzDequantize</span></code> GPU version</p></li>
+<li><p>The <strong>HorizonNN</strong> adds test for zero point attribute in <code class="docutils literal notranslate"><span class="pre">HzQuantize</span></code> and <code class="docutils literal notranslate"><span class="pre">HzDequantize</span></code></p></li>
+<li><p>The <strong>HBDK</strong> adds new runtime <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">cache</span></code> mechanism for the fasterRCNN alike models,
+when configured correctly, the CPU inference time can be dramatically reduced.
+The maximum memory occupation of the <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">cache</span></code> can be restricted by specifying the <code class="docutils literal notranslate"><span class="pre">HBRT_CODE_CACHE_SIZE</span></code>
+runtime environment variable. The memory unit of environment variable is KB. The <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">cache</span></code> will only
+become valid when re-compiling the model. Note that by default the <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">cache</span></code> is OFF, and must be turned ON
+explicitly by specifying the <code class="docutils literal notranslate"><span class="pre">HBRT_CODE_CACHE_SIZE</span></code></p></li>
+<li><p>The <strong>HBDK</strong> adds estimated execution time for runtime real-time compilation generated BPU functioncall.
+In past versions, the estimated execution time of functioncalls equal 0</p></li>
+<li><p>The <strong>HBDK</strong> improves the <code class="docutils literal notranslate"><span class="pre">hbdk-perf</span></code> accuracy of the J5 ASICs</p></li>
+<li><p>The <strong>Runtime</strong> removes the <code class="docutils literal notranslate"><span class="pre">bpu-predict</span></code>, <code class="docutils literal notranslate"><span class="pre">appsdk</span></code>, <code class="docutils literal notranslate"><span class="pre">xstream</span></code> and <code class="docutils literal notranslate"><span class="pre">xproto</span></code> related libs in release packages</p></li>
+<li><p>The <strong>Runtime</strong>’s <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> tool adds support for featuremap input</p></li>
+<li><p>The <strong>HorizonNN</strong> adds BPU input dimension checker</p></li>
+<li><p>The <strong>HorizonNN</strong> optimizes quantize resize</p></li>
+<li><p>The <strong>Runtime</strong> adds support for scale quantization method</p></li>
+<li><p>The <strong>Runtime</strong> optimizes dequantize</p></li>
+</ol>
+<p><span class="gray">v1.4.7</span></p>
+<ol class="arabic simple">
+<li><p>All sample packages add the new FCOS model sample</p></li>
+<li><p>The ReduceMax operator adds ARM support</p></li>
+<li><p>The <strong>x3_tc_ui</strong> tool changes its name into <strong>horizon_tc_ui</strong> and the  <strong>x3_tc_ui</strong> command can still be supported</p></li>
+<li><p>The <strong>hb_mapper</strong> optimizes the interactive logics of the <code class="docutils literal notranslate"><span class="pre">norm_type</span></code></p></li>
+<li><p>The <strong>HBDK</strong> adds empty pointer and parameter checkers and error reports in the <cite>hbrt</cite> related APIs</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hbdk-cc</span></code> and <code class="docutils literal notranslate"><span class="pre">hbdk-model-check</span></code> of <strong>HBDK</strong> can support model error reports when H*W exceed 18,432
+as those models cannot be accurately executed in BPU dev boards</p></li>
+<li><p>The <strong>HBDK</strong> deprecated the <code class="docutils literal notranslate"><span class="pre">hbrtGetResizerRoiHeightAlignment</span></code>, <code class="docutils literal notranslate"><span class="pre">hbrtGetResizerRoiWidthAlignment</span></code> and
+<code class="docutils literal notranslate"><span class="pre">hbrtGetModelPeNumber</span></code> runtime APIs. These APIs will be completed removed in future versions</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> model packaging tool removes support for packaging the packaged models</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> model validation tool removes support for validating packaged models and will dump
+the “NOT supported” message when the input are packaged models.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> tool removes support for handling packaged models and will dump the “NOT supported” message
+when the input are packaged models.</p></li>
+</ol>
+<p>📘 Documentations</p>
+<ol class="arabic simple">
+<li><p>Refactor the <strong>Horizon Open Explorer Toolchain (X3/J3)</strong> document, the new <strong>Horizon AI Toolchain User Guide</strong>
+Document is in the:
+<cite>horizon_xj3_open_explorer_${version}_${date}/ddk/doc/navigation/ai_toolchain/docs_cn/horizon_ai_toolchain_user_guide/</cite>
+directory of the <strong>open_explorer</strong> release package</p></li>
+<li><p>Optimize the <strong>Supported Caffe OP List</strong> operator table, the new <strong>supported_op_list_and_restrictions_release</strong>
+table is in the:
+<cite>horizon_xj3_open_explorer_${version}_${date}/ddk/doc/navigation/ai_toolchain/docs_cn/supported_op_list_and_restrictions/</cite>
+directory of the <strong>open_explorer</strong> release package</p></li>
+</ol>
+<p><span class="gray">v1.3.3</span></p>
+<ol class="arabic simple">
+<li><p>The <strong>HorizonNN</strong> adds support for quantizing the Mish operator</p></li>
+<li><p>The <strong>HorizonNN</strong> adds support for the channel conversion from MatMul to Gemm</p></li>
+<li><p>The <strong>HorizonNN</strong> adds support for element-wise quantization in J5 ASIC’s micro architecture</p></li>
+<li><p>The <strong>HorizonNN</strong> adds INT4 quantization support for the squantizedconv in onnxruntime</p></li>
+<li><p>The <strong>HorizonNN</strong> adds INT4 quantization in quantize conv pass</p></li>
+<li><p>The <strong>HorizonNN</strong> adds support for model input layout conversion</p></li>
+<li><p>The <strong>HorizonNN</strong> adjusts the order of optimize passes</p></li>
+<li><p>The <strong>HorizonNN</strong> adds an error log for not support conv1d op</p></li>
+<li><p>The <strong>HorizonNN</strong> uses one sample to speed up the default compilation process</p></li>
+<li><p>The <strong>HorizonNN</strong> refactors the default calibration method</p></li>
+<li><p>The <strong>HorizonNN</strong> optimizes element-wise addition implementation in onnxruntime</p></li>
+<li><p>All model sample packages add new <strong>CenterNet</strong> sample</p></li>
+<li><p>Model conversion adds support for converting MatMul into BPU</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tools add new <code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> tool to delete the Transpose and Quantize nodes in the input
+terminal of the specified bin model and save the deleted node information into bin model. Users can view the information
+of the deleted nodes using the <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> tool</p></li>
+<li><p>The <strong>runtime</strong> adds log redirection interface that can support developers obtaining more detailed dev board operating
+information via user log</p></li>
+<li><p>The <strong>runtime</strong> separates the header files of the new and old interfaces</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tools refactors and add new <code class="docutils literal notranslate"><span class="pre">layout</span></code> option in the <code class="docutils literal notranslate"><span class="pre">input</span></code> parameter</p></li>
+<li><p>The <strong>runtime</strong> sample packages are divided into:
+basic sample package (i.e. the <cite>horizon_xj3_basic_sample-{version}.tar.gz</cite>) and
+AI Benchmark package (i.e. the <cite>horizon_xj3_ai_benchmark-{version}.tar.gz</cite>).
+Wherein, the basic sample package is used for API tutorials and demonstrating special features;
+while the AI Benchmark Package is used for demonstrating model accuracy and performance evaluations</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tools delete the <cite>output_layout</cite> option in configuration file</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tools add new layout option for the input configurations of the original floating-point models,
+the <code class="docutils literal notranslate"><span class="pre">input_layout_train</span></code> option allows users to specify data layout in networking training</p></li>
+</ol>
+<p><span class="gray">v1.2.3</span></p>
+<ol class="arabic simple">
+<li><p>The <strong>HorizonNN</strong> updates the <code class="docutils literal notranslate"><span class="pre">HBIR</span> <span class="pre">RoiResize</span></code> interface</p></li>
+<li><p>The <strong>HorizonNN</strong> refactors the data loading operation in the calibration module</p></li>
+<li><p>The <strong>HorizonNN</strong> adds new <code class="docutils literal notranslate"><span class="pre">ConsistencyChecker</span></code> for comparing the consistency between
+the <code class="docutils literal notranslate"><span class="pre">original_model</span></code> and <code class="docutils literal notranslate"><span class="pre">optimized_model</span></code></p></li>
+<li><p>The <strong>HorizonNN</strong> adds new consistency check for each output of the Conv node in the <code class="docutils literal notranslate"><span class="pre">ConsistencyChecker</span></code></p></li>
+<li><p>The <strong>HorizonNN</strong> add new models into the CenterNet benchmark</p></li>
+<li><p>The <strong>HorizonNN</strong> adds new <code class="docutils literal notranslate"><span class="pre">CalibrationDataSet</span></code> for managing calibration data</p></li>
+<li><p>The model output number of the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> model conversion tools is specified as 32</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> option in model calibration parameters now can be specified as YUV444</p></li>
+<li><p>The <strong>HBDK</strong> compiler updates model checking rules of the <code class="docutils literal notranslate"><span class="pre">Roireize</span></code> and <code class="docutils literal notranslate"><span class="pre">Concat</span></code></p></li>
+<li><p>The scale factor of the <code class="docutils literal notranslate"><span class="pre">hbrtBilinearRoiResize*</span></code> interface of the <code class="docutils literal notranslate"><span class="pre">HBDK</span></code> compiler has been modified from
+[1/256, 256) into [1/185, 256)</p></li>
+<li><p>The restriction of the <cite>fully connected layer</cite> instruction in X3/J3 has been updated.
+Previously, when output type is int32, <code class="docutils literal notranslate"><span class="pre">kernel_h</span> <span class="pre">*</span> <span class="pre">DivCeil(kernel_w,</span> <span class="pre">8)</span> <span class="pre">*</span> <span class="pre">DivCeil(kernel_c,</span> <span class="pre">4)</span> <span class="pre">&lt;=</span> <span class="pre">1024</span></code>.
+Presently, when output type is int32, <code class="docutils literal notranslate"><span class="pre">kernel_h</span> <span class="pre">*</span> <span class="pre">DivCeil(kernel_w,</span> <span class="pre">8)</span> <span class="pre">*</span> <span class="pre">DivCeil(kernel_c,</span> <span class="pre">4)</span> <span class="pre">&lt;</span> <span class="pre">1024</span></code></p></li>
+<li><p>The speed when loading those hbm files who contain multiple models increased in the <code class="docutils literal notranslate"><span class="pre">HBDK</span></code> compiler</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">hbrtBilinearRoiResizeImage</span></code> interface of the <code class="docutils literal notranslate"><span class="pre">HBDK</span></code> compiler can now support
+8,192 input/output width when using the <code class="docutils literal notranslate"><span class="pre">pad</span> <span class="pre">zero</span></code> mode</p></li>
+<li><p>When the <code class="docutils literal notranslate"><span class="pre">HBDK</span></code> compiler supports those models whose has more than 32 output,
+independent address will be allocated for each output and the memory of those
+structs who contain addresses should be allocated by users. Thus, the struct of
+<code class="docutils literal notranslate"><span class="pre">hbrt_ri_config_t</span></code> has changed due to the above-mentioned change, but struct size
+remains unchanged. Struct name has changed into <code class="docutils literal notranslate"><span class="pre">hbrt_ri_config_t_deprecated</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">hbrtRiStart</span></code> support both structs. Please note that the ABI with the old code
+is compatible with this change, yet the API is incompatible with this change.</p></li>
+<li><p>A new <code class="docutils literal notranslate"><span class="pre">hbrtDumpSnapshot</span></code> interface is adds to the <cite>hbrt</cite> of the <code class="docutils literal notranslate"><span class="pre">HBDK</span></code> compiler in order to
+dump internal data of <code class="docutils literal notranslate"><span class="pre">hbrt</span></code> and help locate errors</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">HBDK</span></code> compiler adds support for the <cite>SMean</cite> Operator</p></li>
+<li><p>The <strong>runtime</strong> embedded development adds support for dumping more information when debugging incidental bugs</p></li>
+<li><p>The <strong>runtime</strong> embedded development adds the <code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> tool into
+its basic example package for validating model consistency</p></li>
+<li><p>The <strong>runtime</strong> embedded development adds example scripts into its basic example package
+for the <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> and <code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> tools</p></li>
+</ol>
+<p>📘 Documentations</p>
+<ol class="arabic simple">
+<li><p>The <strong>hrt_bin_dump Tool Manual</strong> is adds into the <cite>doc/</cite> folder
+in the basic example package of the <strong>runtime</strong> embedded development</p></li>
+<li><p>The <strong>hb_model_exec Tool Manual</strong> is adds into the <cite>doc/</cite> folder
+in the basic example package of the <strong>runtime</strong> embedded development</p></li>
+</ol>
+<p><span class="gray">v1.1.21</span></p>
+<ol class="arabic simple">
+<li><p>The <strong>Runtime</strong> adds new <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> tool which allows users to quickly
+understand model performance using .bin model and operational parameters</p></li>
+<li><p>Softmax quantization adds support for obtaining the confidence of each pixel in segmentation algorithms</p></li>
+<li><p>Adds control of the high precision CONV OPs at the end of models to optimize the execution efficiency of
+pooling in runtime and overall computational performance</p></li>
+<li><p>Adds sources and change descriptions of some models in examples</p></li>
+<li><p>Adds support to the equal OP in ONNX opset10</p></li>
+<li><p>Adds static libraries in <code class="docutils literal notranslate"><span class="pre">bpu_predict</span></code> and <code class="docutils literal notranslate"><span class="pre">lib_hbrt_bernoulli*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> adds support for printing the corresponding sample names of cos similarity</p></li>
+<li><p>Adds dma copy interface in <code class="docutils literal notranslate"><span class="pre">bpu_predict</span></code> system software in Runtime</p></li>
+<li><p>Adds support for floating models in <code class="docutils literal notranslate"><span class="pre">bpu_runwithbox</span></code></p></li>
+<li><p>Adds new <strong>FAQ for Floating-point Model Conversion Toolchain</strong> English PDF file</p></li>
+<li><p>Addded English annotations for yaml and code files in examples</p></li>
+<li><p>Optimizes installation method and usage of runtime related dependencies</p></li>
+<li><p>Optimizes the <code class="docutils literal notranslate"><span class="pre">align</span></code> parameter setting in bpu sdk api to improve user experience</p></li>
+<li><p>Optimizes new feature to recommend the most optimized quantized model by default</p></li>
+<li><p>Modified some parameters of <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> and <code class="docutils literal notranslate"><span class="pre">hbdk_perf</span></code></p></li>
+<li><p>Fixes the platform mismatch problem caused by simulator when using the resize interface</p></li>
+<li><p>Cancels support of the <cite>BPU_IO</cite> interface of runtime</p></li>
+</ol>
+<p><span class="gray">v1.1.20</span></p>
+<ol class="arabic simple">
+<li><p>Adds a new example script to support inference using ONNX models</p></li>
+<li><p>Adds a new <cite>hb_pack</cite> tool for packaging multiple binary models</p></li>
+<li><p>In floating-point model conversion, users can now specify certain CPU nodes not to be quantized using yaml file</p></li>
+<li><p>Optimizes multi-input examples</p></li>
+<li><p>Fixes the problem of possible unavailable example package when using docker image in
+CentOS or Ubuntu OS caused by installation script</p></li>
+<li><p>Fixes the inference failure of the <code class="docutils literal notranslate"><span class="pre">runwithbox</span></code> interface caused by those boxes which fail to
+comfort to hardware restrictions, and opened up <code class="docutils literal notranslate"><span class="pre">pyramidbox</span></code> related structural information</p></li>
+<li><p>Changes integration style of deliverables: <strong>Horizon OpenExplorer(X3/J3) deliverable</strong>, i.e.
+<code class="docutils literal notranslate"><span class="pre">horizon_x3_tc_{version}</span></code> is divided into <strong>Model Conversion Example Deliverable</strong> i.e.
+<code class="docutils literal notranslate"><span class="pre">horizon_model_convert_sample_{version}</span></code> and <strong>Floating-point Model Deliverable</strong> i.e. <code class="docutils literal notranslate"><span class="pre">modelzoo</span></code></p></li>
+</ol>
+<p>📘 Documentations</p>
+<ol class="arabic simple">
+<li><p>Adds new X3J3 Platform AUTO Media System Interface Manual PDF document in the attachment</p></li>
+<li><p>Adds new X3J3 Platform Graphic System API Reference Manual PDF document in the attachment</p></li>
+</ol>
+<p><span class="gray">v1.1.19</span></p>
+<ol class="arabic simple">
+<li><p>Adds new EfficientDet detection model example</p></li>
+<li><p>Adds new Unet segmentation model example</p></li>
+<li><p>Improved usability of model conversion: details of exceptions are provided</p></li>
+<li><p>Optimizes the hb_perf tool: performance of hybrid models are provided in html format</p></li>
+<li><p>Users can now configure output nodes by specifying the <cite>layername</cite> in the configuration file</p></li>
+<li><p>The model calibration tool namely Promoter has been deprecated</p></li>
+</ol>
+<p>📘 Documentations</p>
+<ol class="arabic simple">
+<li><p>Adds new <strong>Embedded Example Package User Guide</strong> PDF document in the attachment</p></li>
+<li><p>Adds new <strong>2.4 Model Performance Benchmark Table</strong> section</p></li>
+<li><p>Adds new <strong>BPU SDK API DOC PDF</strong> document in the attachment</p></li>
+</ol>
+<p><span class="gray">v1.1.18</span></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds support for customizing CPU</p></li>
+<li><p>Adds support for YUV BT601 NARROW/WIDE standards</p></li>
+</ol>
+<p><strong>Runtime</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>The inference api of runtime api adds support for variable size input (implemented by the resizer feature)</p></li>
+</ol>
+<p><strong>Integration</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds new mobilenet-ssd example</p></li>
+<li><p>Refactored configuration file for mean/scale</p></li>
+</ol>
+<p>[Changes]</p>
+<ol class="arabic simple">
+<li><p>Changes the googlenet example into a new version without Local Response Normalisation(LRN)</p></li>
+</ol>
+<p><strong>horizon-nn</strong></p>
+<p>[Changes]</p>
+<ol class="arabic simple">
+<li><p>Deleted the dot files generated during model conversion</p></li>
+</ol>
+<p><span class="gray">v1.1.17</span></p>
+<p><strong>Integration</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds new source code sample for image format conversion</p></li>
+</ol>
+<p>[Optimizes]</p>
+<ol class="arabic simple">
+<li><p>Optimizes sample script of the vec_diff tool, makes it more convenient for users to develop based on samples</p></li>
+<li><p>YOLOV2/V3 samples deleted the time consumption of transpose node and improved evaluation efficiency</p></li>
+<li><p>Optimizes YOLOV5 sample to improve performance</p></li>
+</ol>
+<p>[Changes]</p>
+<ol class="arabic simple">
+<li><p>Default value of the debug parameter of hb_mapper compiler is changed into false</p></li>
+</ol>
+<p><strong>horizon_nn</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds a new -np parameter to specify whether or not to test postprocess in evaluation</p></li>
+</ol>
+<p><strong>Runtime</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds a new advanced runtime sample package</p></li>
+</ol>
+<p>[Optimizes]</p>
+<ol class="arabic simple">
+<li><p>A txt file will be generated to describe time consumption of all nodes when export HR_NODE_PROFILER=true</p></li>
+</ol>
+<p><strong>HBDK</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds support for argmax op</p></li>
+</ol>
+<p><span class="gray">v1.16</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Time of release</dt>
+<dd class="field-odd"><p>Sept. 23 <sup>rd</sup>, 2020</p>
+</dd>
+</dl>
+<p><strong>Integration</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Deleted redundant reshape and transpose nodes on CPU in yolo5 sample to increase frame rate</p></li>
+<li><p>The hb_mapper checker command adds new option to check runtime bin file conversion</p></li>
+</ol>
+<p>[Optimizes]</p>
+<ol class="arabic simple">
+<li><p>Adds se-resnet grayimage sample</p></li>
+<li><p>Adds support for Ubuntu18.04</p></li>
+</ol>
+<p><strong>horizon_nn</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds support for shufflenet</p></li>
+</ol>
+<p><strong>Runtime</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds HzSoftmax op to support Softmax computation on arbitrary dimension</p></li>
+<li><p>Adds runtime yolo5 sample</p></li>
+<li><p>cicd adds dev board performance report</p></li>
+<li><p>Adds new debug tool that can print every layer including cpu op</p></li>
+<li><p>Adds new sample that supports MAPS computation</p></li>
+</ol>
+<p><span class="gray">v1.15</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Date of Release</dt>
+<dd class="field-odd"><p>Aug. 21 <sup>st</sup>, 2020</p>
+</dd>
+</dl>
+<p><strong>Integration</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds user samples of mobilenet_onnx、efficientnet_lite_onnx、faster rcnn etc.</p></li>
+<li><p>Adds a new model info tool to obtain model dependency information during compilation</p></li>
+<li><p>Adds a new model_verifier command-line tool to verify the consistency of ONNX model inference with hybrid model on simulator/on-board results</p></li>
+<li><p>yaml configuration file adds the optimize_level interface to describe model optimization level of compiler</p></li>
+<li><p>x3_tc_ui tool adds a “colored image to gray image conversion” prompt during the preprocess when the preprocess_on is set to True</p></li>
+</ol>
+<p>[Changes]</p>
+<ol class="arabic simple">
+<li><p>Input of yaml configuration file changed into list, users no longer need to configure the name of input node</p></li>
+<li><p>The Finetune tool used for optimizing model quantization results has changed its name into Promoter</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">x3_tc_ui</span></code> tool has encapsulated the onnx runtime -128 operation to align with preprocess and save additional operations and costs of users</p></li>
+</ol>
+<p>[Fix]</p>
+<ol class="arabic simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> tool aligned yv444 input with samples of gray input</p></li>
+</ol>
+<p><strong>horizon_nn</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds a new build_onnx interface to support quantization of ONNX model</p></li>
+<li><p>Adds support for quantizing the ONNX models converted from typical PyTorch models, incl. AlexNet、VGG-16、ResNet-18、ResNet-50、ResNet-152、SqueezeNet 1.0、SqueezeNet 1.1、Densenet-161、Inception v3、GoogleNet、ShuffleNet V2、MobileNet V2、ResNeXt-50-32x4d、ResNeXt-101-32x8d、Wide ResNet-50-2、MNASNet 1.0、YOLOv5s/m/l/x、efficientnet-lite0/1/2/3/4、EfficientNet</p></li>
+<li><p>Adds support for quantizing LSTM, SENet and STN models</p></li>
+</ol>
+<p>[Changes]</p>
+<ol class="arabic simple">
+<li><p>Implements Per-channel quantization method,
+with which the quantization accuracy of some typical models will be improved</p></li>
+</ol>
+<p><strong>HBDK</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">BilinearResizeNV12</span></code> interface adds support for those image inputs whose sizes are smaller than 4KB</p></li>
+<li><p>BPU adds elementwise mul and lookup table ops</p></li>
+<li><p>BPU adds support for maxpooling ops with any stride or kernel sizes</p></li>
+<li><p>split operator adds support for h/w dimensions</p></li>
+<li><p>Global average pooling adds support for larger input feature,  whose feature HxW &lt;= 4096</p></li>
+</ol>
+<p><strong>Runtime</strong></p>
+<p>[Adds]</p>
+<ol class="arabic simple">
+<li><p>Adds on-board operating samples of efficientnet-lite models</p></li>
+<li><p>Adds a new pad op for evaluation purpose</p></li>
+<li><p>Adds a new <code class="docutils literal notranslate"><span class="pre">DepthTospace</span></code> op to support CPU computation</p></li>
+<li><p>Adds STN cpu related op</p></li>
+<li><p>Adds network structure compatibility to support users’ network modification</p></li>
+<li><p>Adds support for dual-core dual-frame samples</p></li>
+<li><p>Adds support for multi-task preemption</p></li>
+<li><p>Memory check tool adds structure to check operating states of memory during model loading, runtime, BPU and CPU memory consumptions</p></li>
+<li><p>Adds new interface to map the physical address of memory to virtual address</p></li>
+</ol>
+<p>[Changes]</p>
+<ol class="arabic simple">
+<li><p>Modified image representation methods of BPU API</p></li>
+<li><p>The resize interface adjusted priorities when calling pym and roiresize. pym is most prioritized, roiresize is second most prioritized. Meanwhile performance of resize on CPU is optimized</p></li>
+<li><p>Cancels redundant so library in SDK to decouple with system software</p></li>
+</ol>
+<p><span class="gray">v1.0</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Date of Release</dt>
+<dd class="field-odd"><p>Jun. 2<sup>nd</sup>, 2020</p>
+</dd>
+</dl>
+<p>Adds</p>
+<ol class="arabic simple">
+<li><p>Adds <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> command-line tool for model conversion. This tool supports input types including: rgbp/bgrp/featuremap/gray</p></li>
+<li><p>Adds <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> / <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> tool for user debugging</p></li>
+<li><p>Adds samples of yolo/mobilenet/googlenet/resnet etc</p></li>
+<li><p>Adds support for conversion, quantization and compilation of Caffe 1.0 models</p></li>
+<li><p>Adds support for extended OPs of Normalize, PSROIPooling, Proposal, ROIPooling, Upsample, Permute, PassThrough, MatMul, RReLU, CReLU, Axpy, ReLU6 and Resize</p></li>
+<li><p>Adds support for calibration based on max an kl</p></li>
+<li><p>Adds runtime API which supports heterogeneous models</p></li>
+<li><p>The``HB_BPU_resize`` supports Y/NV12/BGR/RGB/BGRP/RGBP images as inputs/outputs</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">HB_BPU_resize</span></code> and <code class="docutils literal notranslate"><span class="pre">HB_BPU_runModel</span></code> interfaces support setting up stride alignment of input data</p></li>
+<li><p>Offered an interface for conversion between BPU virtual and physical addresses</p></li>
+<li><p>Adds support for control of runtime log output using environment variables</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HB_BPU_runModel</span></code> interface supports the feature of running one image frame via dualcore</p></li>
+</ol>
+<p>[Changes]</p>
+<blockquote>
+<div><p>None</p>
+</div></blockquote>
+<p>[Fix]</p>
+<blockquote>
+<div><p>None</p>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chapter_5_custom_op_development.html" class="btn btn-neutral float-left" title="5. Custom OP Development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Horizon Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

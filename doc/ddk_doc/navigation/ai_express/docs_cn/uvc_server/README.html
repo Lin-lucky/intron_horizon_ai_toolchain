@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>一、uvc协议 &mdash; uvc server 组件  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="uvc_server 组件" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> uvc server 组件
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">一、uvc协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#uvc-server">二、uvc server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id1">三、编译&amp;示例运行</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">编译</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">示例运行：</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id4">四、开发接口说明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id5">接口使用说明</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">uvc server 组件</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>一、uvc协议</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="uvc">
+<h1>一、uvc协议<a class="headerlink" href="#uvc" title="Permalink to this headline">¶</a></h1>
+<p>UVC全称为USB Video Class，USB视频类，是一种为USB视频捕获设备定义的协议标准，属于USB行业规范中的USB设备类规范，用于USB接口的视频设备的一个统一的数据交换规范。是Microsoft与另外几家设备厂商联合推出的为USB视频捕获设备定义的协议标准，已成为USB org标准之一。</p>
+</div>
+<div class="section" id="uvc-server">
+<h1>二、uvc server<a class="headerlink" href="#uvc-server" title="Permalink to this headline">¶</a></h1>
+<p>uvc server基于uvc协议发送视频数据到客户端，uvc server负责协议的数据交换和编码信息传输。
+<img alt="uvc server框架" src="_images/uvc_overview.png" /></p>
+<ul class="simple">
+<li><p>uvc server运行在X3上，X3和各个Client间使用USB线物理连接</p></li>
+<li><p>任何支持UVC协议的设备，都可以通过UVC协议拉取X3上的视频流，比如Android、Windows、Linux等</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h1>三、编译&amp;示例运行<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>编译<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span> <span class="o">&amp;</span> <span class="n">cd</span> <span class="n">build</span> <span class="o">&amp;</span> <span class="n">cmake</span> <span class="o">..</span> <span class="o">&amp;</span> <span class="n">make</span> <span class="o">&amp;</span> <span class="n">make</span> <span class="n">install</span> <span class="o">&amp;</span> <span class="n">cd</span> <span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">uvc_server</span>
+</pre></div>
+</div>
+<p>编译产物路径如下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+└── uvc_server
+    ├── include
+    │   └── uvc_server
+    │       └── uvc_server.h
+    └── lib
+        └── libuvc_server.so
+</pre></div>
+</div>
+<p>这里提供了头文件和依赖库，工程拷贝到指定目录后可直接引用。</p>
+</div>
+<div class="section" id="id3">
+<h2>示例运行：<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>参考：<code class="docutils literal notranslate"><span class="pre">sample/01_transfer_nv12</span></code>目录下的文档说明</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h1>四、开发接口说明<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
+<p>本章节介绍uvc server的接口功能及使用说明。</p>
+<div class="section" id="id5">
+<h2>接口使用说明<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+  <span class="n">CODEC_NV12</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">CODEC_MJPEG</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">CODEC_H265</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="n">CODEC_H264</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+<span class="p">}</span> <span class="n">codec_type</span><span class="p">;</span>
+
+<span class="k">enum</span> <span class="nc">UvcEvent</span> <span class="p">{</span>
+  <span class="n">UVC_EVENT_NONE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">UVC_STREAM_OFF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1">//  视频流关闭</span>
+
+  <span class="n">UVC_STREAM_ON</span><span class="p">,</span>  <span class="c1">//  视频流开启，传入width/height/video_type</span>
+
+  <span class="n">UVC_ADD</span><span class="p">,</span>  <span class="c1">// uvc设备接入</span>
+
+  <span class="n">UVC_REMOVE</span><span class="p">,</span>  <span class="c1">// uvc设备</span>
+  <span class="n">UVC_EVENT_MAX</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">UvcEventCallback</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">virtual</span> <span class="kt">void</span> <span class="n">OnUvcEvent</span><span class="p">(</span><span class="n">UvcEvent</span> <span class="n">event_type</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">data_len</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">UvcVideoData</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">width_</span><span class="p">;</span>  <span class="c1">// 视频宽度, stream on/off时会左右参数导出</span>
+
+  <span class="kt">int</span> <span class="n">height_</span><span class="p">;</span>  <span class="c1">// 视频高度</span>
+
+  <span class="n">codec_type</span> <span class="n">video_type_</span><span class="p">;</span>  <span class="c1">// 视频编码类型</span>
+
+  <span class="kt">char</span> <span class="o">*</span><span class="n">v_buffer_</span><span class="p">;</span>  <span class="c1">// 图像buffer地址</span>
+
+  <span class="kt">int</span> <span class="n">v_size_</span><span class="p">;</span>  <span class="c1">// 大小</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">StreamParams</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">width_</span><span class="p">;</span>  <span class="c1">// 视频宽度, stream on/off时会左右参数导出</span>
+
+  <span class="kt">int</span> <span class="n">height_</span><span class="p">;</span>  <span class="c1">// 视频高度</span>
+
+  <span class="n">codec_type</span> <span class="n">video_type_</span><span class="p">;</span>  <span class="c1">// 视频编码类型</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">UvcEventData</span> <span class="p">{</span>
+  <span class="n">UvcEvent</span> <span class="n">event_type_</span><span class="p">;</span>
+  <span class="n">StreamParams</span> <span class="n">params_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+  <span class="n">VENC_INVALID</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">VENC_H264</span><span class="p">,</span>
+  <span class="n">VENC_H265</span><span class="p">,</span>
+  <span class="n">VENC_MJPEG</span><span class="p">,</span>
+<span class="p">}</span> <span class="n">venc_type</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">UvcServer</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">UvcServer</span><span class="p">();</span>
+  <span class="o">~</span><span class="n">UvcServer</span><span class="p">();</span>
+
+  <span class="kt">int</span> <span class="nf">Init</span><span class="p">(</span><span class="n">UvcEventCallback</span> <span class="o">*</span><span class="n">call_back</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @brief distory resource</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">DeInit</span><span class="p">();</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @brief start</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">Start</span><span class="p">();</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @brief stop</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">Stop</span><span class="p">();</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @brief send video data to uvc</span>
+<span class="cm">   * @UvcVideoData video data</span>
+<span class="cm">   * @bool uvc manager video data buffer,The caller does not need to be</span>
+<span class="cm">   * concerned with memory release issues, default true.</span>
+<span class="cm">   * @return 0: ok, -1: fail</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">SendFrame</span><span class="p">(</span><span class="n">UvcVideoData</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">uvc_manager_buf</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @brief return UvcServer Instance</span>
+<span class="cm">   * @return</span>
+<span class="cm">   */</span>
+  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">UvcServer</span><span class="o">&gt;</span> <span class="n">GetInstance</span><span class="p">();</span>
+
+  <span class="k">static</span> <span class="kt">bool</span> <span class="nf">IsUvcStreamOn</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lg</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">uvc_stream_on_</span> <span class="o">==</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">static</span> <span class="kt">void</span> <span class="nf">SetUvcStreamOn</span><span class="p">(</span><span class="kt">int</span> <span class="n">on</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lg</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
+    <span class="n">uvc_stream_on_</span> <span class="o">=</span> <span class="n">on</span><span class="p">;</span>
+  <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="n">uvc_streamon_callback</span><span class="p">(</span><span class="k">struct</span> <span class="nc">uvc_context</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span> <span class="kt">int</span> <span class="n">is_on</span><span class="p">,</span>
+                                    <span class="kt">void</span> <span class="o">*</span><span class="n">userdata</span><span class="p">);</span>
+
+  <span class="k">static</span> <span class="kt">int</span> <span class="nf">uvc_prepare_frame_callback</span><span class="p">(</span><span class="k">struct</span> <span class="nc">uvc_context</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="n">buf_to</span><span class="p">,</span>
+                                        <span class="kt">int</span> <span class="o">*</span><span class="n">buf_len</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="n">entity</span><span class="p">,</span>
+                                        <span class="kt">void</span> <span class="o">*</span><span class="n">userdata</span><span class="p">);</span>
+
+  <span class="k">static</span> <span class="kt">void</span> <span class="nf">uvc_release_frame_callback</span><span class="p">(</span><span class="k">struct</span> <span class="nc">uvc_context</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="n">entity</span><span class="p">,</span>
+                                         <span class="kt">void</span> <span class="o">*</span><span class="n">userdata</span><span class="p">);</span>
+  <span class="k">static</span> <span class="n">codec_type</span> <span class="nf">fcc_to_video_format</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">fcc</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="nf">uvc_init_with_params</span><span class="p">(</span><span class="n">venc_type</span> <span class="n">type</span><span class="p">,</span> <span class="kt">int</span> <span class="n">vechn</span><span class="p">,</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">UvcEventProc</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">Dwc3UeventMonitor</span><span class="p">();</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="k">static</span> <span class="kt">int</span> <span class="n">uvc_stream_on_</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">mutex_</span><span class="p">;</span>
+  <span class="k">static</span> <span class="k">struct</span> <span class="nc">uvc_context</span> <span class="o">*</span><span class="n">uvc_ctx_</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">RingQueue</span><span class="o">&lt;</span><span class="n">UvcVideoData</span><span class="o">&gt;</span> <span class="n">video_queue_</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">RingQueue</span><span class="o">&lt;</span><span class="n">UvcEventData</span><span class="o">&gt;</span> <span class="n">uvc_event_queue_</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">uvc_instance_mutex_</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">UvcServer</span><span class="o">&gt;</span> <span class="n">uvc_instance_</span><span class="p">;</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">UvcEventCallback</span> <span class="o">*</span><span class="n">uvc_event_call_back_</span><span class="p">;</span>  <span class="c1">// 用于传出event信息</span>
+  <span class="kt">int</span> <span class="n">width_</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">height_</span><span class="p">;</span>
+  <span class="n">venc_type</span> <span class="n">vtype_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="o">&gt;</span> <span class="n">event_thread_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="o">&gt;</span> <span class="n">dwc3_thread_</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">stop_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>1、codec_type</strong>：定义uvc server内部的编码类型，对应x3编码的编码类型，uvc协议的请求编码类型需要转换，参考<code class="docutils literal notranslate"><span class="pre">fcc_to_video_format</span></code>实现</p>
+<ul class="simple">
+<li><p><em>CODEC_NV12</em>：nv12编码格式</p></li>
+<li><p><em>CODEC_MJPEG</em>：mjpeg编码格式</p></li>
+<li><p><em>CODEC_H265</em>：h265编码格式</p></li>
+<li><p><em>CODEC_H264</em>：h264编码格式</p></li>
+</ul>
+<p><strong>2、UvcEvent</strong>：定义了uvc server支持的事件类型</p>
+<ul class="simple">
+<li><p><em>UVC_STREAM_OFF</em>：视频流关闭事件</p></li>
+<li><p><em>UVC_STREAM_ON</em>：视频流开启事件，附加数据是请求视频流参数信息，数据结构为UvcEventData</p></li>
+<li><p><em>UVC_ADD</em>：UVC设备插入事件</p></li>
+<li><p><em>UVC_REMOVE</em>：UVC设备拔出事件</p></li>
+</ul>
+<p><strong>3、UvcEventCallback::OnUvcEvent</strong>：uvc事件回调接口，用户类需要实现此接口并再初始化时把接口指针传给uvc server，后续uvc事件通过此接口回调给用户类，主要参数如下：</p>
+<ul class="simple">
+<li><p><em>event_type</em>：事件类型，参考UvcEvent说明</p></li>
+<li><p><em>data</em>：指针，回调附加数据，比如编码信息</p></li>
+<li><p><em>data_len</em>：附加数据长度</p></li>
+</ul>
+<p><strong>4、UvcVideoData</strong>：此结构在SendFrame接口中用到，由用户填充数据</p>
+<ul class="simple">
+<li><p><em>width_</em>：发送的视频图像宽度，需要与请求的宽度一致</p></li>
+<li><p><em>height_</em>：视频图像高度，同上</p></li>
+<li><p><em>video_type_</em>：视频图像编码类型，比如nv12、h264等，需要与请求的视频编码类型一致</p></li>
+<li><p><em>v_buffer_</em>：视频图像数据存放地址</p></li>
+<li><p><em>v_size_</em>：视频图像数据大小</p></li>
+</ul>
+<p><strong>5、StreamParams</strong>：此结构体用于存放Client请求视频图像的编码等信息</p>
+<ul class="simple">
+<li><p><em>width_</em>：Client请求视频图像宽度</p></li>
+<li><p><em>height_</em>：Client请求视频图像高度</p></li>
+<li><p><em>video_type_</em>：Client请求视频图像编码类型</p></li>
+</ul>
+<p><strong>6、UvcEventData</strong>：uvc_server消息载体，包括视频消息和热插拔消息</p>
+<ul class="simple">
+<li><p><em>event_type_</em>：消息类型</p></li>
+<li><p><em>params_</em>：消息附加数据，参考<code class="docutils literal notranslate"><span class="pre">StreamParams</span></code>说明</p></li>
+</ul>
+<p><strong>7、venc_type</strong>：uvc协议定义的编码消息类型</p>
+<p><strong>8、UvcServer</strong>：uvc server主要功能类</p>
+<ul class="simple">
+<li><p><em>Init</em>：初始化uvc，发送视频数据前必须先初始化</p></li>
+<li><p><em>DeInit</em>：反初始化</p></li>
+<li><p><em>SendFrame</em>：发送视频帧数据，uvc server通过uvc协议转发给client</p></li>
+<li><p><em>UvcVideoData</em>：视频帧数据结构体，用户类发送前填充此结构体传递给uvc server</p></li>
+<li><p><em>uvc_manager_buf</em>：默认uvc server管理UvcVideoData中的buffer指针；如果设置为false，uvc申请新的指针并拷贝一份视频数据</p></li>
+<li><p><em>Start/Stop</em>：实现为空</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="uvc_server 组件" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

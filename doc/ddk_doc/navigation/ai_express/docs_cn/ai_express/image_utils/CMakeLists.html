@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>PARENT_BUILD:OFF buid xstream separately &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>PARENT_BUILD:OFF buid xstream separately</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/image_utils/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>cmake_minimum_required(VERSION 2.8)</p>
+<p>project(image_utils)</p>
+<div class="section" id="parent-build-off-buid-xstream-separately">
+<h1>PARENT_BUILD:OFF buid xstream separately<a class="headerlink" href="#parent-build-off-buid-xstream-separately" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="parent-build-on-git-repo-build-all">
+<h1>PARENT_BUILD:ON git-repo build all<a class="headerlink" href="#parent-build-on-git-repo-build-all" title="Permalink to this headline">¶</a></h1>
+<p>option(PARENT_BUILD “is build from parent” OFF)</p>
+<p>set(CMAKE_EXPORT_COMPILE_COMMANDS ON)</p>
+<p>if (NOT ${PARENT_BUILD})
+get_filename_component(IMAGEUTILSLIB_CURRENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+#message(“xstream current dir init:${IMAGEUTILSLIB_CURRENT_DIR}”)
+set(RELEASE_ROOT_DIR)
+function(get_parent_dir arg dir n)
+foreach(i RANGE ${ARGV2})
+get_filename_component(dir ${dir} DIRECTORY)
+#message(“i:${i} dir:${dir}”)
+endforeach(i)
+set(RELEASE_ROOT_DIR ${dir} PARENT_SCOPE)
+endfunction()</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>get_parent_dir(IMAGEUTILSLIB_CURRENT_DIR ${IMAGEUTILSLIB_CURRENT_DIR} 2)
+message(&quot;xstream current dir:${IMAGEUTILSLIB_CURRENT_DIR}&quot;)
+message(&quot;source dir:${RELEASE_ROOT_DIR}&quot;)
+
+option(X86_ARCH &quot;x86 architecture&quot; OFF)
+option(X86_CENTOS &quot;centos release&quot; OFF)
+
+# build separately install directory
+</pre></div>
+</div>
+<p>set(OUTPUT_ROOT ${CMAKE_SOURCE_DIR}/output)
+endif()</p>
+<p>option(RELEASE_LIB “build version of release” ON)</p>
+<p>if (NOT ${PARENT_BUILD})
+if (${RELEASE_LIB})
+set(CMAKE_BUILD_TYPE Release)
+message(STATUS “BUILD TYPE:Release”)
+else ()
+set(CMAKE_BUILD_TYPE Debug)
+set(HOBOT_BUILD_DEBUG “TRUE”)
+message(STATUS “BUILD TYPE:Debug”)
+endif ()</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>list(APPEND CMAKE_C_FLAGS &quot;-Wall -Wno-unknown-pragmas -fPIC -fexceptions -Werror &quot;)
+if (&quot;${CMAKE_BUILD_TYPE}&quot; STREQUAL &quot;Release&quot;)
+		list(APPEND CMAKE_C_FLAGS &quot;-O3&quot;)
+		set(CMAKE_C_FLAGS &quot;${CMAKE_C_FLAGS} -fPIC &quot;)
+else ()
+		list(APPEND CMAKE_C_FLAGS &quot;-g -O0 -fPIC &quot;)
+endif()
+
+# x86 architecture
+if (${X86_ARCH})
+	if (${X86_CENTOS})
+		message(&quot;tool chain:${CMAKE_CXX_COMPILER}&quot;)
+		add_definitions(-std=c++11)
+		set(CENTOS_THIRD_PARTY_DIR ${IMAGEUTILSLIB_CURRENT_DIR}/image_utils/third_party/x86/centos/)
+		include_directories(
+			${CENTOS_THIRD_PARTY_DIR}/hobotlog/include/
+			${CENTOS_THIRD_PARTY_DIR}/opencv/include/
+			${CENTOS_THIRD_PARTY_DIR}/gtest/include/
+			${CENTOS_THIRD_PARTY_DIR}/libjpeg-turbo/include/
+			${CENTOS_THIRD_PARTY_DIR}/libyuv/include/
+		)
+		link_directories(
+			${CENTOS_THIRD_PARTY_DIR}/hobotlog/lib
+			${CENTOS_THIRD_PARTY_DIR}/opencv/lib/
+			${CENTOS_THIRD_PARTY_DIR}/gtest/lib
+			${CENTOS_THIRD_PARTY_DIR}/libjpeg-turbo/lib/
+			${CENTOS_THIRD_PARTY_DIR}/libyuv/lib/
+		)
+	else ()
+		message(&quot;tool chain:${CMAKE_CXX_COMPILER}&quot;)
+		add_definitions(-std=c++11)
+		set(UBUNTU_THIRD_PARTY_DIR ${IMAGEUTILSLIB_CURRENT_DIR}/image_utils/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/)
+		include_directories(
+			${UBUNTU_THIRD_PARTY_DIR}jsoncpp/include/
+			${UBUNTU_THIRD_PARTY_DIR}hobotlog/include/
+			${UBUNTU_THIRD_PARTY_DIR}opencv/include/
+		)
+		link_directories(
+			${UBUNTU_THIRD_PARTY_DIR}jsoncpp/lib/
+			${UBUNTU_THIRD_PARTY_DIR}hobotlog/lib
+		)
+	endif ()
+else ()
+	set(CMAKE_CXX_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++)
+	message(&quot;tool chain:${CMAKE_CXX_COMPILER}&quot;)
+	set(AARCH64_THIRD_PARTY_DIR ${IMAGEUTILSLIB_CURRENT_DIR}/image_utils/third_party/aarch64/)
+	message(&quot;thrid_party_dir:${AARCH64_THIRD_PARTY_DIR}&quot;)
+	include_directories(
+		${AARCH64_THIRD_PARTY_DIR}/hobotlog/include/
+		${AARCH64_THIRD_PARTY_DIR}/opencv/include/
+		${AARCH64_THIRD_PARTY_DIR}/gtest/include/
+		${AARCH64_THIRD_PARTY_DIR}/libjpeg-turbo/include/
+		${AARCH64_THIRD_PARTY_DIR}/libyuv/include/
+	)
+	link_directories(
+			${AARCH64_THIRD_PARTY_DIR}/hobotlog/lib
+			${AARCH64_THIRD_PARTY_DIR}/opencv/lib/
+			${AARCH64_THIRD_PARTY_DIR}/gtest/lib
+			${AARCH64_THIRD_PARTY_DIR}/libjpeg-turbo/lib/
+			${AARCH64_THIRD_PARTY_DIR}/libyuv/lib/
+		)
+endif ()
+</pre></div>
+</div>
+<p>endif ()</p>
+<p>if(BGR2I420_WITH_LIBYUV)
+add_definitions(-DBGR2I420_WITH_LIBYUV)
+endif(BGR2I420_WITH_LIBYUV)</p>
+<p>include_directories(
+include
+)
+file(GLOB_RECURSE SOURCE_FILES src/*.cpp)</p>
+<p>option(BUILD_SHARED_LIBS “build shared libs” ON)
+add_library(${PROJECT_NAME} ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME} libturbojpeg.a libyuv.a
+libopencv_world.a liblibjasper.a liblibjpeg-turbo.a liblibpng.a liblibprotobuf.a liblibtiff.a
+liblibwebp.a libquirc.a libtegra_hal.a libzlib.a)</p>
+<p>add_subdirectory(test)
+add_subdirectory(example)</p>
+<p>set(MY_OUTPUT_ROOT ${OUTPUT_ROOT}/${PROJECT_NAME}/)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/image_utils/image_utils.h
+DESTINATION ${MY_OUTPUT_ROOT}/include)
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/lib)</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

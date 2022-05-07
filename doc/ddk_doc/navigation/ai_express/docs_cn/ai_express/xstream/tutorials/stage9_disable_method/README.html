@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>关闭指定的method实例 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>关闭指定的method实例</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/xstream/tutorials/stage9_disable_method/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="method">
+<h1>关闭指定的method实例<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h1>
+<p>在一些应用场景中，我们需要根据应用场景来关闭某些method实例计算节点node。例如, 通过外部传入人脸照片，提取特征时，创建底库时, 需要运行人脸检测，特征提取计算, 但不需要再进行人脸mot跟踪, mot method的计算节点就可以关闭。 在关闭不必要的计算节点的情况下，可以降低芯片的功耗，降低系统的延迟。
+XSTREAM提供了一下几种关闭Method的方式：</p>
+<p>| 模式    | 详细说明|
+| :—–: |:——:|
+| Invalid | 令每个输出都是INVALID的BaseData    |
+| PassThrough  |  透传输入数据到输出，要求输入数据与输出数据个数一致,且类型相同 |
+| UsePreDefine |  拷贝先验数据到输出，要求先验数据个数与输出数据个数一致, 且类型相同 |
+| BestEffortPassThrough | 按顺序逐个透传输入数据到输出， 如果输入数据大小多于输出，则只透传前面的slot。如果输入数据大小少于输出，则多余的输出slot为Invalid的BaseData |</p>
+<p>本节将基于下面的workflow来介绍上述4种控制模式，workflow输入数据是face_head_box, 输入数据先后经过BBoxScoreFilter、BBoxLengthFilter、BBoxAreaFilter三个节点的运算，最终输出数据是face_head_box_filter_3。其中BBoxScoreFilter作用是过滤掉置信度小于阈值的框，BBoxLengthFilter作用是过滤掉边长小于阈值的框、BBoxAreaFilter过滤面积小于阈值的框。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;max_running_count&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+  <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;face_head_box&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;face_head_box_filter_3&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxScoreFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_score_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_1&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxLengthFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_length_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_1&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_2&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">},</span>
+	  <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxAreaFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_area_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_2&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_3&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>对应的Workflow结构图如下所示：</p>
+<p><img alt="workflow" src="../../../_images/workflow3.png" /></p>
+<p>定义XStream框架BBox数据结构</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// method/bbox.h</span>
+<span class="k">struct</span> <span class="nc">BBox</span> <span class="o">:</span> <span class="k">public</span> <span class="n">BaseData</span> <span class="p">{</span>
+  <span class="kr">inline</span> <span class="n">BBox</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="kr">inline</span> <span class="n">BBox</span><span class="p">(</span><span class="kt">float</span> <span class="n">x1_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y1_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">x2_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y2_</span><span class="p">,</span>
+              <span class="kt">float</span> <span class="n">score_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">x1_</span><span class="p">;</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">y1_</span><span class="p">;</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">x2_</span><span class="p">;</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">y2_</span><span class="p">;</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">score_</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">float</span> <span class="n">x1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">y1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">x2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">y2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">BBox</span><span class="o">&gt;</span> <span class="n">BBoxPtr</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="section" id="normal-mode">
+<h2>0. Normal Mode<a class="headerlink" href="#normal-mode" title="Permalink to this headline">¶</a></h2>
+<p>首先来看下正常情况下，构造BBox数组，经过上述workflow后的输出。设置信度阈值score_threshold_ = 0.5，length_threshold_ = 5，area_threshold_ = 50。构造输入数据如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="c1">// prepare input data</span>
+  <span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+  <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox4</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>
+  <span class="c1">// set input data name</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;face_head_box&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox1</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox2</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox3</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox4</span><span class="p">);</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>正常运行模式下将输入数据送入框架，输出结果只包括BBox(0, 0, 8, 8, 0.9).</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="c1">// Create xstream sdk object</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span> <span class="o">*</span><span class="n">flow</span> <span class="o">=</span> <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span><span class="o">::</span><span class="n">CreateSDK</span><span class="p">();</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetConfig</span><span class="p">(</span><span class="s">&quot;config_file&quot;</span><span class="p">,</span> <span class="s">&quot;./config/control_workflow.json&quot;</span><span class="p">);</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+
+  <span class="c1">// common predict</span>
+  <span class="k">auto</span> <span class="n">out</span> <span class="o">=</span> <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>输出结果：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 0
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 1
+——output data face_head_box_filter_3 state:0
+——output data: ( x1: 0 y1: 0 x2: 8 y2: 8 score: 0.9 )
+============Output Call Back End============
+</pre></div>
+</div>
+</div>
+<div class="section" id="invalid-mode">
+<h2>1. Invalid Mode<a class="headerlink" href="#invalid-mode" title="Permalink to this headline">¶</a></h2>
+<p>若希望暂时停止上述workflow中BBoxAreaFilter节点的运行，即将bbox_area_filter节点设置为Invalid模式。</p>
+<p>对应的Workflow结构图如下所示：</p>
+<p><img alt="Invalid" src="../../../_images/invalid1.png" /></p>
+<p>设置Invalid参数：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="c1">// 2 set DisableParam Invalid for &quot;bbox_area_filter&quot;</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="nf">invalidFilter3</span><span class="p">(</span>
+    <span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="p">(</span><span class="s">&quot;bbox_area_filter&quot;</span><span class="p">,</span> <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="o">::</span><span class="n">Mode</span><span class="o">::</span><span class="n">Invalid</span><span class="p">));</span>
+  <span class="c1">// add invalid parameter to inputdata params_</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">invalidFilter3</span><span class="p">);</span>
+  <span class="c1">// start synchronous predict, and then get output</span>
+  <span class="n">out</span> <span class="o">=</span> <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>此时”bbox_area_filter”节点输出数据被标记为INVALID，即data状态设置为<code class="docutils literal notranslate"><span class="pre">state=4</span></code>。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 1
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 1
+——output data face_head_box_filter_3 state:4
+============Output Call Back End============
+</pre></div>
+</div>
+<p><strong>注意</strong>：将一个Node节点设置为INVALID Mode，若该节点的输出数据被其他节点依赖，需要注意后续节点的输出也会被影响，且要保证后续节点有处理Invalid异常输入数据的能力。</p>
+<p>下面我们看下若将BBoxLengthFilter节点设置为Invalid Mode，最终的输出有何变化。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// 3 set DisableParam Invalid output &quot;bbox_length_filter&quot;</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="nf">invalidFilter2</span><span class="p">(</span>
+    <span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="p">(</span><span class="s">&quot;bbox_length_filter&quot;</span><span class="p">,</span> <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="o">::</span><span class="n">Mode</span><span class="o">::</span><span class="n">Invalid</span><span class="p">));</span>
+  <span class="c1">// add invalid parameter to inputdata params_</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">invalidFilter2</span><span class="p">);</span>
+  <span class="c1">// start synchronous predict, and then get output</span>
+  <span class="n">out</span> <span class="o">=</span> <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>输出如下，可以看到输出数据face_head_box_filter_3的状态是0(Valid)，但内部其实不包含任何BBox数据。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 2
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 1
+——output data face_head_box_filter_3 state:0
+============Output Call Back End============
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-predefined-mode">
+<h2>2. Use Predefined Mode<a class="headerlink" href="#use-predefined-mode" title="Permalink to this headline">¶</a></h2>
+<p>Use Predefined模型与Invalid模型类似，它是通过人工指定相关Node的输出数据，而跳过Node节点计算。类似地，将BBoxAreaFilter节点设置为Use Predefined Mode，具体做法如下。</p>
+<p>对应的Workflow结构图如下所示：</p>
+<p><img alt="use_pre_defined" src="../../../_images/use_predefine1.png" /></p>
+<p>准备输入数据(同上)，准备pre_define数据BBox(0, 0, 10, 10, 1.0)：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+  <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox4</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;face_head_box&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox1</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox2</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox3</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox4</span><span class="p">);</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+
+  <span class="c1">// use pre-defined input data</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParamPtr</span>
+      <span class="nf">pre_define</span><span class="p">(</span>
+        <span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="p">(</span>
+          <span class="s">&quot;bbox_area_filter&quot;</span><span class="p">,</span>
+          <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="o">::</span><span class="n">Mode</span><span class="o">::</span><span class="n">UsePreDefine</span><span class="p">));</span>
+
+  <span class="c1">// preprea new input data</span>
+  <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">pre_data</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">pre_bbox</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+  <span class="n">pre_data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">pre_bbox</span><span class="p">);</span>
+  <span class="n">pre_define</span><span class="o">-&gt;</span><span class="n">pre_datas_</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">pre_data</span><span class="p">));</span>
+
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">pre_define</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>按照正常模式，face_head_box_filter_3输出为BBox(0, 0, 8, 8, 0.9),但bbox_area_filter节点设置Use Predefined Mode后，输出结果如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 0
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 1
+——output data face_head_box_filter_3 state:0
+——output data: ( x1: 0 y1: 0 x2: 10 y2: 10 score: 1 )
+============Output Call Back End============
+</pre></div>
+</div>
+</div>
+<div class="section" id="passthrough-mode">
+<h2>3. PassThrough Mode<a class="headerlink" href="#passthrough-mode" title="Permalink to this headline">¶</a></h2>
+<p>PassThrough Mode模式是直接将输入数据写为输出数据，从而跳过节点计算。PassThrough模式要求Node节点的输入数据和输出数据个数是一致的(InputData.data_.size() == InputData.data_.size())。</p>
+<p>对于该Workflow，我们尝试用PassThrough方式关闭<code class="docutils literal notranslate"><span class="pre">bbox_area_filter</span></code>节点。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="c1">// 2 prepare input data</span>
+  <span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+  <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox4</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;face_head_box&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox1</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox2</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox3</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox4</span><span class="p">);</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+
+  <span class="c1">// 3 set pass through output</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;------------ pass through output----------&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span>
+      <span class="nf">pass_through</span><span class="p">(</span>
+        <span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="p">(</span>
+          <span class="s">&quot;bbox_area_filter&quot;</span><span class="p">,</span>
+          <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="o">::</span><span class="n">Mode</span><span class="o">::</span><span class="n">PassThrough</span><span class="p">));</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">pass_through</span><span class="p">);</span>
+  <span class="k">auto</span> <span class="n">out</span> <span class="o">=</span> <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>此时实际运行时，Workflow结构如下：</p>
+<p><img alt="PassThrough" src="../../../_images/pass_through1.png" /></p>
+<p>正常运行模式下，输入数据经过BBoxScoreFilter、BBoxLengthFilter节点后，face_head_box_filter_2数据内容是BBox(0, 0, 6, 8, 0.7)和BBox(0, 0, 8, 8, 0.9)，再经过BBoxAreaFilter节点，face_head_box_filter_3数据内容是BBox(0, 0, 8, 8, 0.9)。而将BBoxAreaFilter节点设置为Pass Through Mode后，face_head_box_filter_3的数据是BBox(0, 0, 6, 8, 0.7)和BBox(0, 0, 8, 8, 0.9)，即与face_head_box_filter_2相同。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 0
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 1
+——output data face_head_box_filter_3 state:0
+——output data: ( x1: 0 y1: 0 x2: 6 y2: 8 score: 0.7 )
+——output data: ( x1: 0 y1: 0 x2: 8 y2: 8 score: 0.9 )
+============Output Call Back End============
+</pre></div>
+</div>
+</div>
+<div class="section" id="best-effort-passthrough-mode">
+<h2>4. Best Effort PassThrough Mode<a class="headerlink" href="#best-effort-passthrough-mode" title="Permalink to this headline">¶</a></h2>
+<p>PassThrough Mode模式将输入直接透传到输出，但是要求输入数据和输出数据字段数目一致。但是实际场景下，输入数据和输出数据并不匹配。Best Effort PassThrough Mode模式支持在输入数据字段多于输出字段数目时，只透传前面的数据字段。如果输入数据字段少于输出字段数目时，则多余的输出字段写为Invalid。</p>
+<p>BestEffortPassThrough是PassThrough的改进版本，多数情况下更推荐使用BestEffortPassThrough模式。</p>
+<p>以下面的workflow为例，输入数据是face_head_box、body_hand_box，输出数据是face_head_box_filter_3。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;max_running_count&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+  <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;face_head_box&quot;</span><span class="p">,</span> <span class="s2">&quot;body_hand_box&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;face_head_box_filter_3&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxScoreFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_score_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_hand_box&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_hand_box_filter_1&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxLengthFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_length_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_hand_box_filter_1&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_hand_box_filter_2&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">},</span>
+	  <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxAreaFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_area_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_hand_box_filter_2&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_3&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>实际运行对应的workflow如下：</p>
+<p><img alt="Best_Effort_Pass_Through1" src="../../../_images/best_effort_pass_through11.png" /></p>
+<p>准备数据face_head_box包含框(0, 0, 10, 20, 0.1)、(0, 0, 7, 7, 0.8),body_hand_box包含框(0, 0, 6, 8, 0.7),(0, 0, 8, 8, 0.9);</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+  <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data1</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+  <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data2</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox4</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>
+  <span class="n">data1</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;face_head_box&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+  <span class="n">data2</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;body_hand_box&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+  <span class="n">data1</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox1</span><span class="p">);</span>
+  <span class="n">data1</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox2</span><span class="p">);</span>
+  <span class="n">data2</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox3</span><span class="p">);</span>
+  <span class="n">data2</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox4</span><span class="p">);</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data1</span><span class="p">));</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data2</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>正常运行模式下，上述workflow的输出face_head_box_filter_3不包含任何框BBox，(0, 0, 10, 20, 0.1)被BBoxScoreFilter过滤，(0, 0, 7, 7, 0.8)被BBoxAreaFilter过滤。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 0
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 1
+——output data face_head_box_filter_3 state:0
+============Output Call Back End============
+</pre></div>
+</div>
+<p>现在将节点BBoxAreaFilter设置为Best Effort PassThrough模式：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="c1">// set best pass through output</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span>
+    <span class="nf">b_effort_pass_through</span><span class="p">(</span>
+      <span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="p">(</span>
+        <span class="s">&quot;bbox_area_filter&quot;</span><span class="p">,</span>
+        <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="o">::</span><span class="n">Mode</span><span class="o">::</span><span class="n">BestEffortPassThrough</span><span class="p">));</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">b_effort_pass_through</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>BBoxAreaFilter节点的输入slot（”face_head_box_filter_2”,”body_hand_box_filter_2”）大于输出slot（”face_head_box_filter_3”），按照Best Effort PassThrough模式，会将”face_head_box_filter_2”透传给”face_head_box_filter_3”。</p>
+<p>输出数据face_head_box_filter_3包含BBox(0, 0, 7, 7, 0.8)，即和face_head_box_filter_2一致：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 1
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 1
+——output data face_head_box_filter_3 state:0
+——output data: ( x1: 0 y1: 0 x2: 7 y2: 7 score: 0.8 )
+============Output Call Back End============
+</pre></div>
+</div>
+<p>接着以下面的workflow为例，输入数据是face_head_box，输出数据是face_head_box_filter_3，face_head_box_filter_4。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;max_running_count&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+  <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;face_head_box&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;face_head_box_filter_3&quot;</span><span class="p">,</span> <span class="s2">&quot;face_head_box_filter_4&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxScoreFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_score_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_1&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxLengthFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_length_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_1&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_2&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">},</span>
+	  <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;BBoxAreaFilter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox_area_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_2&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_head_box_filter_3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;face_head_box_filter_4&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>实际运行对应的workflow如下：</p>
+<p><img alt="Best_Effort_Pass_Through2" src="../../../_images/best_effort_pass_through21.png" /></p>
+<p>准备输入数据，包括框(0, 0, 10, 20, 0.1),(0, 0, 7, 7, 0.8),(0, 0, 6, 8, 0.7),(0, 0, 8, 8, 0.9):</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+  <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data1</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox4</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>
+  <span class="n">data1</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;face_head_box&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+  <span class="n">data1</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox1</span><span class="p">);</span>
+  <span class="n">data1</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox2</span><span class="p">);</span>
+  <span class="n">data1</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox3</span><span class="p">);</span>
+  <span class="n">data1</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox4</span><span class="p">);</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data1</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>设置BBoxAreaFilter为Best Effort PassThrough模式：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">params_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span>
+    <span class="nf">b_effort_pass_through</span><span class="p">(</span>
+      <span class="k">new</span> <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="p">(</span>
+        <span class="s">&quot;bbox_area_filter&quot;</span><span class="p">,</span>
+        <span class="n">xstream</span><span class="o">::</span><span class="n">DisableParam</span><span class="o">::</span><span class="n">Mode</span><span class="o">::</span><span class="n">BestEffortPassThrough</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>正常运行情况下，由于BBoxAreaFilter Method的输入输出slot是一致的，XStream Framework检查到Method的输出slot小于用户workflow中配置的Node输出slot时，程序会抛出错误。设置BBoxAreaFilter节点为Best Effort PassThrough模式后，该节点不再实际运行，直接由框架层做对应的透传处理。
+输出结果如下，face_head_box_filter_3与face_head_box_filter_2一致，face_head_box_filter_4为Invalid状态：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 0
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 2
+——output data face_head_box_filter_3 state:0
+——output data: ( x1: 0 y1: 0 x2: 7 y2: 7 score: 0.8 )
+——output data: ( x1: 0 y1: 0 x2: 6 y2: 8 score: 0.7 )
+——output data: ( x1: 0 y1: 0 x2: 8 y2: 8 score: 0.9 )
+——output data face_head_box_filter_4 state:4
+============Output Call Back End============
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>总结<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>以上就是控制计算节点运行的4种方式: Invalid, UsePreDefine, PassThrough, BestEffortPassThrough。</p>
+<ul class="simple">
+<li><p>Invalid模式: 直接关闭节点，输出数据是INVALID。依赖其输出数据的后置网络，都会受到影响，无法输出期待的输出数据。</p></li>
+<li><p>UsePreDefine模式: 直接定义关闭节点的输出数据。在模拟, 测试等场景可以使用</p></li>
+<li><p>PassThrough模式: 直接将关闭节点的输入数据当做输出数据,前提是输入数据和输出相等。</p></li>
+<li><p>BestEffortPassThrough: 如果关闭节点的输入数据多于或等于输出数据，则按顺序将输入数据拷贝到输出数据；如果输入数据少于输出数据, 则多余的输出为Invalid的BaseData。BestEffortPassThrough模式是PassThrough模式的高阶版本。</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. 产品介绍 &mdash; horizon_ai_toolchain_user_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="2. 环境部署" href="chapter_2_prerequisites.html" />
+    <link rel="prev" title="Horizon AI Toolchain User Guide" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> horizon_ai_toolchain_user_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AI工具链:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. 产品介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">1.1. 工具链总览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1.2. 工具链使用流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_2_prerequisites.html">2. 环境部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. 模型转换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_4_application_development.html">4. 应用开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_5_custom_op_development.html">5. 自定义算子开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_6_appendix.html">6. 附录</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">horizon_ai_toolchain_user_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">1. </span>产品介绍</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/chapter_1_introduction.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1. </span>产品介绍<a class="headerlink" href="#id1" title="永久链接至标题"></a></h1>
+<section id="id2">
+<h2><span class="section-number">1.1. </span>工具链总览<a class="headerlink" href="#id2" title="永久链接至标题"></a></h2>
+<p>地平线芯片工具链（以下简称 <strong>工具链</strong>）是一套完整的边缘AI算法落地解决方案，可以帮助您在地平线AI芯片上快速部署自研算法模型。
+工具链由模型转换和嵌入式运行环境等部分组成，其软件逻辑框图如下：</p>
+<img alt="_images/logic_diagram.png" class="align-center" src="_images/logic_diagram.png" />
+<p>mapper部分提供了模型转换能力。通过公开DL框架获得的浮点模型，可以使用功能域转换为地平线AI芯片可识别的异构模型。</p>
+<p>runtime sdk提供了异构模型的运行库支持，当前release版本只包含arm版本支持。</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">1.2. </span>工具链使用流程<a class="headerlink" href="#id3" title="永久链接至标题"></a></h2>
+<p>使用工具链的基本工作流程如下图：</p>
+<img alt="_images/workflow.png" class="align-center" src="_images/workflow.png" />
+<p><strong>环境部署</strong>，用于构建模型转换和应用开发的依赖环境，这个动作只需要在您第一次工具链时做一遍即可。
+具体部署方式请参考 <a class="reference internal" href="chapter_2_prerequisites.html"><span class="doc">环境部署</span></a>。</p>
+<p><strong>模型训练</strong>，指使用TensorFlow、PyTorch、Caffe等公开深度学习框架得到可用模型的过程，通过训练得到的可用模型将作为模型转换阶段的输入。
+工具链本身不会提供训练相关的库或工具，具体支持的公开学习框架可以参考 <a class="reference internal" href="chapter_3_model_conversion.html"><span class="doc">模型转换</span></a> 的说明。</p>
+<p><strong>模型转换</strong>，本阶段以模型训练得到的浮点模型为输入，通过模型结构优化、模型校准量化等重要步骤，
+将浮点模型转换为可以在地平线AI芯片平台高效运行的混合异构模型。
+为了验证异构模型的可用性，工具链还提供了性能分析、精度分析和丰富的异常调试工具与建议。
+具体使用请参考 <a class="reference internal" href="chapter_3_model_conversion.html"><span class="doc">模型转换</span></a>。</p>
+<p><strong>算子开发</strong>，本阶段是一个可选阶段，主要是解决模型存在工具链不支持算子的情况，如果您没有此种情况，可以直接忽略本阶段的处理。
+具体使用方式请参考  <a class="reference internal" href="chapter_5_custom_op_development.html"><span class="doc">自定义算自开发</span></a> 。</p>
+<p><strong>应用开发</strong>，工具链支持真实嵌入式环境的应用开发能力，具体使用方式 请参考 <a class="reference internal" href="chapter_4_application_development.html"><span class="doc">应用开发</span></a> 。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Horizon AI Toolchain User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="chapter_2_prerequisites.html" class="btn btn-neutral float-right" title="2. 环境部署" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

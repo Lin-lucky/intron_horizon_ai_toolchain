@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>超时告警说明 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>超时告警说明</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/xstream/tutorials/stage5_timeout_alarm/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>超时告警说明<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>本节将介绍在workflow中设置单个Node、以及整个workflow的超时时间，当一帧数据未在规定时间完成单个Node或整个workflow的计算，程序会输出超时告警日志。</p>
+<p>本节中我们基于下面的workflow来介绍超时告警功能，其中TimeoutAlarm节点实现检测框的透传功能，并在节点内随机休眠3~10秒。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;in_bbox&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;out_bbox&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+          <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;TimeoutAlarm&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;TimeoutAlarm&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;in_bbox&quot;</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;out_bbox&quot;</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="kc">null</span>
+      <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="xstreambbox">
+<h2>定义XStream框架BBox数据结构<a class="headerlink" href="#xstreambbox" title="Permalink to this headline">¶</a></h2>
+<p>确定好workflow后，我们还需要定义workflow中用到的数据结构。由于XStream Framework中的数据都是基于BaseData，因此需要构建BaseData的派生数据结构。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// method/bbox.h</span>
+<span class="k">struct</span> <span class="nc">BBox</span> <span class="o">:</span> <span class="k">public</span> <span class="n">BaseData</span> <span class="p">{</span>
+  <span class="kr">inline</span> <span class="n">BBox</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="kr">inline</span> <span class="n">BBox</span><span class="p">(</span><span class="kt">float</span> <span class="n">x1_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y1_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">x2_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y2_</span><span class="p">,</span>
+              <span class="kt">float</span> <span class="n">score_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">x1_</span><span class="p">;</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">y1_</span><span class="p">;</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">x2_</span><span class="p">;</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">y2_</span><span class="p">;</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">score_</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">float</span> <span class="n">x1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">y1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">x2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">y2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method">
+<h2>自定义Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
+<p>现在需要实现TimeoutAlarm Method的核心功能。XStream中定义了Method基础类，我们需要在此基础上实现自定义Method，并根据需要实现<code class="docutils literal notranslate"><span class="pre">DoProcess</span></code>这个核心处理函数。注意，为了演示<code class="docutils literal notranslate"><span class="pre">超时告警</span></code>功能，在DoProcess函数会随机休眠一段时间。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">TimeoutAlarm</span><span class="o">::</span><span class="n">DoProcess</span><span class="p">(</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">InputParamPtr</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;TimeoutAlarm::DoProcess&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">rand_r</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seed</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">MAX_VALUE</span> <span class="o">-</span> <span class="n">MIN_VALUE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">MIN_VALUE</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">;</span>
+  <span class="c1">// one batch</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">input</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">output</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">BaseDataVector</span><span class="o">&gt;</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">state_</span> <span class="o">==</span> <span class="n">DataState</span><span class="o">::</span><span class="n">INVALID</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;input slot &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; is invalid&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">auto</span> <span class="n">in_rects</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">BaseDataVector</span><span class="o">&gt;</span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="k">auto</span> <span class="n">out_rects</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">BaseDataVector</span><span class="o">&gt;</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">in_rect</span> <span class="p">:</span> <span class="n">in_rects</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// passthrough data</span>
+      <span class="n">out_rects</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">in_rect</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;sleep &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">cost</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; seconds&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="n">cost</span><span class="p">));</span>
+  <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="workflow">
+<h2>指定workflow超时时间<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<p>workflow的超时时间是通过<code class="docutils literal notranslate"><span class="pre">SetConfig</span></code>接口来设置的。函数原型是<code class="docutils literal notranslate"><span class="pre">SetConfig(const</span> <span class="pre">std::string</span> <span class="pre">&amp;key,</span> <span class="pre">const</span> <span class="pre">std::string</span> <span class="pre">&amp;value)</span></code>，当设置workflow的超时时间时，参数key = <code class="docutils literal notranslate"><span class="pre">&quot;time_monitor&quot;</span></code>,参数value表示整数的字符串表示。</p>
+<p>具体的使用方法如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span> <span class="o">*</span><span class="n">flow</span> <span class="o">=</span> <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span><span class="o">::</span><span class="n">CreateSDK</span><span class="p">();</span>
+
+<span class="kt">int</span> <span class="n">monitor_interval</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>  <span class="c1">// 超时时间, 单位秒</span>
+<span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetConfig</span><span class="p">(</span><span class="s">&quot;time_monitor&quot;</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">monitor_interval</span><span class="p">));</span>  <span class="c1">// 设置workflow超时时间为5秒</span>
+</pre></div>
+</div>
+<p>运行workflow：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span> <span class="o">*</span><span class="n">flow</span> <span class="o">=</span> <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span><span class="o">::</span><span class="n">CreateSDK</span><span class="p">();</span>
+
+  <span class="kt">int</span> <span class="n">monitor_interval</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetConfig</span><span class="p">(</span><span class="s">&quot;time_monitor&quot;</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">monitor_interval</span><span class="p">));</span>  <span class="c1">// set monitor_interval</span>
+
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetConfig</span><span class="p">(</span><span class="s">&quot;config_file&quot;</span><span class="p">,</span> <span class="n">workflow_config</span><span class="p">);</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;***********************&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>
+            <span class="o">&lt;&lt;</span> <span class="s">&quot;testing synchronous function&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>
+            <span class="o">&lt;&lt;</span> <span class="s">&quot;***********************&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+    <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+    <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox1</span> <span class="o">=</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+    <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;in_bbox&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox1</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox2</span><span class="p">);</span>
+    <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+
+    <span class="k">auto</span> <span class="n">out</span> <span class="o">=</span> <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>设置超时时间为5秒后，10帧数据经过上述workflow后的输出如下，可以看到当sleep时间超过5秒后，会有对应帧的告警日志。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>TimeoutAlarm::DoProcess
+sleep 5 seconds
+
+TimeoutAlarm::DoProcess
+sleep 10 seconds
+(scheduler.cpp:541): source_id: 0, sequence_id: 1, not finished in 5 seconds!!
+
+TimeoutAlarm::DoProcess
+sleep 3 seconds
+
+TimeoutAlarm::DoProcess
+sleep 4 seconds
+
+TimeoutAlarm::DoProcess
+sleep 3 seconds
+
+TimeoutAlarm::DoProcess
+sleep 4 seconds
+
+TimeoutAlarm::DoProcess
+sleep 3 seconds
+
+TimeoutAlarm::DoProcess
+sleep 5 seconds
+
+TimeoutAlarm::DoProcess
+sleep 9 seconds
+(scheduler.cpp:541): source_id: 0, sequence_id: 8, not finished in 5 seconds!!
+
+TimeoutAlarm::DoProcess
+sleep 5 seconds
+</pre></div>
+</div>
+</div>
+<div class="section" id="node">
+<h2>指定Node超时时间<a class="headerlink" href="#node" title="Permalink to this headline">¶</a></h2>
+<p>设置Node的超时时间与上述有所不同，是在workflow的配置文件中进行设置。注意到下面的workflow中，节点中的关键字<code class="docutils literal notranslate"><span class="pre">&quot;timeout_duration&quot;</span></code>，该字段表示节点的超时时间，单位是毫秒(ms)，若不设置该字段，则默认不开启Node的超时告警机制。这里的示例我们设置TimeoutAlarm超时时间是2000ms，即2s。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;in_bbox&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;out_bbox&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;TimeoutAlarm&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;TimeoutAlarm&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;timeout_duration&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
+            <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;in_bbox&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;out_bbox&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="kc">null</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>同样设置超时时间为5秒，10帧数据经过上述workflow后的输出如下，可以看到当Node内sleep时间超过2秒后，会有Node的告警日志。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>TimeoutAlarm::DoProcess
+sleep 4 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+
+TimeoutAlarm::DoProcess
+sleep 3 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+
+TimeoutAlarm::DoProcess
+sleep 4 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+
+TimeoutAlarm::DoProcess
+sleep 3 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+
+TimeoutAlarm::DoProcess
+sleep 5 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+
+TimeoutAlarm::DoProcess
+sleep 9 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+(scheduler.cpp:541): source_id: 0, sequence_id: 5, not finished in 5 seconds!!
+
+TimeoutAlarm::DoProcess
+sleep 5 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+
+TimeoutAlarm::DoProcess
+sleep 10 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+(scheduler.cpp:541): source_id: 0, sequence_id: 7, not finished in 5 seconds!!
+
+TimeoutAlarm::DoProcess
+sleep 3 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+
+TimeoutAlarm::DoProcess
+sleep 4 seconds
+(node.cpp:73): TimeoutAlarm: Process Time Out!!  Process Time Out!!!
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

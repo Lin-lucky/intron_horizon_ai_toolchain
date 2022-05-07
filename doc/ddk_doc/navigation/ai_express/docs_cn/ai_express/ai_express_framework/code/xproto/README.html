@@ -1,0 +1,467 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>XProto应用开发框架 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>XProto应用开发框架</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/ai_express_framework/code/xproto/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xproto">
+<h1>XProto应用开发框架<a class="headerlink" href="#xproto" title="Permalink to this headline">¶</a></h1>
+<p>XProto Framework是一套简易的基于消息发布订阅机制的应用开发框架。框架内部核心组件为<strong>消息总线</strong>，为用户应用程序提供了多模块的数据传输以及数据发布、订阅的能力。在XProto框架上，各个业务组件被定义为Plugin，比如用于摄像头数据拉取的VioPlugin，用于智能数据推理的Smartplugin，这些Plugin组件挂载在XProto消息总线上，可以订阅消息总线上的消息并进行处理，同时每个Plugin可以向消息总线发布消息，供其他Plugin进行订阅处理。</p>
+<p>目前XProto Framework存在如下特性：</p>
+<ol class="simple">
+<li><p>XProto消息总线工作在单个进程内，暂不支持跨进程的数据发布与订阅。</p></li>
+<li><p>XProto基于MsgType消息类型进行消息定向发布和订阅，支持用户自定义MsgType。</p></li>
+<li><p>支持用户自定义Plugin。内置视频通路，编解码，可视化等常见XProto plugin功能组件。</p></li>
+<li><p>XProto框架C++ 11标准进行编码，并对外源码开放。默认支持XJ3 Aarch64平台、Centos/Ubuntu X86平台编译和使用，迁移第三方平台工作量较低。</p></li>
+</ol>
+<p>下面文档将会围绕框架使用，编译，设计原理进行介绍。</p>
+<div class="section" id="id1">
+<h2>1. 使用和编译<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>XProto Frameowork采用<strong>预编译库</strong>和<strong>源代码</strong>两种方式进行发布。通常情况下，用户仅仅需要引用预编译库的include头文件和so/a库就可以进行应用开发。仅仅在一些二次开发场景，用户才需要源代码进行修改和编译。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>XProto源代码在Github社区进行开源(https://github.com/HorizonRobotics-Platform/AI-EXPRESS)，如果你对XProto框架本身有好的想法需要进行二次开发，也欢迎您在社区上和我们进行讨论，并贡献您的代码。
+</pre></div>
+</div>
+<p>预编译库目标发布包括Release和Debug版本的动态库和静态库文件，你可以根据的需求自主引用相应的库文件。发布包目录结构如下所示。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└── xproto
+    ├── include
+    │   └── xproto
+    ├── centos
+    ├── ubuntu
+    └── xj3j5
+</pre></div>
+</div>
+<p>源代码编译这块，目前我们采用CMake来管理框架的工程编译（CMake版本要求2.8+）。在源码根目录下，我们默认提供了XJ3 Aarch64、Centos/Ubuntu X86三个平台的编译Shell脚本，支持你可以进行编译。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash build_aarch64.sh
+bash build_centos.sh
+bash build_ubuntu.sh
+</pre></div>
+</div>
+<p>对于arm aarch64环境，需要提前配置交叉编译环境。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="n">CMAKE_CXX_COMPILER</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="n">linaro</span><span class="o">-</span><span class="mf">6.5.0</span><span class="o">-</span><span class="mf">2018.12</span><span class="o">-</span><span class="n">x86_64_aarch64</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">aarch64</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span><span class="o">-</span><span class="n">g</span><span class="o">++</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hello-world">
+<h2>2. 开发示例：Hello World<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
+<p>本章节我们将采用一个简单的生产者消费者示例，来解释如何在跨Plugin组件之间进行数据传输和数据的订阅和消费。</p>
+<p>基于XProto进行业务开发，主要包括以下三个内容：</p>
+<ol class="simple">
+<li><p>消息定义：多个Plugin组件采用MSG_TYPE来标示一个消息，并基于它来实现定向订阅和发布。</p></li>
+<li><p>自定义Plugin组件开发：我们提供了Plugin接口，支持用户自行扩展新的Plugin组件，每个Plugin支持独立进行源码或者SO管理。</p></li>
+<li><p>多组件组合以及Main函数开发：基于XProto接口来启动整个消息总线。</p></li>
+</ol>
+<p>下面示例包括两个模块：一个模块负责产生数据，并发布到消息总线，另一个模块从消息总线订阅消息，并对数据进行累加处理。</p>
+<div class="section" id="id2">
+<h3>2.1 消息定义<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>消息定义分为MSG_TYPE<strong>定义、注册以及XProtoMessage定义</strong>三个部分。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#define TYPE_SAMPLE_MESSAGE &quot;XPLUGIN_SAMPLE_MESSAGE&quot;    </span><span class="c1">// 消息类型</span>
+<span class="n">XPLUGIN_REGISTER_MSG_TYPE</span><span class="p">(</span><span class="n">XPLUGIN_SAMPLE_MESSAGE</span><span class="p">)</span>       <span class="c1">// 注册消息</span>
+
+<span class="k">struct</span> <span class="nc">NumberProdMessage</span> <span class="o">:</span> <span class="n">XProtoMessage</span> <span class="p">{</span>              <span class="c1">// 自定义消息结构</span>
+  <span class="kt">float</span> <span class="n">num_</span><span class="p">;</span>
+  <span class="k">explicit</span> <span class="n">NumberProdMessage</span><span class="p">(</span><span class="kt">float</span> <span class="n">num</span><span class="p">)</span> <span class="o">:</span><span class="n">num_</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">type_</span> <span class="o">=</span> <span class="n">TYPE_SAMPLE_MESSAGE</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">Serialize</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">ostringstream</span> <span class="n">ss</span><span class="p">;</span>
+    <span class="n">ss</span> <span class="o">&lt;&lt;</span> <span class="n">num_</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>每个XProto消息类型，均需要继承<code class="docutils literal notranslate"><span class="pre">XProtoMessage</span></code>，消息定义中最重要的是type_成员，该type_表明消息的类型MSG_TYPE，不同的消息定义，其type_成员不能相同。</p>
+<p>MSG_TYPE消息类型采用一个宏常量，并基于<code class="docutils literal notranslate"><span class="pre">XPLUGIN_REGISTER_MSG_TYPE</span></code>宏将其注册到消息总线中，框架内部会基于MSG_TYPE消息类型来进行消息分发。</p>
+<p><code class="docutils literal notranslate"><span class="pre">XPLUGIN_REGISTER_MSG_TYPE</span></code>宏定义如下，内部调用框架的Register函数进行MSG_TYPE注册。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#define XPLUGIN_REGISTER_MSG_TYPE(key)                                        \</span>
+<span class="cp">  static xproto::XPluginMsgTypeHandle                        \</span>
+<span class="cp">      __make__##key##__xplugin_msg_type__ =                                   \</span>
+<span class="cp">          xproto::XPluginMsgRegistry::Instance().Register(   \</span>
+<span class="cp">              #key);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plugin">
+<h3>2.2 Plugin组件开发<a class="headerlink" href="#plugin" title="Permalink to this headline">¶</a></h3>
+<p>该示例中定义了两个Plugin：</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NumberProducerPlugin</span></code>：这个Plugin内部会创建一个工作线程，每隔40ms发送一个数值为5的类型为<code class="docutils literal notranslate"><span class="pre">TYPE_SAMPLE_MESSAGE</span></code>的消息，共发送50次。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SumConsumerPlugin</span></code>：这个Plugin订阅<code class="docutils literal notranslate"><span class="pre">TYPE_SAMPLE_MESSAGE</span></code>消息，并绑定了一个消息处理函数，消息处理函数中将收到的<code class="docutils literal notranslate"><span class="pre">TYPE_SAMPLE_MESSAGE</span></code>消息的值进行累加，打印。一共会有50次消息产生，消息处理函数也会被触发50次。</p></li>
+</ol>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NumberProducerPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">XPluginAsync</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="c1">// 初始化</span>
+  <span class="kt">int</span> <span class="n">Init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">total_cnt_</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="n">prd_thread_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">XPluginAsync</span><span class="o">::</span><span class="n">Init</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="c1">// 启动</span>
+  <span class="kt">int</span> <span class="n">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 开辟一个线程，单独产生消息，发布到总线</span>
+    <span class="n">prd_thread_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">([</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(){</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">total_cnt_</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">prd_stop_</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">np_msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">NumberProdMessage</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+        <span class="n">PushMsg</span><span class="p">(</span><span class="n">np_msg</span><span class="p">);</span>  <span class="c1">// 发布到消息总线</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">40</span><span class="p">));</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// 暂停</span>
+  <span class="kt">int</span> <span class="n">Stop</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">prd_stop_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">prd_thread_</span><span class="o">-&gt;</span><span class="n">join</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">prd_thread_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">delete</span> <span class="n">prd_thread_</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// 资源释放</span>
+  <span class="kt">int</span> <span class="n">DeInit</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">XPluginAsync</span><span class="o">::</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">uint32_t</span> <span class="n">total_cnt_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="o">*</span><span class="n">prd_thread_</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">prd_stop_</span><span class="p">{</span><span class="nb">false</span><span class="p">};</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">SumConsumerPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">XPluginAsync</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="c1">// 初始化</span>
+  <span class="kt">int</span> <span class="n">Init</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">sum_</span> <span class="o">=</span> <span class="mf">0.f</span><span class="p">;</span>
+    <span class="n">RegisterMsg</span><span class="p">(</span><span class="n">TYPE_SAMPLE_MESSAGE</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">SumConsumerPlugin</span><span class="o">::</span><span class="n">Sum</span><span class="p">,</span>
+                                               <span class="k">this</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">XPluginAsync</span><span class="o">::</span><span class="n">Init</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="c1">// 消息回调函数，对收到的消息做累加</span>
+  <span class="kt">int</span> <span class="n">Sum</span><span class="p">(</span><span class="n">XProtoMessagePtr</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">np_msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">NumberProdMessage</span><span class="o">&gt;</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+    <span class="n">sum_</span> <span class="o">+=</span> <span class="n">np_msg</span><span class="o">-&gt;</span><span class="n">num_</span><span class="p">;</span>
+    <span class="n">LOGI</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;curr sum:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">sum_</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">sum_</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// 启动</span>
+  <span class="kt">int</span> <span class="n">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// 停止</span>
+  <span class="kt">int</span> <span class="n">Stop</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// 资源释放</span>
+  <span class="kt">int</span> <span class="n">DeInit</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">XPluginAsync</span><span class="o">::</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">float</span> <span class="n">sum_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>开发Plugin的相关说明如下：</p>
+<ol class="simple">
+<li><p>继承XPluginAsync来自定义新的Plugin，并在继承类中重写<code class="docutils literal notranslate"><span class="pre">Init()</span></code>, <code class="docutils literal notranslate"><span class="pre">Start()</span></code>, <code class="docutils literal notranslate"><span class="pre">Stop()</span></code>, <code class="docutils literal notranslate"><span class="pre">DeInit()</span></code>函数。</p></li>
+<li><p>自定义Plugin的<code class="docutils literal notranslate"><span class="pre">Init()</span></code>接口尾部，需要显性调用父类<code class="docutils literal notranslate"><span class="pre">XPluginAsync::Init()</span></code>接口，完成基础类部分的初始化</p></li>
+<li><p>生成者Plugin直接调用使用框架的<code class="docutils literal notranslate"><span class="pre">PushMsg()</span></code>接口向总线发布消息。</p></li>
+<li><p>订阅者Plugin，可以在Plugin初始化的时候，通过<code class="docutils literal notranslate"><span class="pre">RegisterMsg</span></code>接口订阅感兴趣的消息类型，同时绑定一个消息处理函数。</p></li>
+</ol>
+</div>
+<div class="section" id="id3">
+<h3>2.3 应用串联<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>现在需要将<code class="docutils literal notranslate"><span class="pre">NumberProducerPlugin</span></code>和<code class="docutils literal notranslate"><span class="pre">SumConsumerPlugin</span></code>两个Plugin进行串联，打通整个业务流程。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;xproto/xproto_world.h&quot;</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">auto</span> <span class="n">producer_plg</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">NumberProducerPlugin</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="n">auto</span> <span class="n">consumer_plg</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">SumConsumerPlugin</span><span class="o">&gt;</span><span class="p">();</span>
+
+  <span class="n">producer_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="n">consumer_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+
+  <span class="n">producer_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  <span class="n">consumer_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="p">::</span><span class="n">this_thread</span><span class="p">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">seconds</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+
+  <span class="n">producer_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">consumer_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+
+  <span class="n">producer_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="n">consumer_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>在Main函数中，我们构建两个Plugin对象，并依次调用Plugin的<code class="docutils literal notranslate"><span class="pre">Init-&gt;Start</span></code>接口，启动整个APP，并在最后依次调用Plugin的<code class="docutils literal notranslate"><span class="pre">Stop-&gt;DeInit</span></code>接口来关闭、释放Plugin对象。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>3. 设计原理<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>XProto Framework内部主要包括Plugin插件管理器和消息分发器两个部分。</p>
+<p>Plugin插件是一个任务实体，所有的Plugin插件都连接到XProto消息总线中，并被Plugin插件管理器进行管理，当一个Plugin插件产生消息并把消息Push到总线之后，其他订阅该消息的Plugin插件的处理接口就可以被调用，实现基于消息发布订阅的开发模式。</p>
+<p>整个架构图如下图所示
+<img alt="xproto-simple-example" src="../../../_images/xproto_simple_example.png" /></p>
+<div class="section" id="id5">
+<h3>3.1 消息总线机制<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>消息总线基于MSG_TYPE来实现消息订阅和分发。</p>
+<p>下图示例是在总线上注册了TypeA和TypeB两种类型的消息，代表总线能处理这两种类型的消息。MsgTypeA的消息类型是TypeA，MsgTypeB的消息类型是TypeB。</p>
+<p><img alt="message-bus" src="../../../_images/message_bus.png" /></p>
+<p>PluginB和PluginC在初始化时订阅了TypeA类型消息，在总线的消息分表表中，TypeA类型对应的分发表中则有两个Plugin，分别为PluginB和PluginC，总线接收到TypeA的消息，依次分发分发表中Plugin。</p>
+<p>PluginA输出MsgTypeA消息，并把MsgA消息Push到总线上，总线依据消息分发表把MsgTypeA推送给PluginB和PluginC；同样，PluginB生成TypeB类型的消息会被总线推送给PluginA和PluginC。</p>
+<p>消息总线的实现参考下图：</p>
+<p><img alt="message-queue" src="../../../_images/message_queue.png" /></p>
+<p>XProto内部定义了<code class="docutils literal notranslate"><span class="pre">XMsgQueue</span></code>消息总线，<code class="docutils literal notranslate"><span class="pre">XMsgQueue</span></code>提供两个接口<code class="docutils literal notranslate"><span class="pre">RegisterPlugin</span></code>以及<code class="docutils literal notranslate"><span class="pre">PushMsg</span></code>：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">XMsgQueue::RegisterPlugin</span></code>： 提供接口给XPlugin调用，让XPlugin注册自己感兴趣的消息，每个XPlugin对象可以调用多次，注册不同的消息。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">XMsgQueue::PushMsg</span></code>： 提供接口给XPlugin调用，用于向总线推送消息。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">table</span></code>: <code class="docutils literal notranslate"><span class="pre">XMsgQueue</span></code>内部维护了一个table，用于记录每个消息的订阅者。</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">XMsgQueue</span></code>内部进行消息分发的过程大致如下：</p>
+<ol class="simple">
+<li><p>当XPlugin调用PushMsg接口的时候，<code class="docutils literal notranslate"><span class="pre">XPlugin::PushMsg</span></code>内部会调用<code class="docutils literal notranslate"><span class="pre">XMsgQueue::PushMsg</span></code>。在<code class="docutils literal notranslate"><span class="pre">XMsgQueue::PushMsg</span></code>内部会将消息送入消息分发的线程池Dispatch Thread进行后续的处理。</p></li>
+<li><p>消息分发线程池根据消息类型从table中获得那些订阅的XPlugin对象，以此调用XPlugin对象的OnMsg接口，完成消息的分发。</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>关于消息分发性能问题：
+1. XProto框架内部消息分发线程池默认大小为1，用户可以自行通过通过修改框架代码来进行分发加上。
+2. 若某个XPlugin对象的OnMsg处理慢，会导致整个消息总线的处理性能下降。为解决这个问题，提供了XPluginAsyc解决方案。建议基于XProto开发，均基于XPluginAsyc开发Plugin组件。
+</pre></div>
+</div>
+</div>
+<div class="section" id="xpluginasync">
+<h3>3.2 XPluginAsync<a class="headerlink" href="#xpluginasync" title="Permalink to this headline">¶</a></h3>
+<p>XPluginAsync 继承自XPlugin。</p>
+<p><img alt="xplugin_async" src="../../../_images/xplugin_async.png" /></p>
+<p><code class="docutils literal notranslate"><span class="pre">XPluginAsyn::RegiserMsg</span></code> ：提供了注册消息，并对该消息的处理绑定一个处理函数。绑定关系保存在msg_map中。
+<code class="docutils literal notranslate"><span class="pre">XPluginAsyn::OnMsg</span></code>：消息分发处理函数，XPluginAsync内部已经实现，收到消息直接将消息绑定到OnMsgDown接口，送入线程池处理。
+<code class="docutils literal notranslate"><span class="pre">XPluginAsyn::OnMsgDown</span></code>：真正处理消息的接口，内部会根据消息类型，从msg_map中获得绑定的处理接口，调用处理接口完成消息处理。
+消息处理线程池：默认开辟一个线程，通过传入参数可以设置线程池数量。该线程池处理当前XPluginAsyn订阅的消息。</p>
+<p>为解决<code class="docutils literal notranslate"><span class="pre">XPlugin::OnMsg</span></code>处理慢导致消息总线效率低的问题，XPluginAsync将消息处理OnMsg分为两个步骤：</p>
+<ol class="simple">
+<li><p>将收到的消息传入一个线程任务队列，确保OnMsg立即返回；</p></li>
+<li><p>在线程池中调用OnMsgDown来异步处理该XPluginAsync对象感兴趣的消息。</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>4. 内置Plugin组件<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>基于地平线XJ3芯片硬件能力，我们内置了一些基础的Plugin，详细列表参考solution_zoo工程目录。</p>
+</div>
+<div class="section" id="id7">
+<h2>5. 进程间通信支持<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>xproto新增一个Session模块，支持进程间/设备间向数据总线订阅/发布message，如下图所示：
+<img alt="xplugin_async" src="../../../_images/xproto_session.png" />
+Session分为Master/Slave两种角色, Master几点的Session负责所有message的分发
+Slave节点的Session可以订阅Master节点或其他Slave几点的message
+session模块屏蔽了message在设备间的传输/序列化/反序列化等细节，不同设备上plugin中可以像同一进程内订阅/发布消息
+使用示例参考：tutorials/stage4_ipc_subscriber示例.</p>
+<p>其他特殊说明：
+1 Slave节点, 不支持生成并订阅同一类型消息, 此种情况会造成收到两个相同的message，此问题下个版本解决
+2 当前版本暂不支持Session的信息查询</p>
+</div>
+<div class="section" id="android3399">
+<h2>6. Android3399支持说明<a class="headerlink" href="#android3399" title="Permalink to this headline">¶</a></h2>
+<p>Android相关依赖库使用的ndk版本为android-ndk-r21，路径为./third_party/arm/android，C++相关库使用C++_shared版本。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

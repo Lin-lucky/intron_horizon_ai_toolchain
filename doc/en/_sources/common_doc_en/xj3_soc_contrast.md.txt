@@ -1,0 +1,149 @@
+# X3 vs. J3
+
+Sunrise 3 (X3) and Journey 3 (J3) belong to the same SoC product generation, they are homogenous in IPs and SoC Microarchitecture design while apply to different aspects. X3 applies to AIoT, J3 applies to Autonomous Driving.
+
+Due to the particularity of autonomous driving scenarios, J3 SoC can satisfy the **AEC-Q100 Grade 2** automobile-level requirements, hence there are some SoC specification differences between X3 and J3 SoCs, as shown below:
+
+<table frame="border" width="100%" style="border-collapse:collapse; border:1px solid #ddd">
+  <caption id="multi_row" style="border:1px solid #ddd; padding:20px">Specific Product Specifications</caption>
+  <tr>
+      <th style="border:1px solid #ddd; background-color:#eee; padding:10px;">FUNCTIONAL MODULE</th>
+      <th style="border:1px solid #ddd; background-color:#eee; padding:5px 0px 5px 0px">J3 SPECIFICATIONS</th>
+      <th style="border:1px solid #ddd; background-color:#eee; padding:5px 0px 5px 0px">X3M SPECIFICATIONS</th>  
+        <th style="border:1px solid #ddd; background-color:#eee; padding:5px 0px 5px 0px">X3E SPECIFICATIONS</th>  
+  </tr >
+    <tr align="center">
+        <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Package</B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">TSMC 16nm FFC； FCBGA483, 0.65mm； 15mm x 15mm</td>
+  </tr>
+  <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Operating temperature</B></td>
+      <td style="border:1px solid #ddd; padding:10px 0p x"><font color="#999933">-40 ~ 105℃</font></td>
+      <td style="border:1px solid #ddd; padding:10px 0px 5p x"><font color="#999933">-25 ~ 85℃</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0 5px 0"><font color="#999933">-25 ~ 85℃</font></td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Typical Power</B></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">2 ~ 3 W</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">2 ~ 3 W</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">2W</font></td>
+  </tr>
+      <tr align="center">
+      <td rowspan="3"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>CPU</B></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">ARM® Cortex®-A53, 4xCore</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">ARM® Cortex®-A53, 4xCore</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">ARM® Cortex®-A53, 2xCore</font></td>
+  </tr>
+  <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">32KB L1, 512KB L2； FPU, NEON</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Typical operation frequency:1.2GHz</td>
+  </tr>
+      <tr align="center">
+      <td rowspan="3"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>BPU</B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">(Bernoulli Arch) 2×Core</td>
+  </tr>
+      <tr align="center">
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">5 TOPS</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">5 TOPS</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">3 TOPS</font></td>
+  </tr>
+      <tr align="center">
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Typical operation frequency: <font color="#999933">950MHz</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Typical operation frequency: <font color="#999933">1GHz</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Typical operation frequency: <font color="#999933">0.6GHz</font></td>
+  </tr>
+      <tr align="center">
+      <td rowspan="3"  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>DDR</B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">x32 off-chip DDR4/LPDDR4/LPDDR4X DRAMs</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Up to 4 GB capacit</td>
+  </tr>
+      <tr align="center">
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Maximum speed up to <br /><font color="#999933">LPDDR4/LPDDR4X-3200 and DDR4-3200</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Maximum speed up to <br /><font color="#999933">LPDDR4/LPDDR4X-3200 and DDR4-3200</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Maximum speed up to <br /><font color="#999933">LPDDR4/LPDDR4X-2666 and DDR4-2666</font></td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>ISP </B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">RAW to YUV conversion;
+          <br/>HDR;
+          <br/>Support  3A histogram statistics;
+          <br/>Support DPC、3DNR、LDC、GDC;
+          <br/>ISP tuning tool on the PC
+        </td>
+  </tr>
+      <tr align="center">
+      <td rowspan="4"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Video Codecs </B></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.265(HEVC) Encoding and Decoding: <br /><font color="#999933">Main profile @L5.1; 3840x2160@60fps</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.265(HEVC) Encoding and Decoding: <br /><font color="#999933">Main profile @L5.1; 3840x2160@60fps</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.265(HEVC) Encoding and Decoding: <br /><font color="#999933">Main profile @L5.1; 2688x1944@60fps</font></td>
+  </tr>
+      <tr align="center">
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.264 Encoding and Decoding: <br /><font color="#999933">Baseline/Main/High profiles, L5.1 
+    3840x2160@60fps</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.264 Encoding and Decoding: <br /><font color="#999933">Baseline/Main/High profiles, L5.1 
+    3840x2160@60fps</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.264 Encoding and Decoding：<br /><font color="#999933">Baseline/Main/High profiles, L5.1 
+    2688x1944@60fps</font></td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">JPEG Encoding and Decoding, 16Mpixels </td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">CBR, VBR, AVBR, FixQp and QpMap bitrate control </td>
+  </tr>
+      <tr align="center">
+      <td rowspan="2"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Video/Image Processing Units </B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Image Processing Unit(IPU): cropping and scaling; OSD</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Pyramid: Input images from IPU(online mode) or from DDR(offline mode);  <br />Input image size up to 8Mpixels; <br />Generates multi-layer pyramid images with configurable roi and scaling factors</td>
+  </tr>
+      <tr align="center">
+      <td rowspan="4"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Video Input Interface </B></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">MIPI CSI video input: <br />3 MIPI CSI Rx Ports;  <br />2Gbps per data lane; <br /><font color="#999933">Up to 4096 x 2160 pixels @30fps</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">MIPI CSI video input: <br />3 MIPI CSI Rx Ports; <br />2Gbps per data lane; <br /><font color="#999933">Up to 4096 x 2160 pixels @30fps</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">MIPI CSI video input: <br />3 MIPI CSI Rx Ports; <br />2Gbps per data lane; <br /><font color="#999933">Up to 2688 x 1944 pixels @30fps</font></td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">DVP: 12-bit data bus interface; Up to 1080P@30fps;1.8V/3.3V input voltages signaling</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Support video in-to-out bypass</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Support multi-camera video inputs through 3 MIPI CSI RX ports</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Video Output Interface </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">support MIPI CSI TX video output
+          <br/>support MIPI DSI TX video output
+          <br/>support parallel RGB video display output
+          <br/>support BT1120 video output
+          <br/>support BT656 video output
+          <br/>support 1 User Interface(UI) layer alpha blending</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Host Interfaces </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">support 1 User Interface(UI) layer alpha blending
+          <br/>BIF-SPI, 66MHz
+          <br/>BIF-SD, 192MB/s
+          <br/>USB 3.0</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Network Interface </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">One Gigabit Ethernet Interface</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Power Management </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Temperature monitor; DVFS ; Deep sleep mode</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Peripheral Interfaces </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">USB 3.0；4x UART；3x SPI； 2x I2S ；6x I2C； 9x PWM； 1x QSPI； 3x SDIO； RTC/Timer； Watchdog</td>
+  </tr>
+</table>
+

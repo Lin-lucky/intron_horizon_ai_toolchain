@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>project name &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>project name</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/ai_express_framework/code/xproto/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>cmake_minimum_required(VERSION 2.8)</p>
+<div class="section" id="project-name">
+<h1>project name<a class="headerlink" href="#project-name" title="Permalink to this headline">¶</a></h1>
+<p>project(xproto)</p>
+<p>option(PARENT_BUILD “is build from parent” OFF)
+option(INSTALL_TUTORIALS “is install tutorials “ OFF)
+option(BUILD_ALL_ARCH “is build all architecture “ OFF)</p>
+<p>set(CMAKE_EXPORT_COMPILE_COMMANDS ON)</p>
+<p>if (NOT ${PARENT_BUILD})
+get_filename_component(XPROTO_CURRENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+#message(“xproto current dir init:${XPROTO_CURRENT_DIR}”)
+set(RELEASE_ROOT_DIR)
+function(get_parent_dir arg dir n)
+foreach(i RANGE ${ARGV2})
+get_filename_component(dir ${dir} DIRECTORY)
+#message(“i:${i} dir:${dir}”)
+endforeach()
+set(RELEASE_ROOT_DIR ${dir} PARENT_SCOPE)
+endfunction()</p>
+<p>get_parent_dir(XPROTO_CURRENT_DIR ${XPROTO_CURRENT_DIR} 2)
+option(X86_ARCH “x86 architecture” OFF)
+option(X86_CENTOS “centos release” OFF)
+option(ARM_ANDROID “3399 android” OFF)
+endif()</p>
+<p>option(RELEASE_LIB “build version of release” ON)
+option(BUILD_SHARED_LIBS “build shared libs” ON)
+if (${BUILD_SHARED_LIBS} AND ${RELEASE_LIB})
+set(CMAKE_SHARED_LINKER_FLAGS “ -Wl,–version-script=${PROJECT_SOURCE_DIR}/export_lib.lst”)
+endif()</p>
+<p>if (NOT ${PARENT_BUILD})
+if (${RELEASE_LIB})
+set(CMAKE_BUILD_TYPE Release)
+message(STATUS “BUILD TYPE:Release”)
+else ()
+set(CMAKE_BUILD_TYPE Debug)
+set(HOBOT_BUILD_DEBUG “TRUE”)
+message(STATUS “BUILD TYPE:Debug”)
+endif ()</p>
+<p>list(APPEND CMAKE_C_FLAGS “-Wall -Wno-unknown-pragmas -fPIC -fexceptions -Werror “)
+if (“${CMAKE_BUILD_TYPE}” STREQUAL “Release”)
+list(APPEND CMAKE_C_FLAGS “-O3”)
+set(CMAKE_C_FLAGS “${CMAKE_C_FLAGS} -fPIC “)
+else ()
+list(APPEND CMAKE_C_FLAGS “-g -O0 -fPIC “)
+endif ()</p>
+</div>
+<div class="section" id="x86-architecture">
+<h1>x86 architecture<a class="headerlink" href="#x86-architecture" title="Permalink to this headline">¶</a></h1>
+<p>if (${X86_ARCH})
+# centos release
+if (${X86_CENTOS})
+message(“tool chain:${CMAKE_CXX_COMPILER}”)
+add_definitions(-std=c++11)
+add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+include_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/centos/hobotlog/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/centos/gtest/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/centos/protobuf/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/centos/zeroMQ/include
+)
+link_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/centos/hobotlog/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/centos/gtest/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/centos/protobuf/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/centos/zeroMQ/lib
+)
+else ()
+message(“tool chain:${CMAKE_CXX_COMPILER}”)
+add_definitions(-std=c++11)
+include_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/gtest/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/hobotlog/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/protobuf/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/zeroMQ/include
+)
+link_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/gtest/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/hobotlog/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/protobuf/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/x86/ubuntu/gcc_${CMAKE_CXX_COMPILER_VERSION}/zeroMQ/lib
+)
+endif ()</p>
+</div>
+<div class="section" id="arm-architecture">
+<h1>arm architecture<a class="headerlink" href="#arm-architecture" title="Permalink to this headline">¶</a></h1>
+<p>elseif(${ARM_ANDROID})
+SET(PLATFORM_ANDROID TRUE)
+message(${PLATFORM_ANDROID})
+set(CMAKE_CXX_COMPILER /opt/android-standalone-toolchain/bin/arm-linux-androideabi-g++)
+message(“tool chain:${CMAKE_CXX_COMPILER}”)
+include_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/hobotlog/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/gtest/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/protobuf/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/zeroMQ/include
+)
+link_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/hobotlog/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/gtest/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/protobuf/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/zeroMQ/lib
+)
+else ()
+set(CMAKE_CXX_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++)
+message(“tool chain:${CMAKE_CXX_COMPILER}”)
+include_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/aarch64/hobotlog/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/aarch64/gtest/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/aarch64/protobuf/include
+${XPROTO_CURRENT_DIR}/xproto/third_party/aarch64/zeroMQ/include
+)
+link_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/aarch64/hobotlog/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/aarch64/gtest/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/aarch64/protobuf/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/aarch64/zeroMQ/lib
+)
+endif ()</p>
+</div>
+<div class="section" id="build-separately-install-directory">
+<h1>build separately install directory<a class="headerlink" href="#build-separately-install-directory" title="Permalink to this headline">¶</a></h1>
+<p>set(OUTPUT_ROOT ${CMAKE_SOURCE_DIR}/output/)
+endif ()</p>
+</div>
+<div class="section" id="add-header-files-path">
+<h1>add header files path<a class="headerlink" href="#add-header-files-path" title="Permalink to this headline">¶</a></h1>
+<p>include_directories(
+${PROJECT_SOURCE_DIR}/include
+${PROJECT_SOURCE_DIR}/src/include
+)</p>
+</div>
+<div class="section" id="header-files">
+<h1>header files<a class="headerlink" href="#header-files" title="Permalink to this headline">¶</a></h1>
+<p>set(PROJECT_INC
+“include/xproto/xproto_world.h”
+“src/include/xproto/msg_manager.h”
+“src/include/xproto/threadpool.h”
+“include/xproto/msg_type/protobuf/x3.pb.h”
+“include/xproto/msg_type/protobuf/x3.pb.cc”
+“include/xproto/msg_type/control_message.h”
+“include/xproto/msg_type/statistics_message.h”
+“include/xproto/msg_type/smart_legible_message.h”
+)</p>
+</div>
+<div class="section" id="source-files">
+<h1>source files<a class="headerlink" href="#source-files" title="Permalink to this headline">¶</a></h1>
+<p>set(PROJECT_SRC
+“src/message/msg_registry.cc”
+“src/plugin/xplugin.cc”
+“src/plugin/xpluginasync.cc”
+“src/threads/threadpool.cc”
+“src/utils/time_helper.cc”
+“src/session/xsession_inner.cc”
+“src/session/xsession.cc”
+“src/session/zmq_manager.cc”
+“src/msg_type/control_message.cc”
+“src/msg_type/smart_legible_message.cc”
+“src/msg_type/statistics_message.cc”
+)</p>
+<p>set(SOURCE_FILES
+${PROJECT_SRC}
+${PROJECT_INC}
+)</p>
+<p>option(BUILD_SHARED_LIBS “build shared libs” ON)
+add_library(${PROJECT_NAME} ${SOURCE_FILES})</p>
+<p>target_link_libraries(${PROJECT_NAME}
+PUBLIC hobotlog libprotobuf.a libzmq.a)</p>
+<p>add_subdirectory(test)
+add_subdirectory(tutorials/stage1_hello_world)
+add_subdirectory(tutorials/stage2_max_queue_size)
+add_subdirectory(tutorials/stage3_timeout_alarm)
+add_subdirectory(tutorials/stage4_ipc_subscriber)</p>
+</div>
+<div class="section" id="make-install">
+<h1>make install<a class="headerlink" href="#make-install" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="set-output-root-project-source-dir-output">
+<h1>set(OUTPUT_ROOT ${PROJECT_SOURCE_DIR}/output)<a class="headerlink" href="#set-output-root-project-source-dir-output" title="Permalink to this headline">¶</a></h1>
+<p>set(MY_OUTPUT_ROOT ${OUTPUT_ROOT}/xproto)</p>
+<p>install(
+FILES
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/plugin/xplugin.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/plugin/xpluginasync.h
+DESTINATION ${MY_OUTPUT_ROOT}/include/xproto/plugin
+)</p>
+<p>install(
+FILES
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/message/flowmsg.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/message/msg_registry.h
+DESTINATION ${MY_OUTPUT_ROOT}/include/xproto/message/
+)</p>
+<p>install(
+FILES
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/version.h
+DESTINATION ${MY_OUTPUT_ROOT}/include/xproto/
+)</p>
+<p>install(
+FILES
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/session/xsession_info.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/session/xsession.h
+DESTINATION ${MY_OUTPUT_ROOT}/include/xproto/session/
+)</p>
+<p>install(
+FILES
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/msg_type/control_message.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/msg_type/smart_legible_message.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/msg_type/statistics_message.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/msg_type/vio_message.h
+DESTINATION ${MY_OUTPUT_ROOT}/include/xproto/msg_type/
+)</p>
+<p>install(
+DIRECTORY
+${CMAKE_CURRENT_SOURCE_DIR}/include/xstream
+DESTINATION ${MY_OUTPUT_ROOT}/include
+)</p>
+<p>install(
+DIRECTORY
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/msg_type/protobuf
+DESTINATION ${MY_OUTPUT_ROOT}/include/xproto/msg_type/
+)</p>
+<p>install(
+FILES
+${CMAKE_CURRENT_SOURCE_DIR}/include/xproto/xproto_world.h
+DESTINATION ${MY_OUTPUT_ROOT}/include/xproto/
+)
+if (${BUILD_ALL_ARCH})
+if(${X86_ARCH})
+# centos
+if (${X86_CENTOS})
+# .so
+if (${BUILD_SHARED_LIBS})
+# release
+if (${RELEASE_LIB})
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/centos/shared_lib/
+)
+# debug
+else ()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/centos/shared_lib/debug
+)
+endif()
+# .a
+else()
+# release
+if (${RELEASE_LIB})
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/centos/static_lib/
+)
+# debug
+else ()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/centos/static_lib/debug
+)
+endif()
+endif()
+# ubuntu
+else ()
+# .so
+if (${BUILD_SHARED_LIBS})
+# release
+if (${RELEASE_LIB})
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/ubuntu/shared_lib/
+)
+# debug
+else ()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/ubuntu/shared_lib/debug
+)
+endif()
+# .a
+else()
+# release
+if (${RELEASE_LIB})
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/ubuntu/static_lib/
+)
+# debug
+else ()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/ubuntu/static_lib/debug
+)
+endif()
+endif()
+endif()</p>
+</div>
+<div class="section" id="android-3399">
+<h1>android_3399<a class="headerlink" href="#android-3399" title="Permalink to this headline">¶</a></h1>
+<p>elseif(${ARM_ANDROID})
+# .so
+if (${BUILD_SHARED_LIBS})
+# release
+if (${RELEASE_LIB})
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/android_3399/shared_lib/
+)
+# debug
+else ()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/android_3399/shared_lib/debug
+)
+endif()
+# .a
+else()
+# release
+if (${RELEASE_LIB})
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/android_3399/static_lib/
+)
+# debug
+else ()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/android_3399/static_lib/debug
+)
+endif()
+endif()</p>
+</div>
+<div class="section" id="xj3j5">
+<h1>xj3j5<a class="headerlink" href="#xj3j5" title="Permalink to this headline">¶</a></h1>
+<p>else()
+# .so
+if (${BUILD_SHARED_LIBS})
+# release
+if (${RELEASE_LIB})
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/xj3j5/shared_lib/
+)
+# debug
+else ()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/xj3j5/shared_lib/debug
+)
+endif()
+# .a
+else()
+# release
+if (${RELEASE_LIB})
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/xj3j5/static_lib/
+)
+# debug
+else ()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/xj3j5/static_lib/debug
+)
+endif()
+endif()
+endif()
+else()
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/lib
+)
+endif()</p>
+<p>if (${INSTALL_TUTORIALS})
+install(
+FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.md
+DESTINATION ${MY_OUTPUT_ROOT}/
+)</p>
+<p>install(
+DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/document
+DESTINATION ${MY_OUTPUT_ROOT}/
+)</p>
+<p>install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tutorials
+DESTINATION ${MY_OUTPUT_ROOT}/
+)</p>
+<p>install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/third_party
+DESTINATION ${MY_OUTPUT_ROOT}/tutorials
+)
+endif()</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

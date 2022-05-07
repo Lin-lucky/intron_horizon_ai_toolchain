@@ -1,0 +1,88 @@
+概述
+===============
+
+模型转换示例包中的示例大多是shell脚本的集合，这些shell脚本封装了使用地平线芯片工具链中的各种工具完成不同的任务的业务逻辑。
+比如：
+
+* 如何使用 ``hb_mapper`` 的三个子命令完成模型检查、转换和推理；
+* 当原始浮点模型中包含了地平线硬件无法支持的算子时，如何使用 ``hb_custom_op`` 工具生成自定义算子的模板文件；
+* 如何使用 ``hb_perf`` 工具分析量化混合模型的性能；
+* 如何使用 ``vec_diff`` 工具定位精度异常问题；
+* ...
+
+模型转换示例包的目录结构如下所示::
+
+    horizon_model_convert_sample/
+    ├── 01_common
+    │   ├── calibration_data
+    │   ├── data -> /data/horizon_x3/data
+    │   ├── model_zoo -> ../../../model_zoo/
+    │   ├── python
+    │   ├── README.md
+    │   └── test_data
+    ├── 03_classification
+    │   ├── 01_mobilenet
+    │   ├── 02_googlenet
+    │   ├── 03_resnet18
+    │   ├── 04_mobilenet_onnx
+    │   ├── 05_efficientnet_lite0_onnx
+    │   ├── 06_efficientnet_lite1_onnx
+    │   ├── 07_efficientnet_lite2_onnx
+    │   ├── 08_efficientnet_lite3_onnx
+    │   ├── 09_efficientnet_lite4_onnx
+    │   ├── cls_evaluate.py
+    │   └── cls_inference.py
+    ├── 04_detection
+    │   ├── 01_yolov2
+    │   ├── 02_yolov3
+    │   ├── 03_yolov5
+    │   ├── 04_mobilenet_ssd
+    │   ├── 05_efficient_det
+    │   ├── 06_centernet
+    │   ├── 07_fcos
+    │   ├── det_evaluate.py
+    │   └── det_inference.py
+    ├── 05_miscellaneous
+    │   ├── 01_lenet_gray
+    │   ├── 02_resnet50_feature
+    │   ├── 03_vector_diff
+    │   ├── 04_multi_input_example
+    │   ├── 07_model_verifier
+    │   ├── 08_model_info
+    │   ├── 09_mobilenet_bgr
+    │   ├── 10_mobilenet_yuv444
+    │   └── cls_inference.py
+    ├── 06_custom_op
+    │   └── mapper
+    ├── 07_segmentation
+    │   ├── 01_mobilenet_unet
+    │   ├── seg_evaluate.py
+    │   └── seg_inference.py
+    ├── data_preprocess.py
+    └── version.txt
+
+示例包中包含的主要内容：
+
+.. _algo_sample_doc_ref:
+
+:doc:`算法模型示例 <02_algorithm_sample>`
+
+MobileNetv1、MobileNetv2、GoogleNet、ResNet18、EfficientNet_lite0~4、YOLOv2、YOLOv3、YOLOv5、
+MobileNet_SSD、EfficientDet、MobileNet UNet、CenterNet和FCOS几种算法模型的示例。这些示例的主要目标是指导用户：
+
+* 快速体验模型转换的流程
+* 快速评测模型转换的精度
+* 体验转换的效果
+
+
+:doc:`杂项示例 <03_misc_sample>`
+
+  miscellaneous，杂项示例，指导用户使用地平线芯片工具链提供的一些其他内容。
+  比如：如何使用地平线模型转换工具，使rgb数据训练的模型能在runtime运行时接受yuv数据。
+
+  如：`03_vector_diff`, 指导用户如何使用 ``vec_diff`` 工具来定位问题的一个示例。
+
+.. note::
+
+  这部分示例会不定期更新，为用户常见的问题提供示例解答。
+

@@ -1,0 +1,31 @@
+The ``hb_custom_op`` Tool
+==============================
+
+The ``hb_custom_op`` tool is used for generating the template file of user customized OPs. 
+The Python template file contains the function that defines custom OP's computation. 
+The file will be used in model conversion and if the function is not defined then the calibration 
+stage in conversion cannot be executed.
+
+How To Use
+--------------
+
+.. code-block::
+
+  hb_custom_op COMMAND
+
+Parameters
+-----------------
+
+.. data:: hb_custom_op's parameters
+
+  hb_custom_op create 
+    This command creates corresponding Python template file for custom OP.
+
+
+Parse The Output
+----------------------
+
+The ``hb_custom_op create`` command can generate a Python file in which contains the custom OP's template.
+
+
+

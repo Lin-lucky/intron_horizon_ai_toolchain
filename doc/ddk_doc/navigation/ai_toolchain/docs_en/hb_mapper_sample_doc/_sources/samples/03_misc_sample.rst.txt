@@ -1,0 +1,266 @@
+
+Other Samples
+========================
+
+Other samples refer to the samples in the 05_miscellaneous/ and 06_custom_op/ folders. 
+Amongst, the 05_miscellaneous/ folder contains miscellaneous samples used for other features in the X3 Toolchain, 
+e.g. how to enable the RGB data trained model receives YUV data at Runtime using Horizon's model conversion Toolchain.
+The 06_custom_op/ folder is a user custom OP sample helps developers understand how to add custom OP when there are Toolchain 
+unsupported OPs.
+
+Usages and directories of the above mentioned samples please refer to below contents.
+
+How to Use
+--------------
+
+Each sample is encapsulated into a shell script in order. 
+Run shell scripts in order to understand usage of corresponding tools, API features and usage etc.
+
+Miscellaneous Samples
+--------------------------
+
+lenet_gray
+^^^^^^^^^^^^^^^^^^
+
+Directory
+""""""""""""""""""
+
+.. code-block:: bash
+
+  01_lenet_gray/
+      .
+      └── mapper
+          ├── 01_check.sh                 // check model validity
+          ├── 02_get_mnist.sh             // obtain the calibration dataset
+          ├── 03_build.sh                 // convert the debugging model
+          ├── 04_inference.sh             // run inference using the onnx runtime
+          ├── README.cn.md
+          ├── lenet_gray_config.yaml
+          ├── postprocess.py
+          ├── preprocess.py
+          └── process_mnist.py
+
+Description
+""""""""""""""""
+
+This section contains model conversion, simulator runtime and on-board runtime samples of gray image models.
+
+resnet50_feature
+^^^^^^^^^^^^^^^^^^^^
+
+Directory
+""""""""""""""""
+
+.. code-block:: bash
+
+    02_resnet50_feature
+        .
+        └── mapper
+            ├── 01_check.sh                 // check model validity
+            ├── 02_build.sh                 // convert the debugging model
+            ├── 03_inference.sh             // run inference using the onnx runtime
+            ├── inference.py
+            ├── README.cn.md
+            └── resnet50_feature_config.yaml
+
+Description
+"""""""""""""""""
+
+This section contains model conversion, simulator runtime and on-board runtime samples of resnet50_feature.
+
+vector-diff
+^^^^^^^^^^^^^^^^^
+
+Directory
+""""""""""""""""
+
+.. code-block:: bash
+
+    03_vector_diff
+    .
+    └── mobilenet_mapper
+        ├── 01_inference_rt.sh
+        ├── 02_vec_diff.sh                  // analyze output data using the vec_diff tool
+        ├── aarch64_x86_xj3
+        |   ├── bin
+        |   |   ├── hrt_bin_dump
+        |   |   └── hrt_model_exec
+        |   └── lib
+        |       ├── libdnn.so
+        |       └── libhbdk_sim_x86.so
+        ├── ILSVRC2012_val_00000001.bin
+        └── readme.txt
+        
+Output List
+"""""""""""""""""
+
+
+Some CSV list(s) whose filename(s) is/are specified by the ``vec_diff -o`` command. In which: Left Files, Right Files, Cosine Similarity,Relative Euclidean Distance, Max Absolute Error and Mean Square Error. 
+See below:
+
+.. csv-table::
+  :header: Left Files, Right Files, Cosine Similarity,Relative Euclidean Distance, Max Absolute Error, Mean Square Error
+  
+  Layerxxx-quanti-input.txt, Layerxxx-float-input.txt, xxx, xxx, xxx, xxx
+  Layerxxx-quanti-param.txt, Layerxxx-float-param.txt, xxx, xxx, xxx, xxx
+
+
+multi_input_example
+^^^^^^^^^^^^^^^^^^^^^^
+
+Directory
+""""""""""""""
+
+.. code-block:: bash
+
+    04_multi_input_example
+    .
+    ├── mapper
+        ├── 01_check.sh                 // check model validity
+        ├── 02_preprocess.sh            // preprocess the dataset
+        ├── 03_build.sh                 // convert the debugging model
+        ├── 04_inference.sh             // inference using the onnx runtime
+        ├── data_preprocess.py
+        ├── data_transformer.py
+        ├── inference.py
+        └── mobilenet_multi_config.yaml
+
+Description
+""""""""""""""""
+
+This section contains model conversion, simulator runtime and on-board runtime samples of multi-input models.
+
+model_verifier
+^^^^^^^^^^^^^^^^^^
+
+Directory
+""""""""""""""
+
+.. code-block:: bash
+
+    .
+    07_model_verifier
+    ├── 01_preprocess.sh                // run model preprocess
+    ├── 02_build.sh                     // convert the debugging model
+    ├── 03_model_verify.sh              // run model verification
+    ├── bgr_config.yaml
+    ├── calibration_data_feature
+    ├── data_preprocess.py
+    ├── data_transformer.py
+    ├── featuremap_config.yaml
+    ├── mobilenet_config_bgr.yaml
+    ├── mobilenet_config_yuv444.yaml
+    ├── resnet50_featuremap_config.yaml
+    └── yuv444_config.yaml
+
+Description
+""""""""""""""""
+
+This section contains samples of model verification tool.
+
+model_info
+^^^^^^^^^^^^^^^^^
+
+Directory
+""""""""""""""
+
+.. code-block:: bash
+
+    .
+    08_model_info
+    ├── 01_preprocess.sh                // run model preprocess
+    ├── 02_build.sh                     // convert the debugging model
+    ├── 03_model_info_check.sh          // obtain and print model information
+    ├── mobilenet_config.yaml
+    └── preprocess.py
+
+Description
+""""""""""""""""
+
+This section contains a samples of the model validation tool.
+
+mobilenet_bgr
+^^^^^^^^^^^^^^^^^
+
+Directory
+"""""""""""""""
+
+.. code-block:: bash
+
+    09_mobilenet_bgr
+    .
+    └── mapper
+        ├── 01_check.sh               // check model validity
+        ├── 02_preprocess.sh          // preprocess the dataset
+        ├── 03_build.sh               // convert the debugging model
+        ├── 04_inference.sh           // inference a single image
+        ├── README.cn.md
+        ├── mobilenet_config.yaml
+        ├── postprocess.py
+        └── preprocess.py
+
+Description
+"""""""""""""""
+This is a sample of the MobileNetv1 model whose ``input_type_rt`` is specified as ``bgr``.
+
+mobilenet_yuv444
+^^^^^^^^^^^^^^^^^^^^
+
+Directory
+"""""""""""""""
+
+.. code-block:: bash
+
+    10_mobilenet_yuv444
+    .
+    └── mapper
+        ├── 01_check.sh               // check model validity
+        ├── 02_preprocess.sh          // preprocess the dataset
+        ├── 03_build.sh               // convert the debugging model
+        ├── 04_inference.sh           // inference a single image
+        ├── README.cn.md
+        ├── mobilenet_config.yaml
+        ├── postprocess.py
+        └── preprocess.py
+
+Description
+"""""""""""""
+This is a sample of the MobileNetv1 model whose ``input_type_rt`` is specified as ``yuv444``.
+
+User Custom OP Sample
+-----------------------------
+
+Directory
+^^^^^^^^^^^^
+
+.. code-block:: bash
+
+  06_custom_op
+  .
+  ├── mapper
+      ├── 02_preprocess.sh
+      ├── 03_build.sh
+      ├── 04_inference.sh
+      ├── 05_evaluate.sh
+      ├── cls_evaluate.py
+      ├── cls_inference.py
+      ├── googlenet_cop_config.yaml
+      ├── onnx_modify.py
+      ├── postprocess.py
+      ├── preprocess.py
+      ├── README.cn.md
+      ├── sample_custom.py
+      └── torch_export.py
+
+Description
+^^^^^^^^^^^^^
+
+When converting the open-source framework trained floating-point model into fixed-point model, 
+the conversion will fail if there are Toolchain unsupported OP(s). In such case, 
+developers can still convert the model by adding custom OP using the custom OP feature.
+
+Run the ``create`` command of ``hb_custom_op`` tool to implement the custom OP feature. 
+As shown in above directory structure, enter the 01_custom_op_creator folder and perform 
+``sh 01_create_op.sh``, so that a custom OP template file should be generated in current directory.
+
+The 02_mapper folder contains the scripts and configuration file required by running this sample.

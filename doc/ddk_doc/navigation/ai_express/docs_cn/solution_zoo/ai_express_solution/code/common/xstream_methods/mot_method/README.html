@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>MOTMethod &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>MOTMethod</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_solution/code/common/xstream_methods/mot_method/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="motmethod">
+<h1>MOTMethod<a class="headerlink" href="#motmethod" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p>多目标跟踪Method，用于检测框的跟踪、ID分配，目前aiexpress主要使用基于IOU的MOT跟踪策略。</p>
+</div>
+<div class="section" id="id1">
+<h2>算法介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>目前aiexpress的motmethod采用基于IOU的跟踪算法，主要根据位置信息对目标进行跟踪。</p>
+<p>算法主要分3个步骤</p>
+<ol class="simple">
+<li><p>prediction 利用卡尔曼滤波器预测轨迹在当前帧的位置；</p></li>
+<li><p>match 利用预测位置和观测位置得到匹配结果；</p></li>
+<li><p>update 根据匹配结果对轨迹集合进行更新</p></li>
+</ol>
+<p>下面详细介绍这三个步骤</p>
+<div class="section" id="id2">
+<h3>卡尔曼滤波<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h4>任务<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>在我们的多目标跟踪系统中，需要根据track在n-1时刻的最佳估计状态来推测当前时刻n的估计状态（并非最佳），然后再和观测到的target匹配。那么卡尔曼滤波的任务主要是两个方面：</p>
+<p>1.根据track在n-1时刻的最佳估计状态X(n-1|n-1)推算出n时刻的估计状态X(n|n−1)，也称为先验估计。</p>
+<p>2.融合n时刻的观测状态X(n)和先验估计X(n|n-1)得到更为准确的后验估计X(n|n),以此作为n+1时刻状态的预测基础。</p>
+</div>
+<div class="section" id="id4">
+<h4>原理<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>本章节主要介绍卡尔曼滤波两大任务的原理。</p>
+<div class="section" id="id5">
+<h5>任务1 预测<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h5>
+<p>首先，卡尔曼滤波假设系统中目标的位置和速度都是随机的，且服从高斯分布。每个变量有一个均值μ，以及方差ρ2，表示不确定性。在高斯分布中，均值μ是随机分布的中心，也是最有可能的状态。</p>
+<p>在我们的系统状态中，位置和速度是有一定相关性的两个状态。如果速度过快，那么我们下一次观测时，目标的位置就会移动较远，如果速度过慢，目标下一次出现就会在附近，而我们只能观测到位置p这个值，然后通过位置信息来得到速度v，卡尔曼滤波的目的就是尽可能在包含不确定的测量数据中提取更多信息。</p>
+<p>我们用协方差矩阵∑来表示这种相关性，其中∑(ij)表示第i个和第j个状态变量之间的相关度。在当前系统中，用协方差矩阵P来表示</p>
+<p><img alt="协方差矩阵" src="../../../../../_images/P(n).png" /></p>
+<p>下面我们基于高斯分布来建立状态变量，在时刻n的状态变量为</p>
+<p><img alt="状态变量" src="../../../../../_images/X(n-1).png" /></p>
+<p>那么，经过t时间，n时刻的状态为</p>
+<p><img alt="预测过程" src="../../../../../_images/X(n,n-1).png" /></p>
+<p>这里我们有一个假设，就是本系统没有控制量B(n)。在一般的系统中，会有一个外部控制量，以火车运动状态为例的话，司机的加速减速就是一个外部控制量。
+这里我们把转换矩阵F称为转换矩阵。</p>
+<p><img alt="转换函数" src="../../../../../_images/F.png" /></p>
+<p>完成状态变量预测之后，我们要对协方差矩阵应用转换函数,更新协方差矩阵。但是因为存在外部干扰，仅仅做转换是不够的。X(n-1|n-1)的每个状态被移动到X(n|n-1)之后，将服从新的高斯分布，协方差为Qn，我们将这些没有被跟踪的干扰当作协方差为Qn的噪声处理。那么更新之后的P(n|n-1)如下：</p>
+<p><img alt="协方差更新" src="../../../../../_images/P(n,n-1).png" /></p>
+<p>以上步骤我们就完成了预测的工作，得到了状态先验估计X(n|n-1)和协方差先验估计P(n|n-1)，此时就可以进行预测值和测量值的匹配。下面我们继续介绍卡尔曼滤波的任务2，根据测量值来修正估计值，得到更为准确的后验估计。</p>
+</div>
+<div class="section" id="id6">
+<h5>任务2 修正估计值<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h5>
+<p>修正先验估计，最小化其和真实值之间的差距。
+很多实际情况下，测量值X(n)我们是不能直接测得的，可以测的是另一个量Z(n)，比如一些测距仪系统，只能测得时间间隔，而非实际距离，此时我们就需要借助测量矩阵H，将实际测得的数据转换到和预测值同一个度量空间，通过H计算出测量值的分布Z(n)，</p>
+<p><img alt="测量值分布" src="../../../../../_images/Z(n).png" /></p>
+<p>我们虽然可以得到测量值，但这种测量值跟真实值也是有区别的，也就是说存在不确定性，某些状态可能比我们的测量值更接近于真实状态，我们将这种不确定性用协方差R(n)表示，该分布的均值就是我们读到的测量值Z(n)。</p>
+<p>那么现在我们得到了两个高斯分布，分别是估计值X(n)和测量值Z(n)，如下图，其中粉色表示预测值的分布，绿色表示测量值的分布</p>
+<p><img alt="预测和测量值分布" src="../../../../../_images/two_gauss.png" /></p>
+<p>我们想要得到最优估计，也就是两者都发生的概率，那么将两个高斯分布相乘就可以了。而将两个不同均值和方差的高斯分布相乘，将得到一个新的高斯分布。</p>
+<p>假设X(n)和Z(n)满足均值分别为μ1和μ2，协方差分别为ρ(1)2,ρ(2)2的高斯分布，融合之后通过计算可得分布满足均值为μ,协方差为ρ2，其中</p>
+<p><img alt="新分布均值" src="../../../../../_images/u.png" /></p>
+<p><img alt="新分布方差" src="../../../../../_images/variance.png" /></p>
+<p>令</p>
+<p><img alt="K赋值" src="../../../../../_images/K.png" /></p>
+<p>则</p>
+<p><img alt="K均值" src="../../../../../_images/u_trans.png" /></p>
+<p><img alt="K方差" src="../../../../../_images/variance_trans.png" /></p>
+<p>将这里的K写出矩阵形式，则得</p>
+<p><img alt="卡尔曼增益" src="../../../../../_images/K(n).png" /></p>
+<p>现在我们用卡尔曼增益来修正先验估计X(n|n-1)和P(n|n-1),得到</p>
+<p><img alt="修正X(n|n)" src="../../../../../_images/X(n,n).png" /></p>
+<p>这里我们看到，如果K越大，测量值对修正值的贡献越大，K越小，预测值对修正值的贡献越大。
+而K的取值从上式中看到，与预测噪声协方差P成正相关，和测量噪声协方差R成负相关。
+所以，当P越大时，说明预测值的不确定性越高，同时卡尔曼增益越大，从而测量值对修正值的贡献更大。
+这个结论也是我们在建模时选择参数的依据。</p>
+<p><img alt="修正P(n|n)" src="../../../../../_images/P(n,n).png" /></p>
+<p>到这里，卡尔曼滤波完成了修正先验估计的步骤，之后就不断迭代下去。</p>
+</div>
+</div>
+</div>
+<div class="section" id="track">
+<h3>匹配track<a class="headerlink" href="#track" title="Permalink to this headline">¶</a></h3>
+<p>经过卡尔曼滤波的预测步骤之后，我们得到track在当前帧的预测状态，现在要将预测状态和观测状态做匹配，然后选择可能性最大的tarck_id作为target的匹配id,这里的匹配的度量指标主要是IOU，IOU越大，表示预测框和当前观测框是同一个目标的可能性越大，其公式如下：</p>
+<p><img alt="IOU" src="../../../../../_images/iou_expression.png" /></p>
+<p>计算得到track和traget的IOU之后，我们将其组织成邻接矩阵aff，举例来说：
+||1|2|3|
+|:–:|:–:|:–:|:–:|
+|1|120|110|0|
+|2|0|0|150|
+|3|320|220|500|
+|4|280|0|370|
+|5|0|85|20|
+矩阵元素aff[1][2]表示track[1]和target[2]的IOU为110。</p>
+<div class="section" id="id7">
+<h4>简单匹配<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>我们在此临界矩阵的基础上首先进行简单匹配。
+简单匹配的原则是track要选和它IOU最大的target，同时target也要选择和它IOU最大的track,如果两者都选择了对方，那么简单匹配成功。在上面的矩阵中，track[3]和target[3]互为对方最大的IOU，那么target就匹配的tarck_id即为3。</p>
+</div>
+<div class="section" id="id8">
+<h4>匈牙利匹配<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>简单匹配完成后，对还没有匹配上的track和target进一步进行匈牙利匹配。匈牙利匹配的核心思想是匹配之后使得整个系统的损失最大或者最小化，比如在我们的IOU系统里，需要使匹配之后整个系统的IOU最大。
+||1|2|
+|:–:|:–:|:–:|
+|1|120|110|
+|2|0|0|
+|4|280|0|
+|5|0|85|
+在我们的示例中，target[1]和track[4]匹配，target[2]和track[1]匹配可以使整个系统的IOU最大。但是匈牙利匹配得到的结果并不一定是唯一的，在上例中，如果我们把aff[4][2]设置为270,那么target[1]和track[1],target[2]和track[4]匹配也能使得IOU最大。</p>
+<p>因此，在aiexpress的IOU2实现里就只使用了简单匹配方法。</p>
+</div>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>目前aiexpress中实现了两套MOT策略，分别为IOU和IOU2,都是基于IOU的目标跟踪策略，只在细节上有一些差别。两者区别在于IOU支持匈牙利匹配，IOU2只使用了简单匹配来匹配track和target。另外在IOU2中，算法提供了利用欧式距离来匹配目标的策略，主要应用在手部跟踪上。下面分别介绍一下两种实现的用法。</p>
+<div class="section" id="iou">
+<h3>IOU<a class="headerlink" href="#iou" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h4>输入/输出<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id10">
+<h5>输入<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h5>
+<p>|Slot |内容 |备注 |
+|:—:|:—————:|:————–:|
+0 | XStreamBBox_list | 必要项</p>
+</div>
+<div class="section" id="id11">
+<h5>输出<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h5>
+<p>|Slot |内容 |备注 |
+|:—:|:——————–:|:—————————:|
+0 | XStreamBBox_list | 带track_id
+1 | XStreamUint32_List | disappeared_track_id_list</p>
+</div>
+</div>
+<div class="section" id="id12">
+<h4>配置文件<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p>|字段      |描述     |默认值     |
+|:———————–:|—————————————————–|:——:|
+tracker_type|MOT工作模式，目前仅支持IOU based MOT|IOU
+device|设备名称，若设置为X1，最大track_id为255，用以比对一致性|X2
+update_no_target_predict|无检测框输入更新状态机track预测框，设置为true对主体连续运动且有遮挡的场景效果好，设置为false对主体不移动且有遮挡的场景效果好|false
+support_hungarian|匈牙利匹配开关，打开匈牙利匹配id召回多，准确率下降；关闭则id召回少，准确率提升|false
+need_check_merge|每组输入框IOU大于一定阈值做融合，该操作会影响输出数量，检测框融合多在检测模块完成，一般情况置为false|false
+original_bbox|是否使用卡尔曼滤波器预测框，true为不使用，输出原始框坐标|true
+max_track_target_num|状态机保存最大track数|512
+max_det_target_num|输入框最大计算数|512
+vanish_frame_count|消失帧数|30
+time_gap|帧间隔时间|40</p>
+</div>
+</div>
+<div class="section" id="iou2">
+<h3>IOU2<a class="headerlink" href="#iou2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h4>输入/输出<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id14">
+<h5>输入<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h5>
+<p>|Slot |内容 |备注 |
+|:—:|:—————:|:————–:|
+0 | image | 必要项
+1 | XStreamBBox_list | 必要项</p>
+</div>
+<div class="section" id="id15">
+<h5>输出<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h5>
+<p>|Slot |内容 |备注 |
+|:—:|:——————–:|:—————————:|
+0 | XStreamBBox_list | 带track_id
+1 | XStreamUint32_List | disappeared_track_id_list</p>
+</div>
+</div>
+<div class="section" id="id16">
+<h4>配置文件<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<p>|字段      |描述     |默认值     |
+|:———————–:|—————————————————–|:——:|
+match_type|匹配模式，目前支持IOU和Euclidean|IOU
+tracker_type|MOT工作模式，目前仅支持IOU based MOT|IOU_2.0
+use_kalman_filter|是否使用卡尔曼滤波器预测框，1为使用|1
+missing_time_thres|目标不可见帧数阈值，超过则置为InVisible|2
+vanish_frame_count|目标消失帧数阈值，超过则置为Deleted|4
+time_gap|帧间隔时间|40
+iou_thres|iou阈值，超过则进入匹配流程|0.2
+euclidean_thres|欧式距离阈值，小于则进入匹配流程|200
+use_location_gain|是否计算目标检测框和其他检测框的最小距离，1为使用|1
+max_trajectory_number|状态机保存最大track数|3
+min_score|目标检测框得分阈值|0.9
+ignore_overlap_thres|筛选遮挡过大的box阈值,超过则不跟踪|0.9</p>
+</div>
+</div>
+</div>
+<div class="section" id="id17">
+<h2>代码实现<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
+<p>因为IOU和IOU2基于的算法原理相同，这里以IOU2为例，介绍MOT策略的实现</p>
+<div class="section" id="id18">
+<h3>重要数据结构<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">Target</span>
+<span class="p">{</span>
+  <span class="n">Target</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+  <span class="n">Target</span><span class="p">(</span><span class="k">const</span> <span class="n">sp_BBox</span> <span class="o">&amp;</span><span class="n">body_bbox</span><span class="p">,</span>
+         <span class="k">const</span> <span class="kt">double</span> <span class="n">dist_with_others</span><span class="p">,</span>
+         <span class="k">const</span> <span class="kt">float</span> <span class="n">overlap_with_others</span><span class="p">,</span>
+         <span class="k">const</span> <span class="kt">int</span> <span class="n">img_width</span><span class="p">,</span>
+         <span class="k">const</span> <span class="kt">int</span> <span class="n">img_height</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">img_width</span> <span class="o">=</span> <span class="n">img_width</span><span class="p">;</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">img_height</span> <span class="o">=</span> <span class="n">img_height</span><span class="p">;</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">body_bbox</span> <span class="o">=</span> <span class="n">body_bbox</span><span class="p">;</span>
+    <span class="n">body_width</span> <span class="o">=</span> <span class="n">body_bbox</span><span class="o">-&gt;</span><span class="n">x2</span> <span class="o">-</span> <span class="n">body_bbox</span><span class="o">-&gt;</span><span class="n">x1</span><span class="p">;</span>
+    <span class="n">body_height</span> <span class="o">=</span> <span class="n">body_bbox</span><span class="o">-&gt;</span><span class="n">y2</span> <span class="o">-</span> <span class="n">body_bbox</span><span class="o">-&gt;</span><span class="n">y1</span><span class="p">;</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">dist_with_others</span> <span class="o">=</span> <span class="n">dist_with_others</span><span class="p">;</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">overlap_with_others</span> <span class="o">=</span> <span class="n">overlap_with_others</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+  <span class="kt">int</span> <span class="n">img_width</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">,</span> <span class="n">img_height</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="n">sp_BBox</span> <span class="n">body_bbox</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">body_width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">body_height</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">det_valid</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">dist_with_others</span> <span class="o">=</span> <span class="mf">-1.</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">overlap_with_others</span> <span class="o">=</span> <span class="mf">-1.f</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Target为目标检测框，其中body_bbox保存检测框的位置信息。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TrackLet</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">enum</span> <span class="nc">TrackLetState</span> <span class="p">{</span>
+   <span class="n">Tentative</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+   <span class="n">Confirmed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+   <span class="n">Invisible</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+   <span class="n">Deleted</span> <span class="o">=</span> <span class="mi">3</span>
+  <span class="p">};</span>
+ 
+  <span class="n">TrackLet</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">track_id</span><span class="p">,</span>
+          <span class="k">const</span> <span class="n">sp_Target</span> <span class="o">&amp;</span><span class="n">target</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">long</span> <span class="kt">long</span> <span class="o">&amp;</span><span class="n">frame_id</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">time_t</span> <span class="o">&amp;</span><span class="n">time_stamp</span><span class="p">);</span>
+ 
+  <span class="o">~</span><span class="n">TrackLet</span><span class="p">();</span>
+ 
+  <span class="kt">int</span> <span class="n">track_id</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="n">sp_Target</span> <span class="n">target</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">time_t</span><span class="p">,</span> <span class="n">sp_Target</span><span class="o">&gt;</span> <span class="n">target_map</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">frame_id_list</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">time_t</span><span class="o">&gt;</span> <span class="n">time_stamp_list</span><span class="p">;</span>
+  <span class="kt">time_t</span> <span class="n">last_time_stamp</span><span class="p">;</span>
+  <span class="n">TrackLetState</span> <span class="n">state</span> <span class="o">=</span> <span class="n">Tentative</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">missed_times</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">spKalmanBoxTracker</span> <span class="n">kf_obj</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">matched_state</span> <span class="o">=</span> <span class="s">&quot;NC&quot;</span><span class="p">;</span>
+  <span class="n">sp_BBox</span> <span class="n">kf_last</span><span class="p">;</span>
+ 
+  <span class="kt">void</span> <span class="nf">add</span><span class="p">(</span><span class="k">const</span> <span class="n">sp_Target</span> <span class="o">&amp;</span><span class="n">target</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">long</span> <span class="kt">long</span> <span class="o">&amp;</span> <span class="n">frame_id</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">time_t</span> <span class="o">&amp;</span> <span class="n">time_stamp</span><span class="p">,</span>
+          <span class="kt">double</span> <span class="n">dist</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">matched_state</span> <span class="o">=</span> <span class="s">&quot;NC&quot;</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">MarkMissed</span><span class="p">(</span><span class="k">const</span> <span class="kt">time_t</span> <span class="o">&amp;</span><span class="n">time_stamp_now</span><span class="p">);</span>
+  <span class="n">sp_Target</span> <span class="nf">GetTargetOfTimeStamp</span><span class="p">(</span><span class="k">const</span> <span class="kt">time_t</span> <span class="o">&amp;</span><span class="n">time_stamp</span><span class="p">,</span> <span class="kt">bool</span> <span class="o">&amp;</span><span class="n">flag</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>TrackLet为某一目标的轨迹片段，其中target_map表示target在一段时间序列下的信息。它维护了4种状态，其中Tentaive表示待分配id，Confirmed表示已分配id,对当前帧没有匹配上target的track会被置为Invisible,Deleted表示该目标已经消失，即disappeared_id。</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tracker</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">Tracker</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">curr_time_stamp</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">;</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">begin_time_stamp</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">;</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">last_output_time_stamp</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">};</span>
+  <span class="k">explicit</span> <span class="n">Tracker</span><span class="p">(</span><span class="kt">time_t</span> <span class="n">time_stamp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">curr_time_stamp</span> <span class="o">=</span> <span class="n">time_stamp</span><span class="p">;</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">begin_time_stamp</span> <span class="o">=</span> <span class="n">time_stamp</span><span class="p">;</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">last_output_time_stamp</span> <span class="o">=</span> <span class="n">time_stamp</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+  <span class="o">~</span><span class="n">Tracker</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">tracklet_list_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+    <span class="n">target_list</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+  <span class="p">}</span>
+ 
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">sp_TrackLet</span><span class="o">&gt;</span> <span class="n">tracklet_list</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">tracklet_list_</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+  <span class="kt">void</span> <span class="n">TrackPro</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">sp_BBox</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">body_bbox_list</span><span class="p">,</span>
+                <span class="k">const</span> <span class="kt">time_t</span> <span class="o">&amp;</span><span class="n">time_stamp</span><span class="p">,</span>
+                <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">img_width</span><span class="p">,</span>
+                <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">img_height</span><span class="p">);</span>
+ 
+  <span class="kt">void</span> <span class="nf">BuildTargetList</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">sp_BBox</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">detected_boxes</span><span class="p">);</span>
+  <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">OutputBox</span><span class="p">(</span><span class="k">const</span> <span class="n">BBox_s</span> <span class="o">&amp;</span><span class="n">box</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">box</span><span class="p">.</span><span class="n">x1</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">box</span><span class="p">.</span><span class="n">y1</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">box</span><span class="p">.</span><span class="n">x2</span> <span class="o">&lt;&lt;</span>
+    <span class="s">&quot; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">box</span><span class="p">.</span><span class="n">y2</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">MatchTrack2Target</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">double</span><span class="p">,</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">matches</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">unmatches_tracks</span><span class="p">,</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">unmatches_targets</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">Track</span><span class="p">();</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="nf">CheckInput</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">sp_BBox</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">body_bbox_list</span><span class="p">,</span>
+                         <span class="k">const</span> <span class="kt">time_t</span> <span class="o">&amp;</span><span class="n">time_stamp</span><span class="p">,</span>
+                         <span class="k">const</span> <span class="kt">int</span> <span class="n">img_width</span><span class="p">,</span>
+                         <span class="k">const</span> <span class="kt">int</span> <span class="n">img_height</span><span class="p">){</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">time_stamp</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">img_height</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">img_width</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">}</span>
+ 
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">sp_TrackLet</span><span class="o">&gt;</span> <span class="n">tracklet_list_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">sp_Target</span><span class="o">&gt;</span> <span class="n">target_list</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">is_ready_to_output</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="kt">long</span> <span class="kt">long</span> <span class="n">frame_counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">track_id_counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">time_t</span> <span class="n">curr_time_stamp</span><span class="p">;</span>
+  <span class="kt">time_t</span> <span class="n">begin_time_stamp</span><span class="p">;</span>
+  <span class="kt">time_t</span> <span class="n">last_output_time_stamp</span><span class="p">;</span>
+ 
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">id_2_ori_id</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">img_width</span> <span class="o">=</span> <span class="mi">1920</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">img_height</span> <span class="o">=</span> <span class="mi">1080</span><span class="p">;</span>
+ 
+  <span class="n">Config</span> <span class="n">config</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Tracker为实现目标跟踪的核心类，其中核心接口是TrackPro，该接口完成3个步骤。</p>
+<p>1）利用卡尔曼滤波对已出现的tracklet进行位置预测；</p>
+<p>2）筛选当前帧出现的检测框，不跟踪遮挡较为严重的目标框；</p>
+<p>3）匹配track和target，更新tracklet的轨迹。</p>
+</div>
+<div class="section" id="id19">
+<h3>建模过程<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>前面我们已经了解了卡尔曼滤波两大任务的过程，本章节我们主要看一下如何将卡尔曼滤波应用到我们的系统中。
+首先我们确定系统的状态矩阵，这里我们目标的状态变量为</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">ds</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>分别是box的左上角坐标，长宽，坐标和长度的变化值。
+那么x(n) = x(n-1) + dx(n-1)
+于是我们有了转换方程：
+X(n|n-1) = FX(n-1|n-1)
+A为转换矩阵</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span>    <span class="n">F</span> <span class="o">&lt;&lt;</span>
+      <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>在本系统中，我们实际可测量到的值是[x, y, s, r]
+根据Z(n) = HX(n-1) + R,这里的H是测量系统矩阵，R是测量系统的噪声，同样符合高斯分布。
+令H为测量矩阵，因为实际的测量值和预测值在一个度量空间，则有</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span>    <span class="n">H</span> <span class="o">&lt;&lt;</span>
+      <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>这里的R是测量噪声的协方差矩阵，我们设置为
+R &lt;&lt; 6, 0, 0, 0,
+0, 6, 0, 0,
+0, 0, 50, 0,
+0, 0, 0, 50;
+因为这是一个在初始化就确定下来的参数，实际运行过程中可通过调整该矩阵来观察效果。</p>
+<p>这里我们令协方差P的初始值为</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span>    <span class="n">P</span> <span class="o">&lt;&lt;</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>P的协方差初始值较大，也就是刚开始更倾向于相信测量值，当然，随着迭代次数增加，P最终会收敛于准确值。</p>
+<p>这里还需要系统噪声的协方差矩阵Q，用于更新系统协方差P，可设置如下：</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span>    <span class="n">Q</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>以上模型需要的参数都设置完成，后续只需按照卡尔曼滤波流程进行迭代即可。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

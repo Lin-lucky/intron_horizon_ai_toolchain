@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. General Description &mdash; BPU SDK API  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="BPU SDK API Doc" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> BPU SDK API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. General Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#data-type-and-structure">2. Data Type and Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-information-type">2.1. Version Information Type</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-version-major">2.1.1. <code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_MAJOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-version-minor">2.1.2. <code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_MINOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-version-patch">2.1.3. <code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_PATCH</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-type">2.2. Model Type</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-tensor-max-dimensions">2.2.1. <code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_MAX_DIMENSIONS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-initialize-infer-ctrl-param">2.2.2. <code class="docutils literal notranslate"><span class="pre">HB_DNN_INITIALIZE_INFER_CTRL_PARAM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbpackeddnnhandle-t">2.2.3. <code class="docutils literal notranslate"><span class="pre">hbPackedDNNHandle_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnhandle-t">2.2.4. <code class="docutils literal notranslate"><span class="pre">hbDNNHandle_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntaskhandle-t">2.2.5. <code class="docutils literal notranslate"><span class="pre">hbDNNTaskHandle_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntensorlayout">2.2.6. <code class="docutils literal notranslate"><span class="pre">hbDNNTensorLayout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnndatatype">2.2.7. <code class="docutils literal notranslate"><span class="pre">hbDNNDataType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntensorshape">2.2.8. <code class="docutils literal notranslate"><span class="pre">hbDNNTensorShape</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnquantishift">2.2.9. <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiShift</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnquantiscale">2.2.10. <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiScale</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnquantitype">2.2.11. <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntensorproperties">2.2.12. <code class="docutils literal notranslate"><span class="pre">hbDNNTensorProperties</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntaskpriority">2.2.13. <code class="docutils literal notranslate"><span class="pre">hbDNNTaskPriority</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntensor">2.2.14. <code class="docutils literal notranslate"><span class="pre">hbDNNTensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnroi">2.2.15. <code class="docutils literal notranslate"><span class="pre">hbDNNRoi</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnninferctrlparam">2.2.16. <code class="docutils literal notranslate"><span class="pre">hbDNNInferCtrlParam</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#system-type">2.3. System Type</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbbpucore">2.3.1. <code class="docutils literal notranslate"><span class="pre">hbBPUCore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdspcore">2.3.2. <code class="docutils literal notranslate"><span class="pre">hbDSPCore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysmem">2.3.3. <code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysmemflushflag">2.3.4. <code class="docutils literal notranslate"><span class="pre">hbSysMemFlushFlag</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#preprocess-type">2.4. Preprocess Type</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-initialize-resize-ctrl-param">2.4.1. <code class="docutils literal notranslate"><span class="pre">HB_DNN_INITIALIZE_RESIZE_CTRL_PARAM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnresizetype">2.4.2. <code class="docutils literal notranslate"><span class="pre">hbDNNResizeType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnresizectrlparam">2.4.3. hbDNNResizeCtrlParam</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin-type">2.5. Plugin Type</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnlayercreator">2.5.1. <code class="docutils literal notranslate"><span class="pre">hbDNNLayerCreator</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#apis">3. APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-information">3.1. Version Information</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetversion">3.1.1. <code class="docutils literal notranslate"><span class="pre">hbDNNGetVersion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-loading-and-freeing">3.2. Model Loading and Freeing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnninitializefromfiles">3.2.1. <code class="docutils literal notranslate"><span class="pre">hbDNNInitializeFromFiles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnninitializefromddr">3.2.2. <code class="docutils literal notranslate"><span class="pre">hbDNNInitializeFromDDR()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnrelease">3.2.3. <code class="docutils literal notranslate"><span class="pre">hbDNNRelease()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-information">3.3. Model Information</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetmodelnamelist">3.3.1. <code class="docutils literal notranslate"><span class="pre">hbDNNGetModelNameList()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetmodelhandle">3.3.2. <code class="docutils literal notranslate"><span class="pre">hbDNNGetModelHandle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetinputcount">3.3.3. <code class="docutils literal notranslate"><span class="pre">hbDNNGetInputCount()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetinputname">3.3.4. <code class="docutils literal notranslate"><span class="pre">hbDNNGetInputName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetinputtensorproperties">3.3.5. <code class="docutils literal notranslate"><span class="pre">hbDNNGetInputTensorProperties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetoutputcount">3.3.6. <code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputCount()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetoutputname">3.3.7. <code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetoutputtensorproperties">3.3.8. <code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputTensorProperties()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-inference">3.4. Model Inference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnninfer">3.4.1. <code class="docutils literal notranslate"><span class="pre">hbDNNInfer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnroiinfer">3.4.2. <code class="docutils literal notranslate"><span class="pre">hbDNNRoiInfer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnwaittaskdone">3.4.3. <code class="docutils literal notranslate"><span class="pre">hbDNNWaitTaskDone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnreleasetask">3.4.4. hbDNNReleaseTask()</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-related-operations">3.5. Memory Related Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysallocmem">3.5.1. <code class="docutils literal notranslate"><span class="pre">hbSysAllocMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysalloccachedmem">3.5.2. <code class="docutils literal notranslate"><span class="pre">hbSysAllocCachedMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysflushmem">3.5.3. <code class="docutils literal notranslate"><span class="pre">hbSysFlushMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysfreemem">3.5.4. <code class="docutils literal notranslate"><span class="pre">hbSysFreeMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsyswritemem">3.5.5. <code class="docutils literal notranslate"><span class="pre">hbSysWriteMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysreadmem">3.5.6. <code class="docutils literal notranslate"><span class="pre">hbSysReadMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysregistermem">3.5.7. <code class="docutils literal notranslate"><span class="pre">hbSysRegisterMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysunregistermem">3.5.8. <code class="docutils literal notranslate"><span class="pre">hbSysUnregisterMem()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#preprocess">3.6. Preprocess</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnresize">3.6.1. <code class="docutils literal notranslate"><span class="pre">hbDNNResize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin">3.7. Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnregisterlayercreator">3.7.1. <code class="docutils literal notranslate"><span class="pre">hbDNNRegisterLayerCreator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnunregisterlayercreator">3.7.2. <code class="docutils literal notranslate"><span class="pre">hbDNNUnregisterLayerCreator()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#data-layout-and-alignment-rules">4. Data Layout and Alignment Rules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-layout">4.1. Data Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bpu-alignment-rules-and-restrictions">4.2. BPU Alignment Rules and Restrictions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-input">4.2.1. Model Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stride">4.2.2. Stride</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#about-nv12">4.3. About NV12</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#yuv-format">4.3.1. YUV Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nv12-format">4.3.2. NV12 Format</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#error-code">5. Error Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#configuration-information">6. Configuration Information</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BPU SDK API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">1. </span>General Description</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/bpu_sdk_api_doc_en.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="general-description">
+<h1><span class="section-number">1. </span>General Description<a class="headerlink" href="#general-description" title="Permalink to this headline"></a></h1>
+<p>This document describes the APIs, data, structs, layout and alignment rules of Horizon Openexplorer Toolchain’s Runtime
+and helps users learn how to load and free models, obtain model information and execute inference using Horizon’s dev board.</p>
+</section>
+<section id="data-type-and-structure">
+<h1><span class="section-number">2. </span>Data Type and Structure<a class="headerlink" href="#data-type-and-structure" title="Permalink to this headline"></a></h1>
+<section id="version-information-type">
+<h2><span class="section-number">2.1. </span>Version Information Type<a class="headerlink" href="#version-information-type" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The version information type version number varies as version changes.
+Please obtain the actual version information in accordance with your obtained release package.</p>
+</div>
+<section id="hb-dnn-version-major">
+<h3><span class="section-number">2.1.1. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_MAJOR</span></code><a class="headerlink" href="#hb-dnn-version-major" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_VERSION_MAJOR 1U</span>
+</pre></div>
+</div>
+<p>DNN major version number.</p>
+</section>
+<section id="hb-dnn-version-minor">
+<h3><span class="section-number">2.1.2. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_MINOR</span></code><a class="headerlink" href="#hb-dnn-version-minor" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_VERSION_MINOR 1U</span>
+</pre></div>
+</div>
+<p>DNN secondary version number.</p>
+</section>
+<section id="hb-dnn-version-patch">
+<h3><span class="section-number">2.1.3. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_PATCH</span></code><a class="headerlink" href="#hb-dnn-version-patch" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_VERSION_PATCH 0U</span>
+</pre></div>
+</div>
+<p>DNN patch version number.</p>
+</section>
+</section>
+<section id="model-type">
+<h2><span class="section-number">2.2. </span>Model Type<a class="headerlink" href="#model-type" title="Permalink to this headline"></a></h2>
+<section id="hb-dnn-tensor-max-dimensions">
+<h3><span class="section-number">2.2.1. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_MAX_DIMENSIONS</span></code><a class="headerlink" href="#hb-dnn-tensor-max-dimensions" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_TENSOR_MAX_DIMENSIONS 8</span>
+</pre></div>
+</div>
+<p>The maximum tensor dimension can be specified as <code class="docutils literal notranslate"><span class="pre">8</span></code>.</p>
+</section>
+<section id="hb-dnn-initialize-infer-ctrl-param">
+<h3><span class="section-number">2.2.2. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_INITIALIZE_INFER_CTRL_PARAM</span></code><a class="headerlink" href="#hb-dnn-initialize-infer-ctrl-param" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_INITIALIZE_INFER_CTRL_PARAM(param) \</span>
+<span class="cp">{                                                  \</span>
+<span class="cp">    (param)-&gt;bpuCoreId = HB_BPU_CORE_ANY;         \</span>
+<span class="cp">    (param)-&gt;dspCoreId = HB_DSP_CORE_ANY;         \</span>
+<span class="cp">    (param)-&gt;priority = HB_DNN_PRIORITY_LOWEST;   \</span>
+<span class="cp">    (param)-&gt;reserved1 = 0;                        \</span>
+<span class="cp">    (param)-&gt;reserved2 = 0;                        \</span>
+<span class="cp">    (param)-&gt;reserved3 = 0;                        \</span>
+<span class="cp">    (param)-&gt;reserved4 = 0;                        \</span>
+<span class="cp">    (param)-&gt;more = false;                         \</span>
+<span class="cp">}</span>
+</pre></div>
+</div>
+<p>Initialized control parameters.</p>
+</section>
+<section id="hbpackeddnnhandle-t">
+<h3><span class="section-number">2.2.3. </span><code class="docutils literal notranslate"><span class="pre">hbPackedDNNHandle_t</span></code><a class="headerlink" href="#hbpackeddnnhandle-t" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">hbPackedDNNHandle_t</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>A DNN handle which can point to multiple packed models.</p>
+</section>
+<section id="hbdnnhandle-t">
+<h3><span class="section-number">2.2.4. </span><code class="docutils literal notranslate"><span class="pre">hbDNNHandle_t</span></code><a class="headerlink" href="#hbdnnhandle-t" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">hbDNNHandle_t</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>A DNN handle which points to a single model.</p>
+</section>
+<section id="hbdnntaskhandle-t">
+<h3><span class="section-number">2.2.5. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTaskHandle_t</span></code><a class="headerlink" href="#hbdnntaskhandle-t" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">hbDNNTaskHandle_t</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>A task handle which points to one task.</p>
+</section>
+<section id="hbdnntensorlayout">
+<h3><span class="section-number">2.2.6. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTensorLayout</span></code><a class="headerlink" href="#hbdnntensorlayout" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_LAYOUT_NHWC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_LAYOUT_NCHW</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_LAYOUT_NONE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTensorLayout</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Tensor layout.
+<code class="docutils literal notranslate"><span class="pre">NHWC</span></code> denotes respectively Number, Height, Width and Channel.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 56%" />
+<col style="width: 44%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>MEMBER NAME</strong></p></td>
+<td><p><strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LAYOUT_NONE</span></code></p></td>
+<td><p>Layout undefined.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LAYOUT_NHWC</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NHWC</span></code> layout.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LAYOUT_NCHW</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NCHW</span></code> layout.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnndatatype">
+<h3><span class="section-number">2.2.7. </span><code class="docutils literal notranslate"><span class="pre">hbDNNDataType</span></code><a class="headerlink" href="#hbdnndatatype" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_Y</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_NV12</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_NV12_SEPARATE</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_YUV444</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_RGB</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_BGR</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S4</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U4</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S8</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U8</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_F16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_F32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_F64</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S64</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U64</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_MAX</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNDataType</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Tensor type.
+<code class="docutils literal notranslate"><span class="pre">S</span></code> denotes signed; <code class="docutils literal notranslate"><span class="pre">U</span></code> denotes unsigned; and <code class="docutils literal notranslate"><span class="pre">F</span></code> denotes floating-point type.
+The digit at the tail denotes bit number.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 64%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>MEMBER NAME</strong></p></td>
+<td><p><strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_Y</span></code></p></td>
+<td><p>This tensor type denotes images who only contains Y channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_NV12</span></code></p></td>
+<td><p>This tensor type denotes a NV12 image.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_NV12_SEPARATE</span></code></p></td>
+<td><p>This tensor type denotes images with Y and UV channel input.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_YUV444</span></code></p></td>
+<td><p>This tensor type denotes images with YUV444 input.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_RGB</span></code></p></td>
+<td><p>This tensor type denotes images with RGB input.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_BGR</span></code></p></td>
+<td><p>This tensor type denotes images with BGR input.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S4</span></code></p></td>
+<td><p>This tensor type denotes signed 4bit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U4</span></code></p></td>
+<td><p>This tensor type denotes unsigned 4bit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S8</span></code></p></td>
+<td><p>This tensor type denotes signed 8bit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U8</span></code></p></td>
+<td><p>This tensor type denotes unsigned 8bit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_F16</span></code></p></td>
+<td><p>This tensor type denotes floating-point type 8bit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S16</span></code></p></td>
+<td><p>This tensor type denotes signed 16bit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U16</span></code></p></td>
+<td><p>This tensor type denotes unsigned 16bit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_F32</span></code></p></td>
+<td><p>This tensor type denotes floating-point type 32bit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S32</span></code></p></td>
+<td><p>This tensor type denotes signed 32bit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U32</span></code></p></td>
+<td><p>This tensor type denotes unsigned 32bit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_F64</span></code></p></td>
+<td><p>This tensor type denotes floating-point type 64bit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S64</span></code></p></td>
+<td><p>This tensor type denotes signed 64bit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U64</span></code></p></td>
+<td><p>This tensor type denotes unsigned 64bit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_MAX</span></code></p></td>
+<td><p>denotes the type serial number of the maximum tensor.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnntensorshape">
+<h3><span class="section-number">2.2.8. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTensorShape</span></code><a class="headerlink" href="#hbdnntensorshape" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">dimensionSize</span><span class="p">[</span><span class="n">HB_DNN_TENSOR_MAX_DIMENSIONS</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">numDimensions</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTensorShape</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Shape of tensor.
+E.g. a 224x224 bgr color space image whose <code class="docutils literal notranslate"><span class="pre">numDimensions=4</span></code>, if its layout is NHWC, then the <code class="docutils literal notranslate"><span class="pre">dimensionSize</span></code> array should
+save the image in such sequence: <code class="docutils literal notranslate"><span class="pre">Number=1</span></code>, <code class="docutils literal notranslate"><span class="pre">Height=224</span></code>, <code class="docutils literal notranslate"><span class="pre">Width=224</span></code> and <code class="docutils literal notranslate"><span class="pre">Channel=3</span></code>.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 65%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>MEMBER NAME</strong></p></td>
+<td><p><strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dimensionSize</span></code></p></td>
+<td><p>Size of each dimension of tensor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numDimensions</span></code></p></td>
+<td><p>Number of dimensions of tensor.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnnquantishift">
+<h3><span class="section-number">2.2.9. </span><code class="docutils literal notranslate"><span class="pre">hbDNNQuantiShift</span></code><a class="headerlink" href="#hbdnnquantishift" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">shiftLen</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">shiftData</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNQuantiShift</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The quantized/dequantized offset.</p>
+<p><strong>INPUT:</strong> if collected floating-point data is <code class="docutils literal notranslate"><span class="pre">data[i]</span></code>, then the corresponding offset should be <code class="docutils literal notranslate"><span class="pre">shift[i]</span></code>,
+and the inference data that will be fed into the model should round up  <span class="math notranslate nohighlight">\(data[i] * (1 &lt;&lt; shift[i])\)</span>.</p>
+<p><strong>OUTPUT:</strong> if the inference result is <code class="docutils literal notranslate"><span class="pre">data[i]</span></code>, then the corresponding offset should be <code class="docutils literal notranslate"><span class="pre">shift[i]</span></code>,
+the final inference result should be <span class="math notranslate nohighlight">\(data[i] / (1 &lt;&lt; shift[i])\)</span>.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>MEMBER NAME</strong></p></td>
+<td><p><strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shiftLen</span></code></p></td>
+<td><p>Shift length.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">shiftData</span></code></p></td>
+<td><p>Shift starting address.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnnquantiscale">
+<h3><span class="section-number">2.2.10. </span><code class="docutils literal notranslate"><span class="pre">hbDNNQuantiScale</span></code><a class="headerlink" href="#hbdnnquantiscale" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">scaleLen</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">scaleData</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNQuantiScale</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The quantized/dequantized scaling results.</p>
+<p><strong>INPUT:</strong> if collected floating-point data is <code class="docutils literal notranslate"><span class="pre">data[i]</span></code>, then the corresponding scaling result should be <code class="docutils literal notranslate"><span class="pre">scale[i]</span></code>,
+and the inference data that will be fed into the model should round up <span class="math notranslate nohighlight">\(data[i] / scale[i]\)</span>.</p>
+<p><strong>OUTPUT:</strong> if your inference result is <code class="docutils literal notranslate"><span class="pre">data[i]</span></code>, then the corresponding scaling data should be <code class="docutils literal notranslate"><span class="pre">scale[i]</span></code>,
+and the final inference result should be <span class="math notranslate nohighlight">\(data[i] * scale[i]\)</span>.</p>
+<ul>
+<li><p>Member</p>
+<blockquote>
+<div><table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scaleLen</span></code></p></td>
+<td><p>Length of scaling data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scaleData</span></code></p></td>
+<td><p>Starting address of scaling data.</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="hbdnnquantitype">
+<h3><span class="section-number">2.2.11. </span><code class="docutils literal notranslate"><span class="pre">hbDNNQuantiType</span></code><a class="headerlink" href="#hbdnnquantitype" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">NONE</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">SHIFT</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">SCALE</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNQuantiType</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The quantized/dequantized types converted from floating-point to fixed-point or vice versa.
+<code class="docutils literal notranslate"><span class="pre">NONE</span></code> means that data will not be processed; <code class="docutils literal notranslate"><span class="pre">SHIFT</span></code> means that to store the corresponding quantized/dequantized parameters into the
+<code class="docutils literal notranslate"><span class="pre">hbDNNQuantiShift</span></code> struct; <code class="docutils literal notranslate"><span class="pre">SCALE</span></code> means that to store the corresponding quantized/dequantized parameters into the <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiScale</span></code> struct.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NONE</span></code></p></td>
+<td><p>Not quantized.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SHIFT</span></code></p></td>
+<td><p>Quantization type is <code class="docutils literal notranslate"><span class="pre">SHIFT</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SCALE</span></code></p></td>
+<td><p>Quantization type is <code class="docutils literal notranslate"><span class="pre">SCALE</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnntensorproperties">
+<h3><span class="section-number">2.2.12. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTensorProperties</span></code><a class="headerlink" href="#hbdnntensorproperties" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNTensorShape</span><span class="w"> </span><span class="n">validShape</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNTensorShape</span><span class="w"> </span><span class="n">alignedShape</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">tensorLayout</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">tensorType</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNQuantiShift</span><span class="w"> </span><span class="n">shift</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNQuantiScale</span><span class="w"> </span><span class="n">scale</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNQuantiType</span><span class="w"> </span><span class="n">quantiType</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">alignedByteSize</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTensorProperties</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Tensor information.</p>
+<p>Amongst, the <code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> is obtained from model information and denotes the aligned shape;
+after input data is ready, the <code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> must be the same as the input shape of tensor.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">validShape</span></code></p></td>
+<td><p>Shape of valid tensor content.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alignedShape</span></code></p></td>
+<td><p>Shape of aligned tensor content.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tensorLayout</span></code></p></td>
+<td><p>Layout of tensor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tensorType</span></code></p></td>
+<td><p>Tensor type.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shift</span></code></p></td>
+<td><p>Shift of fixed-point to floating-point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>Scaling of fixed-point to floating-point.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">quantiType</span></code></p></td>
+<td><p>Quantization type of fixed-point to floating-point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alignedByteSize</span></code></p></td>
+<td><p>The memory size of the aligned tensor.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnntaskpriority">
+<h3><span class="section-number">2.2.13. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTaskPriority</span></code><a class="headerlink" href="#hbdnntaskpriority" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_PRIORITY_LOWEST</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_PRIORITY_HIGHEST</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_PRIORITY_PREEMP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HB_DNN_PRIORITY_HIGHEST</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTaskPriority</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Task priority with default values.</p>
+</section>
+<section id="hbdnntensor">
+<h3><span class="section-number">2.2.14. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTensor</span></code><a class="headerlink" href="#hbdnntensor" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbSysMem</span><span class="w"> </span><span class="n">sysMem</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNTensorProperties</span><span class="w"> </span><span class="n">properties</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTensor</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Tensor.
+It is used for storing input/output information.
+Amongst, the <code class="docutils literal notranslate"><span class="pre">NV12_SEPARATE</span></code> type tensor requires 2 <code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code>; while all the rest types of tensor only require 1.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sysMem</span></code></p></td>
+<td><p>Memory in which tensors are stored.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">properties</span></code></p></td>
+<td><p>Tensor information.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnnroi">
+<h3><span class="section-number">2.2.15. </span><code class="docutils literal notranslate"><span class="pre">hbDNNRoi</span></code><a class="headerlink" href="#hbdnnroi" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">left</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">top</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">right</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">bottom</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNRoi</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The ROI (Region Of Interest) of rectangle. <span class="math notranslate nohighlight">\(W∈[left, right], H∈[top, bottom]\)</span>.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 74%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">left</span></code></p></td>
+<td><p>The width pixel point at ROI’s upper left corner.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">top</span></code></p></td>
+<td><p>The height pixel point at ROI’s upper left corner.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">right</span></code></p></td>
+<td><p>The width pixel point at ROI’s bottom right corner.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bottom</span></code></p></td>
+<td><p>The height pixel point at ROI’s bottom right corner.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnninferctrlparam">
+<h3><span class="section-number">2.2.16. </span><code class="docutils literal notranslate"><span class="pre">hbDNNInferCtrlParam</span></code><a class="headerlink" href="#hbdnninferctrlparam" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">bpuCoreId</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">dspCoreId</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">more</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved3</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved4</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNInferCtrlParam</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Inference control parameters.
+Amongst, the <code class="docutils literal notranslate"><span class="pre">more</span></code> parameter is used for dealing with batch processing small models,
+if you expect to obtain the output when all tasks are done, you will need to specify the <code class="docutils literal notranslate"><span class="pre">more</span></code> of all previous tasks as <code class="docutils literal notranslate"><span class="pre">1</span></code>,
+except for specifying the <code class="docutils literal notranslate"><span class="pre">more</span></code> of the last task as <code class="docutils literal notranslate"><span class="pre">0</span></code>. It can support inferencing up to 16 models.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bpuCoreId</span></code></p></td>
+<td><p>BPU core ID.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dspCoreId</span></code></p></td>
+<td><p>DSP core ID.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">priority</span></code></p></td>
+<td><p>Task priority.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">more</span></code></p></td>
+<td><p>Whether or not there will be more tasks to follow.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reserved1</span></code></p></td>
+<td><p>Reserved field No.1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved2</span></code></p></td>
+<td><p>Reserved field No.2.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved3</span></code></p></td>
+<td><p>Reserved field No.3.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved4</span></code></p></td>
+<td><p>Reserved field No.4.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+</section>
+<section id="system-type">
+<h2><span class="section-number">2.3. </span>System Type<a class="headerlink" href="#system-type" title="Permalink to this headline"></a></h2>
+<section id="hbbpucore">
+<h3><span class="section-number">2.3.1. </span><code class="docutils literal notranslate"><span class="pre">hbBPUCore</span></code><a class="headerlink" href="#hbbpucore" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_BPU_CORE_ANY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_BPU_CORE_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_BPU_CORE_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbBPUCore</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>BPU core enumeration.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_BPU_CORE_ANY</span></code></p></td>
+<td><p>A random BPU core.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_BPU_CORE_0</span></code></p></td>
+<td><p>BPU core 0.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_BPU_CORE_1</span></code></p></td>
+<td><p>BPU core 1.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdspcore">
+<h3><span class="section-number">2.3.2. </span><code class="docutils literal notranslate"><span class="pre">hbDSPCore</span></code><a class="headerlink" href="#hbdspcore" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DSP_CORE_ANY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DSP_CORE_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DSP_CORE_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDSPCore</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>DSP core enumeration.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DSP_CORE_ANY</span></code></p></td>
+<td><p>Random DSP core.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DSP_CORE_0</span></code></p></td>
+<td><p>DSP core 0.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DSP_CORE_1</span></code></p></td>
+<td><p>DSP core 1.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbsysmem">
+<h3><span class="section-number">2.3.3. </span><code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code><a class="headerlink" href="#hbsysmem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">phyAddr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">virAddr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">memSize</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbSysMem</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>System memory struct. It is used for allocating system memory.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">phyAddr</span></code></p></td>
+<td><p>Physical address.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">virAddr</span></code></p></td>
+<td><p>Virtual address.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">memSize</span></code></p></td>
+<td><p>Memory size.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbsysmemflushflag">
+<h3><span class="section-number">2.3.4. </span><code class="docutils literal notranslate"><span class="pre">hbSysMemFlushFlag</span></code><a class="headerlink" href="#hbsysmemflushflag" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_SYS_MEM_CACHE_INVALIDATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_SYS_MEM_CACHE_CLEAN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbSysMemFlushFlag</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>System memory and cache synchronization parameter.
+As there is a cache area between CPU and memory, the cache data and memory data can be out of sync.
+To be able to obtain the latest data, we will need to refresh data before CPU reads and after CPU writes.
+Before CPU reads, update memory data into cache, while after CPU writes, update cache data into memory.</p>
+<img alt="_images/hbSysMemFlushFlag.png" class="align-center" src="_images/hbSysMemFlushFlag.png" />
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 65%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_SYS_MEM_CACHE_INVALIDATE</span></code></p></td>
+<td><p>Before CPU reads, synchronize memory data into cache.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_SYS_MEM_CACHE_CLEAN</span></code></p></td>
+<td><p>After CPU writes, synchronize cache data into memory.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+</section>
+<section id="preprocess-type">
+<h2><span class="section-number">2.4. </span>Preprocess Type<a class="headerlink" href="#preprocess-type" title="Permalink to this headline"></a></h2>
+<section id="hb-dnn-initialize-resize-ctrl-param">
+<h3><span class="section-number">2.4.1. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_INITIALIZE_RESIZE_CTRL_PARAM</span></code><a class="headerlink" href="#hb-dnn-initialize-resize-ctrl-param" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_INITIALIZE_RESIZE_CTRL_PARAM(param)     \</span>
+<span class="cp">  {                                                     \</span>
+<span class="cp">    (param)-&gt;bpuCoreId = HB_BPU_CORE_ANY;              \</span>
+<span class="cp">    (param)-&gt;resizeType = HB_DNN_RESIZE_TYPE_BILINEAR; \</span>
+<span class="cp">    (param)-&gt;priority = HB_DNN_PRIORITY_LOWEST;        \</span>
+<span class="cp">    (param)-&gt;reserved1 = 0;                             \</span>
+<span class="cp">    (param)-&gt;reserved2 = 0;                             \</span>
+<span class="cp">    (param)-&gt;reserved3 = 0;                             \</span>
+<span class="cp">    (param)-&gt;reserved4 = 0;                             \</span>
+<span class="cp">  }</span>
+</pre></div>
+</div>
+<p>Initialed control parameters.</p>
+</section>
+<section id="hbdnnresizetype">
+<h3><span class="section-number">2.4.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNResizeType</span></code><a class="headerlink" href="#hbdnnresizetype" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_RESIZE_TYPE_BILINEAR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNResizeType</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Resize</span></code> type。</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_RESIZE_TYPE_BILINEAR</span></code></p></td>
+<td><p>Resize type is bilinear interpolation.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnnresizectrlparam">
+<h3><span class="section-number">2.4.3. </span>hbDNNResizeCtrlParam<a class="headerlink" href="#hbdnnresizectrlparam" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">bpuCoreId</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNResizeType</span><span class="w"> </span><span class="n">resizeType</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved3</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved4</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNResizeCtrlParam</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Control parameters of <code class="docutils literal notranslate"><span class="pre">Resize</span></code>.</p>
+<ul>
+<li><p>Member</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>MEMBER NAME</strong></p></th>
+<th class="head"><p><strong>DESCRIPTIONS</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bpuCoreId</span></code></p></td>
+<td><p>BPU core ID.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">priority</span></code></p></td>
+<td><p>Task priority.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">resizeType</span></code></p></td>
+<td><p>Resize type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reserved1</span></code></p></td>
+<td><p>Reserved field No.1.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved2</span></code></p></td>
+<td><p>Reserved field No.2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved3</span></code></p></td>
+<td><p>Reserved field No.3.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved4</span></code></p></td>
+<td><p>Reserved field No.4.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+</section>
+<section id="plugin-type">
+<h2><span class="section-number">2.5. </span>Plugin Type<a class="headerlink" href="#plugin-type" title="Permalink to this headline"></a></h2>
+<section id="hbdnnlayercreator">
+<h3><span class="section-number">2.5.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNLayerCreator</span></code><a class="headerlink" href="#hbdnnlayercreator" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="n">hobot</span><span class="o">::</span><span class="n">dnn</span><span class="o">::</span><span class="n">Layer</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">hbDNNLayerCreator</span><span class="p">)();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>User defined Layer creating method.</p>
+</section>
+</section>
+</section>
+<section id="apis">
+<h1><span class="section-number">3. </span>APIs<a class="headerlink" href="#apis" title="Permalink to this headline"></a></h1>
+<section id="version-information">
+<h2><span class="section-number">3.1. </span>Version Information<a class="headerlink" href="#version-information" title="Permalink to this headline"></a></h2>
+<section id="hbdnngetversion">
+<h3><span class="section-number">3.1.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetVersion()</span></code><a class="headerlink" href="#hbdnngetversion" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="nf">hbDNNGetVersion</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain the version information of <code class="docutils literal notranslate"><span class="pre">DNN</span></code> prediction library.</p>
+<ul class="simple">
+<li><p>Return</p>
+<ul>
+<li><p>Return version information.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="model-loading-and-freeing">
+<h2><span class="section-number">3.2. </span>Model Loading and Freeing<a class="headerlink" href="#model-loading-and-freeing" title="Permalink to this headline"></a></h2>
+<section id="hbdnninitializefromfiles">
+<h3><span class="section-number">3.2.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNInitializeFromFiles()</span></code><a class="headerlink" href="#hbdnninitializefromfiles" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNInitializeFromFiles</span><span class="p">(</span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">packedDNNHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                 </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">modelFileNames</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                 </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">modelFileCount</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Creating and Initializing <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code> from file.</p>
+<ul>
+<li><p>Parameter</p>
+<ul class="simple">
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>   A Horizon DNN handle who points to multiple models.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelFileNames</span></code>    Path to model file.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelFileCount</span></code>    Number of model file.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="hbdnninitializefromddr">
+<h3><span class="section-number">3.2.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNInitializeFromDDR()</span></code><a class="headerlink" href="#hbdnninitializefromddr" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNInitializeFromDDR</span><span class="p">(</span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">packedDNNHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">**</span><span class="n">modelData</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">modelDataLengths</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">modelDataCount</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Creating and Initializing <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code> from memory.</p>
+<ul>
+<li><p>Parameter</p>
+<ul class="simple">
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>    A Horizon DNN handle who points to multiple models.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelData</span></code>          Pointer of model file.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelDataLengths</span></code>   Length of model file.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelFileCount</span></code>     Number of model file.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="hbdnnrelease">
+<h3><span class="section-number">3.2.3. </span><code class="docutils literal notranslate"><span class="pre">hbDNNRelease()</span></code><a class="headerlink" href="#hbdnnrelease" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNRelease</span><span class="p">(</span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="n">packedDNNHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Free the model pointed to by <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in] <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>  A Horizon DNN handle who points to multiple models.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="model-information">
+<h2><span class="section-number">3.3. </span>Model Information<a class="headerlink" href="#model-information" title="Permalink to this headline"></a></h2>
+<section id="hbdnngetmodelnamelist">
+<h3><span class="section-number">3.3.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetModelNameList()</span></code><a class="headerlink" href="#hbdnngetmodelnamelist" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetModelNameList</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">***</span><span class="n">modelNameList</span><span class="p">,</span><span class="w"></span>
+<span class="w">                              </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">modelNameCount</span><span class="p">,</span><span class="w"></span>
+<span class="w">                              </span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="n">packedDNNHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain name list and number of models pointed to by <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>.</p>
+<ul>
+<li><p>Parameter</p>
+<ul class="simple">
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">modelNameList</span></code>    A list of model names.</p></li>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">modelNameCount</span></code>   Number of models.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>  A Horizon DNN handle who points to multiple models.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="hbdnngetmodelhandle">
+<h3><span class="section-number">3.3.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetModelHandle()</span></code><a class="headerlink" href="#hbdnngetmodelhandle" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetModelHandle</span><span class="p">(</span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="n">packedDNNHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">modelName</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain a model handle from the model list pointed to by <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code> .</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>         A DNN handle who points to one model.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>   A DNN handle who points to multiple models.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelName</span></code>         Model name.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetinputcount">
+<h3><span class="section-number">3.3.3. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetInputCount()</span></code><a class="headerlink" href="#hbdnngetinputcount" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetInputCount</span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">inputCount</span><span class="p">,</span><span class="w"></span>
+<span class="w">                           </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain the input tensor number of the model pointed to by <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">inputCount</span></code>  Number of model input tensors.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>   A DNN handle who points to one model.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetinputname">
+<h3><span class="section-number">3.3.4. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetInputName()</span></code><a class="headerlink" href="#hbdnngetinputname" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetInputName</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">name</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">inputIndex</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain the <code class="docutils literal notranslate"><span class="pre">name</span></code> of model’s input tensor.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">name</span></code>        The name of model’s input tensor.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>   The DNN handle pointing to a specific model.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">inputIndex</span></code>  The index of model’s input tensor.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetinputtensorproperties">
+<h3><span class="section-number">3.3.5. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetInputTensorProperties()</span></code><a class="headerlink" href="#hbdnngetinputtensorproperties" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetInputTensorProperties</span><span class="p">(</span><span class="n">hbDNNTensorProperties</span><span class="w"> </span><span class="o">*</span><span class="n">properties</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                      </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">inputIndex</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain the properties of specific input tensor of the model pointed to by <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">properties</span></code>   Input tensor information.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>    A DNN handle who points to one model.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">inputIndex</span></code>   Serial number of model input tensor.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetoutputcount">
+<h3><span class="section-number">3.3.6. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputCount()</span></code><a class="headerlink" href="#hbdnngetoutputcount" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetOutputCount</span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">outputCount</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain the output tensor number of the model pointed to by <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>.</p>
+<ul>
+<li><p>Parameter</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">outputCount</span></code>  Number of model output tensors.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>    A DNN handle who points to one model.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Return</p>
+<ul class="simple">
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetoutputname">
+<h3><span class="section-number">3.3.7. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputName()</span></code><a class="headerlink" href="#hbdnngetoutputname" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetOutputName</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">name</span><span class="p">,</span><span class="w"></span>
+<span class="w">                           </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                           </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">outputIndex</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain the <code class="docutils literal notranslate"><span class="pre">name</span></code> of model output tensor.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">name</span></code>        The name of model output tensor.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>   The DNN handler pointing to a model.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">outputIndex</span></code> The index of model output tensor.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetoutputtensorproperties">
+<h3><span class="section-number">3.3.8. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputTensorProperties()</span></code><a class="headerlink" href="#hbdnngetoutputtensorproperties" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetOutputTensorProperties</span><span class="p">(</span><span class="n">hbDNNTensorProperties</span><span class="w"> </span><span class="o">*</span><span class="n">properties</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                       </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">outputIndex</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Obtain the properties of specific output tensor of the model pointed to by <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">properties</span></code>    Output tensor information.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>     A DNN handle who points to one model.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">outputIndex</span></code>   Serial number of model output tensor.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="model-inference">
+<h2><span class="section-number">3.4. </span>Model Inference<a class="headerlink" href="#model-inference" title="Permalink to this headline"></a></h2>
+<section id="hbdnninfer">
+<h3><span class="section-number">3.4.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNInfer()</span></code><a class="headerlink" href="#hbdnninfer" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNInfer</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">taskHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">**</span><span class="n">output</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="k">const</span><span class="w"> </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="n">hbDNNInferCtrlParam</span><span class="w"> </span><span class="o">*</span><span class="n">inferCtrlParam</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Execute inference tasks in accordance with input parameters.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out]     <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>          Pointer of task handle.</p></li>
+<li><p>[in/out]  <code class="docutils literal notranslate"><span class="pre">output</span></code>             Output of inference tasks.</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">input</span></code>               Input of inference tasks.</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>           DNN handle pointer.</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">inferCtrlParam</span></code>      Control parameter of inference tasks.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please specify the <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code> as <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> in advance when submitting your task using this API,
+unless it is an additional task of a specified <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code> (i.e. applying the <code class="docutils literal notranslate"><span class="pre">inferCtrlParam::more</span></code> feature).</p>
+</div>
+</section>
+<section id="hbdnnroiinfer">
+<h3><span class="section-number">3.4.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNRoiInfer()</span></code><a class="headerlink" href="#hbdnnroiinfer" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNRoiInfer</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">taskHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">**</span><span class="n">output</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="k">const</span><span class="w"> </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">hbDNNRoi</span><span class="w"> </span><span class="o">*</span><span class="n">rois</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">roiCount</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">hbDNNInferCtrlParam</span><span class="w"> </span><span class="o">*</span><span class="n">inferCtrlParam</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Execute ROI inference tasks in accordance with input parameters.</p>
+<ul>
+<li><p>Parameter</p>
+<ul class="simple">
+<li><p>[out]     <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>       Pointer of task handle.</p></li>
+<li><p>[in/out]  <code class="docutils literal notranslate"><span class="pre">output</span></code>           Output of inference tasks.</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">input</span></code>            Input of inference tasks.</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">rois</span></code>             ROI box information.</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">roiCount</span></code>         Number of ROI box.</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>        DNN handle pointer.</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">inferCtrlParam</span></code>   Control parameter of inference tasks.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>About the <code class="docutils literal notranslate"><span class="pre">input</span></code> parameter: when number of model input equals to <code class="docutils literal notranslate"><span class="pre">input_count</span></code>, and number of <code class="docutils literal notranslate"><span class="pre">roi</span></code> equals to <code class="docutils literal notranslate"><span class="pre">roiCount</span></code>,
+the subscript range of the <code class="docutils literal notranslate"><span class="pre">input</span></code> array corresponding to the i<sub>st</sub> <code class="docutils literal notranslate"><span class="pre">roi</span></code> should be: <span class="math notranslate nohighlight">\([i * input\_count, (i + 1) * input\_count)，i=[0,roiCount)\)</span>.</p>
+<p>About priority and preemption tasks: currently, DNN can only support execution of up to 8 tasks.
+If there are already 8 tasks up and running when you submit a preemption task, the preemption task
+to execute the highest prioritized task will not be supported, until one of the tasks is accomplished.</p>
+<p>Please specify the <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code> as <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> in advance when submitting your task using this API,
+unless it is an additional task of a specified <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code> (i.e. applying the <code class="docutils literal notranslate"><span class="pre">inferCtrlParam::more</span></code> feature).</p>
+</div>
+</section>
+<section id="hbdnnwaittaskdone">
+<h3><span class="section-number">3.4.3. </span><code class="docutils literal notranslate"><span class="pre">hbDNNWaitTaskDone()</span></code><a class="headerlink" href="#hbdnnwaittaskdone" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNWaitTaskDone</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="n">taskHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Wait until end of task or timeout.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>         Pointer of task handle.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">timeout</span></code>            Timeout setting (Unit: millisecond).</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">timeout</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>    denotes waiting time;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeout</span> <span class="pre">&lt;=</span> <span class="pre">0</span></code>   denotes keep wating until the end of the task.</p></li>
+</ol>
+</div>
+</section>
+<section id="hbdnnreleasetask">
+<h3><span class="section-number">3.4.4. </span>hbDNNReleaseTask()<a class="headerlink" href="#hbdnnreleasetask" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNReleaseTask</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="n">taskHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Release task, cancel and release the task if the task has not yet been executed.
+Else if the task has been executed, it will be cancelled at a certain node and released.</p>
+<ul>
+<li><p>Parameter</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>         Pointer of task handle.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Return</p>
+<ul class="simple">
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="memory-related-operations">
+<h2><span class="section-number">3.5. </span>Memory Related Operations<a class="headerlink" href="#memory-related-operations" title="Permalink to this headline"></a></h2>
+<section id="hbsysallocmem">
+<h3><span class="section-number">3.5.1. </span><code class="docutils literal notranslate"><span class="pre">hbSysAllocMem()</span></code><a class="headerlink" href="#hbsysallocmem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysAllocMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Allocate BPU memory.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">size</span></code>                Size of the allocated memory.</p></li>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">mem</span></code>                 Memory pointer.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysalloccachedmem">
+<h3><span class="section-number">3.5.2. </span><code class="docutils literal notranslate"><span class="pre">hbSysAllocCachedMem()</span></code><a class="headerlink" href="#hbsysalloccachedmem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysAllocCachedMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The BPU memory who allocates cache memory.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">size</span></code>              Size of the allocated memory.</p></li>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">mem</span></code>               Memory pointer.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysflushmem">
+<h3><span class="section-number">3.5.3. </span><code class="docutils literal notranslate"><span class="pre">hbSysFlushMem()</span></code><a class="headerlink" href="#hbsysflushmem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysFlushMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">flag</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Refresh the cached BPU memory.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">mem</span></code>               Memory pointer.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">flag</span></code>              Refresh flag.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysfreemem">
+<h3><span class="section-number">3.5.4. </span><code class="docutils literal notranslate"><span class="pre">hbSysFreeMem()</span></code><a class="headerlink" href="#hbsysfreemem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysFreeMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Free BPU memory.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">mem</span></code>               Memory pointer.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsyswritemem">
+<h3><span class="section-number">3.5.5. </span><code class="docutils literal notranslate"><span class="pre">hbSysWriteMem()</span></code><a class="headerlink" href="#hbsyswritemem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysWriteMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Write BPU memory.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">dest</span></code>                Memory pointer.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">src</span></code>                 Data pointer.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">size</span></code>                Data size.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysreadmem">
+<h3><span class="section-number">3.5.6. </span><code class="docutils literal notranslate"><span class="pre">hbSysReadMem()</span></code><a class="headerlink" href="#hbsysreadmem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysReadMem</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Read BPU memory.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">dest</span></code>               Data pointer.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">src</span></code>                Memory pointer.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">size</span></code>               Data size.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysregistermem">
+<h3><span class="section-number">3.5.7. </span><code class="docutils literal notranslate"><span class="pre">hbSysRegisterMem()</span></code><a class="headerlink" href="#hbsysregistermem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysRegisterMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Register known memory location of physical address as a BPU accessible memory flag, the obtained memory is cacheable.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in/out] <code class="docutils literal notranslate"><span class="pre">mem</span></code>               Memory pointer.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysunregistermem">
+<h3><span class="section-number">3.5.8. </span><code class="docutils literal notranslate"><span class="pre">hbSysUnregisterMem()</span></code><a class="headerlink" href="#hbsysunregistermem" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysUnregisterMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Cancel the <code class="docutils literal notranslate"><span class="pre">hbSysRegisterMem</span></code> registered memory flag.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in] <code class="docutils literal notranslate"><span class="pre">mem</span></code>               Memory pointer.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="preprocess">
+<h2><span class="section-number">3.6. </span>Preprocess<a class="headerlink" href="#preprocess" title="Permalink to this headline"></a></h2>
+<section id="hbdnnresize">
+<h3><span class="section-number">3.6.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNResize()</span></code><a class="headerlink" href="#hbdnnresize" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNResize</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">taskHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">*</span><span class="n">output</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="n">hbDNNRoi</span><span class="w"> </span><span class="o">*</span><span class="n">roi</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="n">hbDNNResizeCtrlParam</span><span class="w"> </span><span class="o">*</span><span class="n">resizeCtrlParam</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Execute resize task in accordance with input parameters.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[out]  <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>           Pointer of task handle.</p></li>
+<li><p>[in/out] <code class="docutils literal notranslate"><span class="pre">output</span></code>             Output of resize task.</p></li>
+<li><p>[in]   <code class="docutils literal notranslate"><span class="pre">input</span></code>                Input of resize task.</p></li>
+<li><p>[in]   <code class="docutils literal notranslate"><span class="pre">roi</span></code>                  Input ROI information.</p></li>
+<li><p>[in]   <code class="docutils literal notranslate"><span class="pre">resizeCtrlParam</span></code>      Control parameters of resize tasks.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ol class="arabic simple">
+<li><p>Currently can only support resize with the same <code class="docutils literal notranslate"><span class="pre">hbDNNDataType</span></code>, and it must be <code class="docutils literal notranslate"><span class="pre">IMG</span></code> type.</p></li>
+<li><p>As for <code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_NV12</span></code>, the width and height of the <code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_NV12_SEPARATE</span></code> type input must be multiples of 2.</p></li>
+<li><p>Scaling range is <span class="math notranslate nohighlight">\([1/185, 256)\)</span>; size requirement is <span class="math notranslate nohighlight">\(H×W &lt;= 4080×4080\)</span>, i.e. the max H of the scaled image is 4,080,
+while the max W of the scaled image is 4,080.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">roi</span></code> must be inside the image.</p></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="plugin">
+<h2><span class="section-number">3.7. </span>Plugin<a class="headerlink" href="#plugin" title="Permalink to this headline"></a></h2>
+<section id="hbdnnregisterlayercreator">
+<h3><span class="section-number">3.7.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNRegisterLayerCreator()</span></code><a class="headerlink" href="#hbdnnregisterlayercreator" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNRegisterLayerCreator</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">layerType</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">hbDNNLayerCreator</span><span class="w"> </span><span class="n">layerCreator</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Method to registering Layer.</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">layerType</span></code>                Layer type.</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">layerCreator</span></code>             Layer creation method.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnnunregisterlayercreator">
+<h3><span class="section-number">3.7.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNUnregisterLayerCreator()</span></code><a class="headerlink" href="#hbdnnunregisterlayercreator" title="Permalink to this headline"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNUnregisterLayerCreator</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">layerType</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Layer。</p>
+<ul class="simple">
+<li><p>Parameter</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">layerType</span></code>                Layer type.</p></li>
+</ul>
+</li>
+<li><p>Return</p>
+<ul>
+<li><p>If returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, then API execution is successful. Otherwise API execution has failed.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="data-layout-and-alignment-rules">
+<h1><span class="section-number">4. </span>Data Layout and Alignment Rules<a class="headerlink" href="#data-layout-and-alignment-rules" title="Permalink to this headline"></a></h1>
+<section id="data-layout">
+<h2><span class="section-number">4.1. </span>Data Layout<a class="headerlink" href="#data-layout" title="Permalink to this headline"></a></h2>
+<p>To promote compute efficiency, the hardware uses special data layout in order to locate
+the feature maps and kernels in the same MAC batch in convolution operation next to each other in memory.
+In this section we describe the data layout concepts of Horizon’s X/J3 ASICs.</p>
+<p>The variables in neural networks can be denoted by a 4D tensor, in which each digit denotes a tensor element,
+and this is what we call the native layout. By lining up different elements in different dimensions by certain rules
+in order to form an independent block, and then consider these blocks as new elements and form new 4D tensors.
+This is what we call the tensor with data layout.</p>
+<p>Input/output data will use different data layout.
+Users can obtain layout Descriptions using APIs, and data with different layouts can not be compared in a direct way.
+Users can choose to use the HBDK compiler provided APIs to convert data layout or write their own code to convert data layout
+in accordance with actual scenarios.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that when converting data layout, padding value must be 0.</p>
+</div>
+<p>Here below introduces 2 types of layouts: <code class="docutils literal notranslate"><span class="pre">NHWC_NATIVE</span></code> and <code class="docutils literal notranslate"><span class="pre">NCHW_NATIVE</span></code>.
+Take the <code class="docutils literal notranslate"><span class="pre">NHWC_NATIVE</span></code> as an example, its layout is shown as below:</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 39%" />
+<col style="width: 21%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>N0H0W0C0</p></td>
+<td><p>N0H0W0C1</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-even"><td><p>N0H0W1C0</p></td>
+<td><p>N0H0W1C1</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-odd"><td><p>……</p></td>
+<td><p>……</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-even"><td><p>N0H1W0C0</p></td>
+<td><p>N0H1W0C1</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-odd"><td><p>……</p></td>
+<td><p>……</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-even"><td><p>N1H0W0C0</p></td>
+<td><p>N1H0W0C1</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-odd"><td><p>……</p></td>
+<td><p>……</p></td>
+<td><p>……</p></td>
+</tr>
+</tbody>
+</table>
+<p>A N*H*W*C tensor can be denoted by below 4 nested loop:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">H</span><span class="p">;</span><span class="w"> </span><span class="n">h</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">W</span><span class="p">;</span><span class="w"> </span><span class="n">w</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">C</span><span class="p">;</span><span class="w"> </span><span class="n">c</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">native_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="n">H</span><span class="o">*</span><span class="n">W</span><span class="o">*</span><span class="n">C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="o">*</span><span class="n">W</span><span class="o">*</span><span class="n">C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">w</span><span class="o">*</span><span class="n">C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>As the difference between <code class="docutils literal notranslate"><span class="pre">NCHW_NATIVE</span></code> and <code class="docutils literal notranslate"><span class="pre">NHWC_NATIVE</span></code> lies only in loop layout, it is not described in detail here.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>All the “native” below refers specifically to layout.</p>
+</div>
+</section>
+<section id="bpu-alignment-rules-and-restrictions">
+<h2><span class="section-number">4.2. </span>BPU Alignment Rules and Restrictions<a class="headerlink" href="#bpu-alignment-rules-and-restrictions" title="Permalink to this headline"></a></h2>
+<p>This section introduces BPU alignment rules and restrictions.</p>
+<section id="model-input">
+<h3><span class="section-number">4.2.1. </span>Model Input<a class="headerlink" href="#model-input" title="Permalink to this headline"></a></h3>
+<p>BPU has no restrictions on the model input size and parity.
+It can support both YOLO-like 416x416 input and SqueezeNet-like 227x227 input.
+However, NV12 is a special case, both height and width must use even numbers, so as to satisfy the rules that UV equals to half Y.</p>
+</section>
+<section id="stride">
+<h3><span class="section-number">4.2.2. </span>Stride<a class="headerlink" href="#stride" title="Permalink to this headline"></a></h3>
+<p>BPU has restrictions on <code class="docutils literal notranslate"><span class="pre">stride</span></code>.
+Usually it can be determined by the <code class="docutils literal notranslate"><span class="pre">validShape</span></code> and <code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> of <code class="docutils literal notranslate"><span class="pre">hbDNNTensorProperties</span></code>.
+<code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> is the requirement on <code class="docutils literal notranslate"><span class="pre">stride</span></code>.
+In addition, there is a special requirement on the Y input of NV12, the <code class="docutils literal notranslate"><span class="pre">stride</span></code> of W must be multiples of 16,
+and no need to align in accordance with the requirement of the <code class="docutils literal notranslate"><span class="pre">alignedShape</span></code>.
+Also, <code class="docutils literal notranslate"><span class="pre">padding</span></code> requirement doesn’t care about specific value, it can be 0 or none-zero.</p>
+</section>
+</section>
+<section id="about-nv12">
+<h2><span class="section-number">4.3. </span>About NV12<a class="headerlink" href="#about-nv12" title="Permalink to this headline"></a></h2>
+<section id="yuv-format">
+<h3><span class="section-number">4.3.1. </span>YUV Format<a class="headerlink" href="#yuv-format" title="Permalink to this headline"></a></h3>
+<p>YUV format is used for optimizing transmission of colored visual signals.
+There are 3 components in YUV: Y indicates brightness, i.e. gray value; while U and V indicate the chrominance which is used to
+describe the color and saturation of images. It is used for specifying pixel color.</p>
+</section>
+<section id="nv12-format">
+<h3><span class="section-number">4.3.2. </span>NV12 Format<a class="headerlink" href="#nv12-format" title="Permalink to this headline"></a></h3>
+<p>NV12 image format belongs to the YUV420SP format in YUV color space, in which each 4 Y component share one group of U and V components.
+Ys are lined up consecutively while UVs are lined up cross one another.</p>
+<p>Refer to below layout:</p>
+<figure class="align-center">
+<img alt="_images/nv12_layout.png" src="_images/nv12_layout.png" />
+</figure>
+</section>
+</section>
+</section>
+<section id="error-code">
+<h1><span class="section-number">5. </span>Error Code<a class="headerlink" href="#error-code" title="Permalink to this headline"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">HB_DNN_SUCCESS</span> <span class="o">=</span> <span class="m">0</span>                   // Execution is successful
+HB_DNN_INVALID_ARGUMENT              // Invalid argument
+HB_DNN_INVALID_MODEL                 // Invalid model
+HB_DNN_MODEL_NUMBER_EXCEED_LIMIT     // Model quantity over limit
+HB_DNN_INVALID_PACKED_DNN_HANDLE     // Invalid packed handle
+HB_DNN_INVALID_DNN_HANDLE            // Invalid handle
+HB_DNN_CAN_NOT_OPEN_FILE             // File does not exist
+HB_DNN_OUT_OF_MEMORY                 // Not enough memory
+HB_DNN_TIMEOUT                       // Timeout
+HB_DNN_TASK_NUM_EXCEED_LIMIT         // Task number over limit
+HB_DNN_TASK_BATCH_SIZE_EXCEED_LIMIT  // Batched task quantity over limit
+HB_DNN_INVALID_TASK_HANDLE           // Invalid task handle
+HB_DNN_RUN_TASK_FAILED               // Task execution failed
+HB_DNN_MODEL_IS_RUNNING              // Task execution underway
+HB_DNN_INCOMPATIBLE_MODEL            // Incompatible models
+HB_DNN_API_USE_ERROR                 // API use error
+
+HB_SYS_SUCCESS                       // Execution is successful
+HB_SYS_INVALID_ARGUMENT              // Invalid argument
+HB_SYS_OUT_OF_MEMORY                 // Not enough memory
+HB_SYS_REGISTER_MEM_FAILED           // Memory registration failed
+</pre></div>
+</div>
+</section>
+<section id="configuration-information">
+<h1><span class="section-number">6. </span>Configuration Information<a class="headerlink" href="#configuration-information" title="Permalink to this headline"></a></h1>
+<ol class="arabic">
+<li><p>Log levels. Logs in the <code class="docutils literal notranslate"><span class="pre">dnn</span></code> are composed by 4 levels:</p>
+<ul class="simple">
+<li><p>When <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_NONE</span> <span class="pre">=</span> <span class="pre">0</span></code>, no log will be printed；</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_WARNING</span> <span class="pre">=</span> <span class="pre">3</span></code>, warning information will be printed;</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_ERROR</span> <span class="pre">=</span> <span class="pre">4</span></code>, error information will be printed;</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_FATAL</span> <span class="pre">=</span> <span class="pre">5</span></code>, those errors which can cause quit will be printed.</p></li>
+</ul>
+</li>
+<li><p>Rules to set log levels:</p>
+<p>If a log event whose level is higher than your specified log level takes place, then it will be printed, otherwise blocked.
+That is to say, the lower level you specify, the more (levels of) logs you are going to get
+(except for level <code class="docutils literal notranslate"><span class="pre">0</span></code>, which means print nothing).
+E.g., if you specify log level as <code class="docutils literal notranslate"><span class="pre">3</span></code> (i.e. <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>), then level <code class="docutils literal notranslate"><span class="pre">3</span></code>, <code class="docutils literal notranslate"><span class="pre">4</span></code> and <code class="docutils literal notranslate"><span class="pre">5</span></code> logs will be printed.
+The default log level is <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_WARNING</span></code>, i.e., <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> , <code class="docutils literal notranslate"><span class="pre">ERROR</span></code> and <code class="docutils literal notranslate"><span class="pre">FATAL</span></code> logs will be printed.</p>
+</li>
+<li><p>Specify log level.
+Use the environment variable <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_LEVEL</span></code> to specify log level.
+E.g. if <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">HB_DNN_LOG_LEVEL=3</span></code>, then all logs whose level are superior to and equal to <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> will be printed.</p></li>
+</ol>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="BPU SDK API Doc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Horizon Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

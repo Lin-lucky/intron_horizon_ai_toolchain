@@ -1,0 +1,88 @@
+General Descriptions
+=================================
+
+Most samples in the model conversion sample package are collections of shell scripts, 
+in which encapsulated the business logic code to accomplish various tasks using tools, such as:
+
+* How to check, convert and inference models using the ``hb_mapper`` sub commands.
+* How to create users' customized OP template using the ``hb_custom_op`` tool when there are OPs unsupported by Horizon's ASICs.
+* How to analyze the hybrid HGM's performance using the ``hb_perf`` tool.
+* How to find out where the accuracy errors are using the ``vec_diff`` tool.
+* ...
+
+Directory structure of samples is shown as below::
+
+    horizon_model_convert_sample/
+    ├── 01_common
+    │   ├── calibration_data
+    │   ├── data -> /data/horizon_x3/data
+    │   ├── model_zoo -> ../../../model_zoo/
+    │   ├── python
+    │   ├── README.md
+    │   └── test_data
+    ├── 03_classification
+    │   ├── 01_mobilenet
+    │   ├── 02_googlenet
+    │   ├── 03_resnet18
+    │   ├── 04_mobilenet_onnx
+    │   ├── 05_efficientnet_lite0_onnx
+    │   ├── 06_efficientnet_lite1_onnx
+    │   ├── 07_efficientnet_lite2_onnx
+    │   ├── 08_efficientnet_lite3_onnx
+    │   ├── 09_efficientnet_lite4_onnx
+    │   ├── cls_evaluate.py
+    │   └── cls_inference.py
+    ├── 04_detection
+    │   ├── 01_yolov2
+    │   ├── 02_yolov3
+    │   ├── 03_yolov5
+    │   ├── 04_mobilenet_ssd
+    │   ├── 05_efficient_det
+    │   ├── 06_centernet
+    │   ├── 07_fcos
+    │   ├── det_evaluate.py
+    │   └── det_inference.py
+    ├── 05_miscellaneous
+    │   ├── 01_lenet_gray
+    │   ├── 02_resnet50_feature
+    │   ├── 03_vector_diff
+    │   ├── 04_multi_input_example
+    │   ├── 07_model_verifier
+    │   ├── 08_model_info
+    │   ├── 09_mobilenet_bgr
+    │   ├── 10_mobilenet_yuv444
+    │   └── cls_inference.py
+    ├── 06_custom_op
+    │   └── mapper
+    ├── 07_segmentation
+    │   ├── 01_mobilenet_unet
+    │   ├── seg_evaluate.py
+    │   └── seg_inference.py
+    ├── data_preprocess.py
+    └── version.txt
+
+Main contents in the sample package:
+
+.. _algo_sample_doc_ref:
+
+:doc:`Algorithm Model Samples <02_algorithm_sample>`
+
+Algorithm samples of MobileNetv1, MobileNetv2, GoogleNet, ResNet18, EfficientNet_lite0~4,
+YOLOv2, YOLOv3, YOLOv5, MobileNet_SSD, EfficientDet, MobileNet UNet, CenterNet and FCOS. 
+The purposes of these samples are to help developers: 
+
+* experiences model conversion process
+* experiences accuracy evaluation of model conversion
+* experiences model conversion results
+
+:doc:`Miscellaneous Samples <03_misc_sample>`
+
+  miscellaneous samples help users understand some other contents in Horizon's ASIC toolchain, e.g. how to enable rgb data trained models receive yuv data in runtime using Horizon's model conversion tool. 
+
+  E.g.: `03_vector_diff` helps users understand how to target problems using the ``vec_diff`` tool by a sample.
+
+.. note::
+
+  Samples in this section will be updated on an irregular basis and are intended to answers frequently asked questions.
+
+

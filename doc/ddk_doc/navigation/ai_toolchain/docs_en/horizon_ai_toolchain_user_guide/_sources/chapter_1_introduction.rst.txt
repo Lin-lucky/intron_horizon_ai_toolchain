@@ -1,0 +1,60 @@
+About The Toolchain
+=========================
+
+Overview
+-------------------------
+
+Horizon's ASIC [#ASIC]_ Toolchain (hereafter referred to as **the toolchain**), 
+as a complete set of artificial intelligence edge algorithm solution, 
+can help users' quickly ASIC deployment and algorithm model development.
+The toolchain consists of components e.g. model conversion, 
+embedded operating environment. 
+Please refer to below logic diagram:
+
+.. 由于libdnn暂不支持x86，此处删除仿真相关内容。
+
+.. image:: _static/logic_diagram.png
+  :align: center
+
+As shown above, the **mapper** component provides model conversion capacity.
+Users can obtain floating-point model (hereafter as the FPM [#FPM]_) from open source 
+deep learning (hereafter as DL) frameworks and convert the FPM into Horizon's ASIC supported 
+heterogenerous model (hereafter referred to as the HGM [#HGM]_).
+
+While the **runtime sdk** component serves as the HGM runtime library. 
+The present release version can only support ARM architecture.
+
+Workflow Diagram
+-------------------------
+
+Below diagram displays the basic workflow of the toolchain:
+
+.. image:: _static/workflow.png
+  :align: center
+
+**Prerequisites** refers to the process to install the dependencies of model conversion and application development.
+It is ONLY required when you use the toolchain for the very first time. Please refer to the 
+:doc:`Prerequisites <chapter_2_prerequisites>` chapter for more details.
+
+**Model Training** refers to the process of obtaining your available model using open source DL frameworks, e.g. 
+TensorFlow, PyTorch and Caffe etc. The trained model can serve as the input of the model conversion stage.
+As the toolchain does NOT provide any model training related libraries or tools, information of the open source DL 
+frameworks supported by the toolchain please refer to the instructions in the 
+:doc:`Model Conversion <chapter_3_model_conversion>` chapter.
+
+**Model Conversion** refers to the key stage to convert the model training stage trained FPM into the hybrid HGM 
+that can run efficiently on Horizon's AI ASIC platform by means of optimizing model structure, calibrating and 
+quantizing the model. To validate the availability of the HGM, the toolchain also provides performance analyzing, 
+accuracy analyzing, debugging tools and offers some very constructive suggestions. Please refer to the 
+:doc:`Model Conversion <chapter_3_model_conversion>` chapter for more information.
+
+**Custom OP Development** is an optional stage to deal with those OPs which cannot be supported by the toolchain. 
+Please ignore this chapter if there isn't any unsupported OPs. Please refer to the 
+:doc:`Custom OP Development <chapter_5_custom_op_development>` chapter for more information.
+
+**Application Development** refers to AI Toolchain's ability to support application development in embedded environment. 
+More information about application development please refer to :doc:`Application Development <chapter_4_application_development>`.
+
+.. [#ASIC] Application Specific Integrated Circuit.
+.. [#FPM] refers to the floating-point model users obtained from open source deep learning frameworks.
+.. [#HGM] refers to the heterogeneous model converted using ``hb_mapper`` tool.

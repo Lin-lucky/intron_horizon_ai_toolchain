@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmultitask_postprocess_method.a  CMakeFiles/multitask_postprocess_method.dir/src/multitask_postprocess_method.cc.o CMakeFiles/multitask_postprocess_method.dir/src/result_util.cc.o
+/usr/bin/ranlib libmultitask_postprocess_method.a

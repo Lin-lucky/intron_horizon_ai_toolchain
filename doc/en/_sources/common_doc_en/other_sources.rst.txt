@@ -1,0 +1,21 @@
+More Technical Support
+===================================
+
+.. note::
+
+  The following resources are from Horizon AI Community and Horizon Robotics' GitHub space. 
+  These resources are for reference only, indicator related information please refer to product documentations.
+
+.. csv-table::
+ :header: "NO.", "DESCRIPTIONS", "URL"
+ :widths: 10, 40, 50
+
+ "1", "XJ3 AI toolchain online training video", "https://developer.horizon.ai/college/detail/id=136488103547258374"
+ "2", "X3 SDB user guide", "https://developer.horizon.ai/forumDetail/136488103547258425"
+ "3", "X3 SDB development board image burning instructions", "https://developer.horizon.ai/forumDetail/136488103547258602"
+ "4", "XJ3 AI toolchain explanation of the stepping point", "https://developer.horizon.ai/forumDetail/136488103547258551"
+ "5", "XJ3 AI toolchain model conversion accuracy analysis", "https://developer.horizon.ai/forumDetail/136488103547258516"
+ "6", "XJ3 AI toolchain model conversion accuracy problem location method", "https://developer.horizon.ai/forumDetail/136488103547258457"
+ "7", "XJ3 Tips and suggestions for the rational use of multi-core BPU", "https://developer.horizon.ai/forumDetail/136488103547258549"
+
+   

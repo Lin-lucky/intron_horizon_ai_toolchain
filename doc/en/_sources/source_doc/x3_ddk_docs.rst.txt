@@ -1,0 +1,96 @@
+Appendix: Development Manual
+================================
+
+.. note::
+  Please contact Horizon Robotics' technical or sales personnel if you find any of below documentation links become invalid.
+
+1. AI Toolchain Documentations
+--------------------------------------
+
+.. csv-table::
+    :header: "NO.", "NAME", "FILE LOCATION", "DESCRIPTIONS"
+    :align: left
+    :widths: 5, 30, 50, 50
+
+
+    "1", "Horizon AI Toolchain User Guide", horizon_ai_toolchain_user_guide_, "The User Guide gives an overall picture of the AI Toolchain and helps understand the development process including development environment preparation, model deployment, application development, custom OP development etc. In addition, it also displays the Benchmark of multiple algorithm models."
+    "2", "HB Mapper Tools Guide", hb_mapper_tools_guide_, "Elaborates model conversion process and explains how to use related ``horizon_tc_ui`` tools."
+    "3", "Model Convert Sample Doc", hb_mapper_sample_doc_, "Introduces the horizon_model_convert_sample package, in which contains a series of samples that converting floating-point models into fixed-point models using the ``horizon_tc_ui``, single image inference and accuracy eval samples."
+    "4", "Supported OP List and Restrictions", supported_op_list_and_restrictions_, "Elaborates Horizon's platform supported Caffe and ONNX operators and restrictions."
+    "5", "Model Encryption", model_encryption_, "Explains how to use Horizon's model encryption feature."
+    "6", "BPU SDK API DOC", bpu_sdk_api_doc_, "Introduces the API, data, struct, layout and alignment rules of Horizon's runtime SDK."
+    "7", "Basic Sample User Guide", basic_sample_, "Explains a series of basic samples in the horizon_runtime_sample embedded development sample package. The package contains samples of single image inference, implementation and inference of models containing custom operators and batch processing of multi-models etc., helps developers accomplish fast model deployment"
+    "8", "AI Benchmark User Guide", ai_benchmark_, "Explains a series of embedded application development samples in the ai_benchmark package. Developers can experience model deployment and model performance evaluation related application development. Sample scripts consist of performance and accuracy evaluations."
+
+
+.. _horizon_ai_toolchain_user_guide: ../../ddk_doc/navigation/ai_toolchain/docs_en/horizon_ai_toolchain_user_guide/index.html
+.. _hb_mapper_sample_doc: ../../ddk_doc/navigation/ai_toolchain/docs_en/hb_mapper_sample_doc/index.html
+.. _hb_mapper_tools_guide: ../../ddk_doc/navigation/ai_toolchain/docs_en/hb_mapper_tools_guide/index.html
+.. _supported_op_list_and_restrictions: ../../ddk_doc/navigation/ai_toolchain/docs_en/supported_op_list_and_restrictions/supported_op_list_and_restrictions_release.xlsx
+.. _model_encryption: ../../ddk_doc/navigation/ai_toolchain/docs_en/model_encryption.pdf
+.. _bpu_sdk_api_doc: ../../ddk_doc/navigation/ai_toolchain/docs_en/bpu_sdk_api_doc/index.html
+.. _ai_benchmark: ../../ddk_doc/navigation/ai_toolchain/docs_en/embedded_sample/ai_benchmark/index.html
+.. _basic_sample: ../../ddk_doc/navigation/ai_toolchain/docs_en/embedded_sample/basic_sample/index.html
+
+1. AI Express Application Development Component & Framework
+------------------------------------------------------------------
+
+.. csv-table::
+    :header: "NO.", "NAME", "FILE LOCATION"
+    :widths: 5, 30, 50
+   
+    "1", "XJ3_AI_Express_Docs", XJ3_AI_Express_Docs_
+    "2", "XJ3_AI_Solution_Docs", XJ3_AI_Solution_Docs_
+    "3", "XJ3_AI_Express_XStream_Sample_Docs", XJ3_AI_Express_XStream_Sample_Docs_
+    "4", "XJ3_AI_Express_XProto_Sample_Docs", XJ3_AI_Express_XProto_Sample_Docs_
+    "5", "XJ3_Model_Inference_Docs", XJ3_Model_Inference_Docs_
+    "6", "XJ3_Video_Source_Docs", XJ3_Video_Source_Docs_
+    "7", "XJ3_Rtsp_Server_Docs", XJ3_Rtsp_Server_Docs_
+    "8", "XJ3_Uvc_Server_Docs", XJ3_Uvc_Server_Docs_
+
+
+.. _XJ3_AI_Express_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/ai_express/index.html
+.. _XJ3_AI_Solution_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/solution_zoo/index.html
+.. _XJ3_AI_Express_XStream_Sample_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/ai_express/xstream/README.html
+.. _XJ3_AI_Express_XProto_Sample_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/ai_express/xproto/README.html
+.. _XJ3_Video_Source_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/video_source/index.html
+.. _XJ3_Model_Inference_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/model_inference/index.html
+.. _XJ3_Rtsp_Server_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/rtsp_server/index.html
+.. _XJ3_Uvc_Server_Docs: ../../ddk_doc/navigation/ai_express/docs_cn/uvc_server/index.html
+
+3. System Software Documentations
+----------------------------------------
+
+.. csv-table::
+    :header: "NO.", "NAME", "FILE LOCATION"
+    :widths: 5, 30, 50
+   
+    "1", "XJ3 平台系统软件开发手册.pdf", MU-2520-3-J-X3J3平台系统软件开发手册.pdf_
+    "2", "X3 平台系统软件用户手册.pdf", MU-2520-2-H-X3平台系统软件用户手册.pdf_
+    "3", "XJ3 平台系统软件基础接口手册.pdf", MU-2520-1-I-X3J3平台系统软件基础接口手册.pdf_
+    "4", "XJ3 平台AIOT媒体系统接口手册.pdf", MU-2520-4-L-X3J3平台AIOT媒体系统接口手册.pdf_
+    "5", "XJ3 平台AIOT图像系统接口手册.pdf", MU-2520-5-K-X3J3平台AIOT图像系统接口手册.pdf_
+    "6", "XJ3 平台CameraTuningTool使用说明.pdf", U-2520-7-E-X3J3平台CameraTuningTool使用说明.pdf_
+    "7", "X3 平台ISP图像调试指引.pdf", MU-2520-9-C-X3平台ISP图像调试指引.pdf_
+    "8", "XJ3 媒体处理性能调试指南.pdf", AN-2521-4-C-X3J3媒体处理性能调试指南.pdf_
+    "9", "XJ3 图像媒体模块调试指南.pdf", MU-2520-11-C-X3J3图像媒体模块调试指南.pdf_
+    "10", "XJ3 DDR编程指南.pdf", AN-2521-7-B-X3J3DDR编程指南.pdf_
+    "11", "XJ3 平台PMIC驱动修改指导.pdf", AN-2521-1-B-X3J3平台PMIC驱动修改指导.pdf_
+    "12", "XJ3 OTA参数实现原理和使用方法.pdf", AN-2521-3-C-地平线系统软件OTA参数实现原理和使用方法.pdf_
+    "13", "XJ3 平台uboot启动流程和新增内容说明.pdf", AN-2521-5-A-X3J3平台uboot启动流程和新增内容说明.pdf_
+    "14", "XJ3 安全启动与加密使用说明.pdf", AN-2521-6-C-X3J3安全启动与加密使用说明.pdf_
+
+.. _MU-2520-2-H-X3平台系统软件用户手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/user_manual/MU-2520-2-H-X3平台系统软件用户手册.pdf
+.. _MU-2520-1-I-X3J3平台系统软件基础接口手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-1-I-X3J3平台系统软件基础接口手册.pdf
+.. _MU-2520-4-L-X3J3平台AIOT媒体系统接口手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-4-L-X3J3平台AIOT媒体系统接口手册.pdf
+.. _MU-2520-5-K-X3J3平台AIOT图像系统接口手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-5-K-X3J3平台AIOT图像系统接口手册.pdf
+.. _AN-2521-3-C-地平线系统软件OTA参数实现原理和使用方法.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-3-C-地平线系统软件OTA参数实现原理和使用方法.pdf
+.. _AN-2521-5-A-X3J3平台uboot启动流程和新增内容说明.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-5-A-X3J3平台uboot启动流程和新增内容说明.pdf
+.. _AN-2521-6-C-X3J3安全启动与加密使用说明.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-6-C-X3J3安全启动与加密使用说明.pdf
+.. _U-2520-7-E-X3J3平台CameraTuningTool使用说明.pdf: ../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-7-E-X3J3平台CameraTuningTool使用说明.pdf
+.. _MU-2520-3-J-X3J3平台系统软件开发手册.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/MU-2520-3-J-X3J3平台系统软件开发手册.pdf
+.. _AN-2521-4-C-X3J3媒体处理性能调试指南.pdf: ../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/AN-2521-4-C-X3J3媒体处理性能调试指南.pdf
+.. _MU-2520-9-C-X3平台ISP图像调试指引.pdf: ../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-9-C-X3平台ISP图像调试指引.pdf
+.. _MU-2520-11-C-X3J3图像媒体模块调试指南.pdf: ../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-11-C-X3J3图像媒体模块调试指南.pdf
+.. _AN-2521-7-B-X3J3DDR编程指南.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-7-B-X3J3DDR编程指南.pdf
+.. _AN-2521-1-B-X3J3平台PMIC驱动修改指导.pdf: ../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-1-B-X3J3平台PMIC驱动修改指导.pdf

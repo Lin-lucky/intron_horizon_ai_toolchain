@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Hello World &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Hello World</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_framework/code/xstream/tutorials/stage1_hello_world/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hello-world">
+<h1>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>1. 编译<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>进入stage1_hello_world目录，执行如下步骤</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>  mkdir build
+  <span class="nb">cd</span> build
+  cmake .. -DINDEPENDENT_BUILD<span class="o">=</span>ON
+  make
+  make install
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>2. 运行<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>将stage1_hello_world目录下生产的output目录拷贝至XJ3系统，即可运行。运行使用如下命令</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>  // 异步方式
+  ./stage1_hello_world  bbox_workflow.json async
+  // 同步方式
+  ./stage1_hello_world  bbox_workflow.json  sync
+</pre></div>
+</div>
+</div>
+<div class="section" id="workflow">
+<h2>3. 构造简单workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<p>本节将介绍如何搭建一个简单的workflow，并运行起来输出结果。</p>
+<p>首先我们来实现一个简单的检测框过滤的workflow，具体如下。workflow输入数据是face_head_box, 输入数据经过BBoxFilter节点的运算，最终输出数据是face_head_box_filter。其中BBoxFilter作用是过滤掉置信度小于阈值的框。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+    &quot;inputs&quot;: [&quot;face_head_box&quot;],   // workflow输入数据
+    &quot;outputs&quot;: [&quot;face_head_box_filter&quot;],   // workflow输出数据
+    &quot;workflow&quot;: [
+      {
+        &quot;method_type&quot;: &quot;BBoxFilter&quot;,   // Method类型
+        &quot;unique_name&quot;: &quot;bbox_filter&quot;,  // Node的唯一标志
+        &quot;inputs&quot;: [
+          &quot;face_head_box&quot;              // Node的输入
+        ],
+        &quot;outputs&quot;: [
+          &quot;face_head_box_filter&quot;       // Node的输出
+        ],
+        &quot;method_config_file&quot;: &quot;null&quot;   // Node对应的Method的配置文件
+      }
+    ]
+}
+</pre></div>
+</div>
+<div class="section" id="xstreambbox">
+<h3>3.1. 定义XStream框架BBox数据结构<a class="headerlink" href="#xstreambbox" title="Permalink to this headline">¶</a></h3>
+<p>确定好workflow后，我们还需要定义workflow中用到的数据结构。由于XStream Framework中的数据都是基于BaseData，因此需要构建BaseData的派生数据结构。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// method/bbox.h</span>
+<span class="k">struct</span> <span class="nc">BBox</span> <span class="o">:</span> <span class="k">public</span> <span class="n">BaseData</span> <span class="p">{</span>
+  <span class="kr">inline</span> <span class="n">BBox</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="kr">inline</span> <span class="n">BBox</span><span class="p">(</span><span class="kt">float</span> <span class="n">x1_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y1_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">x2_</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y2_</span><span class="p">,</span>
+              <span class="kt">float</span> <span class="n">score_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">x1_</span><span class="p">;</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">y1_</span><span class="p">;</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">x2_</span><span class="p">;</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">y2_</span><span class="p">;</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">score_</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">float</span> <span class="n">x1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">y1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">x2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">y2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">BBox</span><span class="o">&gt;</span> <span class="n">BBoxPtr</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bboxfilter-method">
+<h3>3.2. 定义BBoxFilter Method<a class="headerlink" href="#bboxfilter-method" title="Permalink to this headline">¶</a></h3>
+<p>现在需要实现BBoxFilter Method的核心功能。XStream中定义了SimpleMethod基础类，我们需要在此基础上实现自定义的BBoxFilter，并根据需要实现<code class="docutils literal notranslate"><span class="pre">DoProcess</span></code>这个核心处理函数，以及扩充成员变量，如置信度阈值<code class="docutils literal notranslate"><span class="pre">score_threshold_</span></code>。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BBoxFilter</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SimpleMethod</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">float</span> <span class="n">score_threshold_</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">config_file_path</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">DoProcess</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="kt">void</span> <span class="nf">Finalize</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+
+
+  <span class="n">InputParamPtr</span> <span class="nf">GetParameter</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">GetVersion</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">DoProcess</span></code>的实现，过滤掉小于score_threshold_的BBox：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">DoProcess</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;BBoxScoreFilter::DoProcess &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">input</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">;</span>
+
+    <span class="c1">// one frame</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">input</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">output</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">BaseDataVector</span><span class="o">&gt;</span><span class="p">());</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">state_</span> <span class="o">==</span> <span class="n">DataState</span><span class="o">::</span><span class="n">INVALID</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;input slot &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; is invalid&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">continue</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">auto</span> <span class="n">in_rects</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">BaseDataVector</span><span class="o">&gt;</span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+      <span class="k">auto</span> <span class="n">out_rects</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">BaseDataVector</span><span class="o">&gt;</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+      <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">in_rect</span> <span class="p">:</span> <span class="n">in_rects</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">bbox</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="n">in_rect</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">bbox</span><span class="o">-&gt;</span><span class="n">score</span> <span class="o">&gt;</span> <span class="n">score_threshold_</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">out_rects</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">in_rect</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;filter out: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">bbox</span><span class="o">-&gt;</span><span class="n">x1</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;,&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">bbox</span><span class="o">-&gt;</span><span class="n">y1</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;,&quot;</span>
+                    <span class="o">&lt;&lt;</span> <span class="n">bbox</span><span class="o">-&gt;</span><span class="n">x2</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;,&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">bbox</span><span class="o">-&gt;</span><span class="n">y2</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, score: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">bbox</span><span class="o">-&gt;</span><span class="n">score</span>
+                    <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">output</span><span class="p">;</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bboxfilter-methodmethodfactory">
+<h3>3.3. 注册BBoxFilter Method到MethodFactory<a class="headerlink" href="#bboxfilter-methodmethodfactory" title="Permalink to this headline">¶</a></h3>
+<p>XStream框架构建workflow时，调用全局MethodFactory创建对应Method实例，在使用BBoxFilter之前需要注册到MethodFactory中。也就是说程序需要根据workflow中的<code class="docutils literal notranslate"><span class="pre">&quot;method_type&quot;:</span> <span class="pre">&quot;BBoxFilter&quot;</span></code>，对应程序中具体的自定义Method。做法如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="nn">method_factory</span> <span class="p">{</span>
+<span class="n">MethodPtr</span> <span class="nf">CreateMethod</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">method_name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="s">&quot;BBoxFilter&quot;</span> <span class="o">==</span> <span class="n">method_name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">MethodPtr</span><span class="p">(</span><span class="k">new</span> <span class="n">BBoxFilter</span><span class="p">());</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">MethodPtr</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">}</span>  <span class="c1">// namespace method_factory</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>3.4. 运行workflow<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>首先需要创建XStream SDK并初始化，SDK是运行workflow的对外接口对象。通过<code class="docutils literal notranslate"><span class="pre">SetConfig()</span></code>接口配置workflow json文件，然后调用<code class="docutils literal notranslate"><span class="pre">Init()</span></code>进行初始化。如果运行在异步模式下，还需要通过<code class="docutils literal notranslate"><span class="pre">SetCallback()</span></code>配置输出结果的回调函数。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="c1">// Create xstream sdk object</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span> <span class="o">*</span><span class="n">flow</span> <span class="o">=</span> <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span><span class="o">::</span><span class="n">CreateSDK</span><span class="p">();</span>
+  <span class="c1">// Set config_file</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetConfig</span><span class="p">(</span><span class="s">&quot;config_file&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">);</span>
+
+  <span class="c1">// Set CallBack Func For Async Mode</span>
+  <span class="n">Callback</span> <span class="n">callback</span><span class="p">;</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetCallback</span><span class="p">(</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Callback</span><span class="o">::</span><span class="n">OnCallback</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">callback</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+  <span class="c1">// Init</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>然后创建BBox输入数据，包括4个BBox框(0, 0, 10, 20, 0.1)，(0, 0, 4, 5, 0.3)，(0, 0, 6, 8, 0.7)，(0, 0, 8, 8, 0.9)。这里需要注意的是，由于框架需要根据workflow把输入数据送入对应的Node，所以<strong>输入数据的<code class="docutils literal notranslate"><span class="pre">BaseData::name_</span></code>需要和workflow中的对应</strong>，否则框架会找不到对应的输入数据而抛出错误。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+  <span class="n">BaseDataVector</span> <span class="o">*</span><span class="nf">data</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseDataVector</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">);</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">BBoxPtr</span> <span class="n">bbox4</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;face_head_box&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox1</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox2</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox3</span><span class="p">);</span>
+  <span class="n">data</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">bbox4</span><span class="p">);</span>
+  <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">BaseDataPtr</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>下面可以将输入数据送入框架进行运算，运算分为同步和异步两种模式，<code class="docutils literal notranslate"><span class="pre">SyncPredict()</span></code>是同步运行接口，<code class="docutils literal notranslate"><span class="pre">AsyncPredict()</span></code>是异步运行接口。同步模式下，接口返回输出数据；异步模式下，接口直接返回，运行结束后回调函数会自动处理输出数据。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="c1">// sync mode</span>
+    <span class="k">auto</span> <span class="n">out</span> <span class="o">=</span> <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+    <span class="n">callback</span><span class="p">.</span><span class="n">OnCallback</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
+
+  <span class="c1">// async mode</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">AsyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>来看下经过上述workflow后的结果，BBoxFilter中默认置信度阈值score_threshold_ = 0.5。输出结果包括BBox(0, 0, 6, 8, 0.7)和(0, 0, 8, 8, 0.9)，具体如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>============Output Call Back============
+—seq: 0
+—output_type: __NODE_WHOLE_OUTPUT__
+—error_code: 0
+—error_detail_: 
+—datas_ size: 1
+——output data face_head_box_filter state:0
+——output data: ( x1: 0 y1: 0 x2: 6 y2: 8 score: 0.7 )
+——output data: ( x1: 0 y1: 0 x2: 8 y2: 8 score: 0.9 )
+============Output Call Back End============
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

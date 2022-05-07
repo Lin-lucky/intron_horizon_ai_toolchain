@@ -1,0 +1,618 @@
+Appendix
+==========
+
+Model Performance Benchmark
+---------------------------------
+
+**Descriptions**
+
+  - **Test Conditions**
+
+    - Test Board: x3sdbx3-samsung2G-3200.
+    - Number of Test Core: single.
+    - The frequency parameter to obtain model performance data is specified as: every 5 minutes.
+    - Frame Rate Description: FPS = 1,000/ITC.
+
+  - **Table Header Acronyms**
+
+    - C = Computation, measured in GOPs (i.e. billion operations per second). 
+      Obtain this performance data using the ``hb_perf`` tool.
+    - FPS = Frame(s) Per Second. Run the **latency.sh** script with single thread of different models in the /script 
+      directory of ai_benchmark_j3 sample package on dev board to obtain this performance data, 
+      post-processing is not included.
+    - ITC = Inference Time Consumption. Run the **latency.sh** script with single thread of different models in the 
+      /script directory of ai_benchmark_j3 sample package on dev board to obtain this performance data, 
+      post-processing is not included.
+    - TCPP = Postprocess Time Consumption. Run the **latency.sh** script with single thread of different models in the 
+      /script directory of ai_benchmark_j3 sample package on dev board to obtain this performance data, 
+      post-processing is not included.
+    - RV = Read Volume of single frame. Obtain this performance data using the ``hb_perf`` tool.
+    - WV = Write Volume of single Frame. Obtain this performance data using the ``hb_perf`` tool.
+    
+
+.. table:: 
+  :align: center
+
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **MODEL NAME**          | **INPUT SIZE**                     | **C(GOPs)** | **FPS**  | **ITC(ms)** | **TCPP(ms)** | **RV(mb)** | **WV(mb)** | **ACCURACY**    | **LINKS**                                                                       |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite0**  | 1x224x224x3                        | 0.72        | 437.8284 | 2.284       | 0.078        | 4.91       | 0.1        | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.7469(INT8）   |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite1**  | 1x240x240x3                        | 1.12        | 311.7207 | 3.208       | 0.078        | 5.89       | 0.3        | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.7625(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite2**  | 1x260x260x3                        | 1.60        | 176.4602 | 5.667       | 0.075        | 6.44       | 0.14       | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.7716(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite3**  | 1x280x280x3                        | 2.58        | 116.3467 | 8.597       | 0.074        | 8.71       | 0.25       | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.7905(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientNet-Lite4**  | 1x300x300x3                        | 4.76        | 65.7507  | 14.651      | 0.074        | 14.42      | 1.3        | Top1：          | https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite |
+  |                         |                                    |             |          |             |              |            |            | 0.8058(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **MobileNetv1**         | 1x3x224x224                        | 1.06        | 311.1388 | 3.214       | 0.075        | 4.79       | 0.58       | Top1:           | https://github.com/shicai/MobileNet-Caffe                                       |
+  |                         |                                    |             |          |             |              |            |            | 0.7033(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **MobileNetv2**         | 1x3x224x224                        | 0.80        | 410.1723 | 2.438       | 0.074        | 3.78       | 0.1        | Top1：          | https://github.com/shicai/MobileNet-Caffe                                       |
+  |                         |                                    |             |          |             |              |            |            | 0.7115(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **MobileNet-SSD**       | 1x3x300x300                        | 2.14        | 141.1831 | 7.083       | 3.759        | 8.76       | 2.82       | mAP：           | https://github.com/chuanqi305/MobileNet-SSD                                     |
+  |                         |                                    |             |          |             |              |            |            | 0.7188(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **ResNet18**            | 1x3x224x224                        | 3.40        | 113.6880 | 8.796       | 0.075        | 11.87      | 0.47       | Top1：          | https://github.com/HolmesShuan/ResNet-18-Caffemodel-on-ImageNet                 |
+  |                         |                                    |             |          |             |              |            |            | 0.6836(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **GoogleNet**           | 1x3x224x224                        | 2.79        | 121.2709 | 8.246       | 0.074        | 10.12      | 3.25       | Top1：          | https://github.com/BVLC/caffe/tree/master/models/bvlc_googlenet                 |
+  |                         |                                    |             |          |             |              |            |            | 0.6996(INT8)    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **YOLOv2**              | 1x3x608x608                        | 58.62       | 6.4910   | 154.059     | 1.699        | 62.80      | 13.21      | [IoU=0.50:0.95] | https://pjreddie.com/darknet/yolo/                                              |
+  | (backbone=GoogleNet)    |                                    |             |          |             |              |            |            | 0.271(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **YOLOv3**              | 1x3x416x416                        | 61.37       | 5.9890   | 166.973     | 9.346        | 103.5      | 32.59      | [IoU=0.50:0.95] | https://github.com/ChenYingpeng/caffe-yolov3/                                   |
+  | (backbone=DarkNet19)    |                                    |             |          |             |              |            |            | 0.336(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **YOLOv5**              | 1x3x672x672                        | 17.87       | 14.8898  | 67.160      | 20.709       | 42.75      | 40.50      | [IoU=0.50:0.95] | https://github.com/ultralytics/yolov5/releases/tag/v2.0                         |
+  | (backbone=Darknet53)    |                                    |             |          |             |              |            |            | 0.342(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **EfficientDet-d0**     | 1x3x512x512                        | 4.59        | 60.5804  | 16.507      | 24.035       | 9.21       | 18.23      | [IoU=0.50:0.95] | https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/EfficientDet   |
+  | (backbone=EfficientNet) |                                    |             |          |             |              |            |            | 0.313(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **UNet**                | 1x1024x2048x3                      | 6.87        | 24.1057  | 41.484      | 17.795       | 50.62      | 41.76      | [accuracy]      | https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/MobilenetUnet  |
+  | (backbone=MobileNet)    |                                    |             |          |             |              |            |            | 0.9366(INT8);   |                                                                                 |
+  |                         |                                    |             |          |             |              |            |            |                 |                                                                                 |
+  |                         |                                    |             |          |             |              |            |            | [mIoU]          |                                                                                 |
+  |                         |                                    |             |          |             |              |            |            | 0.638184(INT8). |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **CenterNet**           | 1x3x512x512                        | 48.19       | 8.4940   | 117.730     | 32.311       | 70.17      | 35.88      | [IoU=0.50:0.95] | https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/Centernet      |
+  | (backbone= ResNet50)    |                                    |             |          |             |              |            |            | 0.313(INT8);    |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+  | **FCOS**                | 1x3x512x512                        | 4.68        | 73.8498  | 13.541      | 4.322        | 8.95       | 5.54       | [IoU=0.50:0.95] | TBD                                                                             |
+  | (backbone=              |                                    |             |          |             |              |            |            | 0.345(INT8);    |                                                                                 |
+  | EfficientNetb0)         |                                    |             |          |             |              |            |            |                 |                                                                                 |
+  +-------------------------+------------------------------------+-------------+----------+-------------+--------------+------------+------------+-----------------+---------------------------------------------------------------------------------+
+
+
+Release Note
+---------------------
+
+.. role:: red
+
+.. role:: gray
+
+:red:`v1.12.3`
+
+1. **Runtime** adds the ``hbDNNGetInputName`` and ``hbDNNGetOutputName`` interfaces that are used for obtaining models' input/output tensor names
+#. **Runtime** adds a new ``properties.alignedByteSize`` field into the header file of the prediction lib, this field is used for memory allocation
+#. **Runtime** refactors the ``00_quick_start`` quickstart samples in the basic sample package 
+   (namely the ``ddk/samples/ai_toolchain/horizon_runtime_sample/xj3/script`` subdirectory in the OE package)
+#. **HBDK** compiler utilizes a new memory allocation algorithm that can dramatically decrease memory usage in most cases, 
+   the memory usage of Bernoulli SOCs can drop by 20%, and the memory usage of those models compiled using the 
+   ``--split-by-input-dims`` compilation option also has substantial decrease
+#. **HorizonNN** adds horizon onnx and onnxruntime domain
+#. **HorizonNN** adds a new ``horizon_nn.torch.export_onnx`` for converting PyTorch models into ONNX models
+#. **HorizonNN** adds support for the ``Gelu`` operator
+#. **HorizonNN** adds support for the ``GridSample`` operator
+#. **HorizonNN** adds support for the ``Transpose`` operator
+#. **HorizonNN** adds support for the ``argmax`` whose ``keepdims=0`` 
+#. **HorizonNN** refines Python code test coverage
+#. ``hb_model_verifier`` adds judgement on multi-batch models and corresponding matching procedure when loading data
+#. ``hb_perf`` refines its output to be able to dump the internal nodes during the NV12 to YUV444 conversion of NV12 input data
+#. ``hb_perf`` refines the model performance display in HTML output 
+#. **HBDK** adds mean operation on torch front-end
+#. **HB Mapper Tools Guide** and **AI-Benchmark User Guide** add a section to describe the ``hb_eval_preprocess`` tool.
+   The tool is used for image data preprocessing during the model accuracy evaluation stage.
+
+:gray:`v1.10.5`
+
+1. Horizon proudly provides users with public datasets required by the Toolchain
+#. **horizon_xj3_open_explorer** release package adds calibration datasets into samples
+#. **HBDK** adds support for convolutions whose ``dilation`` is ``16x16``
+#. **HBDK** ``hbdk-model-verifier`` adds supports for generating random input data automatically when the input data are not specified
+#. **HBDK** updates the restriction of the ``stride`` of ``max pooling`` operator from ``[1, 256]`` to ``[1, 185]``
+#. **horizon_model_convert_sample** package adds 2 new MobileNetv1 samples into the miscellaneous samples that take ``bgr`` and ``yuv444`` as their ``input_type_rt``
+#. ``hb_mapper makertbin`` model conversion command adds a new ``input_batch`` parameter into the ``input_parameters`` 
+   in YAML configuration file in order to specify the ``batch_size`` of the neural network
+#. **Runtime** opens up the batch capacity for CPU operators
+#. **Runtime** adds a model output capacity level feature
+#. **HorizonNN** adds functions for creating ``HzQuantize`` and ``HzDequantize`` nodes
+#. **HorizonNN** adds qat modification pass and fix qat compile
+
+:gray:`v1.9.2`
+
+1. ``hb_model_verifier`` model verification tool optimizes output when model results are inconsistent
+#. **horizon_model_convert_sample_** sample package optimizes YAML files of samples
+#. ``hb_mapper`` tool's ``checker`` model checking sub-command and ``makertbin`` model conversion sub-command
+   add support for checking and converting models in batch
+#. **Runtime** adds support for Concat, Pad, Slice and resize operators in opset11
+#. **HorizonNN** adds split and moves batchnorm before concat pass
+#. **HorizonNN** refines quanti mul to support quantize the ``Mul`` whose multiply value is a single scalar
+#. **HorizonNN** converts calibration node to quantize and dequantized node
+#. **HorizonNN** refines the conversion from ``HzPreQuantConv`` to ``HzSQuantizedConv``
+#. **HorizonNN** adds a ``SetConvScalesAndBits`` pass to find the input and output quantization coefficients of Conv
+#. **HorizonNN** adds support for converting calibrated model into quantized model
+#. **HorizonNN** refines quantization Conv and ``ConvTranspose`` operator defs
+#. **HorizonNN** moves the quantizer related pass to the quantizer directory
+#. **HorizonNN** moves the optimizer related pass to the optimizer directory
+#. **HorizonNN**'s ``RunGraphTransformations`` adds support for infershape
+#. **HorizonNN** adds ``GraphTransformationsSet`` for the management of the model conversion pass
+#. **HorizonNN** moves the ``quantize`` and ``dequantize`` nodes to optimizer
+#. No longer supports Ubuntu 16
+
+:gray:`v1.8.6`
+
+1. **Runtime** **DNN** adds support for models who contain bool type OPs
+#. **Runtime** optimizes the ``infer`` API of ``resizer`` models
+#. **dnn_tools** adds support for model dumping txt file, floating-point data can specify number of decimal
+#. **dnn_tools** adds support for counting model loading time when loading the model for the 1\ :sub:`st` time
+#. **dnn_tools** adds support for specifying input files when running the ``perf`` feature
+#. **HorizonNN** adds support for per-channel quantization at the calibration node 
+#. **HorizonNN** adds ``min-max`` calibrater to get tensor range
+#. **HorizonNN** adds **HAT** model conversion related APIs
+#. **HorizonNN** refines quanti info print for those models whose nodes' names are too long
+#. **HorizonNN** refines the reshape mutation opt pass to support more activation ops
+#. **HorizonNN** refines ``quantize`` and ``dequantize``
+#. **HorizonNN** refines pytorch QAT conversion related apis
+#. ``HBDK``'s wheel package no longer contains runtime header files and change logs, those files are moved into another package
+#. ``HBDK`` compiler's Python API adds an additional parameter to specify ``hbdk-cc``
+#. ``HBDK``'s ``hbrtBilinearRoiResize`` serial APIs in J5 ASIC's MARCH no longer supports the outputs with ``NHCW_4H4W8C_4PEN`` layout
+#. **Runtime** modifies logics of ``dequantize`` / ``quantize`` 
+#. **Runtime libdnn** releases x86 prediction library
+
+:gray:`v1.7.8`
+
+1. **HorizonNN** adds new feature to print md5sum of the calibration data
+#. ``HBDK`` adds support for ``broadcast_add`` operator in bernoulli and bernoulli2 march
+#. ``HBDK`` PyTorch models add support for  ``elementwise_mul`` and ``pad_one_axis``  operators
+#. ``HBDK`` adds resizing checker for ``roiresize`` serial APIs who will report errors when the scaling ratio fails to satisfy hardware restrictions
+#. **runtime** refactors the directory structure of sample package, mounting model preprocess data and loading static graphs to 
+   to evaluation model accuracy. The new accuracy evaluation script is accuracy.sh
+#. **runtime** model performance and latency evaluation methods remain unchanged, while evaluation scripts are now respectively fps.sh and latency.sh 
+#. **runtime** adds new efficient_det_no_dequanti_512x512_nv12.bin model and related samples
+#. ``hrt_model_exec`` tool adds new ``--per_time`` option to specify perf time; the ``--node_profile`` option is replaced by ``--profile_path``; 
+   the ``--core_num`` option is replaced by ``--core_id``. Refer to the Section 4.7 Horizon AI Toolchain User Guide
+#. ``hb_model_modifier`` optimizes
+#. **model_zoo** removes the tmp files of efficient_det model and se_resnet_gay model
+#. ``horizon_tc_ui`` tool adds automatic version number update script
+#. Model conversion sample package updates data calibration strategy of sample models
+#. ``hb_mapper_info`` and ``hb_mapper_makertbin`` tools updates log output
+#. HB Mapper Sample Doc adds new Section 2.5 FAQ, explaining how to match inference results of different floating-point models
+#. HB AI Toolchain User Guide adds Other DevTools section, introducing the ``hrt_bin_dump`` and ``hrt_model_exec`` tools
+
+:gray:`v1.6.6`
+
+1. **HorizonNN** adds ``lut`` config for special activate
+#. **HorizonNN** removes the ``ir_version`` check warning during the compiler phase
+#. **HorizonNN** adds an iterator check when get tensor from initializer in onnx passes
+#. **HorizonNN** refines asymmetric quantization parameter
+#. **HorizonNN** refines default calibrater
+#. **HorizonNN** refines nodeadapter to support broadcast add and mul
+#. **HBDK** adds support for compiling PyTorch models on the bernoulli2 march
+#. **HBDK** adds memory usage size in ``hbdk-disas``'s json output
+#. **HBDK** adds support for inputting non-transposed matrix multiplication
+#. **HBDK**'s ``HBRT`` adds a new ``hbrtRiNextSegmentInvolveCpu`` API to check if BPU execution is over. 
+   To enable it, set ``ri_config.enable_bpu_segment_done_check = true`` in ``hbrtRiStart()``
+#. **HBDK** adds support for checking input address alignment in runtime
+#. **HBDK**'s ``hbdk-cc`` and ``hbdk-model-check`` will report error when the ``-s`` option is specified for HBIR models 
+   as HBIR models do not support dynamic input size
+#. **HBDK**'s ``hbrtQuantize`` and ``hbrtQuantizeByScale`` will saturate when results overflow
+#. ``hb_mapper_modifier`` tool adds a new feature to delete dequantize nodes at model output
+
+:gray:`v1.5.9`
+
+1. Open ONNX model inference capacity using GPU
+#. Optimize the model conversion tools in order to improve user-friendliness
+#. Unify the ``input_type`` parameter in the **Horizon model conversion sample package**
+#. Optimize **Runtime** sample packages and API documents into HTML format
+#. The **Runtime** adds support for the asymmetric quantization OP
+#. The **Runtime** Reduction OP adds support for the ``axes`` default value
+#. Names of the .bin models in the **model_zoo** model release package are changed into: 
+   \*\*\*.bin 
+#. The **Runtime**'s ai_benchmark sample package modifies model names to fit .bin model name changes in **model_zoo**
+#. Accuracy evaluation models in **Runtime** samples are replaced by NV12 models
+#. The **HorizonNN** optimizes C++ logs
+#. The **HorizonNN** optimizes those logs without BPU nodes
+#. The **HorizonNN** adds new node check
+#. The **HorizonNN** replaces ``exit()`` with throw exception
+#. The **HorizonNN** adds support to evaluate accuracy with the calibrated model
+#. The **HorizonNN** adds support for ``zero-point`` in ``HzDequantize`` cpu version
+#. The **HorizonNN** adds support for ``zero-point`` in ``HzDequantize`` GPU version
+#. The **HorizonNN** adds test for zero point attribute in ``HzQuantize`` and ``HzDequantize``
+#. The **HBDK** adds new runtime ``code cache`` mechanism for the fasterRCNN alike models, 
+   when configured correctly, the CPU inference time can be dramatically reduced. 
+   The maximum memory occupation of the ``code cache`` can be restricted by specifying the ``HBRT_CODE_CACHE_SIZE`` 
+   runtime environment variable. The memory unit of environment variable is KB. The ``code cache`` will only 
+   become valid when re-compiling the model. Note that by default the ``code cache`` is OFF, and must be turned ON 
+   explicitly by specifying the ``HBRT_CODE_CACHE_SIZE``
+#. The **HBDK** adds estimated execution time for runtime real-time compilation generated BPU functioncall. 
+   In past versions, the estimated execution time of functioncalls equal 0
+#. The **HBDK** improves the ``hbdk-perf`` accuracy of the J5 ASICs
+#. The **Runtime** removes the ``bpu-predict``, ``appsdk``, ``xstream`` and ``xproto`` related libs in release packages
+#. The **Runtime**'s ``hrt_model_exec`` tool adds support for featuremap input
+#. The **HorizonNN** adds BPU input dimension checker
+#. The **HorizonNN** optimizes quantize resize
+#. The **Runtime** adds support for scale quantization method
+#. The **Runtime** optimizes dequantize
+
+:gray:`v1.4.7`
+
+1. All sample packages add the new FCOS model sample
+#. The ReduceMax operator adds ARM support
+#. The **x3_tc_ui** tool changes its name into **horizon_tc_ui** and the  **x3_tc_ui** command can still be supported
+#. The **hb_mapper** optimizes the interactive logics of the ``norm_type`` 
+#. The **HBDK** adds empty pointer and parameter checkers and error reports in the `hbrt` related APIs
+#. The ``hbdk-cc`` and ``hbdk-model-check`` of **HBDK** can support model error reports when H*W exceed 18,432 
+   as those models cannot be accurately executed in BPU dev boards
+#. The **HBDK** deprecated the ``hbrtGetResizerRoiHeightAlignment``, ``hbrtGetResizerRoiWidthAlignment`` and 
+   ``hbrtGetModelPeNumber`` runtime APIs. These APIs will be completed removed in future versions
+#. The ``hb_pack`` model packaging tool removes support for packaging the packaged models
+#. The ``hb_model_verifier`` model validation tool removes support for validating packaged models and will dump 
+   the "NOT supported" message when the input are packaged models.
+#. The ``hb_model_modifier`` tool removes support for handling packaged models and will dump the "NOT supported" message 
+   when the input are packaged models.
+
+|:blue_book:| Documentations
+
+1. Refactor the **Horizon Open Explorer Toolchain (X3/J3)** document, the new **Horizon AI Toolchain User Guide** 
+   Document is in the: 
+   `horizon_xj3_open_explorer_${version}_${date}/ddk/doc/navigation/ai_toolchain/docs_cn/horizon_ai_toolchain_user_guide/` 
+   directory of the **open_explorer** release package
+#. Optimize the **Supported Caffe OP List** operator table, the new **supported_op_list_and_restrictions_release** 
+   table is in the:
+   `horizon_xj3_open_explorer_${version}_${date}/ddk/doc/navigation/ai_toolchain/docs_cn/supported_op_list_and_restrictions/` 
+   directory of the **open_explorer** release package
+
+:gray:`v1.3.3`
+
+1. The **HorizonNN** adds support for quantizing the Mish operator
+#. The **HorizonNN** adds support for the channel conversion from MatMul to Gemm
+#. The **HorizonNN** adds support for element-wise quantization in J5 ASIC's micro architecture
+#. The **HorizonNN** adds INT4 quantization support for the squantizedconv in onnxruntime
+#. The **HorizonNN** adds INT4 quantization in quantize conv pass
+#. The **HorizonNN** adds support for model input layout conversion
+#. The **HorizonNN** adjusts the order of optimize passes
+#. The **HorizonNN** adds an error log for not support conv1d op
+#. The **HorizonNN** uses one sample to speed up the default compilation process
+#. The **HorizonNN** refactors the default calibration method
+#. The **HorizonNN** optimizes element-wise addition implementation in onnxruntime
+#. All model sample packages add new **CenterNet** sample
+#. Model conversion adds support for converting MatMul into BPU
+#. The ``hb_mapper`` tools add new ``hb_model_modifier`` tool to delete the Transpose and Quantize nodes in the input 
+   terminal of the specified bin model and save the deleted node information into bin model. Users can view the information 
+   of the deleted nodes using the ``hb_model_info`` tool
+#. The **runtime** adds log redirection interface that can support developers obtaining more detailed dev board operating 
+   information via user log
+#. The **runtime** separates the header files of the new and old interfaces
+#. The ``hb_mapper`` tools refactors and add new ``layout`` option in the ``input`` parameter
+#. The **runtime** sample packages are divided into: 
+   basic sample package (i.e. the `horizon_xj3_basic_sample-{version}.tar.gz`) and 
+   AI Benchmark package (i.e. the `horizon_xj3_ai_benchmark-{version}.tar.gz`). 
+   Wherein, the basic sample package is used for API tutorials and demonstrating special features; 
+   while the AI Benchmark Package is used for demonstrating model accuracy and performance evaluations
+#. The ``hb_mapper`` tools delete the `output_layout` option in configuration file
+#. The ``hb_mapper`` tools add new layout option for the input configurations of the original floating-point models, 
+   the ``input_layout_train`` option allows users to specify data layout in networking training
+
+:gray:`v1.2.3`
+
+1. The **HorizonNN** updates the ``HBIR RoiResize`` interface
+#. The **HorizonNN** refactors the data loading operation in the calibration module
+#. The **HorizonNN** adds new ``ConsistencyChecker`` for comparing the consistency between 
+   the ``original_model`` and ``optimized_model``
+#. The **HorizonNN** adds new consistency check for each output of the Conv node in the ``ConsistencyChecker`` 
+#. The **HorizonNN** add new models into the CenterNet benchmark
+#. The **HorizonNN** adds new ``CalibrationDataSet`` for managing calibration data
+#. The model output number of the ``hb_mapper`` model conversion tools is specified as 32
+#. The ``input_type_train`` option in model calibration parameters now can be specified as YUV444
+#. The **HBDK** compiler updates model checking rules of the ``Roireize`` and ``Concat``
+#. The scale factor of the ``hbrtBilinearRoiResize*`` interface of the ``HBDK`` compiler has been modified from 
+   [1/256, 256) into [1/185, 256)
+#. The restriction of the `fully connected layer` instruction in X3/J3 has been updated. 
+   Previously, when output type is int32, ``kernel_h * DivCeil(kernel_w, 8) * DivCeil(kernel_c, 4) <= 1024``.
+   Presently, when output type is int32, ``kernel_h * DivCeil(kernel_w, 8) * DivCeil(kernel_c, 4) < 1024``
+#. The speed when loading those hbm files who contain multiple models increased in the ``HBDK`` compiler
+#. The ``hbrtBilinearRoiResizeImage`` interface of the ``HBDK`` compiler can now support 
+   8,192 input/output width when using the ``pad zero`` mode
+#. When the ``HBDK`` compiler supports those models whose has more than 32 output, 
+   independent address will be allocated for each output and the memory of those 
+   structs who contain addresses should be allocated by users. Thus, the struct of 
+   ``hbrt_ri_config_t`` has changed due to the above-mentioned change, but struct size 
+   remains unchanged. Struct name has changed into ``hbrt_ri_config_t_deprecated``. 
+   The ``hbrtRiStart`` support both structs. Please note that the ABI with the old code 
+   is compatible with this change, yet the API is incompatible with this change.
+#. A new ``hbrtDumpSnapshot`` interface is adds to the `hbrt` of the ``HBDK`` compiler in order to 
+   dump internal data of ``hbrt`` and help locate errors
+#. The ``HBDK`` compiler adds support for the `SMean` Operator
+#. The **runtime** embedded development adds support for dumping more information when debugging incidental bugs
+#. The **runtime** embedded development adds the ``hrt_bin_dump`` tool into 
+   its basic example package for validating model consistency
+#. The **runtime** embedded development adds example scripts into its basic example package 
+   for the ``hrt_model_exec`` and ``hrt_bin_dump`` tools
+
+|:blue_book:| Documentations
+
+1. The **hrt_bin_dump Tool Manual** is adds into the `doc/` folder 
+   in the basic example package of the **runtime** embedded development
+#. The **hb_model_exec Tool Manual** is adds into the `doc/` folder 
+   in the basic example package of the **runtime** embedded development
+
+:gray:`v1.1.21`
+
+1. The **Runtime** adds new ``hrt_model_exec`` tool which allows users to quickly 
+   understand model performance using .bin model and operational parameters
+#. Softmax quantization adds support for obtaining the confidence of each pixel in segmentation algorithms
+#. Adds control of the high precision CONV OPs at the end of models to optimize the execution efficiency of 
+   pooling in runtime and overall computational performance 
+#. Adds sources and change descriptions of some models in examples
+#. Adds support to the equal OP in ONNX opset10
+#. Adds static libraries in ``bpu_predict`` and ``lib_hbrt_bernoulli*``
+#. ``hb_mapper makertbin`` adds support for printing the corresponding sample names of cos similarity
+#. Adds dma copy interface in ``bpu_predict`` system software in Runtime
+#. Adds support for floating models in ``bpu_runwithbox``
+#. Adds new **FAQ for Floating-point Model Conversion Toolchain** English PDF file
+#. Addded English annotations for yaml and code files in examples
+#. Optimizes installation method and usage of runtime related dependencies
+#. Optimizes the ``align`` parameter setting in bpu sdk api to improve user experience
+#. Optimizes new feature to recommend the most optimized quantized model by default
+#. Modified some parameters of ``hb_perf`` and ``hbdk_perf``
+#. Fixes the platform mismatch problem caused by simulator when using the resize interface
+#. Cancels support of the `BPU_IO` interface of runtime
+
+:gray:`v1.1.20`
+
+1. Adds a new example script to support inference using ONNX models
+#. Adds a new `hb_pack` tool for packaging multiple binary models
+#. In floating-point model conversion, users can now specify certain CPU nodes not to be quantized using yaml file
+#. Optimizes multi-input examples
+#. Fixes the problem of possible unavailable example package when using docker image in 
+   CentOS or Ubuntu OS caused by installation script
+#. Fixes the inference failure of the ``runwithbox`` interface caused by those boxes which fail to 
+   comfort to hardware restrictions, and opened up ``pyramidbox`` related structural information
+#. Changes integration style of deliverables: **Horizon OpenExplorer(X3/J3) deliverable**, i.e. 
+   ``horizon_x3_tc_{version}`` is divided into **Model Conversion Example Deliverable** i.e. 
+   ``horizon_model_convert_sample_{version}`` and **Floating-point Model Deliverable** i.e. ``modelzoo``
+
+|:blue_book:| Documentations
+
+1. Adds new X3J3 Platform AUTO Media System Interface Manual PDF document in the attachment
+#. Adds new X3J3 Platform Graphic System API Reference Manual PDF document in the attachment
+
+:gray:`v1.1.19`
+
+1. Adds new EfficientDet detection model example
+#. Adds new Unet segmentation model example
+#. Improved usability of model conversion: details of exceptions are provided
+#. Optimizes the hb_perf tool: performance of hybrid models are provided in html format
+#. Users can now configure output nodes by specifying the `layername` in the configuration file
+#. The model calibration tool namely Promoter has been deprecated
+
+|:blue_book:| Documentations
+
+1. Adds new **Embedded Example Package User Guide** PDF document in the attachment
+#. Adds new **2.4 Model Performance Benchmark Table** section
+#. Adds new **BPU SDK API DOC PDF** document in the attachment
+
+:gray:`v1.1.18`
+
+[Adds]
+
+1. Adds support for customizing CPU
+#. Adds support for YUV BT601 NARROW/WIDE standards
+
+**Runtime**
+
+[Adds]
+
+1. The inference api of runtime api adds support for variable size input (implemented by the resizer feature)
+
+**Integration**
+
+[Adds]
+
+1. Adds new mobilenet-ssd example
+#. Refactored configuration file for mean/scale
+
+[Changes]
+
+1. Changes the googlenet example into a new version without Local Response Normalisation(LRN)
+
+**horizon-nn**
+
+[Changes]
+
+1. Deleted the dot files generated during model conversion
+
+:gray:`v1.1.17`
+
+**Integration**
+
+[Adds]
+
+1. Adds new source code sample for image format conversion
+
+[Optimizes]
+
+1. Optimizes sample script of the vec_diff tool, makes it more convenient for users to develop based on samples
+#. YOLOV2/V3 samples deleted the time consumption of transpose node and improved evaluation efficiency
+#. Optimizes YOLOV5 sample to improve performance
+
+[Changes]
+
+1. Default value of the debug parameter of hb_mapper compiler is changed into false
+
+**horizon_nn**
+
+[Adds]
+
+1. Adds a new -np parameter to specify whether or not to test postprocess in evaluation
+
+**Runtime**
+
+[Adds]
+
+1. Adds a new advanced runtime sample package
+
+[Optimizes]
+
+1. A txt file will be generated to describe time consumption of all nodes when export HR_NODE_PROFILER=true
+
+
+**HBDK**
+
+[Adds]
+
+1. Adds support for argmax op
+
+:gray:`v1.16`
+
+:Time of release:
+
+  Sept. 23 :sup:`rd`, 2020
+
+**Integration**
+
+[Adds]
+
+1. Deleted redundant reshape and transpose nodes on CPU in yolo5 sample to increase frame rate
+#. The hb_mapper checker command adds new option to check runtime bin file conversion
+
+[Optimizes]
+
+1. Adds se-resnet grayimage sample
+#. Adds support for Ubuntu18.04
+
+**horizon_nn**
+
+[Adds]
+
+1. Adds support for shufflenet
+
+**Runtime**
+
+[Adds]
+
+1. Adds HzSoftmax op to support Softmax computation on arbitrary dimension
+#. Adds runtime yolo5 sample
+#. cicd adds dev board performance report
+#. Adds new debug tool that can print every layer including cpu op
+#. Adds new sample that supports MAPS computation
+
+:gray:`v1.15`
+
+:Date of Release:
+
+  Aug. 21 :sup:`st`, 2020
+
+**Integration**
+
+[Adds]
+
+1. Adds user samples of mobilenet_onnx、efficientnet_lite_onnx、faster rcnn etc.
+#. Adds a new model info tool to obtain model dependency information during compilation
+#. Adds a new model_verifier command-line tool to verify the consistency of ONNX model inference with hybrid model on simulator/on-board results
+#. yaml configuration file adds the optimize_level interface to describe model optimization level of compiler
+#. x3_tc_ui tool adds a "colored image to gray image conversion" prompt during the preprocess when the preprocess_on is set to True
+
+[Changes]
+
+1. Input of yaml configuration file changed into list, users no longer need to configure the name of input node
+#. The Finetune tool used for optimizing model quantization results has changed its name into Promoter
+#. The ``x3_tc_ui`` tool has encapsulated the onnx runtime -128 operation to align with preprocess and save additional operations and costs of users
+
+[Fix]
+
+1. The ``vec_diff`` tool aligned yv444 input with samples of gray input
+
+**horizon_nn**
+
+[Adds]
+
+1. Adds a new build_onnx interface to support quantization of ONNX model
+#. Adds support for quantizing the ONNX models converted from typical PyTorch models, incl. AlexNet、VGG-16、ResNet-18、ResNet-50、ResNet-152、SqueezeNet 1.0、SqueezeNet 1.1、Densenet-161、Inception v3、GoogleNet、ShuffleNet V2、MobileNet V2、ResNeXt-50-32x4d、ResNeXt-101-32x8d、Wide ResNet-50-2、MNASNet 1.0、YOLOv5s/m/l/x、efficientnet-lite0/1/2/3/4、EfficientNet
+#. Adds support for quantizing LSTM, SENet and STN models
+
+[Changes]
+
+1. Implements Per-channel quantization method, 
+   with which the quantization accuracy of some typical models will be improved
+
+**HBDK**
+
+[Adds]
+
+1. The ``BilinearResizeNV12`` interface adds support for those image inputs whose sizes are smaller than 4KB
+#. BPU adds elementwise mul and lookup table ops
+#. BPU adds support for maxpooling ops with any stride or kernel sizes
+#. split operator adds support for h/w dimensions
+#. Global average pooling adds support for larger input feature,  whose feature HxW <= 4096
+
+**Runtime**
+
+[Adds]
+
+1. Adds on-board operating samples of efficientnet-lite models
+#. Adds a new pad op for evaluation purpose
+#. Adds a new ``DepthTospace`` op to support CPU computation
+#. Adds STN cpu related op
+#. Adds network structure compatibility to support users' network modification
+#. Adds support for dual-core dual-frame samples 
+#. Adds support for multi-task preemption
+#. Memory check tool adds structure to check operating states of memory during model loading, runtime, BPU and CPU memory consumptions
+#. Adds new interface to map the physical address of memory to virtual address
+
+[Changes]
+
+1. Modified image representation methods of BPU API
+#. The resize interface adjusted priorities when calling pym and roiresize. pym is most prioritized, roiresize is second most prioritized. Meanwhile performance of resize on CPU is optimized
+#. Cancels redundant so library in SDK to decouple with system software
+
+:gray:`v1.0`
+
+:Date of Release:
+
+  Jun. 2\ :sup:`nd`, 2020
+
+Adds
+
+1. Adds ``hb_mapper`` command-line tool for model conversion. This tool supports input types including: rgbp/bgrp/featuremap/gray
+#. Adds ``hb_perf`` / ``vec_diff`` tool for user debugging
+#. Adds samples of yolo/mobilenet/googlenet/resnet etc
+#. Adds support for conversion, quantization and compilation of Caffe 1.0 models
+#. Adds support for extended OPs of Normalize, PSROIPooling, Proposal, ROIPooling, Upsample, Permute, PassThrough, MatMul, RReLU, CReLU, Axpy, ReLU6 and Resize
+#. Adds support for calibration based on max an kl
+#. Adds runtime API which supports heterogeneous models
+#. The``HB_BPU_resize`` supports Y/NV12/BGR/RGB/BGRP/RGBP images as inputs/outputs
+#. The ``HB_BPU_resize`` and ``HB_BPU_runModel`` interfaces support setting up stride alignment of input data
+#. Offered an interface for conversion between BPU virtual and physical addresses
+#. Adds support for control of runtime log output using environment variables
+#. ``HB_BPU_runModel`` interface supports the feature of running one image frame via dualcore
+
+[Changes]
+
+  None
+
+[Fix]
+
+  None
+   
+  

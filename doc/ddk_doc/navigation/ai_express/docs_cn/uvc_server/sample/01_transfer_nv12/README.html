@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>简介 &mdash; uvc server 组件  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> uvc server 组件
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">一、uvc协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#uvc-server">二、uvc server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#id1">三、编译&amp;示例运行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#id4">四、开发接口说明</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">uvc server 组件</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>简介</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/sample/01_transfer_nv12/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>简介<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>本示例使用uvc_server组件，实现uvc传输nv12图像，PC侧通过播放器播放图像画面。</p>
+</div>
+<div class="section" id="id2">
+<h1>代码编译运行<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id3">
+<h2>代码目录<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>.
+├── build.sh
+├── CMakeLists.txt
+├── data
+│   └── 1080p.nv12
+├── include
+│   └── transfer_nv12.h
+├── main.cc
+├── README.md
+├── run.sh
+└── src
+└── transfer_nv12.cc</p>
+<ul class="simple">
+<li><p>build.sh：编译部署脚本</p></li>
+<li><p>data：示例运行nv12图片数据</p></li>
+<li><p>run.sh：示例运行脚本</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>编译<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>1、安装统一发版中的host pakcage
+2、进入sample/01_transfer_nv12目录，执行如下脚本完成编译和部署</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash build.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>运行<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>1、把deploy拷贝到目标开发板上
+2、进入开发板deploy目录，执行run.sh，默认是ut模式（运行10s后自动退出）</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sh run.sh
+</pre></div>
+</div>
+<p>3、运行normal模式</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sh run.sh normal
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h1>代码说明<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h1>
+<p>示例基于uvc_server的接口实现了TestTransfer类，实现uvc传输的功能：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestTransfer</span> <span class="o">:</span> <span class="k">public</span> <span class="n">UvcEventCallback</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">TestTransfer</span><span class="p">();</span>
+  <span class="o">~</span><span class="n">TestTransfer</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+
+  <span class="kt">int</span> <span class="nf">Init</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="nf">DeInit</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="nf">Start</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="nf">Stop</span><span class="p">();</span>
+
+  <span class="kt">int</span> <span class="nf">SendNv12Data</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">nv12_data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nv12_width</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nv12_height</span><span class="p">);</span>
+  <span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">IsUvcStreamOn</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lg</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">uvc_stream_on_</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">SetUvcStreamOn</span><span class="p">(</span><span class="kt">int</span> <span class="n">on</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lg</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
+    <span class="n">uvc_stream_on_</span> <span class="o">=</span> <span class="n">on</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">SetNv12IsOn</span><span class="p">(</span><span class="kt">bool</span> <span class="n">is_on</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lg</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
+    <span class="n">nv12_is_on_</span> <span class="o">=</span> <span class="n">is_on</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">IsNv12On</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lg</span><span class="p">(</span><span class="n">mutex_</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">nv12_is_on_</span><span class="p">;</span>
+  <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">OnUvcEvent</span><span class="p">(</span><span class="n">UvcEvent</span> <span class="n">event_type</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">data_len</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">uvc_stream_on_</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">nv12_is_on_</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">is_inited_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">mutex_</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">request_width_</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">request_height_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">UvcServer</span><span class="o">&gt;</span> <span class="n">uvc_server_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>TestTransfer类封装了如下接口：</p>
+<ul class="simple">
+<li><p>OnUvcEvent：实现了接口<code class="docutils literal notranslate"><span class="pre">UvcEventCallback</span></code>，用于接收处理uvc视频开启/关闭以及设备add/remove消息</p></li>
+<li><p>SendNv12Data：函数内部调用uvc_server的接口发送数据，仅支持nv12数据传输</p></li>
+<li><p>Init：初始化uvc_server组件，并启动uvc_server服务</p></li>
+<li><p>DeInit：反初始化</p></li>
+<li><p>IsUvcStreamOn：获取Uvc Stream使能标记</p></li>
+<li><p>SetUvcStreamOn：设置Uvc Stream使能标记</p></li>
+<li><p>IsNv12On：uvc支持nv12传输使能标记</p></li>
+<li><p>SetNv12IsOn：设置uvc支持nv12传输使能标记</p></li>
+</ul>
+<p>main.cc代码如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span>
+        <span class="o">&lt;&lt;</span> <span class="s">&quot;[Usage]: uvc_sample nv12_path nv12_height nv12_width [ut normal]&quot;</span>
+        <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">run_mode</span> <span class="o">=</span> <span class="s">&quot;ut&quot;</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">run_mode</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;run_mode:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">run_mode</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">run_mode</span> <span class="o">!=</span> <span class="s">&quot;ut&quot;</span> <span class="o">&amp;&amp;</span> <span class="n">run_mode</span> <span class="o">!=</span> <span class="s">&quot;normal&quot;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;[ERROR] not support mode: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">run_mode</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 1. read nv12 image data</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">ifstream</span> <span class="n">ifs</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">in</span> <span class="o">|</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">binary</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ifs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;[ERROR] Open nv12 file: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; failed&quot;</span>
+              <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">ifs</span><span class="p">.</span><span class="n">seekg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">end</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">img_length</span> <span class="o">=</span> <span class="n">ifs</span><span class="p">.</span><span class="n">tellg</span><span class="p">();</span>
+  <span class="n">ifs</span><span class="p">.</span><span class="n">seekg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">beg</span><span class="p">);</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">img_nv12</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="o">*</span> <span class="n">img_length</span><span class="p">];</span>
+  <span class="n">ifs</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">img_nv12</span><span class="p">,</span> <span class="n">img_length</span><span class="p">);</span>
+  <span class="n">ifs</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+
+  <span class="kt">int</span> <span class="n">height</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+  <span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+  <span class="c1">// 2. Create TestTransfer Instance</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">TestTransfer</span><span class="o">&gt;</span> <span class="n">uvc_sender</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">TestTransfer</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="c1">// 3. Init TestTransfer</span>
+  <span class="k">auto</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">uvc_sender</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;[ERROR] uvc server init failed&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// 4. Start TestTransfer</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">uvc_sender</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;[ERROR] rtsp server start failed&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// 5. Wait some time</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">run_mode</span> <span class="o">==</span> <span class="s">&quot;ut&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">10000</span> <span class="o">/</span> <span class="mi">40</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">exit_</span> <span class="o">&amp;&amp;</span> <span class="n">count</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">uvc_sender</span><span class="o">-&gt;</span><span class="n">SendNv12Data</span><span class="p">(</span><span class="n">img_nv12</span><span class="p">,</span> <span class="n">img_length</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">40</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">exit_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">uvc_sender</span><span class="o">-&gt;</span><span class="n">SendNv12Data</span><span class="p">(</span><span class="n">img_nv12</span><span class="p">,</span> <span class="n">img_length</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">40</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 6. Stop&amp;DeInit</span>
+  <span class="n">uvc_sender</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="n">uvc_sender</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>读取预先准备的nv12图像数据及图像宽高，用来回复uvc协议的每一帧数据请求</p></li>
+<li><p>创建TestTransfer对象</p></li>
+<li><p>初始化uvc</p></li>
+<li><p>调用TestTransfer的Start接口</p></li>
+<li><p>调用TestTransfer的SendNv12Data接口发送数据到uvc协议，根据运行模式循环若干时间</p></li>
+<li><p>uvc反初始化&amp;资源清理</p></li>
+</ol>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

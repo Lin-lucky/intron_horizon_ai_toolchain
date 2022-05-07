@@ -1,0 +1,2 @@
+/usr/bin/ar qc libfacesnap_filter_method.a  CMakeFiles/facesnap_filter_method.dir/src/facesnap_filter_method.cc.o
+/usr/bin/ranlib libfacesnap_filter_method.a

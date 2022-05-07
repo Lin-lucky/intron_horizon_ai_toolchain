@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>X3与J3差异描述</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="开发套件概述" href="xj3_board_overview.html" />
+  <link rel="prev" title="旭日X3芯片概述" href="x3_soc_user_guide.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">地平线 X3J3 芯片开发手册</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">整体概述</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">芯片介绍</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 "><a href="x3_soc_user_guide.html" class="reference internal ">旭日X3芯片概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">X3与J3差异描述</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#x3j3" class="reference internal">X3与J3差异描述</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">开发套件介绍</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="xj3_board_overview.html" class="reference internal ">开发套件概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_sdb_overview.html" class="reference internal ">X3 SDB生态套件</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_update_guide.html" class="reference internal ">固件升级手册</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_command.html" class="reference internal ">常见系统命令</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">天工开物开发平台</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_user_guide.html" class="reference internal ">开发平台概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_quick_start.html" class="reference internal ">开发环境搭建</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_sample.html" class="reference internal ">应用开发示例</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_docs.html" class="reference internal ">附录：开发手册</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">其他</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="other_sources.html" class="reference internal ">社区资源索引</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>X3与J3差异描述</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="x3_soc_user_guide.html"
+       title="previous chapter">← 旭日X3芯片概述</a>
+  </li>
+  <li class="next">
+    <a href="xj3_board_overview.html"
+       title="next chapter">开发套件概述 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="x3j3">
+<h1>X3与J3差异描述<a class="headerlink" href="#x3j3" title="Permalink to this headline">¶</a></h1>
+<p>旭日 Sunrise3（简称 X3）和征程 Journey3（简称 J3）属于同代芯片，一些IP以及SOC架构上保持着同构设计，但是分别面向人工智能物联网领域和自动驾驶两个不同领域。</p>
+<p>由于J3自动驾驶场景的特殊性，它满足了 <strong>AEC-Q100 Grade 2</strong> 车规级要求，在一些芯片规格上也有一些差异，详细内容如下:</p>
+<table frame="border" width="100%" style="border-collapse:collapse; border:1px solid #ddd">
+  <caption id="multi_row" style="border:1px solid #ddd; padding:20px">详细产品规格</caption>
+  <tr>
+      <th style="border:1px solid #ddd; background-color:#eee; padding:10px;">功能模块</th>
+      <th style="border:1px solid #ddd; background-color:#eee; padding:5px 0px 5px 0px">J3规格</th>
+      <th style="border:1px solid #ddd; background-color:#eee; padding:5px 0px 5px 0px">X3M规格</th>  
+        <th style="border:1px solid #ddd; background-color:#eee; padding:5px 0px 5px 0px">X3E规格</th>  
+  </tr >
+    <tr align="center">
+        <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Package</B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">TSMC 16nm FFC； FCBGA483, 0.65mm； 15mm x 15mm</td>
+  </tr>
+  <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Operating temperature</B></td>
+      <td style="border:1px solid #ddd; padding:10px 0p x"><font color="#999933">-40 ~ 105℃</font></td>
+      <td style="border:1px solid #ddd; padding:10px 0px 5p x"><font color="#999933">-25 ~ 85℃</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0 5px 0"><font color="#999933">-25 ~ 85℃</font></td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Typical Power</B></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">2 ~ 3 W</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">2 ~ 3 W</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">2W</font></td>
+  </tr>
+      <tr align="center">
+      <td rowspan="3"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>CPU</B></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">ARM® Cortex®-A53, 4xCore</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">ARM® Cortex®-A53, 4xCore</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">ARM® Cortex®-A53, 2xCore</font></td>
+  </tr>
+  <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">32KB L1, 512KB L2； FPU, NEON</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Typical operation frequency:1.2GHz</td>
+  </tr>
+      <tr align="center">
+      <td rowspan="3"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>BPU</B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">(Bernoulli Arch) 2×Core</td>
+  </tr>
+      <tr align="center">
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">5 TOPS</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">5 TOPS</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px"><font color="#999933">3 TOPS</font></td>
+  </tr>
+      <tr align="center">
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Typical operation frequency: <font color="#999933">950MHz</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Typical operation frequency: <font color="#999933">1GHz</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Typical operation frequency: <font color="#999933">0.6GHz</font></td>
+  </tr>
+      <tr align="center">
+      <td rowspan="3"  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>DDR</B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">x32 off-chip DDR4/LPDDR4/LPDDR4X DRAMs</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Up to 4 GB capacit</td>
+  </tr>
+      <tr align="center">
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Maximum speed up to <br /><font color="#999933">LPDDR4/LPDDR4X-3200 and DDR4-3200</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Maximum speed up to <br /><font color="#999933">LPDDR4/LPDDR4X-3200 and DDR4-3200</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">Maximum speed up to <br /><font color="#999933">LPDDR4/LPDDR4X-2666 and DDR4-2666</font></td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>ISP </B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">RAW to YUV conversion;
+          <br/>HDR;
+          <br/>Support  3A histogram statistics;
+          <br/>Support DPC、3DNR、LDC、GDC;
+          <br/>ISP tuning tool on the PC
+        </td>
+  </tr>
+      <tr align="center">
+      <td rowspan="4"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Video Codecs </B></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.265(HEVC) Encoding and Decoding: <br /><font color="#999933">Main profile @L5.1; 3840x2160@60fps</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.265(HEVC) Encoding and Decoding: <br /><font color="#999933">Main profile @L5.1; 3840x2160@60fps</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.265(HEVC) Encoding and Decoding: <br /><font color="#999933">Main profile @L5.1; 2688x1944@60fps</font></td>
+  </tr>
+      <tr align="center">
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.264 Encoding and Decoding: <br /><font color="#999933">Baseline/Main/High profiles, L5.1 
+    3840x2160@60fps</font></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.264 Encoding and Decoding: <br /><font color="#999933">Baseline/Main/High profiles, L5.1 
+    3840x2160@60fps</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">H.264 Encoding and Decoding：<br /><font color="#999933">Baseline/Main/High profiles, L5.1 
+    2688x1944@60fps</font></td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">JPEG Encoding and Decoding, 16Mpixels </td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">CBR, VBR, AVBR, FixQp and QpMap bitrate control </td>
+  </tr>
+      <tr align="center">
+      <td rowspan="2"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Video/Image Processing Units </B></td>
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Image Processing Unit(IPU): cropping and scaling; OSD</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Pyramid: Input images from IPU(online mode) or from DDR(offline mode);  <br />Input image size up to 8Mpixels; <br />Generates multi-layer pyramid images with configurable roi and scaling factors</td>
+  </tr>
+      <tr align="center">
+      <td rowspan="4"   style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Video Input Interface </B></td>
+      <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">MIPI CSI video input: <br />3 MIPI CSI Rx Ports;  <br />2Gbps per data lane; <br /><font color="#999933">Up to 4096 x 2160 pixels @30fps</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">MIPI CSI video input: <br />3 MIPI CSI Rx Ports; <br />2Gbps per data lane; <br /><font color="#999933">Up to 4096 x 2160 pixels @30fps</font></td>
+        <td style="border:1px solid #ddd; padding:5px 0px 5px 0px">MIPI CSI video input: <br />3 MIPI CSI Rx Ports; <br />2Gbps per data lane; <br /><font color="#999933">Up to 2688 x 1944 pixels @30fps</font></td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">DVP: 12-bit data bus interface; Up to 1080P@30fps;1.8V/3.3V input voltages signaling</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Support video in-to-out bypass</td>
+  </tr>
+      <tr align="center">
+      <td colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Support multi-camera video inputs through 3 MIPI CSI RX ports</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Video Output Interface </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">support MIPI CSI TX video output
+          <br/>support MIPI DSI TX video output
+          <br/>support parallel RGB video display output
+          <br/>support BT1120 video output
+          <br/>support BT656 video output
+          <br/>support 1 User Interface(UI) layer alpha blending</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Host Interfaces </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">support 1 User Interface(UI) layer alpha blending
+          <br/>BIF-SPI, 66MHz
+          <br/>BIF-SD, 192MB/s
+          <br/>USB 3.0</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Network Interface </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">One Gigabit Ethernet Interface</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Power Management </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">Temperature monitor; DVFS ; Deep sleep mode</td>
+  </tr>
+      <tr align="center">
+      <td  style="border:1px solid #ddd; padding:5px 0px 5px 0px"><B>Peripheral Interfaces </B></td>
+      <td  colspan="3" style="border:1px solid #ddd; padding:5px 0px 5px 0px">USB 3.0；4x UART；3x SPI； 2x I2S ；6x I2C； 9x PWM； 1x QSPI； 3x SDIO； RTC/Timer； Watchdog</td>
+  </tr>
+</table></div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="x3_soc_user_guide.html"
+       title="previous chapter">← 旭日X3芯片概述</a>
+  </li>
+  <li class="next">
+    <a href="xj3_board_overview.html"
+       title="next chapter">开发套件概述 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

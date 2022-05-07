@@ -1,0 +1,33 @@
+About DevKits
+===================
+
+Horizon Robotics has opened up 3 sets of DevKits: **J3 DVB**, **X3 DVB** and **X3 SDB**.
+
+1. **X3 SDB**, also known as X3 Eco-board or X3 Small Dev Board, is by far the most widely delivered dev board among Horizon's 
+   developer users. It is created based on X3M host controller chip, with 5 TOPS AI compute, it can support multi-channel camera input. 
+   SDB comes with a motherboard and a core-board (X3 SOM). They are connected by the DIMM slot and has fool-proof design. 
+   The installation method is similar with a notebook memory: insert the core-board into DIMM slot at 45 degree angle, 
+   then press to lock. See below schematic diagram:
+
+.. image:: ./xj3_soc_images/assembling.png
+  :scale: 80%
+
+1. **X3 DVB**, also known as X3 Platform Dev Board or X3 Mega Board, is no longer in supply. 
+   So if you are a X3 Mega Board user, willing to exchange it into **X3 SDB**, 
+   please contact Horizon Robotics's sales or technical personnel.
+2. **J3 DVB**, also known as J3 Platform Dev Board or J3 Mega Board, is the standard J3 dev board opens to public. 
+   It is created based on J3 host controller chip, with 5 TOPS AI compute, it can support multi-channel camera input.
+
+.. image:: ./xj3_soc_images/j3_dvb_board.png
+   :scale: 80%
+
+.. warning::
+   From a development perspective, X3 and J3 are basically the same except for differences in SoC performance specifications. 
+   Thus, in many scenarios, we offer X3 SDB to customers, execute SoC evaluations or software development based on it.
+   
+   If you're intended to productize your succeeding projects based on J3, 
+   please contact our sales personnel to obtain J3 DVB for development.
+
+   In addition, from an universality perspective, the power consumption control of X3 SDB is not very strict. 
+   If you need to evalute SoC power consumption, please contact Horizon's technical personnel for customized 
+   power consumption evaluation plan.

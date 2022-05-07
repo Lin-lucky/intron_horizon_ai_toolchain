@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>FaceSnapFilterMethod &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>FaceSnapFilterMethod</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_solution/code/common/xstream_methods/facesnap_filter_method/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="facesnapfiltermethod">
+<h1>FaceSnapFilterMethod<a class="headerlink" href="#facesnapfiltermethod" title="Permalink to this headline">¶</a></h1>
+<p>过滤Method，用于检测框的过滤，未通过过滤条件的bbox会被标记为FIlTERED状态。
+具体介绍可参考：http://wiki.hobot.cc/display/ICSPDT/03_FaceSnapFilterMethod</p>
+</div>
+<div class="section" id="id1">
+<h1>输入<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>|Slot |内容 |备注 |
+|:—:|:—————:|:————–:|
+0 | XRocBBox_list | 必要项
+1 | XRocPose3D_list | 可选项
+2 | XRocLandmarks_list | 可选项
+3 | blur | 可选项
+4 | brightness | 可选项
+5 | eye_abnormalities | 可选项
+6 | mouth_abnormal | 可选项
+7 | left_eye | 可选项
+8 | right_eye | 可选项
+9 | left_brow | 可选项
+10 | right_brow | 可选项
+11 | forehead | 可选项
+12 | left_cheek | 可选项
+13 | right_cheek | 可选项
+14 | nose | 可选项
+15 | mouth | 可选项
+16| jaw | 可选项</p>
+</div>
+<div class="section" id="id2">
+<h1>输出<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<p>|Slot |内容 |备注 |
+|:—:|:——————–:|:—————————:|
+0 | filter_info | 过滤错误码
+1 | XRocBBox_list | 必要项
+2 | XRocPose3D_list | 可选项
+3 | XRocLandmarks_list | 可选项
+4 | blur | 可选项
+5 | brightness | 可选项
+6 | eye_abnormalities | 可选项
+7 | mouth_abnormal | 可选项
+8 | left_eye | 可选项
+9 | right_eye | 可选项
+10 | left_brow | 可选项
+11 | right_brow | 可选项
+12 | forehead | 可选项
+13 | left_cheek | 可选项
+14 | right_cheek | 可选项
+15 | nose | 可选项
+16 | mouth | 可选项
+17| jaw | 可选项</p>
+</div>
+<div class="section" id="id3">
+<h1>补充说明<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>内部无状态机</p></li>
+<li><p>该Method支持workflow多实例，method_info.is_thread_safe_ = true，method_info.is_need_reorder_ = false。</p></li>
+</ul>
+</div>
+<div class="section" id="update-history">
+<h1>Update History<a class="headerlink" href="#update-history" title="Permalink to this headline">¶</a></h1>
+<p>|Date      | Ver. |Change Log |
+|:——-:|:—–:|:———-:|
+20191105 |N/A    | 初始版本 |</p>
+</div>
+<div class="section" id="id4">
+<h1>配置文件参数<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
+<p>|字段      |描述     |默认值     |
+|:———————–:|:—————————————————–:|:——:|
+image_width|视频帧宽度|1920
+image_height|视频帧高度|1080
+snap_size_thr|检测框大小阈值|72
+frontal_pitch_thr|正侧椭球pitch阈值|30
+frontal_yaw_thr|正侧椭球yaw阈值|40
+frontal_roll_thr|正侧椭球roll阈值|0
+pv_thr|人脸置信度阈值|0.98
+quality_thr|清晰度阈值，越小越好|0.5
+bound_thr_w|视频帧宽边界|10
+bound_thr_h|视频帧高边界|10
+black_area_iou_thr|黑名单区域iou阈值|0.5
+black_area_list|黑名单区域，例如可配置为[[10, 10, 30, 30], [40, 40, 50, 50]]即为在两个黑名单区域被过滤|[]
+max_box_counts|最大检测框数，设置为0不对检测框数目作过滤|0
+brightness_min|亮度过滤最小值|0
+brightness_max|亮度过滤最大值|4
+left_eye_occluded_thr|左眼遮挡阈值，越小遮挡程度越轻|0.5
+right_brow_occluded_thr|右眼遮挡阈值，越小遮挡程度越轻|0.5
+forehead_occluded_thr|前额遮挡阈值，越小遮挡程度越轻|0.5
+left_cheek_occluded_thr|左脸遮挡阈值，越小遮挡程度越轻|0.5
+right_cheek_occluded_thr|右脸遮挡阈值，越小遮挡程度越轻|0.5
+nose_occluded_thr|鼻子遮挡阈值，越小遮挡程度越轻|0.5
+mouth_occluded_thr|嘴巴遮挡阈值，越小遮挡程度越轻|0.5
+jaw_occluded_thr|下巴遮挡阈值，越小遮挡程度越轻|0.5
+abnormal_thr|行为异常遮挡阈值，越小表示行为较为正常|0.5
+expand_scale|外扩系数，用以过滤外扩出边界的检测框|1.0
+norm_method|检测框归一化方式|”norm_by_lside_square”
+err_description|错误码描述，对应字段设置为多少filter_info输出对应的错误码｜{
+“passed”: 0,
+“snap_area”: -1,
+“snap_size_thr”: -2,
+“expand_thr”: -3,
+“frontal_thr”: -4,
+“pv_thr”: -5,
+“quality_thr”: -6,
+“lmk_thr”: -7,
+“black_list”: -8,
+“big_face”: -9,
+“brightness”: -10,
+“abnormal_thr”: -11,
+“left_eye_occluded_thr”: -12,
+“right_eye_occluded_thr”: -13,
+“left_brow_occluded_thr”: -14,
+“right_brow_occluded_thr”: -15,
+“forehead_occluded_thr”: -16,
+“left_cheek_occluded_thr”: -17,
+“right_cheek_occluded_thr”: -18,
+“nose_occluded_thr”: -19,
+“mouth_occluded_thr”: -20,
+“jaw_occluded_thr”: -21
+}</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

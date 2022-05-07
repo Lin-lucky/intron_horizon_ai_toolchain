@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>XProto示例4 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>XProto示例4</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/xproto/tutorials/stage4_ipc_subscriber/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xproto4">
+<h1>XProto示例4<a class="headerlink" href="#xproto4" title="Permalink to this headline">¶</a></h1>
+<p>本节将介绍使用Xproto框架订阅跨进程的智能消息以及互发消息示例。
+stage4_master_plugin.cc负责生成SmartLegibleMessage并push到总线，同时订阅了ControlMessage。
+stage4_slave_plugin.cc订阅了SmartLegibleMessage，收到消息后生成一个ControlMessage并push到xproto数据总线。</p>
+<div class="section" id="id1">
+<h2>说明<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>xproto框架定义了智能消息结构，消息的生成者需要填充xproto定义好的智能消息。</p></li>
+<li><p>本示例中生成master/slave两个测试程序，可以在两个板子同时用测试程序测试跨设备订阅/发布消息</p></li>
+<li><p>如果slave测试程序想订阅solution中的SmartLegibleMessage，请参考multitask_perception_solution，详细说明参考其README中的第五小节</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>编译<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>使用build_xxx.sh脚本
+例如gcc 4.8.5 ubuntu 18.04.2</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">build_ubuntu</span><span class="p">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>会生成stage4_ipc_subscriber_master/stage4_ipc_subscriber_slave两个测试程序</p>
+</div>
+</div>
+<div class="section" id="stage4-ipc-subscriber-master">
+<h1>stage4_ipc_subscriber_master<a class="headerlink" href="#stage4-ipc-subscriber-master" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id3">
+<h2>向框架注册消息类型<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>首先向框架注册消息类型</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">XPLUGIN_REGISTER_MSG_TYPE</span><span class="p">(</span><span class="n">XPLUGIN_SMART_LEGIBLE_MESSAGE</span><span class="p">);</span>
+<span class="n">XPLUGIN_REGISTER_MSG_TYPE</span><span class="p">(</span><span class="n">XPLUGIN_CONTROL_MESSAGE</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>定义插件<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Xproto中插件的管理都基于<code class="docutils literal notranslate"><span class="pre">xproto::XPluginAsync</span></code>，因此自定义插件需继承于XPluginAsync。本示例中，我们需要定义一个插件：ExampleMasterPlugin获取其他设备生成的智能消息并打印结果</p>
+<p>自定义插件需要根据功能重写<code class="docutils literal notranslate"><span class="pre">XPluginAsync::Init()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::Start()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::Stop()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::DeInit()</span></code>几个核心函数。此外，可以根据需要扩充插件的成员函数，如订阅消息的插件，可以扩充消息的回调函数。</p>
+<ul class="simple">
+<li><p>其中Init()做插件的初始化工作，如在Init()中订阅消息，订阅消息使用<code class="docutils literal notranslate"><span class="pre">XPluginAsync::RegisterMsg()</span></code>接口，在订阅消息的同时指定该消息的回调函数。<strong>注意：订阅消息后，务必调用基类的XPluginAsync::Init()接口，该插件才可接收到消息并处理。</strong></p></li>
+<li><p>Start()主要是开始插件的运行，比如发布消息，发布消息使用<code class="docutils literal notranslate"><span class="pre">PushMsg()</span></code>接口。</p></li>
+<li><p>Stop()主要是对插件做清理善后工作，如reset成员变量、内存释放等。</p></li>
+<li><p>DeInit()主要负责插件的重置，<strong>注意：若重写该函数，需要在函数内调用基类的<code class="docutils literal notranslate"><span class="pre">XPluginAsync::DeInit()</span></code>接口，取消已订阅消息类型。</strong></p></li>
+</ul>
+<p>下面看下ExampleMasterPlugin插件的定义：</p>
+<ul class="simple">
+<li><p>CreateSmartLegibleMessage：用于创建SmartLegibleMessage并Push到xproto总线上</p></li>
+<li><p>FeedControl：用于接收总线上的TYPE_CONTROL_MESSAGE消息</p></li>
+</ul>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExampleMasterPlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">xproto</span><span class="o">::</span><span class="n">XPluginAsync</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">ExampleMasterPlugin</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">config_path</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleMasterPlugin config_path = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">config_path</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="o">~</span><span class="n">ExampleMasterPlugin</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="kt">int</span> <span class="n">Init</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">LOGI</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleMasterPlugin Init.&quot;</span><span class="p">;</span>
+    <span class="n">RegisterMsg</span><span class="p">(</span><span class="n">TYPE_CONTROL_MESSAGE</span><span class="p">,</span>
+                <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ExampleMasterPlugin</span><span class="o">::</span><span class="n">FeedControl</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span>
+                          <span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">DeInit</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleMasterPlugin::DeInit.&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Start</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleMasterPlugin::Start.&quot;</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">CreateSmartLegibleMessage</span><span class="p">();</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">30</span><span class="p">));</span>
+      <span class="n">time</span> <span class="o">-=</span> <span class="mi">33</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleMasterPlugin::start exit.&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Stop</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleMasterPlugin::Stop.&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">desc</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;ExampleMasterPlugin&quot;</span><span class="p">;</span> <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">FeedControl</span><span class="p">(</span><span class="n">XProtoMessagePtr</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">nullptr</span> <span class="o">==</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">auto</span> <span class="n">control_data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">ControlMessage</span><span class="o">&gt;</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;******ExampleMasterPlugin::FeedControl******&quot;</span><span class="p">;</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;control timestamp = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">control_data</span><span class="o">-&gt;</span><span class="n">time_stamp_</span><span class="p">;</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;control cmd_id = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">control_data</span><span class="o">-&gt;</span><span class="n">message_</span><span class="p">.</span><span class="n">cmd_id_</span><span class="p">;</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;control type = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">control_data</span><span class="o">-&gt;</span><span class="n">message_</span><span class="p">.</span><span class="n">type_</span><span class="p">;</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;control value = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">control_data</span><span class="o">-&gt;</span><span class="n">message_</span><span class="p">.</span><span class="n">value_</span><span class="p">;</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;******ExampleMasterPlugin::FeedControl End ******&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">CreateSmartLegibleMessage</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;******ExampleMasterPlugin::CreateSmartLegibleMessage******&quot;</span><span class="p">;</span>
+    <span class="k">auto</span> <span class="n">smart_data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">SmartLegibleMessage</span><span class="o">&gt;</span><span class="p">();</span>
+
+    <span class="k">auto</span> <span class="n">cur_time</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">time_stamp_</span> <span class="o">=</span> <span class="n">cur_time</span><span class="p">.</span><span class="n">time_since_epoch</span><span class="p">().</span><span class="n">count</span><span class="p">();</span>
+    <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">frame_id_</span> <span class="o">=</span> <span class="n">frame_id_</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Create SmartLegibleMessage: time_stamp = &quot;</span>
+         <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">time_stamp_</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, frame_id = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">frame_id_</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">index</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">index</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">auto</span> <span class="n">dst_target</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xproto</span><span class="o">::</span><span class="n">message</span><span class="o">::</span><span class="n">Target</span><span class="o">&gt;</span><span class="p">();</span>
+
+      <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">smart_data_</span><span class="p">.</span><span class="n">error_code_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">smart_data_</span><span class="p">.</span><span class="n">targets_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">dst_target</span><span class="p">);</span>
+
+      <span class="n">dst_target</span><span class="o">-&gt;</span><span class="n">type_</span> <span class="o">=</span> <span class="s">&quot;test_person&quot;</span><span class="p">;</span>
+      <span class="n">dst_target</span><span class="o">-&gt;</span><span class="n">track_id_</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">box_index</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">box_index</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="n">box_index</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">dst_box</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BBox</span><span class="o">&gt;</span><span class="p">();</span>
+        <span class="n">dst_box</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;test_box&quot;</span><span class="p">;</span>
+        <span class="n">dst_box</span><span class="o">-&gt;</span><span class="n">score_</span> <span class="o">=</span> <span class="mf">0.999</span><span class="p">;</span>
+        <span class="n">dst_box</span><span class="o">-&gt;</span><span class="n">x1_</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">box_index</span> <span class="o">*</span> <span class="mi">6</span><span class="p">;</span>
+        <span class="n">dst_box</span><span class="o">-&gt;</span><span class="n">y1_</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">+</span> <span class="n">box_index</span> <span class="o">*</span> <span class="mi">6</span><span class="p">;</span>
+        <span class="n">dst_box</span><span class="o">-&gt;</span><span class="n">x2_</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">box_index</span> <span class="o">*</span> <span class="mi">6</span><span class="p">;</span>
+        <span class="n">dst_box</span><span class="o">-&gt;</span><span class="n">y2_</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">+</span> <span class="n">box_index</span> <span class="o">*</span> <span class="mi">6</span><span class="p">;</span>
+
+        <span class="n">dst_target</span><span class="o">-&gt;</span><span class="n">boxs_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">dst_box</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">PushMsg</span><span class="p">(</span><span class="n">smart_data</span><span class="p">);</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;******ExampleMasterPlugin::CreateSmartLegibleMessage end******&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">frame_id_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>使能订阅跨进程的消息<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>main函数中使能跨进程功能，并设置为Master节点。
+xproto::XSession::Instance().AsMaster(port);
+port指定Master节点使用的端口号。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span>
+        <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: stage4_ipc_subscriber_master port&quot;</span>
+        <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">SetLogLevel</span><span class="p">(</span><span class="n">HOBOT_LOG_DEBUG</span><span class="p">);</span>
+  <span class="kt">uint16_t</span> <span class="n">port</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;prot = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">port</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">xproto</span><span class="o">::</span><span class="n">XSession</span><span class="o">::</span><span class="n">Instance</span><span class="p">().</span><span class="n">AsMaster</span><span class="p">(</span><span class="n">port</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">example_config</span> <span class="o">=</span> <span class="s">&quot;example.json&quot;</span><span class="p">;</span>
+
+  <span class="k">auto</span> <span class="n">example_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ExampleMasterPlugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">example_config</span><span class="p">);</span>
+
+  <span class="n">example_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+
+  <span class="n">example_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+
+  <span class="c1">// std::this_thread::sleep_for(seconds(20));</span>
+
+  <span class="n">example_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+
+  <span class="n">example_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="n">xproto</span><span class="o">::</span><span class="n">XSession</span><span class="o">::</span><span class="n">Instance</span><span class="p">().</span><span class="n">Reset</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="stage4-ipc-subscriber-slave">
+<h1>stage4_ipc_subscriber_slave<a class="headerlink" href="#stage4-ipc-subscriber-slave" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id6">
+<h2>向框架注册消息类型<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>首先向框架注册消息类型</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">XPLUGIN_REGISTER_MSG_TYPE</span><span class="p">(</span><span class="n">XPLUGIN_SMART_LEGIBLE_MESSAGE</span><span class="p">);</span>
+<span class="n">XPLUGIN_REGISTER_MSG_TYPE</span><span class="p">(</span><span class="n">XPLUGIN_CONTROL_MESSAGE</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>定义插件<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>Xproto中插件的管理都基于<code class="docutils literal notranslate"><span class="pre">xproto::XPluginAsync</span></code>，因此自定义插件需继承于XPluginAsync。本示例中，我们需要定义一个插件：ExampleSlavePlugin获取其他设备生成的智能消息并打印结果</p>
+<p>自定义插件需要根据功能重写<code class="docutils literal notranslate"><span class="pre">XPluginAsync::Init()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::Start()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::Stop()</span></code>, <code class="docutils literal notranslate"><span class="pre">XPluginAsync::DeInit()</span></code>几个核心函数。此外，可以根据需要扩充插件的成员函数，如订阅消息的插件，可以扩充消息的回调函数。</p>
+<ul class="simple">
+<li><p>其中Init()做插件的初始化工作，如在Init()中订阅消息，订阅消息使用<code class="docutils literal notranslate"><span class="pre">XPluginAsync::RegisterMsg()</span></code>接口，在订阅消息的同时指定该消息的回调函数。<strong>注意：订阅消息后，务必调用基类的XPluginAsync::Init()接口，该插件才可接收到消息并处理。</strong></p></li>
+<li><p>Start()主要是开始插件的运行，比如发布消息，发布消息使用<code class="docutils literal notranslate"><span class="pre">PushMsg()</span></code>接口。</p></li>
+<li><p>Stop()主要是对插件做清理善后工作，如reset成员变量、内存释放等。</p></li>
+<li><p>DeInit()主要负责插件的重置，<strong>注意：若重写该函数，需要在函数内调用基类的<code class="docutils literal notranslate"><span class="pre">XPluginAsync::DeInit()</span></code>接口，取消已订阅消息类型。</strong></p></li>
+</ul>
+<p>下面看下ExampleSlavePlugin插件的定义：</p>
+<ul class="simple">
+<li><p>CreateControlMessage：用于创建ControlMessage并Push到xproto总线上</p></li>
+<li><p>FeedSmart：用于接收总线上的TYPE_SMART_LEGIBLE_MESSAGE消息，收到消息后创建一个ControlMessage推到总线上</p></li>
+</ul>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExampleSlavePlugin</span> <span class="o">:</span> <span class="k">public</span> <span class="n">xproto</span><span class="o">::</span><span class="n">XPluginAsync</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">ExampleSlavePlugin</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">config_path</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleSlavePlugin config_path = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">config_path</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="o">~</span><span class="n">ExampleSlavePlugin</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="kt">int</span> <span class="n">Init</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">LOGI</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleSlavePlugin Init.&quot;</span><span class="p">;</span>
+    <span class="n">RegisterMsg</span><span class="p">(</span>
+        <span class="n">TYPE_SMART_LEGIBLE_MESSAGE</span><span class="p">,</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ExampleSlavePlugin</span><span class="o">::</span><span class="n">FeedSmart</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">DeInit</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleSlavePlugin::DeInit.&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Start</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleSlavePlugin::Start.&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">Stop</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleSlavePlugin::Stop.&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">desc</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;ExampleSlavePlugin&quot;</span><span class="p">;</span> <span class="p">}</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">CreateControlMessage</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">cc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">auto</span> <span class="n">control_msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ControlMessage</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="c1">//  构造一个ControlMessage</span>
+    <span class="n">control_msg</span><span class="o">-&gt;</span><span class="n">time_stamp_</span> <span class="o">=</span> <span class="n">cc</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">control_msg</span><span class="o">-&gt;</span><span class="n">message_</span><span class="p">.</span><span class="n">cmd_id_</span> <span class="o">=</span> <span class="n">id</span><span class="p">;</span>
+    <span class="n">control_msg</span><span class="o">-&gt;</span><span class="n">message_</span><span class="p">.</span><span class="n">type_</span> <span class="o">=</span> <span class="s">&quot;reply&quot;</span><span class="p">;</span>
+    <span class="n">control_msg</span><span class="o">-&gt;</span><span class="n">message_</span><span class="p">.</span><span class="n">value_</span> <span class="o">=</span> <span class="s">&quot;i have got one SmartLegibleMessage&quot;</span><span class="p">;</span>
+    <span class="n">PushMsg</span><span class="p">(</span><span class="n">control_msg</span><span class="p">);</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Slave push control msg to.&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">FeedSmart</span><span class="p">(</span><span class="n">XProtoMessagePtr</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ExampleSlavePlugin::FeedSmart.&quot;</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">nullptr</span> <span class="o">==</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">auto</span> <span class="n">smart_data</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">static_pointer_cast</span><span class="o">&lt;</span><span class="n">SmartLegibleMessage</span><span class="o">&gt;</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;******ExampleSlavePlugin::FeedSmart******&quot;</span><span class="p">;</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;time_stamp: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">time_stamp_</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;frame_id： &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">frame_id_</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">background_img_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;img: size = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">background_img_</span><span class="o">-&gt;</span><span class="n">DataSize</span><span class="p">()</span>
+           <span class="o">&lt;&lt;</span> <span class="s">&quot;, uv size = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">background_img_</span><span class="o">-&gt;</span><span class="n">DataUVSize</span><span class="p">()</span>
+           <span class="o">&lt;&lt;</span> <span class="s">&quot;, width = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">background_img_</span><span class="o">-&gt;</span><span class="n">Width</span><span class="p">()</span>
+           <span class="o">&lt;&lt;</span> <span class="s">&quot;, hegith = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">background_img_</span><span class="o">-&gt;</span><span class="n">Height</span><span class="p">()</span>
+           <span class="o">&lt;&lt;</span> <span class="s">&quot;, type = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">img_serialize_type_</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">dump_count_</span><span class="o">++</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">dump_filename</span> <span class="o">=</span> <span class="s">&quot;test_pic_&quot;</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">img_serialize_type_</span> <span class="o">==</span>
+            <span class="n">xproto</span><span class="o">::</span><span class="n">message</span><span class="o">::</span><span class="n">kSmartImageTypeNv12</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">dump_filename</span> <span class="o">=</span> <span class="n">dump_filename</span> <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">dump_count_</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.yuv&quot;</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">img_serialize_type_</span> <span class="o">==</span>
+                   <span class="n">xproto</span><span class="o">::</span><span class="n">message</span><span class="o">::</span><span class="n">kSmartImageTypeJpg</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">dump_filename</span> <span class="o">=</span> <span class="n">dump_filename</span> <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">dump_count_</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.jpg&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">SaveImageFile</span><span class="p">(</span>
+            <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">background_img_</span><span class="o">-&gt;</span><span class="n">Data</span><span class="p">()),</span>
+            <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">background_img_</span><span class="o">-&gt;</span><span class="n">DataSize</span><span class="p">(),</span> <span class="n">dump_filename</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">t</span> <span class="p">:</span> <span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">smart_data_</span><span class="p">.</span><span class="n">targets_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;track_id: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">track_id_</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">b</span> <span class="p">:</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">boxs_</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">LOGW</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">b</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">attr</span> <span class="p">:</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">attributes_</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">LOGW</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">attr</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">lmk</span> <span class="p">:</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">lmks_</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">LOGW</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">lmk</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//  收到一帧有效message, 向数据总线push一个ControlMessage</span>
+    <span class="n">CreateControlMessage</span><span class="p">(</span><span class="n">smart_data</span><span class="o">-&gt;</span><span class="n">frame_id_</span><span class="p">);</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;******ExampleSlavePlugin::FeedSmart end******&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="n">SaveImageFile</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">fd</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="s">&quot;wb+&quot;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">fd</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">LOGE</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;open file name:%s failure!&quot;</span><span class="p">;</span>
+      <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">LOGD</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;filename = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">name</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, len = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">len</span>
+         <span class="o">&lt;&lt;</span> <span class="s">&quot;, addr = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+
+    <span class="n">fwrite</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">),</span> <span class="n">len</span><span class="p">,</span> <span class="n">fd</span><span class="p">);</span>
+    <span class="n">fflush</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+    <span class="n">fclose</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">dump_count_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>使能订阅跨进程的消息<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>main函数中使能跨进程功能，并设置为Slave节点。
+xproto::XSession::Instance().ConnectTo(ip, port);
+ip/port指定需要链接的Master节点ip和端口号</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span>
+        <span class="o">&lt;&lt;</span> <span class="s">&quot;Usage: stage4_ipc_subscriber ip port&quot;</span>
+        <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">SetLogLevel</span><span class="p">(</span><span class="n">HOBOT_LOG_DEBUG</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ip</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+  <span class="kt">uint16_t</span> <span class="n">port</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ip = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ip</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, prot = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">port</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">xproto</span><span class="o">::</span><span class="n">XSession</span><span class="o">::</span><span class="n">Instance</span><span class="p">().</span><span class="n">ConnectTo</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">example_config</span> <span class="o">=</span> <span class="s">&quot;example.json&quot;</span><span class="p">;</span>
+
+  <span class="k">auto</span> <span class="n">example_plg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">ExampleSlavePlugin</span><span class="o">&gt;</span><span class="p">(</span><span class="n">example_config</span><span class="p">);</span>
+
+  <span class="n">example_plg</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+
+  <span class="n">example_plg</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">seconds</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+
+  <span class="n">example_plg</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+
+  <span class="n">example_plg</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="n">xproto</span><span class="o">::</span><span class="n">XSession</span><span class="o">::</span><span class="n">Instance</span><span class="p">().</span><span class="n">Reset</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>运行程序<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>准备工作<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>编译完成后，生成的目标文件在：’xproto/build/tutorials/stage4_ipc_subscriber’目录下
+依赖库libxproto.so在xproto/build目录，拷贝到执行目录’xproto/build/tutorials/stage4_ipc_subscriber’</p>
+</div>
+<div class="section" id="id11">
+<h3>运行<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>在Masger节点上运行：./stage4_ipc_subscriber_Master port
+在Slave节点上运行：./stage4_ipc_subscriber_Slave ip port</p>
+<p>来看下运行程序的输出结果（gcc 7.5.0 ubuntu 16.04）：</p>
+<div class="section" id="masger">
+<h4>Masger节点输出<a class="headerlink" href="#masger" title="Permalink to this headline">¶</a></h4>
+<p>./stage4_ipc_subscriber_Master 6688</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">115</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">CreateSmartLegibleMessage</span><span class="o">******</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">121</span><span class="p">):</span> <span class="n">Create</span> <span class="n">SmartLegibleMessage</span><span class="p">:</span> <span class="n">time_stamp</span> <span class="o">=</span> <span class="mi">1621590539942288085</span><span class="p">,</span> <span class="n">frame_id</span> <span class="o">=</span> <span class="mi">598</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">144</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">CreateSmartLegibleMessage</span> <span class="n">end</span><span class="o">******</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">58</span><span class="p">):</span> <span class="n">time_stamp</span><span class="p">:</span> <span class="mi">1621590539942288085</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">59</span><span class="p">):</span> <span class="n">targets_</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">61</span><span class="p">):</span> <span class="n">track_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">test_person</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">106</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">106</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">112</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">112</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">61</span><span class="p">):</span> <span class="n">track_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">test_person</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">106</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">106</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">112</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">112</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">154</span><span class="p">):</span> <span class="n">msg_type</span> <span class="o">=</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">177</span><span class="p">):</span> <span class="n">router</span> <span class="n">recv</span> <span class="n">data</span> <span class="n">msgtype</span> <span class="p">:</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">194</span><span class="p">):</span> <span class="n">recv</span> <span class="n">msg</span>
+<span class="p">(</span><span class="n">xsession_inner</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">186</span><span class="p">):</span> <span class="n">transfer</span> <span class="n">msg</span><span class="p">:</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">107</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">FeedControl</span><span class="o">******</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">108</span><span class="p">):</span> <span class="n">control</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">522</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">109</span><span class="p">):</span> <span class="n">control</span> <span class="n">cmd_id</span> <span class="o">=</span> <span class="mi">598</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">110</span><span class="p">):</span> <span class="n">control</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">reply</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">111</span><span class="p">):</span> <span class="n">control</span> <span class="n">value</span> <span class="o">=</span> <span class="n">i</span> <span class="n">have</span> <span class="n">got</span> <span class="n">one</span> <span class="n">SmartLegibleMessage</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">112</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">FeedControl</span> <span class="n">End</span> <span class="o">******</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">115</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">CreateSmartLegibleMessage</span><span class="o">******</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">121</span><span class="p">):</span> <span class="n">Create</span> <span class="n">SmartLegibleMessage</span><span class="p">:</span> <span class="n">time_stamp</span> <span class="o">=</span> <span class="mi">1621590539972491529</span><span class="p">,</span> <span class="n">frame_id</span> <span class="o">=</span> <span class="mi">599</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">144</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">CreateSmartLegibleMessage</span> <span class="n">end</span><span class="o">******</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">58</span><span class="p">):</span> <span class="n">time_stamp</span><span class="p">:</span> <span class="mi">1621590539972491529</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">59</span><span class="p">):</span> <span class="n">targets_</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">61</span><span class="p">):</span> <span class="n">track_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">test_person</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">106</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">106</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">112</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">112</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">61</span><span class="p">):</span> <span class="n">track_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">test_person</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">106</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">106</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">112</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">112</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">154</span><span class="p">):</span> <span class="n">msg_type</span> <span class="o">=</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">177</span><span class="p">):</span> <span class="n">router</span> <span class="n">recv</span> <span class="n">data</span> <span class="n">msgtype</span> <span class="p">:</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">194</span><span class="p">):</span> <span class="n">recv</span> <span class="n">msg</span>
+<span class="p">(</span><span class="n">xsession_inner</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">186</span><span class="p">):</span> <span class="n">transfer</span> <span class="n">msg</span><span class="p">:</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">107</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">FeedControl</span><span class="o">******</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">108</span><span class="p">):</span> <span class="n">control</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">523</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">109</span><span class="p">):</span> <span class="n">control</span> <span class="n">cmd_id</span> <span class="o">=</span> <span class="mi">599</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">110</span><span class="p">):</span> <span class="n">control</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">reply</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">111</span><span class="p">):</span> <span class="n">control</span> <span class="n">value</span> <span class="o">=</span> <span class="n">i</span> <span class="n">have</span> <span class="n">got</span> <span class="n">one</span> <span class="n">SmartLegibleMessage</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">112</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">FeedControl</span> <span class="n">End</span> <span class="o">******</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">115</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">CreateSmartLegibleMessage</span><span class="o">******</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">121</span><span class="p">):</span> <span class="n">Create</span> <span class="n">SmartLegibleMessage</span><span class="p">:</span> <span class="n">time_stamp</span> <span class="o">=</span> <span class="mi">1621590540002743439</span><span class="p">,</span> <span class="n">frame_id</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">144</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">CreateSmartLegibleMessage</span> <span class="n">end</span><span class="o">******</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">58</span><span class="p">):</span> <span class="n">time_stamp</span><span class="p">:</span> <span class="mi">1621590540002743439</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">59</span><span class="p">):</span> <span class="n">targets_</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">61</span><span class="p">):</span> <span class="n">track_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">test_person</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">106</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">106</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">112</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">112</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">61</span><span class="p">):</span> <span class="n">track_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">test_person</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">106</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">7</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">106</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">smart_legible_message</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">72</span><span class="p">):</span> <span class="p">(</span> <span class="n">x1</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y1</span><span class="p">:</span> <span class="mi">112</span> <span class="n">x2</span><span class="p">:</span> <span class="mi">13</span> <span class="n">y2</span><span class="p">:</span> <span class="mi">112</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.999</span> <span class="p">)</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">154</span><span class="p">):</span> <span class="n">msg_type</span> <span class="o">=</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">177</span><span class="p">):</span> <span class="n">router</span> <span class="n">recv</span> <span class="n">data</span> <span class="n">msgtype</span> <span class="p">:</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">zmq_manager</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">194</span><span class="p">):</span> <span class="n">recv</span> <span class="n">msg</span>
+<span class="p">(</span><span class="n">xsession_inner</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">186</span><span class="p">):</span> <span class="n">transfer</span> <span class="n">msg</span><span class="p">:</span> <span class="n">XPLUGIN_CONTROL_MESSAGE</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">107</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">FeedControl</span><span class="o">******</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">108</span><span class="p">):</span> <span class="n">control</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">524</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">109</span><span class="p">):</span> <span class="n">control</span> <span class="n">cmd_id</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">110</span><span class="p">):</span> <span class="n">control</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">reply</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">111</span><span class="p">):</span> <span class="n">control</span> <span class="n">value</span> <span class="o">=</span> <span class="n">i</span> <span class="n">have</span> <span class="n">got</span> <span class="n">one</span> <span class="n">SmartLegibleMessage</span>
+<span class="p">(</span><span class="n">stage4_master_plugin</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">112</span><span class="p">):</span> <span class="o">******</span><span class="n">ExampleMasterPlugin</span><span class="p">::</span><span class="n">FeedControl</span> <span class="n">End</span> <span class="o">******</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="slave">
+<h4>Slave节点输出<a class="headerlink" href="#slave" title="Permalink to this headline">¶</a></h4>
+<p>./stage4_ipc_subscriber_Slave xxx.xxx.xxx.xxx 6688</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(stage4_slave_plugin.cc:106): ExampleSlavePlugin::FeedSmart.
+(stage4_slave_plugin.cc:111): ******ExampleSlavePlugin::FeedSmart******
+(stage4_slave_plugin.cc:112): time_stamp: 1621590540123554771
+frame_id： 604
+(stage4_slave_plugin.cc:135): track_id: 1, 
+(stage4_slave_plugin.cc:137): ( x1: 7 y1: 106 x2: 7 y2: 106 score: 0.999 )
+(stage4_slave_plugin.cc:137): ( x1: 13 y1: 112 x2: 13 y2: 112 score: 0.999 )
+(stage4_slave_plugin.cc:135): track_id: 2, 
+(stage4_slave_plugin.cc:137): ( x1: 7 y1: 106 x2: 7 y2: 106 score: 0.999 )
+(stage4_slave_plugin.cc:137): ( x1: 13 y1: 112 x2: 13 y2: 112 score: 0.999 )
+(stage4_slave_plugin.cc:103): Slave push control msg to.
+(stage4_slave_plugin.cc:148): ******ExampleSlavePlugin::FeedSmart end******
+(zmq_manager.cc:362): ClientDealerProc recv:  XPLUGIN_CONTROL_MESSAGE
+
+(zmq_manager.cc:275): recv data: 1621590540154
+(stage4_slave_plugin.cc:106): ExampleSlavePlugin::FeedSmart.
+(stage4_slave_plugin.cc:111): ******ExampleSlavePlugin::FeedSmart******
+(stage4_slave_plugin.cc:112): time_stamp: 1621590540153833415
+frame_id： 605
+(stage4_slave_plugin.cc:135): track_id: 1, 
+(stage4_slave_plugin.cc:137): ( x1: 7 y1: 106 x2: 7 y2: 106 score: 0.999 )
+(stage4_slave_plugin.cc:137): ( x1: 13 y1: 112 x2: 13 y2: 112 score: 0.999 )
+(stage4_slave_plugin.cc:135): track_id: 2, 
+(stage4_slave_plugin.cc:137): ( x1: 7 y1: 106 x2: 7 y2: 106 score: 0.999 )
+(stage4_slave_plugin.cc:137): ( x1: 13 y1: 112 x2: 13 y2: 112 score: 0.999 )
+(stage4_slave_plugin.cc:103): Slave push control msg to.
+(stage4_slave_plugin.cc:148): ******ExampleSlavePlugin::FeedSmart end******
+(zmq_manager.cc:362): ClientDealerProc recv:  XPLUGIN_CONTROL_MESSAGE
+
+(zmq_manager.cc:275): recv data: 1621590540184
+(stage4_slave_plugin.cc:106): ExampleSlavePlugin::FeedSmart.
+(stage4_slave_plugin.cc:111): ******ExampleSlavePlugin::FeedSmart******
+(stage4_slave_plugin.cc:112): time_stamp: 1621590540184095231
+frame_id： 606
+(stage4_slave_plugin.cc:135): track_id: 1, 
+(stage4_slave_plugin.cc:137): ( x1: 7 y1: 106 x2: 7 y2: 106 score: 0.999 )
+(stage4_slave_plugin.cc:137): ( x1: 13 y1: 112 x2: 13 y2: 112 score: 0.999 )
+(stage4_slave_plugin.cc:135): track_id: 2, 
+(stage4_slave_plugin.cc:137): ( x1: 7 y1: 106 x2: 7 y2: 106 score: 0.999 )
+(stage4_slave_plugin.cc:137): ( x1: 13 y1: 112 x2: 13 y2: 112 score: 0.999 )
+(stage4_slave_plugin.cc:103): Slave push control msg to.
+(stage4_slave_plugin.cc:148): ******ExampleSlavePlugin::FeedSmart end******
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

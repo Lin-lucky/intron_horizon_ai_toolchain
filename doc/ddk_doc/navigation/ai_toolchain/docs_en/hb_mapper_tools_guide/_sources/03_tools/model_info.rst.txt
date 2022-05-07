@@ -1,0 +1,99 @@
+The ``hb_model_info`` Tool
+=============================
+
+The ``hb_model_info`` tool is used for parsing the dependencies and parameter information of \*.bin model in compilation.
+
+How To Use
+--------------
+
+.. code-block:: bash
+
+  hb_model_info ${model_file}
+
+Parameters
+-------------------
+
+.. data:: hb_model_info's parameters
+
+  --version
+    This parameter displays version information and exit.
+
+  -m
+    This parameter specifies model name. 
+    When the BIN_FILE is a packed model, it will only dump the compilation information of the specified model.
+
+  --help
+    This parameter displays help information and exit.
+
+Output
+----------------------
+
+This tool dumps some input information in model compilation, as shown below:
+
+.. Note::
+  
+  The version number in below code block varies and here is only a reference.
+
+.. code-block:: bash
+
+  Start hb_model_info....
+  hb_model_info version 1.3.35
+  ******** efficient_det_512x512_nv12 info *********
+  ############# model deps info #############
+  hb_mapper version   : 1.3.35
+  hbdk version        : 3.23.3
+  hbdk runtime version: 3.13.7
+  horizon_nn version  : 0.10.10
+  ############# model_parameters info #############
+  onnx_model          : /release/01_common/model_zoo/mapper/detection/efficient_det/efficientdet_nhwc.onnx
+  BPU march           : bernoulli2
+  layer_out_dump      : False
+  log_level           : DEBUG
+  working dir         : /release/04_detection/05_efficient_det/mapper/model_output
+  output_model_file_prefix: efficient_det_512x512_nv12
+  ############# input_parameters info #############
+  ------------------------------------------
+  ---------input info : data ---------
+  input_name          : data
+  input_type_rt       : nv12
+  input_space&range   : regular
+  input_layout_rt     : None
+  input_type_train    : rgb
+  input_layout_train  : NCHW
+  norm_type           : data_mean_and_scale
+  input_shape         : 1x3x512x512
+  mean_value          : 123.68,116.779,103.939,
+  scale_value         : 0.017,
+  cal_data_dir        : /release/04_detection/05_efficient_det/mapper/calibration_data_rgb_f32
+  ---------input info : data end -------
+  ------------------------------------------
+  ############# calibration_parameters info #############
+  preprocess_on       : False
+  calibration_type    : max
+  ############# compiler_parameters info #############
+  hbdk_pass_through_params: --fast --O3
+  input-source        : {'data': 'pyramid', '_default_value': 'ddr'}
+  --------- input/output types -------------------
+  model input types   : [<InputDataType.NV12: 7>]
+  model output types  : [<InputDataType.F32: 5>, <InputDataType.F32: 5>, <InputDataType.F32: 5>, <InputDataTye.F32: 5>, <InputDataType.F32: 5>, <InputDataType.F32: 5>, <InputDataType.F32: 5>, <InputDataType.F32: 5>, <InputDataType.F32: 5>, <InpuDataType.F32: 5>]
+
+.. note::
+
+  There will be names of those deleted nodes at the end of model info output when there are deleted nodes, 
+  and a ``deleted-nodes_info.txt`` shall be generated, 
+  in which each line records the initial information of those deleted nodes, as shown below:
+
+.. code-block:: bash
+
+  --------- deleted nodes -------------------
+  deleted nodes: spconvretinanethead0_conv91_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv95_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv99_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv103_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv107_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv93_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv97_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv101_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv105_fwd_chw_HzDequantize
+  deleted nodes: spconvretinanethead0_conv109_fwd_chw_HzDequantize
+

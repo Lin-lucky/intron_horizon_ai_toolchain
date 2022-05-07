@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>项目名称 &mdash; video source 组件  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> video source 组件
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">1 简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id7">2 依赖库说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id8">3 编译和运行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#id17">4 开发示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html#videosource">5 videosource设计原理</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">video source 组件</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>项目名称</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>cmake_minimum_required(VERSION 2.8)
+option(PARENT_BUILD “is build from parent” OFF)</p>
+<p>if (NOT ${PARENT_BUILD})
+set(CMAKE_C_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++)
+endif()</p>
+<p>message(“video source PARENT_BUILD:${PARENT_BUILD}”)
+option(PLATFORM_X3 “x3 platform” ON)
+message(“plugin_mode: ${PLUGIN_MODE}, release_mode: ${RELEASE_LIB}”)
+option(COVERAGE “Code Coverage “ OFF)</p>
+<div class="section" id="id1">
+<h1>项目名称<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>if (${PLUGIN_MODE})
+message(“video source plugin project”)
+project(video_source_plugin)
+else ()
+message(“video source project”)
+project(video_source)
+endif()</p>
+<p>set(PLATFORM_LINUX TRUE)
+if (${PLATFORM_MAC})
+add_definitions(-DHR_POSIX)
+add_definitions(-DHR_MAC)
+elseif (${PLATFORM_LINUX})
+add_definitions(-DHR_POSIX)
+add_definitions(-DHR_LINUX)
+set(PLATFORM_NAME linux-x64)
+elseif (${PLATFORM_ANDROID})
+set(ENABLE_NEON “true”)
+add_definitions(-DENABLE_OMP)
+add_definitions(-DHR_POSIX)
+add_definitions(-DHR_ANDROID)
+elseif (${PLATFORM_WIN})
+set(CMAKE_CXX_FLAGS_RELEASE “/MD”)
+set(CMAKE_CXX_FLAGS_DEBUG “/MDd”)
+add_definitions(-DHR_WIN)
+add_definitions(-D_MBCS)
+add_definitions(-DHOBOT_EXPORTS)
+else ()
+message(FATAL_ERROR “invoke cmake with -DPLATFORM_MAC=TRUE|-DPLATFORM_LINUX=TRUE|-DPLATFORM_ANDROID=TRUE|-DPLATFORM_WIN=TRUE”)
+return()
+endif()</p>
+<p>option(RELEASE_LIB “build version of release” ON)
+message(“config types: ${CMAKE_CONFIGURATION_TYPES}”)</p>
+<p>if (${PLATFORM_X3})</p>
+</div>
+<div class="section" id="x3-soc">
+<h1>x3 soc<a class="headerlink" href="#x3-soc" title="Permalink to this headline">¶</a></h1>
+<p>add_definitions(-DX3)
+add_definitions(-DSUBSYS_NAME=IOT_VIO)
+else ()
+message(FATAL_ERROR “invoke cmake with -DPLATFORM select”)
+return()
+endif()</p>
+<p>if (${RELEASE_LIB})
+set(CMAKE_BUILD_TYPE Release)
+message(STATUS “BUILD TYPE:Release”)
+else ()
+set(CMAKE_BUILD_TYPE Debug)
+set(HOBOT_BUILD_DEBUG “TRUE”)
+message(STATUS “BUILD TYPE:Debug”)
+endif ()</p>
+<p>list(APPEND CMAKE_C_FLAGS “-Wall -Wno-unknown-pragmas -fPIC -fexceptions -Werror “)
+list(APPEND CMAKE_C_FLAGS “-Wno-error=unused-function “)
+if (“${CMAKE_BUILD_TYPE}” STREQUAL “Release”)
+list(APPEND CMAKE_C_FLAGS “-O3”)
+set(CMAKE_C_FLAGS “${CMAKE_C_FLAGS} -fPIC “)
+else ()
+list(APPEND CMAKE_C_FLAGS “-g -O0 -fPIC “)
+endif()</p>
+<p>list(APPEND CMAKE_CXX_FLAGS “${CMAKE_C_FLAGS} -std=c++11 “)
+string(REGEX REPLACE “;” “ “ CMAKE_C_FLAGS ${CMAKE_C_FLAGS})
+string(REGEX REPLACE “;” “ “ CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+if (NOT ${PARENT_BUILD})
+set(OUTPUT_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/output)
+endif()</p>
+</div>
+<div class="section" id="set-my-output-root-output-root-project-name">
+<h1>set(MY_OUTPUT_ROOT ${OUTPUT_ROOT}/${PROJECT_NAME})<a class="headerlink" href="#set-my-output-root-output-root-project-name" title="Permalink to this headline">¶</a></h1>
+<p>set(MY_OUTPUT_ROOT ${OUTPUT_ROOT})
+message(“${PROJECT_NAME} MY_OUTPUT_ROOT: ${MY_OUTPUT_ROOT}”)</p>
+</div>
+<div class="section" id="channge-parent-build-value-to-build-sub-cmakelist">
+<h1>channge PARENT_BUILD value to build sub cmakelist<a class="headerlink" href="#channge-parent-build-value-to-build-sub-cmakelist" title="Permalink to this headline">¶</a></h1>
+<p>set(PARENT_BUILD ON)</p>
+</div>
+<div class="section" id="compile-flags-for-coverage">
+<h1>compile flags for coverage<a class="headerlink" href="#compile-flags-for-coverage" title="Permalink to this headline">¶</a></h1>
+<p>if (COVERAGE)
+message(“comiple video_source for coverage”)
+set(CMAKE_C_FLAGS “${CMAKE_C_FLAGS} -O0 -g -fprofile-arcs -ftest-coverage”)
+set(CMAKE_CXX_FLAGS “${CMAKE_CXX_FLAGS} -w -O0 -g -fprofile-arcs -ftest-coverage”)
+endif ()</p>
+</div>
+<div class="section" id="id2">
+<h1>添加头文件路径<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<p>message(“HOME value: $ENV{HOME}”)
+if(DEFINED ENV{HORIZON_LIB_PATH})
+set(HOST_PACKAGE_DIR $ENV{HORIZON_LIB_PATH}/ddk/xj3_aarch64)
+else()
+set(HOST_PACKAGE_DIR ~/.horizon/ddk/xj3_aarch64)
+endif()</p>
+<p>include_directories(
+${PROJECT_SOURCE_DIR}/src
+${PROJECT_SOURCE_DIR}/include
+${PROJECT_SOURCE_DIR}/../third_party/aarch64/hobotlog/include
+${PROJECT_SOURCE_DIR}/../third_party/aarch64/jsoncpp/include
+${PROJECT_SOURCE_DIR}/../third_party/aarch64/gtest/include
+${HOST_PACKAGE_DIR}/appsdk/appuser/include
+${HOST_PACKAGE_DIR}/appsdk/appuser/include/libmm
+)</p>
+<p>link_directories(
+${PROJECT_SOURCE_DIR}/../third_party/aarch64/hobotlog/lib
+${PROJECT_SOURCE_DIR}/../third_party/aarch64/jsoncpp/lib
+${PROJECT_SOURCE_DIR}/../third_party/aarch64/opencv/lib
+${PROJECT_SOURCE_DIR}/../third_party/aarch64/gtest/lib
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib/hbmedia
+)</p>
+<p>if (${PLUGIN_MODE})
+include_directories(
+${HOST_PACKAGE_DIR}/xstream/include
+${HOST_PACKAGE_DIR}/xproto/include
+)
+link_directories(
+${HOST_PACKAGE_DIR}/xproto/lib
+${HOST_PACKAGE_DIR}/xstream/lib
+)
+endif()</p>
+</div>
+<div class="section" id="id3">
+<h1>源文件路径信息<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
+<p>file(GLOB PROJECT_BASE_SRC
+src/utils/executor.cc
+src/video_source/video_buffer/buffer_manager.cc
+src/video_source/decode/decode_manager.cc
+src/video_source/video_source.cc
+src/video_source/vin/vin_module.cc
+src/video_source/vps/vps_module.cc
+src/video_source/vps/vps_manager.cc
+src/video_source/vin/feedback/feedback_vin_module.cc
+src/video_source/vin/usb_cam/usb_cam_vin_module.cc
+src/video_source/vin/rtsp_client/rtsp_client_vin_module.cc
+)</p>
+<p>if (${PLATFORM_X3})
+file(GLOB PROJECT_PLATFORM_SRC
+src/video_source/decode/x3/decode_module.cc
+src/video_source/vin/mipi_cam/x3/mipi_cam_vin_module_hapi.cc
+src/video_source/vin/mipi_cam/j3/mipi_cam_vin_module_vapi.cc
+src/video_source/vin/mipi_cam/x3/sensors/*.cc
+src/video_source/vps/x3/vps_module_hapi.cc
+src/video_source/vps/j3/vps_module_vapi.cc
+)
+elseif (${PLATFORM_J5})
+endif()</p>
+<p>if (${PLUGIN_MODE})
+file(GLOB PROJECT_PLUGIN_SRC
+src/video_source_plugin/video_source_config.cc
+src/video_source_plugin/video_source_message.cc
+src/video_source_plugin/video_source_plugin.cc
+src/video_source_plugin/video_source_produce.cc
+)
+endif()</p>
+<p>set(SOURCE_FILES ${PROJECT_BASE_SRC} ${PROJECT_PLATFORM_SRC} ${PROJECT_PLUGIN_SRC})
+add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})</p>
+</div>
+<div class="section" id="link-library">
+<h1>link library<a class="headerlink" href="#link-library" title="Permalink to this headline">¶</a></h1>
+<p>set(BASE_LIBRARIES hobotlog.a jsoncpp.a dl m pthread rt)
+if (${PLATFORM_X3})
+set(X3_HAPI_LIB vio cam uvc isp iar isp_algo tinyalsa avformat avcodec avutil
+multimedia hbmedia z)
+endif()
+if (${PLUGIN_MODE})
+set(PLUGIN_LIB xproto xstream)
+endif()
+target_link_libraries(${PROJECT_NAME} ${BASE_LIBRARIES} ${X3_HAPI_LIB} ${PLUGIN_LIB})</p>
+<p>add_subdirectory(src/video_source/vin/mipi_cam/x3/sensors/plugin)</p>
+</div>
+<div class="section" id="sample-test">
+<h1>sample test<a class="headerlink" href="#sample-test" title="Permalink to this headline">¶</a></h1>
+<p>if (${PLUGIN_MODE})
+add_subdirectory(sample/video_source_plugin)
+else()
+add_subdirectory(sample/video_source)</p>
+</div>
+<div class="section" id="gtest">
+<h1>gtest<a class="headerlink" href="#gtest" title="Permalink to this headline">¶</a></h1>
+<p>add_subdirectory(test/video_source)
+endif()</p>
+<p>set(SENSOR_LIB_DIR
+${PROJECT_SOURCE_DIR}/src/video_source/vin/mipi_cam/x3/sensors/lib)
+set(FFMPEG_LIB_DIR
+${PROJECT_SOURCE_DIR}/src/video_source/vin/rtsp_client/lib)</p>
+<p>if (${PLUGIN_MODE})
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/video_source_plugin
+DESTINATION ${MY_OUTPUT_ROOT}/include)
+else()
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/video_source
+DESTINATION ${MY_OUTPUT_ROOT}/include)
+endif()
+install(FILES ${PROJECT_SOURCE_DIR}/src/video_source/version.h
+DESTINATION ${MY_OUTPUT_ROOT}/include)</p>
+<p>install(DIRECTORY ${PROJECT_SOURCE_DIR}/configs/
+DESTINATION ${MY_OUTPUT_ROOT}/configs)</p>
+<p>install(FILES ${SENSOR_LIB_DIR}/../README.md
+DESTINATION ${MY_OUTPUT_ROOT}/lib)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.md
+DESTINATION ${MY_OUTPUT_ROOT})
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/image
+DESTINATION ${MY_OUTPUT_ROOT})
+install(DIRECTORY ${SENSOR_LIB_DIR}/f37/
+DESTINATION ${MY_OUTPUT_ROOT}/lib/sensor)
+install(DIRECTORY ${SENSOR_LIB_DIR}/imx586/
+DESTINATION ${MY_OUTPUT_ROOT}/lib/sensor)
+install(DIRECTORY ${FFMPEG_LIB_DIR}/
+DESTINATION ${MY_OUTPUT_ROOT}/lib/ffmpeg)
+install(TARGETS ${PROJECT_NAME} DESTINATION ${MY_OUTPUT_ROOT}/lib)</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

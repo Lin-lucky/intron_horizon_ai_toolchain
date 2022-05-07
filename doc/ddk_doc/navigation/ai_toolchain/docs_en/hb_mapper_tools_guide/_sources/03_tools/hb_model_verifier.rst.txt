@@ -1,0 +1,107 @@
+The ``hb_model_verifier`` Tool
+===================================
+
+The ``hb_model_verifier`` tool is used for validating specified HGM and \*.bin runtime model. 
+It generates a random image, uses the image to inference both the HGM and 
+the runtime model in either simulator or dev board (|:bulb:| The board IP must be accessible
+using the ``ping`` command), compares the inference results, so as to determine if the model can pass the validation. 
+If the validation image is not specified, the tool will use the default image in inference 
+( |:bulb:| featuremap model can randomly generate tensor data).
+
+How To Use
+-----------------
+
+.. code-block:: bash
+
+    hb_model_verifier -q ${quanti_model} \
+                      -b ${bin_model}
+                      -a ${board_ip} \
+                      -i ${input_img} \
+                      -d ${digits}
+
+Parameters
+-------------------
+
+.. data:: hb_model_verifier's parameters
+
+  \-\-quanti_model, -q
+    Name of the quantized model.
+
+  \-\-bin_model, -b
+    Name of the bin model.
+
+  \-\-arm-board-ip, -a
+    The IP address of the ARM board in dev board evaluation.
+
+  \-\-input-img, -i
+    The image to be used in inference test. 
+    The default image or random tensor will be used when not specified.
+
+  \-\-compare_digits, -d
+    Number of digits to be compared. 
+    If not specified, 5 digits will be compared.
+
+
+The ``hb_model_verifier``'s Configuration file
+------------------------------------------------
+
+.. code-block:: yaml
+
+  # fixed-point ONNX model file
+  onnx_model: quantized_model.onnx
+
+  # path to the hybrid.bin model
+  hybrid_model: hybrid_model.bin
+
+  # model input size
+  input_shape: 1x224x224x3
+
+  # input layout of the model when running in dev board
+  input_layout: NHWC
+
+  # input type (yuv444/rgb(NCHW)/feature) of the model when running in dev board
+  input_type_rt: yuv444
+
+  # layout input layout of the model in training
+  input_layout_train: NCHW
+
+  # decimals of accuracy comparison
+  compare_digits: 5
+
+  # path to output results Do not use current working dir. It will be cleared
+  output_dir: model_verifier_out
+
+
+
+Parse The Output
+----------------------
+
+Result comparison will be displayed at the client terminal, the tool will compare the results of ONNX model operation, 
+simulator and dev board operations. The output is shown as below:
+
+.. code-block:: bash
+
+  Quanti onnx and Arm result Strict check PASSED
+
+When the accuracy of HGM and runtime model is inconsistent, the specific information of inconsistent results will be output. ``mismatch line num`` is the number of inconsistent results of two models, including three inconsistencies: ``mismatch.line_miss num`` is the number of inconsistent output results. ``mismatch.line_diff num`` is the number of output result gaps that are too large. ``mismatch.line_nan num`` is the number of output nan. ``total line num`` is the total number of output data. ``mismatch rate`` refers to the proportion of inconsistent data in the total number of output data.
+
+.. code-block:: bash
+
+  INFO mismatch line num: 39
+  INFO ****************************
+  INFO mismatch.line_miss num: 0
+  INFO mismatch.line_diff num: 39
+  INFO mismatch.line_nan num: 0
+  INFO ****************************
+  INFO total line num: 327680
+  INFO mismatch rate: 0.0001190185546875
+
+.. attention::
+
+  1. Currently the ``hb_model_verifier`` can only support verifying models with single input.
+  2. Note that the ``hb_model_verifier`` will only compare the first output result when a model has multiple outputs.
+  3. The ``hb_model_verifier`` cannot validate packed \*.bin models, otherwise below message will be printed at the console:
+
+.. code-block:: bash
+
+  ERROR pack model is not supported

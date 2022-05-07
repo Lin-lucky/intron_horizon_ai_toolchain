@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcontours_method.a  CMakeFiles/contours_method.dir/src/contours_method.cc.o
+/usr/bin/ranlib libcontours_method.a

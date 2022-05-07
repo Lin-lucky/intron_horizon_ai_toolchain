@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>XStream Framework调度性能评测 &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>XStream Framework调度性能评测</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/xstream/benchmark/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="xstream-framework">
+<h1>XStream Framework调度性能评测<a class="headerlink" href="#xstream-framework" title="Permalink to this headline">¶</a></h1>
+<p>本节主要对XStream Framework调度性能进行评测说明。</p>
+<p>我们将基于下面的workflow进行调度评测，具体如下。workflow输入数据是input, 输入数据先后经过两个PassThrough节点的运算，最终输出数据是output。其中PassThrough实现了输入输出数据的透传。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;PassThrough&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pass_through_1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;input&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;data_tmp&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;PassThrough&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pass_through_2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;data_tmp&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;output&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;null&quot;</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="passthrough-method">
+<h2>定义PassThrough Method<a class="headerlink" href="#passthrough-method" title="Permalink to this headline">¶</a></h2>
+<p>现在需要定义PassThrough Method并实现其核心功能。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;&gt;</span> <span class="n">PassThrough</span><span class="o">::</span><span class="n">DoProcess</span><span class="p">(</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BaseDataPtr</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">input</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>帧率统计<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>程序中通过异步接口<code class="docutils literal notranslate"><span class="pre">AsyncPredict()</span></code>将输入数据送入框架进行运算，通过回调函数进行帧率的统计，每调用一次回调函数，说明有一帧数据处理完成。</p>
+<p>在示例程序中我们每隔0.5ms添加一次任务，在评测时用户可以根据需要修改此时间间隔。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span> <span class="o">*</span><span class="n">flow</span> <span class="o">=</span> <span class="n">xstream</span><span class="o">::</span><span class="n">XStreamSDK</span><span class="o">::</span><span class="n">CreateSDK</span><span class="p">();</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetConfig</span><span class="p">(</span><span class="s">&quot;config_file&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">);</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">SetCallback</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FrameFPS</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+  <span class="n">flow</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">exit_</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">InputDataPtr</span> <span class="nf">inputdata</span><span class="p">(</span><span class="k">new</span> <span class="n">InputData</span><span class="p">());</span>
+    <span class="n">BaseDataPtr</span> <span class="nf">data</span><span class="p">(</span><span class="k">new</span> <span class="n">BaseData</span><span class="p">());</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">name_</span> <span class="o">=</span> <span class="s">&quot;input&quot;</span><span class="p">;</span>   <span class="c1">// corresponding the inputs in workflow</span>
+    <span class="n">inputdata</span><span class="o">-&gt;</span><span class="n">datas_</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+
+    <span class="c1">// async mode</span>
+    <span class="n">flow</span><span class="o">-&gt;</span><span class="n">AsyncPredict</span><span class="p">(</span><span class="n">inputdata</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">microseconds</span><span class="p">(</span><span class="mi">500</span><span class="p">));</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>帧率统计函数定义如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">FrameFPS</span><span class="p">(</span><span class="n">xstream</span><span class="o">::</span><span class="n">OutputDataPtr</span> <span class="n">output</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="k">auto</span> <span class="n">last_time</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+  <span class="k">static</span> <span class="kt">int</span> <span class="n">fps</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">static</span> <span class="kt">int</span> <span class="n">frameCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">frameCount</span><span class="o">++</span><span class="p">;</span>
+
+  <span class="k">auto</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="o">&gt;</span><span class="p">(</span>
+                    <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_time</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">fps</span> <span class="o">=</span> <span class="n">frameCount</span><span class="p">;</span>
+    <span class="n">frameCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">last_time</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;fps = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">fps</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>调度性能<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>运行benchmark_main程序后，会持续输出帧率大小，用户可以通过<code class="docutils literal notranslate"><span class="pre">ctrl+C</span></code>来终止。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PassThrough</span> <span class="n">Init</span>
+<span class="n">PassThrough</span> <span class="n">Init</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1693</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1691</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1690</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1690</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1689</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1689</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1690</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1691</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1691</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1691</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1690</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1691</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1690</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1690</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1690</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">1690</span>
+<span class="o">^</span><span class="n">Crecv</span> <span class="n">signal</span> <span class="mi">2</span><span class="p">,</span> <span class="n">stop</span>
+<span class="n">PassThrough</span> <span class="n">Finalize</span>
+<span class="n">PassThrough</span> <span class="n">Finalize</span>
+</pre></div>
+</div>
+<div class="section" id="xstream-v-s-hobotsdk">
+<h3>xstream v.s. hobotsdk<a class="headerlink" href="#xstream-v-s-hobotsdk" title="Permalink to this headline">¶</a></h3>
+<p>构建包含两个节点的workflow，节点内仅透传无其他操作。分别以0.5ms、1ms、2ms、5ms、10ms、20ms的间隔输入数据，测试xstream和hobotsdk调度性能，结果如下。可以发现当输入FPS处于100时，xstream和hobotsdk框架调度的耗时基本可以忽略。</p>
+<table>
+    <tr>
+        <th> </th><th colspan=2>0.5ms</th><th> </th><th colspan=2>1ms</th><th></th><th colspan="2">2ms</th><th></th><th colspan="2">5ms</th><th></th><th colspan="2">10ms</th><th></th><th colspan="2">20ms</th>
+    </tr>
+    <tr>
+        <td></td><td>xstream</td><td>hobotsdk</td><td> </td><td>xstream</td><td>hobotsdk</td><td></td><td>xstream</td><td>hobotsdk</td><td></td><td>xstream</td><td>hobotsdk</td><td></td><td>xstream</td><td>hobotsdk</td><td></td><td>xstream</td><td>hobotsdk</td>
+    </tr>
+    <tr>
+        <td>FPS</td><td>1690.35</td><td>1728.7</td><td></td><td>909.4</td><td>901.7</td><td></td><td>467.3</td><td>471.4</td><td></td><td>197.0</td><td>197.4</td><td></td><td>100.0</td><td>99.3</td><td></td><td>50.0</td><td>49.7</td>
+    </tr>
+    <tr>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+        <td></td><td>-2.2%</td><td></td><td></td><td>0.84%</td><td></td><td></td><td>-0.87%</td><td></td><td></td><td>-0.20%</td><td></td><td></td><td>0.70%</td><td></td><td></td><td>0.60%</td><td></td>
+    </tr>
+</table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

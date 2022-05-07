@@ -1,0 +1,257 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>rtsp server plugin &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>rtsp server plugin</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_solution/code/common/xproto_plugins/rtsp_server_plugin/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rtsp-server-plugin">
+<h1>rtsp server plugin<a class="headerlink" href="#rtsp-server-plugin" title="Permalink to this headline">¶</a></h1>
+<p>RTSPServerPlugin启动rtsp server, 基于xproto框架，监听图像和智能化结果消息，完成数据编码和打包后，通过rtsp server发送给客户端展示。
+客户端（如vlc）通过以下url建立连接，拉取数据:
+rtsp://ip:555/horzionStream</p>
+</div>
+<div class="section" id="id1">
+<h1>配置<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="rtsp-plugin-json">
+<h2>rtsp_plugin.json<a class="headerlink" href="#rtsp-plugin-json" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{
+  &quot;enable_smart&quot;: 0,  // 1：视频帧携带智能数据 0：不携带
+  &quot;video_type&quot;: 0,    // 0： H264, 1: H265
+  &quot;image_width&quot;: 1920,
+  &quot;image_height&quot;: 1080,
+  &quot;layer&quot;: 0,
+  &quot;data_buf_size&quot;: 3110400,
+  &quot;packet_size&quot;: 102400,
+  &quot;frame_buf_depth&quot;: 3,
+  &quot;use_vb&quot;:0,
+  &quot;rotation&quot;: 0,    // 0, 90, 180, 270
+  &quot;mirror&quot;: 0,      // 1: 水平镜像，2：垂直镜像 3：同时水平和垂直镜像
+  &quot;is_cbr&quot;: 1,
+  &quot;bitrate&quot;: 6000,
+  &quot;debug_dump_stream&quot;: 0,   // 是否保存编码视频到本地文件
+  &quot;debug_encode_time&quot;: 0,   // 计算编码耗时
+  &quot;rtsp_server_config&quot;: &quot;configs/rtsp_server.json&quot;
+}
+</pre></div>
+</div>
+<p>enable_smart为0时，发送编码后的图像数据。</p>
+<p>enable_smart为1时，将智能数据封装为SEI数据，和图像数据同步后发出。</p>
+</div>
+<div class="section" id="rtsp-server-json">
+<h2>rtsp_server.json<a class="headerlink" href="#rtsp-server-json" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;auth_mode&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;123456&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;video_type&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="o">//</span> <span class="mi">0</span><span class="p">:</span><span class="mi">264</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">H265</span>
+    <span class="s2">&quot;audio_type&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="o">//</span> <span class="mi">0</span><span class="p">:</span><span class="n">g711</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">g726</span>
+    <span class="s2">&quot;debug_media_source&quot;</span><span class="p">:</span> <span class="s2">&quot;test.264&quot;</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>若auth_mode为1，则开启rtsp认证功能，建立rtsp的连接为:</p>
+<p>rtsp://user:passward&#64;ip:555/horizonStream</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h1>编译<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<p>mkdir build &amp; cd build &amp; cmake .. &amp; make</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

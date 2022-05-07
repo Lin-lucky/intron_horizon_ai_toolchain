@@ -1,0 +1,256 @@
+其他示例
+=================
+
+其他示例是指05_miscellaneous/ 和 06_custom_op/ 文件夹中的示例。
+其中，05_miscellaneous/是杂项示例，用于指导使用X3工具链提供的一些其他内容，
+比如：如何使用地平线模型转换工具使RGB数据训练的模型能在Runtime运行时接受YUV数据。
+06_custom_op/为用户自定义OP示例，帮助用户了解如何在模型含有工具链不支持的算子的情况下添加自定义算子的功能。
+
+各示例用法、目录结构及内容请参照以下内容。
+
+如何使用
+--------------
+
+如上所示，在各子文件夹下，每个使用示例都按照顺序封装成了shell脚本，按照shell脚本顺序执行，
+即可了解相应的工具的使用、API的功能以及用法等。
+
+杂项示例
+------------
+
+lenet_gray
+^^^^^^^^^^^^
+
+目录结构
+"""""""""""
+
+.. code-block:: bash
+
+    01_lenet_gray/
+    .
+    └── mapper
+        ├── 01_check.sh                 //对模型进行预验证
+        ├── 02_get_mnist.sh             //获取校准数据
+        ├── 03_build.sh                 //转换debug模型
+        ├── 04_inference.sh             //使用onnx runtime进行推理
+        ├── README.cn.md
+        ├── lenet_gray_config.yaml
+        ├── postprocess.py
+        ├── preprocess.py
+        └── process_mnist.py
+
+示例内容
+""""""""""
+
+该示例为灰度图模型的模型转换、模拟器运行及上板运行示例。
+
+resnet50_feature
+^^^^^^^^^^^^^^^^^^
+
+目录结构
+""""""""""
+
+.. code-block:: bash
+
+    02_resnet50_feature
+    .
+    └── mapper
+        ├── 01_check.sh                 //对模型进行预验证
+        ├── 02_build.sh                 //转换debug模型
+        ├── 03_inference.sh             //使用onnx runtime进行推理
+        ├── inference.py
+        ├── README.cn.md
+        └── resnet50_feature_config.yaml
+
+示例内容
+""""""""""
+
+该示例为resnet50_feature的模型转换, 模拟器运行及上板运行示例。
+
+
+vector-diff
+^^^^^^^^^^^^^^
+
+目录结构
+""""""""""
+
+.. code-block:: bash
+
+    03_vector_diff
+    .
+    └── mobilenet_mapper
+        ├── 01_inference_rt.sh
+        ├── 02_vec_diff.sh                  // 使用vec_diff工具进行输出数据分析
+        ├── aarch64_x86_xj3
+        |   ├── bin
+        |   |   ├── hrt_bin_dump
+        |   |   └── hrt_model_exec
+        |   └── lib
+        |       ├── libdnn.so
+        |       └── libhbdk_sim_x86.so
+        ├── ILSVRC2012_val_00000001.bin
+        └── readme.txt
+        
+输出内容
+""""""""""
+
+由 ``vec_diff -o`` 指定的CSV文件，列表（表项为：左侧文件名，右侧文件名，余弦相似度、相对欧拉距、最大绝对误差、方差），参考如下：
+
+.. csv-table::
+    :header: Left Files, Right Files, Cosine Similarity,Relative Euclidean Distance, Max Absolute Error, Mean Square Error
+    
+    Layerxxx-quanti-input.txt, Layerxxx-float-input.txt, xxx, xxx, xxx, xxx
+    Layerxxx-quanti-param.txt, Layerxxx-float-param.txt, xxx, xxx, xxx, xxx
+
+multi_input_example
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+目录结构
+""""""""""
+
+.. code-block:: bash
+
+    04_multi_input_example
+    .
+    ├── mapper
+        ├── 01_check.sh                 // 对模型进行预验证
+        ├── 02_preprocess.sh            // 对数据进行预处理
+        ├── 03_build.sh                 // 转换debug模型
+        ├── 04_inference.sh             // 使用onnx runtime进行推理
+        ├── data_preprocess.py
+        ├── data_transformer.py
+        ├── inference.py
+        └── mobilenet_multi_config.yaml
+
+示例内容
+""""""""""
+该示例为多输入模型的模型转换, 模拟器运行及上板运行示例。
+
+model_verifier
+^^^^^^^^^^^^^^^^^^^^^
+
+目录结构
+""""""""""""""
+
+.. code-block:: bash
+
+    07_model_verifier
+    .
+    ├── 01_preprocess.sh                // 对数据进行预处理
+    ├── 02_build.sh                     // 转换debug模型
+    ├── 03_model_verify.sh              // 执行模型验证
+    ├── calibration_data_feature
+    ├── data_preprocess.py
+    ├── data_transformer.py
+    ├── mobilenet_config_bgr.yaml
+    ├── mobilenet_config_yuv444.yaml
+    └── resnet50_featuremap_config.yaml
+
+示例内容
+"""""""""""""
+该示例为模型验证工具的验证示例。
+
+model_info
+^^^^^^^^^^^^^^
+
+目录结构
+"""""""""""""""
+
+.. code-block:: bash
+
+  08_model_info
+  .
+  ├── 01_preprocess.sh                // 对数据进行预处理
+  ├── 02_build.sh                     // 转换debug模型
+  ├── 03_model_info_check.sh          // 执行模型信息检测并打印
+  ├── mobilenet_config.yaml
+  └── preprocess.py
+
+示例内容
+"""""""""""""
+该示例为模型信息输出工具的验证示例。
+
+mobilenet_bgr
+^^^^^^^^^^^^^^
+
+目录结构
+"""""""""""""""
+
+.. code-block:: bash
+
+    09_mobilenet_bgr
+    .
+    └── mapper
+        ├── 01_check.sh               // 对数据模型做校验
+        ├── 02_preprocess.sh          // 对数据进行预处理
+        ├── 03_build.sh               // 模型转换
+        ├── 04_inference.sh           // 单张图片进行推理
+        ├── README.cn.md
+        ├── mobilenet_config.yaml
+        ├── postprocess.py
+        └── preprocess.py
+
+示例内容
+"""""""""""""
+该示例为 MobileNetv1 模型,  ``input_type_rt`` 为 ``bgr`` 的示例。
+
+mobilenet_yuv444
+^^^^^^^^^^^^^^^^^^^^^
+
+目录结构
+"""""""""""""""
+
+.. code-block:: bash
+
+    10_mobilenet_yuv444
+    .
+    └── mapper
+        ├── 01_check.sh               // 对数据模型做校验
+        ├── 02_preprocess.sh          // 对数据进行预处理
+        ├── 03_build.sh               // 模型转换
+        ├── 04_inference.sh           // 单张图片进行推理
+        ├── README.cn.md
+        ├── mobilenet_config.yaml
+        ├── postprocess.py
+        └── preprocess.py
+
+示例内容
+"""""""""""""
+该示例为 MobileNetv1 模型,  ``input_type_rt`` 为 ``yuv444`` 的示例。
+
+用户自定义OP示例
+------------------
+
+目录结构
+^^^^^^^^^^^^
+
+.. code-block:: bash
+
+  06_custom_op
+  .
+  ├── mapper
+      ├── 02_preprocess.sh
+      ├── 03_build.sh
+      ├── 04_inference.sh
+      ├── 05_evaluate.sh
+      ├── cls_evaluate.py
+      ├── cls_inference.py
+      ├── googlenet_cop_config.yaml
+      ├── onnx_modify.py
+      ├── postprocess.py
+      ├── preprocess.py
+      ├── README.cn.md
+      ├── sample_custom.py
+      └── torch_export.py
+
+示例介绍
+^^^^^^^^^^^^^
+
+开发者使用地平线工具链将各开源框架训练得到的浮点模型转换为定点模型时，
+如果浮点模型中包含了工具链不支持的算子（以下简称为OP），则会转换失败。
+在此情况下，开发者可以使用工具链的自定义OP功能自行添加不支持的OP，完成模型转换。
+
+自定义OP功能主要使用 ``hb_custom_op`` 工具的 ``create`` 命令行。
+如上目录结构所示，在使用本示例时，进入01_custom_op_creator文件夹，
+执行 ``sh 01_create_op.sh``，在当前目录下生成供用户修改的模板文件。
+
+02_mapper文件夹中则包含了执行本示例所需要的脚本和配置文件。

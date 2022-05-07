@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="EN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5. Custom OP Development &mdash; horizon_ai_toolchain_user_guide v1.12.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. Appendix" href="chapter_6_appendix.html" />
+    <link rel="prev" title="4. Application Development" href="chapter_4_application_development.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> horizon_ai_toolchain_user_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AI Toolchain:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter_1_introduction.html">1. About The Toolchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_2_prerequisites.html">2. Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. Model Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_4_application_development.html">4. Application Development</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Custom OP Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general-descriptions">5.1. General Descriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-op-included-model-conversion">5.2. Custom OP Included Model Conversion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modify-model-file">5.2.1. Modify Model File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#op-implementation">5.3. OP Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-custom-op-on-dev-board">5.4. Run Custom OP on Dev Board</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-c-template-of-custom-op">5.4.1. A C++ Template of Custom OP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-op-registration">5.4.2. Custom OP Registration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_6_appendix.html">6. Appendix</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">horizon_ai_toolchain_user_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">5. </span>Custom OP Development</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/chapter_5_custom_op_development.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="custom-op-development">
+<h1><span class="section-number">5. </span>Custom OP Development<a class="headerlink" href="#custom-op-development" title="Permalink to this headline"></a></h1>
+<section id="general-descriptions">
+<h2><span class="section-number">5.1. </span>General Descriptions<a class="headerlink" href="#general-descriptions" title="Permalink to this headline"></a></h2>
+<p>In most cases, your models should be able to be deployed into Horizon’s ASICs because the AI Toolchain has provided
+rich OPs. But if you find that there are unsupported OP(s) in the models, it is suggested to try to replace the unsupported
+OP(s) with those supported ones, so as to utilize Horizon’s ASIC capacities to the full.</p>
+<p>The custom OP provides the ability to allow an customized operator to be computed in CPU.
+The complete custom OP development process should include: template creation, OP implementation, OP compilation,
+conversion of a custom OP included model and execution of a custom OP included model. Please refer to below
+frame diagram:</p>
+<img alt="_images/custom_op_development.png" class="align-center" src="_images/custom_op_development.png" />
+<p>As above shown, it takes 2 stages to define a custom OP:
+at model conversion stage, there must be the Python code of the custom OP;
+at simulator/dev board inference stage, there must be the custom OP and its C++ code.
+In addition, computation the codes in 2 stages must be consistent.</p>
+</section>
+<section id="custom-op-included-model-conversion">
+<h2><span class="section-number">5.2. </span>Custom OP Included Model Conversion<a class="headerlink" href="#custom-op-included-model-conversion" title="Permalink to this headline"></a></h2>
+<section id="modify-model-file">
+<h3><span class="section-number">5.2.1. </span>Modify Model File<a class="headerlink" href="#modify-model-file" title="Permalink to this headline"></a></h3>
+<p>When the custom OP’s implementation is ready, to run the custom OP, you need to modify both the original model file and
+the configuration file for model conversion (Take the <code class="docutils literal notranslate"><span class="pre">Caffe</span></code> model and the <code class="docutils literal notranslate"><span class="pre">ONNX</span></code> model as examples respectively below):</p>
+<p>In the original model file, change the OP type mark of corresponding custom OP into <code class="docutils literal notranslate"><span class="pre">Custom</span></code> and fill in a <code class="docutils literal notranslate"><span class="pre">custom_param</span></code>
+group as shown below:</p>
+<ul class="simple">
+<li><p><strong>Caffe Model</strong></p></li>
+</ul>
+<p>In the original model file, the operator type corresponding to the custom operator is marked as <code class="docutils literal notranslate"><span class="pre">Custom</span></code>, and a set of <code class="docutils literal notranslate"><span class="pre">custom_param</span></code> is provided. The example is as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">layer</span> <span class="p">{</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;hr_op&quot;</span>
+  <span class="nb">type</span><span class="p">:</span> <span class="s2">&quot;Custom&quot;</span>
+  <span class="n">bottom</span><span class="p">:</span> <span class="s2">&quot;res3d_in&quot;</span>
+  <span class="n">top</span><span class="p">:</span> <span class="s2">&quot;res3d&quot;</span>
+  <span class="n">custom_param</span> <span class="p">{</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="s2">&quot;CustomIdentity&quot;</span>
+    <span class="n">shape</span> <span class="p">{</span>
+      <span class="n">dim</span><span class="p">:</span> <span class="mi">1</span>
+      <span class="n">dim</span><span class="p">:</span> <span class="mi">512</span>
+      <span class="n">dim</span><span class="p">:</span> <span class="mi">28</span>
+      <span class="n">dim</span><span class="p">:</span> <span class="mi">28</span>
+    <span class="p">}</span>
+    <span class="n">params</span><span class="p">:</span> <span class="s2">&quot;&#39;kernel_size&#39;: 10 </span><span class="se">\n</span><span class="s2">&#39;threshold&#39;: 0.5&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the above <code class="docutils literal notranslate"><span class="pre">custom_param</span></code> set example, the <code class="docutils literal notranslate"><span class="pre">kind</span></code> refers to the name of costum OP’s internal implementation,
+as the custom OP is an identical OP, it is named as <code class="docutils literal notranslate"><span class="pre">CustomIdentity</span></code>. This name will be shown in the succeeding
+Python and C++ codes. The <code class="docutils literal notranslate"><span class="pre">shape</span></code> refers to OP’s output size and needs to be completely specified. The <code class="docutils literal notranslate"><span class="pre">params</span></code>
+refers to OP’s incoming parameters and it should be specified like this: <code class="docutils literal notranslate"><span class="pre">'param_name':</span> <span class="pre">param_value</span></code>. Note that
+multiple parameters should be separated using <code class="docutils literal notranslate"><span class="pre">\n</span></code>.</p>
+<p>While in the configuration file for model conversion, a new custom OP parameter must be added into the file as shown below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#...</span>
+
+<span class="n">custom_op</span><span class="p">:</span>
+  <span class="c1"># custom OP&#39;s calibration method</span>
+  <span class="n">custom_op_method</span><span class="p">:</span> <span class="n">register</span>
+
+  <span class="c1"># custom OP&#39;s implementing file, multiple files should be separated using &quot;;&quot;</span>
+  <span class="n">op_register_files</span><span class="p">:</span> <span class="n">sample_custom</span><span class="o">.</span><span class="n">py</span>
+
+  <span class="c1"># the folder in which the custom OP&#39;s implementing file is kept, please use relevant path</span>
+  <span class="n">custom_op_dir</span><span class="p">:</span> <span class="o">./</span><span class="n">custom_op</span>
+</pre></div>
+</div>
+<p>Among the above parameter set, all 3 parameters must be configured.
+<code class="docutils literal notranslate"><span class="pre">custom_op_method</span></code> should be specified as <code class="docutils literal notranslate"><span class="pre">register</span></code>.
+<code class="docutils literal notranslate"><span class="pre">op_register_files</span></code> refers to the file in which implement custom OP compute,
+if there are multiple implementations, use <code class="docutils literal notranslate"><span class="pre">‘;’</span></code> to separate files.
+<code class="docutils literal notranslate"><span class="pre">custom_op_dir</span></code> refers to the path name to save <code class="docutils literal notranslate"><span class="pre">op_register_files</span></code> files, please use relevant path.</p>
+<p>When all configurations are done, the succeeding model conversion steps are the same as the other ordinary models.</p>
+<ul class="simple">
+<li><p><strong>ONNX Model</strong></p></li>
+</ul>
+<ol class="arabic">
+<li><p>Obtaining the Onnx model with custom operators:</p>
+<ol class="loweralpha simple">
+<li><p>Converted from other frameworks such as pytorch</p></li>
+</ol>
+<blockquote>
+<div><p>Reference Code:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">horizon_nn.horizon_onnx.onnx_pb</span> <span class="kn">import</span> <span class="n">TensorProto</span>
+<span class="kn">from</span> <span class="nn">torch.onnx.symbolic_helper</span> <span class="kn">import</span> <span class="n">parse_args</span>
+<span class="kn">from</span> <span class="nn">torch.onnx.utils</span> <span class="kn">import</span> <span class="n">register_custom_op_symbolic</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;pytorch/vision:v0.10.0&#39;</span><span class="p">,</span> <span class="s1">&#39;googlenet&#39;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_transform_input</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">_transform_input</span> <span class="o">=</span> <span class="n">_transform_input</span>
+
+<span class="nd">@parse_args</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">horizon_pool</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">output_size</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">g</span><span class="o">.</span><span class="n">op</span><span class="p">(</span>
+        <span class="s1">&#39;horizon.custom::PyOp&#39;</span><span class="p">,</span> <span class="c1">#required, ! must be &#39;horizon.custom&#39; domain !</span>
+        <span class="nb">input</span><span class="p">,</span>
+        <span class="n">class_name_s</span><span class="o">=</span><span class="s2">&quot;GlobalAveragePool&quot;</span><span class="p">,</span>  <span class="c1">#required ! must match the class def name in sample_custom python file !</span>
+        <span class="n">compute_s</span><span class="o">=</span><span class="s2">&quot;compute&quot;</span><span class="p">,</span>  <span class="c1">#optional, &#39;compute&#39; by default</span>
+        <span class="n">module_s</span><span class="o">=</span><span class="s2">&quot;sample_custom&quot;</span><span class="p">,</span>  <span class="c1">#required ! must match the file name of the &quot;op_register_files&quot; !</span>
+        <span class="n">input_types_i</span><span class="o">=</span><span class="p">[</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">],</span>  <span class="c1">#required</span>
+        <span class="n">output_types_i</span><span class="o">=</span><span class="p">[</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">],</span>  <span class="c1">#required</span>
+        <span class="n">output_shape_s</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1, 1024, 1, 1&quot;</span><span class="p">])</span> <span class="c1">#required</span>
+
+<span class="n">d_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
+<span class="n">register_custom_op_symbolic</span><span class="p">(</span><span class="s1">&#39;::adaptive_avg_pool2d&#39;</span><span class="p">,</span>
+                            <span class="n">horizon_pool</span><span class="p">,</span>
+                            <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">d_input</span><span class="p">,</span> <span class="s2">&quot;googlenet_cop.onnx&quot;</span><span class="p">,</span> <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li><p>Modify the onnx model directly</p></li>
+</ol>
+<blockquote>
+<div><p>Reference Code:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">horizon_nn</span> <span class="kn">import</span> <span class="n">horizon_onnx</span>
+<span class="kn">from</span> <span class="nn">horizon_nn.horizon_onnx</span> <span class="kn">import</span> <span class="n">helper</span>
+<span class="kn">from</span> <span class="nn">horizon_nn.horizon_onnx.onnx_pb</span> <span class="kn">import</span> <span class="n">TensorProto</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">horizon_onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;googlenet.onnx&quot;</span><span class="p">)</span>
+
+<span class="c1"># print(helper.printable_graph(model.graph))</span>
+
+<span class="n">py1_node</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span>
+    <span class="n">op_type</span><span class="o">=</span><span class="s1">&#39;PyOp&#39;</span><span class="p">,</span>  <span class="c1">#required, must be &#39;PyOp&#39;</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;hr_op&#39;</span><span class="p">,</span> <span class="c1">#required</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;368&#39;</span><span class="p">],</span>  <span class="c1">#required</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;368_py&#39;</span><span class="p">],</span>  <span class="c1">#required</span>
+    <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;horizon.custom&#39;</span><span class="p">,</span>  <span class="c1">#required, ! must be &#39;horizon.custom&#39; domain !</span>
+    <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">],</span>  <span class="c1">#required</span>
+    <span class="n">output_types</span><span class="o">=</span><span class="p">[</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">],</span>  <span class="c1">#required</span>
+    <span class="n">module</span><span class="o">=</span><span class="s1">&#39;sample_custom&#39;</span><span class="p">,</span>  <span class="c1">#required, ! must match the file name of the &quot;op_register_files&quot; !</span>
+    <span class="n">class_name</span><span class="o">=</span><span class="s1">&#39;CustomIdentity&#39;</span><span class="p">,</span>  <span class="c1">#required ! must match the class def name in sample_custom python file !</span>
+    <span class="n">compute</span><span class="o">=</span><span class="s1">&#39;compute&#39;</span><span class="p">,</span>  <span class="c1">#optional, &#39;compute&#39; by default</span>
+    <span class="n">kernel_size</span><span class="o">=</span><span class="s1">&#39;10&#39;</span><span class="p">,</span>  <span class="c1">#optional,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="s1">&#39;1.2&#39;</span><span class="p">)</span>  <span class="c1">#optional,</span>
+
+<span class="n">custom_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">for</span> <span class="n">node_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node_index</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Conv_4&quot;</span><span class="p">:</span>  <span class="c1"># insert pyop at certain point in the original model</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node_index</span><span class="p">]</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;368_py&quot;</span>
+        <span class="n">custom_index</span> <span class="o">=</span> <span class="n">node_index</span>
+
+<span class="k">if</span> <span class="n">custom_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;target node not found&quot;</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">custom_index</span><span class="p">,</span> <span class="n">py1_node</span><span class="p">)</span>
+
+<span class="n">pyop_value_info</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;368_py&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span>  <span class="c1">#  value info is needed for onnx shape infer.</span>
+                                                <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">56</span><span class="p">])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">value_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyop_value_info</span><span class="p">)</span>
+
+<span class="n">pyop_opset</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_operatorsetid</span><span class="p">(</span><span class="s2">&quot;horizon.custom&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">opset_import</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyop_opset</span><span class="p">)</span>
+
+<span class="n">horizon_onnx</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;modified.onnx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Points to note about the PyOp attributes in the Onnx model:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>The domain attribute must be set, otherwise it will be defaulted to the onnx standard domain and an error will be reported</p></li>
+<li><p>The module needs to have the same name as the registration file used during registration. If the registration file is in a subfolder of the current directory, you need to modify the content of the module. For example: If <code class="docutils literal notranslate"><span class="pre">sample_custom.py</span></code> is in the custom_op folder of the current path, the module should Set to <code class="docutils literal notranslate"><span class="pre">custom_op.sample_custom</span></code></p></li>
+<li><p>class_name needs to be the same as the class name in the registration file</p></li>
+</ol>
+</div></blockquote>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Consistent with the <code class="docutils literal notranslate"><span class="pre">Caffe</span></code> model, you need to add a new custom op parameter group to the configuration file to use a custom operator in the model conversion configuration as follows:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#...</span>
+
+<span class="n">custom_op</span><span class="p">:</span>
+  <span class="c1"># Customize the calibration method of op</span>
+  <span class="n">custom_op_method</span><span class="p">:</span> <span class="n">register</span>
+
+  <span class="c1"># Custom OP&#39;s implementation file, multiple files can be separated by &quot;;&quot;</span>
+  <span class="n">op_register_files</span><span class="p">:</span> <span class="n">sample_custom</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>For the <code class="docutils literal notranslate"><span class="pre">ONNX</span></code> model, both parameters in the above parameter group must be configured. <code class="docutils literal notranslate"><span class="pre">custom_op_method</span></code> always uses <code class="docutils literal notranslate"><span class="pre">register</span></code>;
+<code class="docutils literal notranslate"><span class="pre">op_register_files</span></code> is the implementation file of custom operator calculation. If there are multiple implementations, use <code class="docutils literal notranslate"><span class="pre">‘;’</span></code> to separate each file;</p>
+<p>After completing these configurations, the subsequent steps of model conversion are consistent with other general model conversion processes.</p>
+</section>
+</section>
+<section id="op-implementation">
+<h2><span class="section-number">5.3. </span>OP Implementation<a class="headerlink" href="#op-implementation" title="Permalink to this headline"></a></h2>
+<p>At model coversion stage, the Python implementation of custom OP is required.
+The tool will use the implementation function to convert floating-point models into fixed-point models.</p>
+<p>A Python template file (sample_custom.py) is shown as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">horizon_nn.custom.op_registration</span> <span class="kn">import</span> <span class="n">op_implement_register</span><span class="p">,</span> <span class="n">op_shape_infer_register</span>
+
+<span class="nd">@op_implement_register</span><span class="p">(</span><span class="s2">&quot;Sample&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_size</span> <span class="o">=</span> <span class="n">kernel_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+
+    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span>
+
+<span class="nd">@op_shape_infer_register</span><span class="p">(</span><span class="s2">&quot;Sample&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">infer_shape</span><span class="p">(</span><span class="n">inputs_shape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Infer the output shapes of the custom operator.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        input_shapes: A list of input shapes.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Return a list of custom operator&#39;s output shapes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">outputs_shape</span> <span class="o">=</span> <span class="n">inputs_shape</span>
+    <span class="k">return</span> <span class="n">outputs_shape</span>
+</pre></div>
+</div>
+<p>The filename (sample_custom.py) must be filled into the <code class="docutils literal notranslate"><span class="pre">op_register_files</span></code> in YAML configuration file,
+otherwise the tool will not be able to import this module;
+the <code class="docutils literal notranslate"><span class="pre">op_implement_register</span></code> modifier registered custom op name， i.e. <code class="docutils literal notranslate"><span class="pre">CustomIdentity</span></code>  must be the same
+with the <code class="docutils literal notranslate"><span class="pre">kind</span></code> of custom OP.</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">Caffe</span></code> model, the (<code class="docutils literal notranslate"><span class="pre">kernel_size,</span> <span class="pre">threshold</span></code>) parameters of the <code class="docutils literal notranslate"><span class="pre">init</span></code> function are passed in from the <code class="docutils literal notranslate"><span class="pre">params</span></code> in prototxt file,
+they are used for initiating the custom OP module.The OP shape doesn’t need to be registered (<code class="docutils literal notranslate"><span class="pre">op_shape_infer_register</span></code>) if it has been described in the prototxt file.
+The <code class="docutils literal notranslate"><span class="pre">op_shape_infer_register</span></code> registered function will only be called when there isn’t <code class="docutils literal notranslate"><span class="pre">shape</span></code> information in prototxt.</p>
+<p>Model conversion can be executed to get the BIN file when all abovementioned operations are done.（I.e. <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> <a class="reference external" href=".../../hb_mapper_tools_guide/01_model_conversion_details.html#hb-mapper-makertbin">command</a> ）</p>
+</section>
+<section id="run-custom-op-on-dev-board">
+<h2><span class="section-number">5.4. </span>Run Custom OP on Dev Board<a class="headerlink" href="#run-custom-op-on-dev-board" title="Permalink to this headline"></a></h2>
+<p>Before running the conversion obtained BIN model, it is required to provided costum OP’s C++ implementing code.
+You can simply modify below template file.</p>
+<p>You can also use the template file to test the custom OP feature.
+As the input values are assigned as output values, the custom OP in template file won’t affect results.</p>
+<section id="a-c-template-of-custom-op">
+<h3><span class="section-number">5.4.1. </span>A C++ Template of Custom OP<a class="headerlink" href="#a-c-template-of-custom-op" title="Permalink to this headline"></a></h3>
+<p>Runtime template file is shown as follows:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// custom_identity.h</span>
+<span class="cp">#ifndef ADVANCED_SAMPLES_CUSTOM_IDENTITY_H_</span>
+<span class="cp">#define ADVANCED_SAMPLES_CUSTOM_IDENTITY_H_</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/hb_dnn.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/plugin/hb_dnn_layer.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/plugin/hb_dnn_ndarray.h&quot;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">hobot</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">dnn</span> <span class="p">{</span>
+
+<span class="n">Layer</span> <span class="o">*</span><span class="n">CustomIdentity_layer_creator</span><span class="p">();</span>
+
+<span class="k">class</span> <span class="nc">CustomIdentity</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Layer</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">CustomIdentity</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+  <span class="o">~</span><span class="n">CustomIdentity</span><span class="p">()</span> <span class="k">override</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+
+<span class="k">public</span><span class="o">:</span>
+  <span class="kt">int32_t</span> <span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">Attribute</span> <span class="o">&amp;</span><span class="n">attributes</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="kt">int32_t</span> <span class="nf">Forward</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">NDArray</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">bottomBlobs</span><span class="p">,</span>
+                  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">NDArray</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">topBlobs</span><span class="p">,</span>
+                  <span class="k">const</span> <span class="n">hbDNNInferCtrlParam</span> <span class="o">*</span><span class="n">inferCtrlParam</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">GetType</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;CustomIdentity&quot;</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">module_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="p">}</span>  <span class="c1">// namespace dnn</span>
+<span class="p">}</span>  <span class="c1">// namespace hobot</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// custom_identity.cpp</span>
+<span class="cp">#include</span> <span class="cpf">&quot;custom_identity.h&quot;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">hobot</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">dnn</span> <span class="p">{</span>
+
+<span class="n">Layer</span> <span class="o">*</span><span class="n">CustomIdentity_layer_creator</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">new</span> <span class="n">CustomIdentity</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="kt">int32_t</span> <span class="n">CustomIdentity</span><span class="o">::</span><span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">Attribute</span> <span class="o">&amp;</span><span class="n">attributes</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// unused attribute, just demonstrating</span>
+  <span class="n">attributes</span><span class="p">.</span><span class="n">GetAttributeValue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">module_</span><span class="p">,</span> <span class="s">&quot;module&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int32_t</span> <span class="n">CustomIdentity</span><span class="o">::</span><span class="n">Forward</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">NDArray</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">bottomBlobs</span><span class="p">,</span>
+                                <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">NDArray</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">topBlobs</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="n">hbDNNInferCtrlParam</span> <span class="o">*</span><span class="n">inferCtrlParam</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="n">NDArray</span> <span class="o">*</span><span class="n">input</span> <span class="o">=</span> <span class="n">bottomBlobs</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">NDArray</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">topBlobs</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="k">const</span> <span class="k">auto</span> <span class="o">*</span><span class="n">input_data</span> <span class="o">=</span> <span class="n">input</span><span class="o">-&gt;</span><span class="n">Dptr</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="k">auto</span> <span class="o">*</span><span class="n">out_data</span> <span class="o">=</span> <span class="n">out</span><span class="o">-&gt;</span><span class="n">Dptr</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="kt">uint32_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">input</span><span class="o">-&gt;</span><span class="n">Size</span><span class="p">();</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0U</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">out_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">}</span>  <span class="c1">// namespace dnn</span>
+<span class="p">}</span>  <span class="c1">// namespace hobot</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The prefix of function name (i.e. <code class="docutils literal notranslate"><span class="pre">CustomIdentity</span></code>) must be the same with comstum OP Type (<code class="docutils literal notranslate"><span class="pre">kind</span></code>).
+The incoming parameters are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bottom_blobs</span></code> → Input data of custom OP node.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">top_blobs</span></code> → Output data of custom OP node.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inferCtrlParam</span></code> → Initializing incoming paramter of custom OP.</p></li>
+</ul>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>In the template file, output values should equal to input values.
+Therefore, if users need to define other behaviors, operational rules must be modfied accordingly.</p>
+</div>
+</section>
+<section id="custom-op-registration">
+<h3><span class="section-number">5.4.2. </span>Custom OP Registration<a class="headerlink" href="#custom-op-registration" title="Permalink to this headline"></a></h3>
+<p>When you finish modifying C++ template file, you will only need to add descriptions of the template file into the
+CMakeLists.txt and add custom OP registration in sample. Please refer to below code block:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;custom_identity.h&quot;</span><span class="cp"></span>
+
+<span class="n">hbDNNRegisterLayerCreator</span><span class="p">(</span><span class="s">&quot;CustomIdentity&quot;</span><span class="p">,</span>
+                            <span class="n">hobot</span><span class="o">::</span><span class="n">dnn</span><span class="o">::</span><span class="n">CustomIdentity_layer_creator</span><span class="p">);</span>
+<span class="p">....</span>
+</pre></div>
+</div>
+<p>You will be able to execute those models who contain custom OPs after adding custom OP dependency information and
+custom OP registration.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Before using the custom OP,
+please confirm that the name of model’s custom OP is the same with the registered custom OP name.</p>
+</div>
+<p>For reference documentation, please refer to advanced_samples in the <a class="reference external" href="../../embedded_sample/basic_sample/_source/basic-sample.html#advanced-samples">Runtime sample</a> 。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chapter_4_application_development.html" class="btn btn-neutral float-left" title="4. Application Development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chapter_6_appendix.html" class="btn btn-neutral float-right" title="6. Appendix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Horizon Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

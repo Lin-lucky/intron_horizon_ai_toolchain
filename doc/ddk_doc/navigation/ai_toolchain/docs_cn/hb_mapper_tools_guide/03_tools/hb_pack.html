@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.5. hb_pack 工具 &mdash; hb_mapper_tools_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="2.6. hb_model_verifier 工具" href="hb_model_verifier.html" />
+    <link rel="prev" title="2.4. hb_model_info 工具" href="model_info.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> hb_mapper_tools_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_model_conversion_details.html">1. 模型转换过程详解</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../02_tools.html">2. 工具详细介绍</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hb_mapper.html">2.1. <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_perf.html">2.2. <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vec_diff.html">2.3. <code class="docutils literal notranslate"><span class="pre">vec_diff</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_info.html">2.4. <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> 工具</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.5. <code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> 工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">2.5.1. 使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">2.5.2. 命令行参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2.5.3. 输出内容</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hb_model_verifier.html">2.6. <code class="docutils literal notranslate"><span class="pre">hb_model_verifier</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_model_modifier.html">2.7. <code class="docutils literal notranslate"><span class="pre">hb_model_modifier</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_custom_op.html">2.8. <code class="docutils literal notranslate"><span class="pre">hb_custom_op</span></code> 工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hb_eval_preprocess.html">2.9. <code class="docutils literal notranslate"><span class="pre">hb_eval_preprocess</span></code> 工具</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">hb_mapper_tools_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../02_tools.html"><span class="section-number">2. </span>工具详细介绍</a> &raquo;</li>
+      <li><span class="section-number">2.5. </span><code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> 工具</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/03_tools/hb_pack.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hb-pack">
+<h1><span class="section-number">2.5. </span><code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> 工具<a class="headerlink" href="#hb-pack" title="永久链接至标题"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> 是用于将多个混合模型(*.bin)文件打包为一个模型文件的工具。</p>
+<section id="id1">
+<h2><span class="section-number">2.5.1. </span>使用方法<a class="headerlink" href="#id1" title="永久链接至标题"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hb_pack</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">BIN_FILE1</span> <span class="n">BIN_FILE2</span> <span class="n">BIN_FILE3</span> <span class="o">-</span><span class="n">o</span> <span class="n">comb</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2><span class="section-number">2.5.2. </span>命令行参数<a class="headerlink" href="#id2" title="永久链接至标题"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="hb_pack">
+<span id="hb_pack的命令行参数"></span><span class="sig-name descname"><span class="pre">hb_pack的命令行参数</span></span><a class="headerlink" href="#hb_pack" title="永久链接至目标"></a></dt>
+<dd><dl class="simple">
+<dt>--version</dt><dd><p>显示版本并退出。</p>
+</dd>
+<dt>-o, --output_name</dt><dd><p>pack模型的输出名称</p>
+</dd>
+<dt>--help</dt><dd><p>显示帮助信息。</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id3">
+<h2><span class="section-number">2.5.3. </span>输出内容<a class="headerlink" href="#id3" title="永久链接至标题"></a></h2>
+<p>打包的模型会输出在当前目录文件夹中，该模型会被命名为 <code class="docutils literal notranslate"><span class="pre">output_name</span></code> 指定名称。
+该打包模型中所有子模型的编译信息及性能信息均可通过 <code class="docutils literal notranslate"><span class="pre">hb_model_info</span></code> 及 <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> 获取得到。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>注意，<code class="docutils literal notranslate"><span class="pre">hb_pack</span></code> 不支持对已经打包的模型再次进行打包，否则工作台将会产生以下提示：</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ERROR exception in command: pack
+ERROR model: xxx.bin is a packed model, it can not be packed again!
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="model_info.html" class="btn btn-neutral float-left" title="2.4. hb_model_info 工具" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="hb_model_verifier.html" class="btn btn-neutral float-right" title="2.6. hb_model_verifier 工具" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

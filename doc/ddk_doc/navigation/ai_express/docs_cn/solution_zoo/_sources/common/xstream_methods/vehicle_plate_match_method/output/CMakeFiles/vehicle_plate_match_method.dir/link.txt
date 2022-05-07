@@ -1,0 +1,2 @@
+/usr/bin/ar qc libvehicle_plate_match_method.a  CMakeFiles/vehicle_plate_match_method.dir/src/vehicle_plate_match_method.cc.o CMakeFiles/vehicle_plate_match_method.dir/src/match_utility/utils.cpp.o CMakeFiles/vehicle_plate_match_method.dir/src/match_strategy/pairs_match.cpp.o CMakeFiles/vehicle_plate_match_method.dir/src/match_strategy/pairs_match_api.cpp.o CMakeFiles/vehicle_plate_match_method.dir/src/match_strategy/parse_config_from_json.cpp.o
+/usr/bin/ranlib libvehicle_plate_match_method.a

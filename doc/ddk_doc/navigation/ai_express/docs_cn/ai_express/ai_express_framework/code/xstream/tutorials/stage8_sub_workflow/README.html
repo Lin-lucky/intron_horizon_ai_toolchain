@@ -1,0 +1,504 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>子workflow &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>子workflow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_framework/code/xstream/tutorials/stage8_sub_workflow/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="workflow">
+<h1>子workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h1>
+<p>在编写workflow配置时，独立的mothods可以形成一个单独的子workflow，子workflow能被其他workflow引用，简化workflow的复杂程度。</p>
+<div class="section" id="id1">
+<h2>子workflow<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>配置文件以json格式表示。</p>
+<p>json中，{} 表示一个对象。</p>
+<p>配置文件中，有如下几种对象：</p>
+<ul class="simple">
+<li><p>Root</p></li>
+<li><p>Template</p></li>
+<li><p>TemplateRef</p></li>
+<li><p>Workflow</p></li>
+<li><p>Node</p></li>
+</ul>
+<div class="section" id="root">
+<h3>Root对象<a class="headerlink" href="#root" title="Permalink to this headline">¶</a></h3>
+<p>基本格式如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;root&quot;</span><span class="p">,</span>    <span class="c1">// 表示Root对象</span>
+    <span class="s">&quot;version&quot;</span><span class="o">:</span> <span class="s">&quot;1.1&quot;</span><span class="p">,</span>  <span class="c1">// 表示配置版本，可选</span>
+    <span class="s">&quot;templates&quot;</span><span class="o">:</span> <span class="p">[</span>     <span class="c1">// Template对象，可选</span>
+    <span class="p">],</span>
+    <span class="s">&quot;workflows&quot;</span><span class="o">:</span> <span class="p">[</span>     <span class="c1">// Workflow对象</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Root对象包含了：</p>
+<ul class="simple">
+<li><p>version：协议的版本；</p></li>
+<li><p>templates：定义的模板；</p></li>
+<li><p>workflows：定义的工作流；</p></li>
+</ul>
+</div>
+<div class="section" id="template">
+<h3>Template对象<a class="headerlink" href="#template" title="Permalink to this headline">¶</a></h3>
+<p>Template对象用于模板功能。用户可以通过Template对象定义一些带参数的模板，然后通过TemplateRef对象引用这些模板，即可实例化对象。</p>
+<p>基本格式如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;template&quot;</span><span class="p">,</span>           <span class="c1">// 表示Template对象</span>
+    <span class="s">&quot;template_name&quot;</span><span class="o">:</span> <span class="s">&quot;XXX&quot;</span><span class="p">,</span>      <span class="c1">// 模板名称，需唯一化</span>
+    <span class="s">&quot;parameters&quot;</span><span class="o">:</span> <span class="p">[</span>               <span class="c1">// 模板参数</span>
+    <span class="p">],</span>
+    <span class="s">&quot;template&quot;</span><span class="o">:</span> <span class="p">{</span>                 <span class="c1">// 模板内容</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>template_name 字段表示该模板名称，是模板的唯一性标志；</p></li>
+<li><p>parameters 字段指明了这个template所需要的参数；</p></li>
+<li><p>template 字段是这个模板的内容；在模板内容中，XXX格式的字符串，表示parameters字段中所定义的参数，在实例化该模板时直接替换为参数内容。需要注意，在定义的模板中，若存在输入输出name参数，只需在global inputs、outputs用${name}格式表示，模板其他位置直接用参数name表示。
+本示例中，定义一个名为”test_filter.tpl”的Template对象：</p></li>
+</ul>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;template&quot;</span><span class="p">,</span>
+    <span class="s">&quot;template_name&quot;</span><span class="o">:</span> <span class="s">&quot;test_filter.tpl&quot;</span><span class="p">,</span>
+    <span class="s">&quot;parameters&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">&quot;name&quot;</span><span class="p">,</span>
+        <span class="s">&quot;area_method&quot;</span><span class="p">,</span>
+        <span class="s">&quot;location_method&quot;</span><span class="p">,</span>
+        <span class="s">&quot;image&quot;</span><span class="p">,</span>
+        <span class="s">&quot;detect_box&quot;</span><span class="p">,</span>
+        <span class="s">&quot;output_box&quot;</span>
+    <span class="p">],</span>
+    <span class="s">&quot;template&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="s">&quot;${name}&quot;</span><span class="p">,</span>
+        <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;workflow&quot;</span><span class="p">,</span>
+        <span class="s">&quot;inputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s">&quot;${image}&quot;</span><span class="p">,</span>
+            <span class="s">&quot;${detect_box}&quot;</span>
+        <span class="p">],</span>
+        <span class="s">&quot;outputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s">&quot;${output_box}&quot;</span>
+        <span class="p">],</span>
+        <span class="s">&quot;workflow&quot;</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;node&quot;</span><span class="p">,</span>
+                <span class="s">&quot;method_type&quot;</span><span class="o">:</span> <span class="s">&quot;${area_method}&quot;</span><span class="p">,</span>
+                <span class="s">&quot;unique_name&quot;</span><span class="o">:</span> <span class="s">&quot;pre&quot;</span><span class="p">,</span>
+                <span class="s">&quot;method_config_file&quot;</span><span class="o">:</span> <span class="s">&quot;null&quot;</span><span class="p">,</span>
+                <span class="s">&quot;inputs&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;detect_box&quot;</span><span class="p">],</span>
+                <span class="s">&quot;outputs&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;filtered_box&quot;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;node&quot;</span><span class="p">,</span>
+                <span class="s">&quot;method_type&quot;</span><span class="o">:</span> <span class="s">&quot;${location_method}&quot;</span><span class="p">,</span>
+                <span class="s">&quot;unique_name&quot;</span><span class="o">:</span> <span class="s">&quot;post&quot;</span><span class="p">,</span>
+                <span class="s">&quot;method_config_file&quot;</span><span class="o">:</span> <span class="s">&quot;null&quot;</span><span class="p">,</span>
+                <span class="s">&quot;inputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+                        <span class="s">&quot;image&quot;</span><span class="p">,</span>
+                        <span class="s">&quot;filtered_box&quot;</span>
+                <span class="p">],</span>
+                <span class="s">&quot;outputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+                        <span class="s">&quot;output_box&quot;</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="templateref">
+<h3>TemplateRef对象<a class="headerlink" href="#templateref" title="Permalink to this headline">¶</a></h3>
+<p>TemplateRef对象即对之前定义的Template的引用。
+基本格式如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;template_ref&quot;</span><span class="p">,</span>       <span class="c1">// 表示TemplateRef对象</span>
+    <span class="s">&quot;template_name&quot;</span><span class="o">:</span> <span class="s">&quot;XXXX&quot;</span><span class="p">,</span>      <span class="c1">// 引用的模板名称</span>
+    <span class="s">&quot;parameters&quot;</span><span class="o">:</span> <span class="p">{</span>               <span class="c1">// 模板参数</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>其中：</p>
+<ul class="simple">
+<li><p>template_name 指明了需要引用的template的名字；</p></li>
+<li><p>parameters 指定了这个template 所需要的参数的值。</p></li>
+</ul>
+<p>如下所示，定义了一个TemplateRef对象：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;template_ref&quot;</span><span class="p">,</span>
+    <span class="s">&quot;template_name&quot;</span><span class="o">:</span> <span class="s">&quot;test_filter.tpl&quot;</span><span class="p">,</span>
+    <span class="s">&quot;parameters&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="s">&quot;box_filter&quot;</span><span class="p">,</span>
+    <span class="s">&quot;area_method&quot;</span><span class="o">:</span> <span class="s">&quot;BBoxAreaFilter&quot;</span><span class="p">,</span>
+    <span class="s">&quot;location_method&quot;</span><span class="o">:</span> <span class="s">&quot;BBoxLocationFilter&quot;</span><span class="p">,</span>
+    <span class="s">&quot;image&quot;</span><span class="o">:</span> <span class="s">&quot;image&quot;</span><span class="p">,</span>
+    <span class="s">&quot;detect_box&quot;</span><span class="o">:</span> <span class="s">&quot;detect_box&quot;</span><span class="p">,</span>
+    <span class="s">&quot;output_box&quot;</span><span class="o">:</span> <span class="s">&quot;after_filter_box&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>结合Template对象，上述TemplateRef对象会被展开，等价于如下定义：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="s">&quot;box_filter&quot;</span><span class="p">,</span>
+    <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;workflow&quot;</span><span class="p">,</span>
+    <span class="s">&quot;inputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">&quot;image&quot;</span><span class="p">,</span>
+        <span class="s">&quot;detect_box&quot;</span>
+    <span class="p">],</span>
+    <span class="s">&quot;outputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">&quot;after_filter_box&quot;</span>
+    <span class="p">],</span>
+    <span class="s">&quot;workflow&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;inputs&quot;</span> <span class="o">:</span>
+            <span class="p">[</span>
+                <span class="s">&quot;detect_box&quot;</span>
+            <span class="p">],</span>
+            <span class="s">&quot;method_config_file&quot;</span> <span class="o">:</span> <span class="s">&quot;null&quot;</span><span class="p">,</span>
+            <span class="s">&quot;method_type&quot;</span> <span class="o">:</span> <span class="s">&quot;BBoxAreaFilter&quot;</span><span class="p">,</span>
+            <span class="s">&quot;outputs&quot;</span> <span class="o">:</span>
+            <span class="p">[</span>
+                <span class="s">&quot;box_filter_filtered_box&quot;</span>
+            <span class="p">],</span>
+            <span class="s">&quot;unique_name&quot;</span> <span class="o">:</span> <span class="s">&quot;box_filter_pre&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s">&quot;inputs&quot;</span> <span class="o">:</span>
+            <span class="p">[</span>
+                <span class="s">&quot;image&quot;</span><span class="p">,</span>
+                <span class="s">&quot;box_filter_filtered_box&quot;</span>
+            <span class="p">],</span>
+            <span class="s">&quot;method_config_file&quot;</span> <span class="o">:</span> <span class="s">&quot;null&quot;</span><span class="p">,</span>
+            <span class="s">&quot;method_type&quot;</span> <span class="o">:</span> <span class="s">&quot;BBoxLocationFilter&quot;</span><span class="p">,</span>
+            <span class="s">&quot;outputs&quot;</span> <span class="o">:</span>
+            <span class="p">[</span>
+                <span class="s">&quot;after_filter_box&quot;</span>
+            <span class="p">],</span>
+            <span class="s">&quot;unique_name&quot;</span> <span class="o">:</span> <span class="s">&quot;box_filter_post&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Workflow对象<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>基本格式如下：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="s">&quot;xxx&quot;</span><span class="p">,</span>         <span class="c1">// workflow名称，需唯一化</span>
+    <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;workflow&quot;</span><span class="p">,</span>    <span class="c1">// 表示Workflow对象</span>
+    <span class="s">&quot;inputs&quot;</span><span class="o">:</span> <span class="p">[],</span>          <span class="c1">// 输入slots名称</span>
+    <span class="s">&quot;outputs&quot;</span><span class="o">:</span> <span class="p">[],</span>         <span class="c1">// 输出slots名称</span>
+    <span class="s">&quot;workflow&quot;</span><span class="o">:</span> <span class="p">[</span>          <span class="c1">// Workflow内容，包括Node或Workflow对象(子workflow)</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>workflow示例，其中用到了已定义的Template对象”test_filter.tpl”：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s">&quot;version&quot;</span><span class="o">:</span> <span class="s">&quot;1.1&quot;</span><span class="p">,</span>
+    <span class="s">&quot;templates&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s">&quot;@include: ./filter_tpl.json&quot;</span>
+    <span class="p">],</span>
+    <span class="s">&quot;workflows&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="s">&quot;main&quot;</span><span class="p">,</span>
+        <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;workflow&quot;</span><span class="p">,</span>
+        <span class="s">&quot;inputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s">&quot;image&quot;</span>
+        <span class="p">],</span>
+        <span class="s">&quot;outputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s">&quot;output_box&quot;</span><span class="p">,</span>
+            <span class="s">&quot;box_shape&quot;</span>
+        <span class="p">],</span>
+        <span class="s">&quot;workflow&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;node&quot;</span><span class="p">,</span>
+            <span class="s">&quot;method_type&quot;</span><span class="o">:</span> <span class="s">&quot;FasterDetect&quot;</span><span class="p">,</span>
+            <span class="s">&quot;unique_name&quot;</span><span class="o">:</span> <span class="s">&quot;simulate_faster_detect&quot;</span><span class="p">,</span>
+            <span class="s">&quot;inputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s">&quot;image&quot;</span>
+            <span class="p">],</span>
+            <span class="s">&quot;outputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s">&quot;detect_box&quot;</span>
+            <span class="p">],</span>
+            <span class="s">&quot;method_config_file&quot;</span><span class="o">:</span> <span class="s">&quot;null&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;template_ref&quot;</span><span class="p">,</span>
+            <span class="s">&quot;template_name&quot;</span><span class="o">:</span> <span class="s">&quot;test_filter.tpl&quot;</span><span class="p">,</span>
+            <span class="s">&quot;parameters&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="s">&quot;box_filter&quot;</span><span class="p">,</span>
+                <span class="s">&quot;area_method&quot;</span><span class="o">:</span> <span class="s">&quot;BBoxAreaFilter&quot;</span><span class="p">,</span>
+                <span class="s">&quot;location_method&quot;</span><span class="o">:</span> <span class="s">&quot;BBoxLocationFilter&quot;</span><span class="p">,</span>
+                <span class="s">&quot;image&quot;</span><span class="o">:</span> <span class="s">&quot;image&quot;</span><span class="p">,</span>
+                <span class="s">&quot;detect_box&quot;</span><span class="o">:</span> <span class="s">&quot;detect_box&quot;</span><span class="p">,</span>
+                <span class="s">&quot;output_box&quot;</span><span class="o">:</span> <span class="s">&quot;after_filter_box&quot;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s">&quot;type&quot;</span><span class="o">:</span> <span class="s">&quot;node&quot;</span><span class="p">,</span>
+            <span class="s">&quot;method_type&quot;</span><span class="o">:</span> <span class="s">&quot;BBoxShapeFilter&quot;</span><span class="p">,</span>
+            <span class="s">&quot;unique_name&quot;</span><span class="o">:</span> <span class="s">&quot;simulate_shape_filter&quot;</span><span class="p">,</span>
+            <span class="s">&quot;inputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s">&quot;after_filter_box&quot;</span>
+            <span class="p">],</span>
+            <span class="s">&quot;outputs&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s">&quot;output_box&quot;</span><span class="p">,</span>
+                <span class="s">&quot;box_shape&quot;</span>
+            <span class="p">],</span>
+            <span class="s">&quot;method_config_file&quot;</span><span class="o">:</span> <span class="s">&quot;null&quot;</span>
+        <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sub-workflow">
+<h1>sub_workflow示例<a class="headerlink" href="#sub-workflow" title="Permalink to this headline">¶</a></h1>
+<p>示例中定义一个名为”test_filter.tpl”的Template对象，对于输入的box对象，其功能如下：</p>
+<ul class="simple">
+<li><p>node1过滤面积过小的box</p></li>
+<li><p>node2过滤靠近图像边缘的box</p></li>
+</ul>
+<p>sub_workflow_config.json定义总的workflow，输入为一个image，最终输出为检测的box形状结果：</p>
+<ul class="simple">
+<li><p>node1：对于输入的image，输出检测的box列表，test示例中每次运行输出随机的box列表</p></li>
+<li><p>node2：包含test_filter.tpl的子workflow，此处最终会展开两个method</p></li>
+<li><p>node3: 判断box是否为正方形，输入0或1的结果</p></li>
+</ul>
+<div class="section" id="id3">
+<h2>编译<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>进入framework目录，执行如下命令</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="p">..</span>
+<span class="n">make</span> <span class="o">-</span><span class="n">j</span>
+</pre></div>
+</div>
+<p>编译完成后，可执行程序生成到build/bin目录下</p>
+</div>
+<div class="section" id="id4">
+<h2>运行<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>进入build目录，拷贝stage8/config下的配置文件到build目录
+执行命令运行app：</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">stage8</span><span class="o">/</span><span class="n">stage8_sub_workflow</span> <span class="p">.</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">sub_workflow_config</span><span class="p">.</span><span class="n">json</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>运行结果<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>展开后的workflow<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p><img alt="SubWorkflowTest" src="../../../../../_images/sub_workflow.png" /></p>
+</div>
+<div class="section" id="id7">
+<h3>运行结果展示<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p><img alt="SubWorkflowOutput" src="../../../../../_images/sub_workflow_output.png" /></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

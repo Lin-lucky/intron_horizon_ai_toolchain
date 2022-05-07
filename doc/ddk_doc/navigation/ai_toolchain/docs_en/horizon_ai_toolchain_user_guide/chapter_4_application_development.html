@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="EN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Application Development &mdash; horizon_ai_toolchain_user_guide v1.12.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="5. Custom OP Development" href="chapter_5_custom_op_development.html" />
+    <link rel="prev" title="3. Model Conversion" href="chapter_3_model_conversion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> horizon_ai_toolchain_user_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AI Toolchain:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter_1_introduction.html">1. About The Toolchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_2_prerequisites.html">2. Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. Model Conversion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Application Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general-descriptions">4.1. General Descriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-new-project">4.2. Create A New Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implement-the-project">4.3. Implement The Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compile-and-run-the-project">4.4. Compile And Run the Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-model-control-strategy">4.5. Multi-model Control Strategy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#group-control-strategy">4.5.1. Group Control Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-preemption-control">4.5.2. Model Preemption Control</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#suggestions-on-application-optimization">4.6. Suggestions On Application Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-dev-tools">4.7. Other Dev Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-hrt-bin-dump-tool">4.7.1. The <code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-hrt-model-exec-tool">4.7.2. The <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> Tool</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-model-info-sub-command">4.7.2.1. The <code class="docutils literal notranslate"><span class="pre">model_info</span></code> Sub-command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-infer-sub-command">4.7.2.2. The <code class="docutils literal notranslate"><span class="pre">infer</span></code> Sub-command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-perf-sub-command">4.7.2.3. The <code class="docutils literal notranslate"><span class="pre">perf</span></code> Sub-command</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#faq">4.8. FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-convert-camera-dumped-nv12-images-into-other-formats-e-g-bgr-etc">4.8.1. How to convert camera dumped NV12 images into other formats e.g. BGR etc.?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-bpu-memory-cache">4.8.2. What is BPU memory Cache?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#understand-the-physical-and-virtual-addresses-in-bpu-memory">4.8.3. Understand the physical and virtual addresses in BPU memory</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_5_custom_op_development.html">5. Custom OP Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_6_appendix.html">6. Appendix</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">horizon_ai_toolchain_user_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">4. </span>Application Development</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/chapter_4_application_development.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="application-development">
+<h1><span class="section-number">4. </span>Application Development<a class="headerlink" href="#application-development" title="Permalink to this headline"></a></h1>
+<section id="general-descriptions">
+<h2><span class="section-number">4.1. </span>General Descriptions<a class="headerlink" href="#general-descriptions" title="Permalink to this headline"></a></h2>
+<p>This chapter describes how to develop applications, how to deploy and run converted models in Horizon’s platform and some
+matters need attention.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Prior to application development, please be sure that you’ve completed the development environment
+preparations as described in the: <a class="reference internal" href="chapter_2_prerequisites.html"><span class="doc">Prerequisites</span></a> chapter.</p>
+</div>
+<p>The simplest application development can be divided into 3 stages: project creation, project implementation and operation.
+However, given the fact that the development of actual business scenarios are more complicated,
+here we’d like to offer more instructions about the concept of multi-model control and suggestions on application tuning.</p>
+</section>
+<section id="create-a-new-project">
+<span id="create-your-project"></span><h2><span class="section-number">4.2. </span>Create A New Project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline"></a></h2>
+<p>It is recommended by Horizon to manage your application development engineering using CMake.
+As described in the Prerequisites chapter, by now, you should have installed CMake.
+Before reading this section, you’re expected to understand how to use CMake.</p>
+<p>Horizon’s development library provides arm architecture based dependency environment and deb board application programs.
+Engineering dependency information for arm programs are listed as follows:</p>
+<ul class="simple">
+<li><p>Horizon evaluation library <strong>libdnn.so</strong> in the: <cite>~/.horizon/ddk/xj3_aarch64/dnn/lib/</cite> directory.</p></li>
+<li><p>Horizon compiler dependency <strong>libhbrt_bernoulli_aarch64.so</strong> in the: <cite>~/.horizon/ddk/xj3_aarch64/dnn/lib/</cite> directory.</p></li>
+<li><p>Horizon X/J3 AI Processors system dependencies in the: <cite>~/.horizon/ddk/xj3_aarch64/appsdk/appuser/</cite> directory.</p></li>
+<li><p>The <strong>aarch64-linux-gnu-gcc</strong> C compiler.</p></li>
+<li><p>The <strong>aarch64-linux-gnu-g++</strong> C++ compiler.</p></li>
+</ul>
+<p>To create a new project, users need to compile the CMakeLists.txt file.
+The script defines the path to compiler tool, the CMakeLists.txt file defines the paths to some compilation options,
+dependency libs and header files. Refer to below code block:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake_minimum_required<span class="o">(</span>VERSION <span class="m">2</span>.8<span class="o">)</span>
+
+project<span class="o">(</span>your_project_name<span class="o">)</span>
+
+set<span class="o">(</span>CMAKE_CXX_FLAGS <span class="s2">&quot;</span><span class="si">${</span><span class="nv">CMAKE_CXX_FLAGS</span><span class="si">}</span><span class="s2"> -std=c++11&quot;</span><span class="o">)</span>
+
+set<span class="o">(</span>CMAKE_CXX_FLAGS_DEBUG <span class="s2">&quot; -Wall -Werror -g -O0 &quot;</span><span class="o">)</span>
+set<span class="o">(</span>CMAKE_C_FLAGS_DEBUG <span class="s2">&quot; -Wall -Werror -g -O0 &quot;</span><span class="o">)</span>
+set<span class="o">(</span>CMAKE_CXX_FLAGS_RELEASE <span class="s2">&quot; -Wall -Werror -O3 &quot;</span><span class="o">)</span>
+set<span class="o">(</span>CMAKE_C_FLAGS_RELEASE <span class="s2">&quot; -Wall -Werror -O3 &quot;</span><span class="o">)</span>
+
+<span class="k">if</span> <span class="o">(</span>NOT CMAKE_BUILD_TYPE<span class="o">)</span>
+    set<span class="o">(</span>CMAKE_BUILD_TYPE Release<span class="o">)</span>
+endif <span class="o">()</span>
+
+message<span class="o">(</span>STATUS <span class="s2">&quot;Build type: </span><span class="si">${</span><span class="nv">CMAKE_BUILD_TYPE</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">)</span>
+
+<span class="c1"># define dnn lib path</span>
+set<span class="o">(</span>DNN_PATH <span class="s2">&quot;~/.horizon/ddk/xj3_aarch64/dnn/&quot;</span><span class="o">)</span>
+set<span class="o">(</span>APPSDK_PATH <span class="s2">&quot;~/.horizon/ddk/xj3_aarch64/appsdk/appuser/&quot;</span><span class="o">)</span>
+
+set<span class="o">(</span>DNN_LIB_PATH <span class="si">${</span><span class="nv">DNN_PATH</span><span class="si">}</span>/lib<span class="o">)</span>
+set<span class="o">(</span>APPSDK_LIB_PATH <span class="si">${</span><span class="nv">APPSDK_PATH</span><span class="si">}</span>/lib/hbbpu<span class="o">)</span>
+set<span class="o">(</span>BPU_libs dnn cnn_intf hbrt_bernoulli_aarch64<span class="o">)</span>
+
+include_directories<span class="o">(</span><span class="si">${</span><span class="nv">DNN_PATH</span><span class="si">}</span>/include
+                    <span class="si">${</span><span class="nv">APPSDK_PATH</span><span class="si">}</span>/include<span class="o">)</span>
+link_directories<span class="o">(</span><span class="si">${</span><span class="nv">DNN_LIB_PATH</span><span class="si">}</span>
+                 <span class="si">${</span><span class="nv">APPSDK_PATH</span><span class="si">}</span>/lib/hbbpu
+                 <span class="si">${</span><span class="nv">APPSDK_PATH</span><span class="si">}</span>/lib<span class="o">)</span>
+
+add_executable<span class="o">(</span>user_app main.cc<span class="o">)</span>
+target_link_libraries<span class="o">(</span>user_app
+                      <span class="si">${</span><span class="nv">BPU_libs</span><span class="si">}</span>
+                      pthread
+                      rt
+                      dl<span class="o">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the above sample, the compiler’s postion was not specified and is to be specified at the project compilation stage.
+Please refer to the descriptions in the: <a class="reference internal" href="#compile-and-run"><span class="std std-ref">Compile And Run The Project</span></a> section.</p>
+</div>
+</section>
+<section id="implement-the-project">
+<span id="engineer-implementation"></span><h2><span class="section-number">4.3. </span>Implement The Project<a class="headerlink" href="#implement-the-project" title="Permalink to this headline"></a></h2>
+<p>This section explains how to run the aforementioned converted bin models in Horizon’s platform.
+The simplest procedure should cover: model loading, input data preparations, output memory preparations, inference and
+result parsing. Please refer to below model loading and deploying sample code:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/hb_dnn.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/hb_sys.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Step 1: load the model</span>
+  <span class="n">hbPackedDNNHandle_t</span> <span class="n">packed_dnn_handle</span><span class="p">;</span>
+  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">model_file_name</span><span class="o">=</span> <span class="s">&quot;./mobilenetv1.bin&quot;</span><span class="p">;</span>
+  <span class="n">hbDNNInitializeFromFiles</span><span class="p">(</span><span class="o">&amp;</span><span class="n">packed_dnn_handle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">model_file_name</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="c1">// Step 2: obtain model names</span>
+  <span class="k">const</span> <span class="kt">char</span> <span class="o">**</span><span class="n">model_name_list</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">model_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">hbDNNGetModelNameList</span><span class="p">(</span><span class="o">&amp;</span><span class="n">model_name_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">model_count</span><span class="p">,</span> <span class="n">packed_dnn_handle</span><span class="p">);</span>
+
+  <span class="c1">// Step 3: obtain dnn_handle</span>
+  <span class="n">hbDNNHandle_t</span> <span class="n">dnn_handle</span><span class="p">;</span>
+  <span class="n">hbDNNGetModelHandle</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dnn_handle</span><span class="p">,</span> <span class="n">packed_dnn_handle</span><span class="p">,</span> <span class="n">model_name_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+  <span class="c1">// Step 4: prepare input data</span>
+  <span class="n">hbDNNTensor</span> <span class="n">input</span><span class="p">;</span>
+  <span class="n">hbDNNTensorProperties</span> <span class="n">input_properties</span><span class="p">;</span>
+  <span class="n">hbDNNGetInputTensorProperties</span><span class="p">(</span><span class="o">&amp;</span><span class="n">input_properties</span><span class="p">,</span> <span class="n">dnn_handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">input</span><span class="p">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">input_properties</span><span class="p">;</span>
+  <span class="k">auto</span> <span class="o">&amp;</span><span class="n">mem</span> <span class="o">=</span> <span class="n">input</span><span class="p">.</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+  <span class="kt">int</span> <span class="n">yuv_length</span> <span class="o">=</span> <span class="mi">224</span> <span class="o">*</span> <span class="mi">224</span> <span class="o">*</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="n">hbSysAllocCachedMem</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mem</span><span class="p">,</span> <span class="n">yuv_length</span><span class="p">);</span>
+  <span class="c1">//memcpy(mem.virAddr, yuv_data, yuv_length);</span>
+  <span class="c1">//hbSysFlushMem(&amp;mem, HB_SYS_MEM_CACHE_CLEAN);</span>
+
+  <span class="c1">// Step 5: prepare space for model output data</span>
+  <span class="kt">int</span> <span class="n">output_count</span><span class="p">;</span>
+  <span class="n">hbDNNGetOutputCount</span><span class="p">(</span><span class="o">&amp;</span><span class="n">output_count</span><span class="p">,</span> <span class="n">dnn_handle</span><span class="p">);</span>
+  <span class="n">hbDNNTensor</span> <span class="o">*</span><span class="n">output</span> <span class="o">=</span> <span class="k">new</span> <span class="n">hbDNNTensor</span><span class="p">[</span><span class="n">output_count</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">output_count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">hbDNNTensorProperties</span> <span class="o">&amp;</span><span class="n">output_properties</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">properties</span><span class="p">;</span>
+  <span class="n">hbDNNGetOutputTensorProperties</span><span class="p">(</span><span class="o">&amp;</span><span class="n">output_properties</span><span class="p">,</span> <span class="n">dnn_handle</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+
+  <span class="c1">// Obtain model output size</span>
+  <span class="kt">int</span> <span class="n">out_aligned_size</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">output_properties</span><span class="p">.</span><span class="n">alignedShape</span><span class="p">.</span><span class="n">numDimensions</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">out_aligned_size</span> <span class="o">=</span>
+        <span class="n">out_aligned_size</span> <span class="o">*</span> <span class="n">output_properties</span><span class="p">.</span><span class="n">alignedShape</span><span class="p">.</span><span class="n">dimensionSize</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">hbSysMem</span> <span class="o">&amp;</span><span class="n">mem</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">hbSysAllocCachedMem</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mem</span><span class="p">,</span> <span class="n">out_aligned_size</span><span class="p">);</span>
+<span class="p">}</span>
+
+  <span class="c1">// Step 6: inference</span>
+  <span class="n">hbDNNTaskHandle_t</span> <span class="n">task_handle</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="n">hbDNNInferCtrlParam</span> <span class="n">infer_ctrl_param</span><span class="p">;</span>
+  <span class="n">HB_DNN_INITIALIZE_INFER_CTRL_PARAM</span><span class="p">(</span><span class="o">&amp;</span><span class="n">infer_ctrl_param</span><span class="p">);</span>
+  <span class="n">hbDNNInfer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">task_handle</span><span class="p">,</span>
+              <span class="o">&amp;</span><span class="n">output</span><span class="p">,</span>
+              <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+              <span class="n">dnn_handle</span><span class="p">,</span>
+              <span class="o">&amp;</span><span class="n">infer_ctrl_param</span><span class="p">);</span>
+
+  <span class="c1">// Step 7: wait until the end of the task</span>
+  <span class="n">hbDNNWaitTaskDone</span><span class="p">(</span><span class="n">task_handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="c1">// Step 8: parse model output, the sample is to obtain TOP1 class of MobileNetv1</span>
+  <span class="kt">float</span> <span class="n">max_prob</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">max_prob_type_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">hbSysFlushMem</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">output</span><span class="o">-&gt;</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">HB_SYS_MEM_CACHE_INVALIDATE</span><span class="p">);</span>
+  <span class="kt">float</span> <span class="o">*</span><span class="n">scores</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">float</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">output</span><span class="o">-&gt;</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">virAddr</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="o">*</span><span class="n">shape</span> <span class="o">=</span> <span class="n">output</span><span class="o">-&gt;</span><span class="n">properties</span><span class="p">.</span><span class="n">validShape</span><span class="p">.</span><span class="n">dimensionSize</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_prob</span><span class="p">)</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="n">max_prob</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">max_prob_type_id</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;max id: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">max_prob_type_id</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="c1">// Free data</span>
+  <span class="n">hbSysFreeMem</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+  <span class="n">hbSysFreeMem</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">output</span><span class="o">-&gt;</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+
+  <span class="c1">// Free the model</span>
+  <span class="n">hbDNNRelease</span><span class="p">(</span><span class="n">packed_dnn_handle</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To keep it simple, some data in above sample use known constants.
+But in development, you should obtain size and data type using the
+<code class="docutils literal notranslate"><span class="pre">hbDNNGetInputTensorProperties/hbDNNGetOutputTensorProperties</span></code> etc. interfaces.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At the input data preparations stage, a snippet of the  <code class="docutils literal notranslate"><span class="pre">memcpy</span></code> code is commented out at input data preparation stage.
+This snippet refers to the step to prepare input sample
+based on model’s input format and copy it into the <code class="docutils literal notranslate"><span class="pre">input.sysMem[0]</span></code>. The aforementioned <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> and
+<code class="docutils literal notranslate"><span class="pre">input_layout_rt</span></code> parameters jointly determine the types of model input. Please refer to the descriptions in the:
+<a class="reference internal" href="chapter_3_model_conversion.html#conversion-interpretation"><span class="std std-ref">Model Conversion Interpretation</span></a> section for more information.</p>
+</div>
+<p>More comprehensive engineering guidance please refer to the: <strong>BPU SDK API</strong> document.</p>
+</section>
+<section id="compile-and-run-the-project">
+<span id="compile-and-run"></span><h2><span class="section-number">4.4. </span>Compile And Run the Project<a class="headerlink" href="#compile-and-run-the-project" title="Permalink to this headline"></a></h2>
+<p>Along with CMake engineering configurations as described in the <a class="reference internal" href="#create-your-project"><span class="std std-ref">Create A New Project</span></a> section,
+please see below compilation script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># define gcc path for arm</span>
+<span class="nv">LINARO_GCC_ROOT</span><span class="o">=</span>/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/
+
+<span class="nv">DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="s2">&quot;</span><span class="k">$(</span>dirname <span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span><span class="p">;</span><span class="nb">pwd</span><span class="k">)</span>
+
+<span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span><span class="si">${</span><span class="nv">LINARO_GCC_ROOT</span><span class="si">}</span>/bin/aarch64-linux-gnu-gcc
+<span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span><span class="si">${</span><span class="nv">LINARO_GCC_ROOT</span><span class="si">}</span>/bin/aarch64-linux-gnu-g++
+
+rm -rf build_arm
+mkdir build_arm
+<span class="nb">cd</span> build_arm
+
+cmake <span class="si">${</span><span class="nv">DIR</span><span class="si">}</span>
+
+make -j8
+</pre></div>
+</div>
+<p>Based on the descriptions in the <a class="reference internal" href="chapter_2_prerequisites.html"><span class="doc">Prerequisites</span></a> chapter, you should’ve installed the
+required compiler, so here you only need to configure your compiler for your project in the above script.</p>
+<p>Copy and run your arm programs in Horizon’s dev board and do not forget to copy the dependency files of the programs to the
+dev board, too. Then configure dependencies in the startup script. For example, dependency of our sample program is:
+libhbrt_bernoulli_aarch64.libdnn.so and libdnn.so. They are in the <cite>~/.horizon/ddk/xj3_aarch64/dnn/lib/</cite> directory
+and must be copied in the the operating environment in the dev board. You’re recommended to copy the libraries into the
+<cite>/userdata/lib</cite> directory, so that the dependency path information you should specify is as below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/userdata/lib
+</pre></div>
+</div>
+</section>
+<section id="multi-model-control-strategy">
+<h2><span class="section-number">4.5. </span>Multi-model Control Strategy<a class="headerlink" href="#multi-model-control-strategy" title="Permalink to this headline"></a></h2>
+<section id="group-control-strategy">
+<h3><span class="section-number">4.5.1. </span>Group Control Strategy<a class="headerlink" href="#group-control-strategy" title="Permalink to this headline"></a></h3>
+<p>Resource contention is inevitable in those scenarios where multiple models exist as each model has to execute inference
+using limited resources. To facilitate your multi-model execution, Horizon presents the model preemption control strategy.</p>
+</section>
+<section id="model-preemption-control">
+<span id="preemption"></span><h3><span class="section-number">4.5.2. </span>Model Preemption Control<a class="headerlink" href="#model-preemption-control" title="Permalink to this headline"></a></h3>
+<p>There isn’t task preemption feature in the BPU computing unit hardware of the X3/J3 ASICs.
+Each inference task, once entered the BPU and begins model computing, it always occupies the BPU till the end of the task.
+Hence other tasks have to wait in line.</p>
+<p>This can cause the problem that the BPU computing resources are constantly occupied
+solely by an enormous inference task and affect the inference executions of other higher priority models.
+To tackle such problem, the Runtime SDK can, based on model priority, implement the BPU resource preemption feature through
+software.</p>
+<p>Please pay attention to the following factors:</p>
+<ul class="simple">
+<li><p>When executing inference in BPU, the compiled data command model are denoted by 1 or more function-call(s).
+The function-call refers to BPU’s atomic execution unit and multiple function-call tasks line up in BPU hardware line and
+are distributed sequentially. A model inference task will be considered accomplished when all of it function-calls are
+executed.</p></li>
+<li><p>Based on the above descriptions, we can see that it is easier that the basic unit of the model task preemption is designed
+as function-call, so that when BPU finishes executing a function-call, it can suspend the existing model for now,
+switch to execute another model, then resume executing the previous model when the latter was executed.
+However there are 2 problems, the first problem is that the compiler compiled model function-calls are merged together,
+in other words, these is only one function-call which cannot be preempted; the second problem is that the execution time
+of each function-call varies, it can be either very prolonged or uncertain, and therefore makes the timing to preempt
+uncertain, or affect the results of preemption.</p></li>
+</ul>
+<p>To solve the above-mentioned 2 problems, Horizon provides support in model conversion and system software layers.
+Here below describes the implement principles and way to proceed:</p>
+<ul class="simple">
+<li><p>Firstly, at <strong>model conversion</strong> stage, specify the <code class="docutils literal notranslate"><span class="pre">max_time_per_fc</span></code> parameter in the <code class="docutils literal notranslate"><span class="pre">compiler_parameters</span></code>
+of YAML configuration file. This parameter is used for specifying the execution time (in microsecond) of each function-call,
+whose default value is <code class="docutils literal notranslate"><span class="pre">0</span></code> (i.e. no limits).
+Let’s assume that the execution time of a certain function-call is 10ms, so when compiling the model, by specifying the <code class="docutils literal notranslate"><span class="pre">max_time_per_fc</span></code>
+as <code class="docutils literal notranslate"><span class="pre">500</span></code>, this function-call will be split into 20 function-calls.</p></li>
+<li><p>Secondly, there is a <code class="docutils literal notranslate"><span class="pre">BPLAT_CORELIMIT</span></code> environment variable used for specifying the granularity of model preemption.
+If specified as <code class="docutils literal notranslate"><span class="pre">0</span></code>, the model preemption will be disabled. Therefore, to execute higher-priority tasks ASAP, when you
+develop <strong>with the devboard</strong>, first run <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">BPLAT_CORELIMIT=1</span></code> to specify this environment variable as <code class="docutils literal notranslate"><span class="pre">1</span></code>,
+so that when the underlying layer of the system receive function-calls, it will determine the priority and put those high
+priority tasks into an independent queue, thus when one function-call is executed, the higher-priority task will be able to preempt BPU.</p></li>
+<li><p>Nextly, as the model preemption mechanism is implemented in the libdnn, continue to specify the <code class="docutils literal notranslate"><span class="pre">hbDNNInferCtrlParam.priority</span></code> parameter
+provided by the <code class="docutils literal notranslate"><span class="pre">infer</span></code> API of <code class="docutils literal notranslate"><span class="pre">dnn</span></code> as <code class="docutils literal notranslate"><span class="pre">HB_DNN_PRIORITY_PREEMP(255)</span></code>, so that your task will become a high-priority task.
+You are free to specify the priority amongst <code class="docutils literal notranslate"><span class="pre">[0,255]</span></code>, so that in a task queue, the higher priority, the earlier it will be executed.
+Please note that presently DNN can only support executing as much as 8 tasks. In other words, if there are already 8 tasks underway,
+model preemption will become invalid, until one of the tasks are executed.</p></li>
+</ul>
+</section>
+</section>
+<section id="suggestions-on-application-optimization">
+<h2><span class="section-number">4.6. </span>Suggestions On Application Optimization<a class="headerlink" href="#suggestions-on-application-optimization" title="Permalink to this headline"></a></h2>
+<p>Horizon suggested application optimization strategy includes 2 perspectives:
+engineering task scheduling and algorithm task integration.</p>
+<p>In terms of <strong>engineering task scheduling</strong>, we recommended you to utilize some workflow scheduling management tools,
+in order to make full use of the parallel-processing ability at different task stages.
+Typical an AI application can be divided into 3 stages: pre-processing, model inference and output post-processing.
+The simplified workflow is shown as below:</p>
+<img alt="_images/app_optimization_1.png" class="align-center" src="_images/app_optimization_1.png" />
+<p>To implement parallel-processing at different stages by taking full advantages of the workflow management,
+the ideal task processing workflow can be as shown below:</p>
+<img alt="_images/app_optimization_2.png" class="align-center" src="_images/app_optimization_2.png" />
+<p>You’re recommended to use the XStream workflow management tool, please refer to the:
+XStream algorithm SDK Development Framework Document.</p>
+<p>Surely the XStream is not a required tool and you are welcome to choose your own-developed or familiar workflow management
+strategies depending on your own needs.</p>
+<p>In terms of <strong>algorithm task integration</strong>, Horizon recommends you to utilize multi-task models.
+Because it can on the one hand to a certain extend avoid the difficuties brough by the management of multi-model scheduling;
+On the other hand, multi-task model can also share the computing volume of the backbone to the full, and compared with
+using single models, it can apparently decrease computing volume at the entire AI application level and therefore reach
+higher overall performance. Based on Horizon’s past cooperation with a large number of customers, multi-task is a
+frequently-used application optimization strategy.</p>
+</section>
+<section id="other-dev-tools">
+<h2><span class="section-number">4.7. </span>Other Dev Tools<a class="headerlink" href="#other-dev-tools" title="Permalink to this headline"></a></h2>
+<section id="the-hrt-bin-dump-tool">
+<h3><span class="section-number">4.7.1. </span>The <code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> Tool<a class="headerlink" href="#the-hrt-bin-dump-tool" title="Permalink to this headline"></a></h3>
+<p><strong>Input Parameters</strong></p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 10%" />
+<col style="width: 4%" />
+<col style="width: 23%" />
+<col style="width: 59%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>NO.</strong></p></td>
+<td><p><strong>PARARMETERS</strong></p></td>
+<td><p><strong>TYPE</strong></p></td>
+<td><p><strong>ITEM</strong></p></td>
+<td><p><strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>Path to model file.</p></td>
+<td><p>The model must be debugging model, i.e., model compilation parameter <code class="docutils literal notranslate"><span class="pre">layer_out_dump</span></code> must be specified as <code class="docutils literal notranslate"><span class="pre">True</span></code>,</p>
+<p>it is used for specifying dumping intermediate results during conversion.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">input_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>Path to input file.</p></td>
+<td><p>It denotes the model input file, it can support all input types of <code class="docutils literal notranslate"><span class="pre">hbDNNDataType</span></code>.</p>
+<p>IMG files must be in binary (i.e. whose file suffix must be .bin). The size of the binary file should match model input information.</p>
+<p>E.g. size of the YUV444 file should be <span class="math notranslate nohighlight">\(height*width*3\)</span>. TENSOR type files must be either binary file or txt file</p>
+<p>(i.e. whose suffix must be either .bin or .txt), size of the binary file must match the model input file, and the txt file size must be</p>
+<p>larger than the model required input size, redundant data will be abandoned. Each input file should be separated by a comma, e.g. if there</p>
+<p>are 2 inputs, then <code class="docutils literal notranslate"><span class="pre">--input_file=kite.bin,input.txt</span></code>.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">conv_mapping_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>The configuration file of model convolutional layer.</p></td>
+<td><p>It denotes the configuration file of model layers. There must be information of all layers in it. This file is generated during model</p>
+<p>compilation and typically its name looks like the below: <code class="docutils literal notranslate"><span class="pre">model_name_quantized_model_conv_output_map.json</span></code>。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">conv_dump_path</span></code></p></td>
+<td><p>string</p></td>
+<td><p>Tool output path.</p></td>
+<td><p>Tool output path. The path must be a legal one.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage</strong></p>
+<p>This tool is used for dumping the output of all convolutional layers.
+Run <code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> to see more details about this tool, as shown below:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Below console output may vary due to tool version difference, here is only an example.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span>
+<span class="n">hrt_bin_dump</span> <span class="p">[</span><span class="n">Option</span><span class="o">...</span><span class="p">]</span> <span class="p">[</span><span class="n">Parameter</span><span class="p">]</span>
+
+<span class="p">[</span><span class="n">Option</span><span class="p">]</span>            <span class="p">[</span><span class="n">Parameter</span><span class="p">]</span>
+<span class="o">---------------------------------------------------------------------------------------------------</span>
+<span class="o">--</span><span class="n">model_file</span>        <span class="p">[</span><span class="n">string</span><span class="p">]:</span> <span class="n">Model</span> <span class="n">file</span> <span class="n">path</span><span class="p">,</span> <span class="n">model</span> <span class="n">must</span> <span class="n">be</span> <span class="n">debug</span> <span class="n">model</span><span class="o">.</span>
+<span class="o">--</span><span class="n">conv_mapping_file</span> <span class="p">[</span><span class="n">string</span><span class="p">]:</span> <span class="n">conv</span> <span class="n">mapping</span> <span class="n">file</span> <span class="n">path</span><span class="p">,</span> <span class="n">json</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">input_file</span>        <span class="p">[</span><span class="n">string</span><span class="p">]:</span> <span class="n">Input</span> <span class="n">file</span> <span class="n">paths</span><span class="p">,</span> <span class="n">separate</span> <span class="n">by</span> <span class="n">comma</span><span class="p">,</span> <span class="n">each</span> <span class="n">represents</span> <span class="n">one</span> <span class="nb">input</span><span class="o">.</span>
+                              <span class="n">The</span> <span class="n">extension</span> <span class="n">of</span> <span class="n">files</span> <span class="n">should</span> <span class="n">be</span> <span class="n">one</span> <span class="n">of</span> <span class="p">[</span><span class="nb">bin</span><span class="p">,</span> <span class="n">txt</span><span class="p">]</span><span class="o">.</span>
+                              <span class="nb">bin</span> <span class="k">for</span> <span class="n">binary</span> <span class="n">such</span> <span class="k">as</span> <span class="n">image</span> <span class="n">data</span><span class="p">,</span> <span class="n">nv12</span> <span class="ow">or</span> <span class="n">yuv444</span> <span class="n">etc</span><span class="o">.</span>
+                              <span class="n">txt</span> <span class="k">for</span> <span class="n">plain</span> <span class="n">data</span> <span class="n">such</span> <span class="k">as</span> <span class="n">image</span> <span class="n">info</span><span class="o">.</span>
+<span class="o">--</span><span class="n">conv_dump_path</span>    <span class="p">[</span><span class="n">string</span><span class="p">]:</span> <span class="n">output</span> <span class="n">path</span> <span class="n">of</span> <span class="n">conv</span> <span class="n">output</span> <span class="n">file</span>
+
+<span class="p">[</span><span class="n">Examples</span><span class="p">]</span>
+<span class="o">---------------------------------------------------------------------------------------------------</span>
+<span class="n">hrt_bin_dump</span>
+  <span class="o">--</span><span class="n">model_file</span>
+  <span class="o">--</span><span class="n">input_file</span>
+  <span class="o">--</span><span class="n">conv_mapping_file</span>
+  <span class="o">--</span><span class="n">conv_dump_path</span>
+</pre></div>
+</div>
+<p><strong>Samples</strong></p>
+<p>Take the MobileNetv1 model as an example, create a folder named outputs and run below command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">hrt_bin_dump</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=./</span><span class="n">mobilenetv1_hybrid_horizonrt</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">conv_mapping_file</span><span class="o">=./</span><span class="n">mobilenetv1_quantized_model_conv_output_map</span><span class="o">.</span><span class="n">json</span> <span class="o">--</span><span class="n">conv_dump_path</span><span class="o">=./</span><span class="n">outputs</span> <span class="o">--</span><span class="n">input_file</span><span class="o">=./</span><span class="n">zebra_cls</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+<p>Execution log refer to below screenshot:</p>
+<img alt="_images/run_log.png" src="_images/run_log.png" />
+<p>You can see command output in the <strong>outputs/</strong> folder, refer to below screenshot:</p>
+<img alt="_images/output.png" src="_images/output.png" />
+</section>
+<section id="the-hrt-model-exec-tool">
+<h3><span class="section-number">4.7.2. </span>The <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> Tool<a class="headerlink" href="#the-hrt-model-exec-tool" title="Permalink to this headline"></a></h3>
+<p><strong>General Description</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> tool is a model execution tool who can evaluate model’s performance in inference and obtain information.
+Not only does it allow users to obtain models’ realistic performance, it can also help users understand models’ speed upper bound and
+further optimize their applications.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> tool consists of three following features:
+The <code class="docutils literal notranslate"><span class="pre">infer</span></code> model inference feature; the <code class="docutils literal notranslate"><span class="pre">perf</span></code> model performance analysis feature and the <code class="docutils literal notranslate"><span class="pre">model_info</span></code> model information feature.
+Refer to below table:</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 77%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>NO.</strong></p></td>
+<td><p><strong>SUB_COMMAND</strong></p></td>
+<td><p><strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model_info</span></code></p></td>
+<td><p>is used for obtaining model information, e.g.: model input/output information etc.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ìnfer</span></code></p></td>
+<td><p>is used for running model inference and obtaining inference results.</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perf</span></code></p></td>
+<td><p>is used for analyzing model performance so as to obtaining performance analysis results.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Input Parameters</strong></p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 22%" />
+<col style="width: 6%" />
+<col style="width: 68%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>NO.</p></td>
+<td><p>PARAMETERS</p></td>
+<td><p>TYPE</p></td>
+<td><p>DESCRIPTIONS</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>denotes model file path. Multiple paths should be separated by comma.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model_name</span></code></p></td>
+<td><p>string</p></td>
+<td><p>is used for specifying a model name.</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">core_id</span></code></p></td>
+<td><p>int</p></td>
+<td><p>is used for specifying the core to run model.</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">input_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>denotes model input information. Multiple inputs should be separated by comma.</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">enable_cls_post_process</span></code></p></td>
+<td><p>bool</p></td>
+<td><p>is used for enabling the post-process of classification.</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">enable_dump</span></code></p></td>
+<td><p>bool</p></td>
+<td><p>is used for enabling dumping model input/output.</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dump_format</span></code></p></td>
+<td><p>string</p></td>
+<td><p>is used for dumping mode input/output formats.</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dump_txt_axis</span></code></p></td>
+<td><p>int</p></td>
+<td><p>is used for controlling the line breaking rule of input/output in txt format.</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">profile_path</span></code></p></td>
+<td><p>string</p></td>
+<td><p>is used for specifying the saving path of model performance/performance scheduling data.</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">frame_count</span></code></p></td>
+<td><p>int</p></td>
+<td><p>is used for specifying the number of frames in model run.</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perf_time</span></code></p></td>
+<td><p>int</p></td>
+<td><p>is used for specifying the duration of model run.</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">thread_num</span></code></p></td>
+<td><p>int</p></td>
+<td><p>is used for specifying number of threads in program execution.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage</strong></p>
+<p>This tool has 3 features: obtaining model information, single-frame inference and multi-frame model evaluation.
+Run  <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code>, <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span> <span class="pre">-h</span></code> or <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span> <span class="pre">--help</span></code> to get more details about this tool.
+As shown below:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Below console output may vary due to tool version difference, here is only an example.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Usage:
+hrt_model_exec [Option...] [Parameter]
+
+[Option]                      [Parameter]
+---------------------------------------------------------------------------------------------------------------
+--model_file                  [string]: Model file paths, separate by comma, each represents one model file path.
+--model_name                  [string]: Model name.
+                                        When model_file has one more model and Subcommand is infer or perf,
+                                        &quot;model_name&quot; must be specified!
+--core_id                     [int]   : core id, 0 for any core, 1 for core 0, 2 for core 1.
+--input_file                  [string]: Input file paths, separate by comma, each represents one input.
+                                        The extension of files should be one of [jpg, JPG, jpeg, JPEG, png, PNG, bin, txt]
+                                        bin for binary such as image data, nv12 or yuv444 etc.
+                                        txt for plain data such as image info.
+--enable_cls_post_process     [bool]  : flag for classification post process, only for ptq model now.
+                                        Subcommand must be infer.
+--enable_dump                 [bool]  : flag for dump infer output. The default is false. Subcommand must be infer.
+--dump_format                 [string]: output dump format, only support [bin, txt]. The default is bin.
+                                        Subcommand must be infer.
+--dump_txt_axis               [int]   : The txt file of dump is expanded according to the specified axis;
+                                        the default is 4, which means there is only one data per line
+                                        (for 4-dimensional data); Subcommand must be perf, dump_format must be txt
+--profile_path                [string]: profile log path, set to get detail information of model execution.
+--frame_count                 [int]   : frame count for run loop, default 200, valid when perf_time is 0.
+                                        Subcommand must be perf.
+--perf_time                   [int]   : minute, perf time for run loop, default 0.
+                                        Subcommand must be perf.
+--thread_num                  [int]   : thread num for run loop, thread_num range:[0,8],
+                                        if thread_num &gt; 8, set thread_num = 8. Subcommand must be perf.
+
+[Examples]
+---------------------------------------------------------------------------------------------------------------
+hrt_model_exec model_info          | hrt_model_exec infer               | hrt_model_exec perf
+   --model_file                    |    --model_file                    |    --model_file
+   --model_name                    |    --model_name                    |    --model_name
+                                   |    --core_id                       |    --core_id
+                                   |    --input_file                    |    --frame_count
+                                   |    --enable_cls_post_process       |    --perf_time
+                                   |    --enable_dump                   |    --thread_num
+                                   |    --dump_format                   |    --profile_path
+                                   |    --dump_txt_axis                 |
+</pre></div>
+</div>
+<section id="the-model-info-sub-command">
+<h4><span class="section-number">4.7.2.1. </span>The <code class="docutils literal notranslate"><span class="pre">model_info</span></code> Sub-command<a class="headerlink" href="#the-model-info-sub-command" title="Permalink to this headline"></a></h4>
+<p>This parameter is used for obtaining model information of the PTQ solution generated *.bin model.
+It can be used in conjunction with the <code class="docutils literal notranslate"><span class="pre">model_file</span></code> parameter to get detailed model information, including:
+model input/output <code class="docutils literal notranslate"><span class="pre">hbDNNTensorProperties</span></code> and model segment information <code class="docutils literal notranslate"><span class="pre">stage</span></code>.
+The model segment information means that an image can be divided into and thus inferenced by multiple segments.
+The <code class="docutils literal notranslate"><span class="pre">stage</span></code> information: <code class="docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code> are in correspond with the upper left and bottom right image coordinates.
+Currently Horizon’s J5 (Journey 5) ASIC can support model inference with such segment information.
+However, the XJ3 (Sunrise/Journey 3) ASICs can only support inferencing model with 1 <code class="docutils literal notranslate"><span class="pre">stage</span></code>.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">model_name</span></code> is unspecified, information of all models will be dumped;
+otherwise only the information of the specified models will be dumped.</p>
+<p><strong>Samples</strong></p>
+<ol class="arabic simple">
+<li><p>Dump single model information.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Dump information of multiple models (all models).</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span><span class="p">,</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Dump information of multiple packed models (only specified models).</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">model_name</span><span class="o">=</span><span class="n">xx</span>
+</pre></div>
+</div>
+<img alt="_images/model_info.png" src="_images/model_info.png" />
+</div></blockquote>
+</section>
+<section id="the-infer-sub-command">
+<h4><span class="section-number">4.7.2.2. </span>The <code class="docutils literal notranslate"><span class="pre">infer</span></code> Sub-command<a class="headerlink" href="#the-infer-sub-command" title="Permalink to this headline"></a></h4>
+<p><strong>General Description</strong></p>
+<p>This parameter is used for model inference. Users can use specified image to inference a single frame.
+This parameter should be used in conjunction with the <code class="docutils literal notranslate"><span class="pre">input_file</span></code> parameter in order to specify input image path,
+the tool can resize image based on model information and process model input information.</p>
+<p>When using this tool, the program will execute single frame data in single thread and dump model execution time.</p>
+<p><strong>Samples</strong></p>
+<ol class="arabic simple">
+<li><p>Inference a single model.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">infer</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">input_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">jpg</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Inference multiple models.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">infer</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span><span class="p">,</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">model_name</span><span class="o">=</span><span class="n">xx</span> <span class="o">--</span><span class="n">input_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">jpg</span>
+</pre></div>
+</div>
+<img alt="_images/infer.png" src="_images/infer.png" />
+</div></blockquote>
+<p><strong>Optional Parameters</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>PARAMETERS</strong></p></td>
+<td><p><strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core_id</span></code></p></td>
+<td><p>is used for specifying the core ID in inference, 0: random core, 1: core0, 2: core1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_cls_post_process</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code>  is used for enabling the post-process of classification. It can only support PTQ classification models. Default = <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enable_dump</span></code></p></td>
+<td><p>is used for dumping model output data. Default = <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dump_format</span></code></p></td>
+<td><p>is used for dumping output file type. Options are either <code class="docutils literal notranslate"><span class="pre">bin</span></code> or <code class="docutils literal notranslate"><span class="pre">txt</span></code>. Default = <code class="docutils literal notranslate"><span class="pre">bin</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dump_txt_axis</span></code></p></td>
+<td><p>dumps the line breaking rules of txt model output; if output dimension equals n, then parameter range will be [0,n], default is <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-perf-sub-command">
+<h4><span class="section-number">4.7.2.3. </span>The <code class="docutils literal notranslate"><span class="pre">perf</span></code> Sub-command<a class="headerlink" href="#the-perf-sub-command" title="Permalink to this headline"></a></h4>
+<p><strong>General Description</strong></p>
+<p>This parameter is used for evaluating model performance.
+In this mode, users don’t need to input data, the program will automatically build input tensor based on model information,
+tensor data are random numbers. The program will run 200 frames by default, and when the <code class="docutils literal notranslate"><span class="pre">perf_time</span></code> parameter is specified,
+the <code class="docutils literal notranslate"><span class="pre">frame_count</span></code> will become invalid, and the program will exit when specified time is executed.
+Latency and frame rate information will be dumped every 200 frames. Latency information includes: max, min and avg latency.
+The performance data will still be printed even if the program ends in less than 200 frame.</p>
+<p>Running related data will be dumped at the end of the program including:
+number of thread, number of frame, total inference time, average inference latency and frame rate information.</p>
+<p><strong>Samples</strong></p>
+<ol class="arabic simple">
+<li><p>Evaluate a single model.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">perf</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Evaluate multiple models.</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">perf</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span><span class="p">,</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">model_name</span><span class="o">=</span><span class="n">xx</span>
+</pre></div>
+</div>
+<img alt="_images/perf.png" src="_images/perf.png" />
+</div></blockquote>
+<p><strong>Optional Parameters</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 8%" />
+<col style="width: 78%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td colspan="3"><p><strong>PARAMETERS</strong>   | <strong>DESCRIPTIONS</strong></p></td>
+</tr>
+<tr class="row-even"><td colspan="3"><p><code class="docutils literal notranslate"><span class="pre">core_id</span></code>      | is used for specifying the core ID in inference, 0: random core, 1: core0, 2: core1. Default = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">frame_count</span></code></p></td>
+<td colspan="2"><p>is used for specifying number of frames in <code class="docutils literal notranslate"><span class="pre">perf</span></code>.</p>
+<p>It will become valid when the <code class="docutils literal notranslate"><span class="pre">perf_time</span></code> is not 0, while default value is <code class="docutils literal notranslate"><span class="pre">200</span></code>.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">perf_time</span></code></p></td>
+<td colspan="2"><p>is use for specifying time of <code class="docutils literal notranslate"><span class="pre">perf</span></code>. Measured by minute. Default value = <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">thread_num</span></code></p></td>
+<td colspan="2"><p>is used for specifying number of thread to run the program. Range [0, 8].</p>
+<p>Default value = <code class="docutils literal notranslate"><span class="pre">1</span></code>. There will be 8 threads when it is larger than <code class="docutils literal notranslate"><span class="pre">8</span></code>.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">profile_path</span></code></p></td>
+<td colspan="2"><p>is used for specifying the path to generating profile log.</p>
+<p>The profiler.log is used for analyzing the time consumptions of OP and dispatching.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Multi-thread Latency Descriptions</strong></p>
+<p>The purpose of multi-thread is to make full use of BPU resources.
+Run multi-threads to process <code class="docutils literal notranslate"><span class="pre">frame_count</span></code> frame data simultaneously or execute <code class="docutils literal notranslate"><span class="pre">perf_time</span></code> time, till the end of data process.
+You can run below command in multi-thread <code class="docutils literal notranslate"><span class="pre">perf</span></code> to get BPU resource occupation in real-time fashion.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hrut_somstatus -n <span class="m">10000</span> –d <span class="m">1</span>
+</pre></div>
+</div>
+<p>Refer to below output:</p>
+<img alt="_images/hrut_somstatus.png" src="_images/hrut_somstatus.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">perf</span></code> mode, the single thread latency time denotes onboard model performance;
+while multi-thread latency data denote single-frame model processing time of each thread.
+Compared with single thread, multi-thread execution is longer in time, yet shorter in total execution time and improved frame rate.</p>
+</div>
+<p><strong>Multi-input Model Descriptions</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">infer</span></code> tool can inference multiple multiple models. It also can support image file, binary file and text file as input.
+Input data should be separated by comma. Use <code class="docutils literal notranslate"><span class="pre">model_info</span></code> to view model input information.</p>
+<p><strong>Samples</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">infer</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">input_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">jpg</span><span class="p">,</span><span class="nb">input</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p><strong>Repeated Input</strong></p>
+<p>Repeatedly inputting the same parameter can cause parameter overwrite.
+For example, if a model file is repeatedly inputted twice when trying to get the model information, then the latter will become valid.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">yyy</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">--model_file</span></code> parameter is not specified when repeatedly inputting models, the value after command-line parameter will be valid,
+and the value without command-line parameter will be invalid, e.g., in below example, <code class="docutils literal notranslate"><span class="pre">yyy.bin</span></code> will be ignore while <code class="docutils literal notranslate"><span class="pre">xxx.bin</span></code> will be
+valid:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="n">yyy</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+<p>So as other repetition behaviors.</p>
+<p><code class="docutils literal notranslate"><span class="pre">input_file</span></code></p>
+<p>Refers to image type input whose file suffix must be among <code class="docutils literal notranslate"><span class="pre">bin</span></code> / <code class="docutils literal notranslate"><span class="pre">JPG</span></code> / <code class="docutils literal notranslate"><span class="pre">JPEG</span></code> / <code class="docutils literal notranslate"><span class="pre">jpg</span></code> / <code class="docutils literal notranslate"><span class="pre">jpeg</span></code>.
+File suffix of feature input must be either <code class="docutils literal notranslate"><span class="pre">bin</span></code> or <code class="docutils literal notranslate"><span class="pre">txt</span></code>.
+Each input should be separated by comma <code class="docutils literal notranslate"><span class="pre">,</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">xxx.jpg,input.txt</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">profile_path</span></code></p>
+<p>Refers to the directory in which profile log files are kept.
+By specifying the <code class="docutils literal notranslate"><span class="pre">HB_DNN_PROFILER_LOG_PATH</span></code> parameter, users can view the time consumptions of OP and task dispatching.
+usually <code class="docutils literal notranslate"><span class="pre">--profile_path=&quot;.&quot;</span></code> is ok, it denotes that the profile log will be generated in current directory with the name profiler.log.</p>
+<p><code class="docutils literal notranslate"><span class="pre">enable_cls_post_process</span></code></p>
+<p>This parameter is used for enabling the post-process of classification.
+It must be used in conjunction with the <code class="docutils literal notranslate"><span class="pre">infer</span></code> sub-command. Currently it can only support PTQ classification models and
+classification results can be printed when specified to <code class="docutils literal notranslate"><span class="pre">True</span></code>. Refer to below image:</p>
+<img alt="_images/enable_cls_post_process.png" src="_images/enable_cls_post_process.png" />
+</section>
+</section>
+</section>
+<section id="faq">
+<h2><span class="section-number">4.8. </span>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline"></a></h2>
+<section id="how-to-convert-camera-dumped-nv12-images-into-other-formats-e-g-bgr-etc">
+<h3><span class="section-number">4.8.1. </span>How to convert camera dumped NV12 images into other formats e.g. BGR etc.?<a class="headerlink" href="#how-to-convert-camera-dumped-nv12-images-into-other-formats-e-g-bgr-etc" title="Permalink to this headline"></a></h3>
+<p>Horizon’s X3/J3 ASICs don’t come with hardware accelerator to convert pixel space,
+so some customers hope to accelerate pixel space conversion using BPU via API interfaces.
+But to avoid BPU’s inference efficiency to be affected by such feature, after rigorous evaluations,
+we’ve decided not to open up the interfaces for now.</p>
+<p>However, users can still accelerate this operation in ARM CPU using the open source libYUV lib.
+Throughout test, when converting 720P NV12 images into BGR, conversion latency was shortened by 7ms
+and can satisfy business requirements in most scenarios.</p>
+<p>You can either compile the libYUV lib using the linaro_gcc-6.5.0 cross compilation tool or seek for help in Horizon’s
+community. We can open the source code and pre-compiler lib of the Horizon optimized libyuv internal edition, or obtain
+from our source code of the opensource AI Express component:
+<a class="reference external" href="https://github.com/HorizonRobotics-Platform/AI-EXPRESS/tree/master/deps/libyuv/include/libyuv">https://github.com/HorizonRobotics-Platform/AI-EXPRESS/tree/master/deps/libyuv/include/libyuv</a>.</p>
+</section>
+<section id="what-is-bpu-memory-cache">
+<h3><span class="section-number">4.8.2. </span>What is BPU memory Cache?<a class="headerlink" href="#what-is-bpu-memory-cache" title="Permalink to this headline"></a></h3>
+<p>As described in the <strong>BPU SDK API DOC</strong>,
+the <code class="docutils literal notranslate"><span class="pre">hbSysAllocCachedMem</span></code> and <code class="docutils literal notranslate"><span class="pre">hbSysAllocMem</span></code> BPU memory functions are used for allocating BPU read/write memory.
+One of the parameters called <code class="docutils literal notranslate"><span class="pre">hbSysAllocCachedMem</span></code> is used for denoting those cachable memory space,
+and the supporting <code class="docutils literal notranslate"><span class="pre">hbSysFlushMem</span></code> function is used for refreshing Cache.</p>
+<p>The cache mechanism is determined by the Bernoulli memory architecture of the BPU, please refer to below graph.
+The cache between CPU and memory can cache data, while there isn’t a cache between BPU and memory.
+Therefore, the mistaken use of cache can cause data reading/writing accuracy and efficiency problems.</p>
+<img alt="_images/cache_mechanism.png" class="align-center" src="_images/cache_mechanism.png" />
+<p>When CPU writes data, i.e. BPU reads data from the CPU written memory, as data will be cached into the cache,
+it is possible that data in memory are out-of-date, so that BPU will execute mistaken data.
+Therefore, the data in cache must be actively flushed into memory after CPU writes.</p>
+<p>When BPU writes data, i.e. the model dumped memory in BPU, if CPU ever read data in memory,
+then data could be cached into cache. So when BPU rewrites memory, CPU will still firstly read the mistaken data from cache.
+So data in cache must be deleted after BPU writes memory.</p>
+<p>So in the scenario  when CPU writes exclusively for BPU to read without reading in any other subsequent scenarios,
+it is recommended to specify the <code class="docutils literal notranslate"><span class="pre">cachable</span></code> parameter as non-cachable in order to avoid flush for once.</p>
+<p>While in the scenario when BPU writes for CPU to parse just once, it is also recommended to
+specify the <code class="docutils literal notranslate"><span class="pre">cachable</span></code> parameter as non-cachable. However, if the memory were to be loaded multiple times,
+e.g. model output, then it is recommended to specify the <code class="docutils literal notranslate"><span class="pre">cachable</span></code> parameter as <code class="docutils literal notranslate"><span class="pre">cachable</span></code> in order to
+accelerate CPU’s reading efficiency.</p>
+</section>
+<section id="understand-the-physical-and-virtual-addresses-in-bpu-memory">
+<h3><span class="section-number">4.8.3. </span>Understand the physical and virtual addresses in BPU memory<a class="headerlink" href="#understand-the-physical-and-virtual-addresses-in-bpu-memory" title="Permalink to this headline"></a></h3>
+<p>In Bernoulli micro architecture, BPU and CPU share a common memory space who can be allocated by
+the <code class="docutils literal notranslate"><span class="pre">hbSysAllocMem</span></code> function into a physically contiguous space for BPU reading/writing.
+The function returns are capsulated into a struct called <code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code>, it contains the <code class="docutils literal notranslate"><span class="pre">phyAddr</span></code> and <code class="docutils literal notranslate"><span class="pre">virAddr</span></code>
+fields that respectively denote the physical and virtual addresses of the memory space.
+Because this memory space is contiguous, it can be denoted by the starting address of the physical/virtual addresses and
+read/write the corresponding memory. But in reality, it is suggested to use the virtual address of the <code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code>,
+and try not to use the physical address unless it is necessary.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chapter_3_model_conversion.html" class="btn btn-neutral float-left" title="3. Model Conversion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chapter_5_custom_op_development.html" class="btn btn-neutral float-right" title="5. Custom OP Development" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Horizon Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

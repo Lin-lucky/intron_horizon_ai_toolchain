@@ -1,0 +1,1444 @@
+General Description
+===========================
+
+This document describes the APIs, data, structs, layout and alignment rules of Horizon Openexplorer Toolchain's Runtime
+and helps users learn how to load and free models, obtain model information and execute inference using Horizon's dev board.
+
+Data Type and Structure
+===========================
+
+Version Information Type
+---------------------------
+
+.. note::
+
+  The version information type version number varies as version changes.
+  Please obtain the actual version information in accordance with your obtained release package.
+
+``HB_DNN_VERSION_MAJOR``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    #define HB_DNN_VERSION_MAJOR 1U
+
+DNN major version number.
+
+``HB_DNN_VERSION_MINOR``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    #define HB_DNN_VERSION_MINOR 1U
+
+DNN secondary version number.
+
+``HB_DNN_VERSION_PATCH``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    #define HB_DNN_VERSION_PATCH 0U
+
+DNN patch version number.
+
+Model Type
+---------------------------------
+
+``HB_DNN_TENSOR_MAX_DIMENSIONS``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    #define HB_DNN_TENSOR_MAX_DIMENSIONS 8
+
+The maximum tensor dimension can be specified as ``8``.
+
+``HB_DNN_INITIALIZE_INFER_CTRL_PARAM``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    #define HB_DNN_INITIALIZE_INFER_CTRL_PARAM(param) \
+    {                                                  \
+        (param)->bpuCoreId = HB_BPU_CORE_ANY;         \
+        (param)->dspCoreId = HB_DSP_CORE_ANY;         \
+        (param)->priority = HB_DNN_PRIORITY_LOWEST;   \
+        (param)->reserved1 = 0;                        \
+        (param)->reserved2 = 0;                        \
+        (param)->reserved3 = 0;                        \
+        (param)->reserved4 = 0;                        \
+        (param)->more = false;                         \
+    }
+
+Initialized control parameters.
+
+``hbPackedDNNHandle_t``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    typedef void *hbPackedDNNHandle_t;
+
+A DNN handle which can point to multiple packed models.
+
+``hbDNNHandle_t``
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    typedef void *hbDNNHandle_t;
+
+A DNN handle which points to a single model.
+
+``hbDNNTaskHandle_t``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    typedef void *hbDNNTaskHandle_t;
+
+A task handle which points to one task.
+
+``hbDNNTensorLayout``
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    typedef enum {
+      HB_DNN_LAYOUT_NHWC = 0,
+      HB_DNN_LAYOUT_NCHW = 2,
+      HB_DNN_LAYOUT_NONE = 255,
+    } hbDNNTensorLayout;
+
+Tensor layout.
+``NHWC`` denotes respectively Number, Height, Width and Channel.
+
++ Member
+
+  .. table::
+    :align: center
+
+    +------------------------+-------------------+
+    | **MEMBER NAME**        | **DESCRIPTIONS**  |
+    +------------------------+-------------------+
+    | ``HB_DNN_LAYOUT_NONE`` | Layout undefined. |
+    +------------------------+-------------------+
+    | ``HB_DNN_LAYOUT_NHWC`` | ``NHWC`` layout.  |
+    +------------------------+-------------------+
+    | ``HB_DNN_LAYOUT_NCHW`` | ``NCHW`` layout.  |
+    +------------------------+-------------------+
+
+``hbDNNDataType``
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef enum {
+    HB_DNN_IMG_TYPE_Y,
+    HB_DNN_IMG_TYPE_NV12,
+    HB_DNN_IMG_TYPE_NV12_SEPARATE,
+    HB_DNN_IMG_TYPE_YUV444,
+    HB_DNN_IMG_TYPE_RGB,
+    HB_DNN_IMG_TYPE_BGR,
+    HB_DNN_TENSOR_TYPE_S4,
+    HB_DNN_TENSOR_TYPE_U4,
+    HB_DNN_TENSOR_TYPE_S8,
+    HB_DNN_TENSOR_TYPE_U8,
+    HB_DNN_TENSOR_TYPE_F16,
+    HB_DNN_TENSOR_TYPE_S16,
+    HB_DNN_TENSOR_TYPE_U16,
+    HB_DNN_TENSOR_TYPE_F32,
+    HB_DNN_TENSOR_TYPE_S32,
+    HB_DNN_TENSOR_TYPE_U32,
+    HB_DNN_TENSOR_TYPE_F64,
+    HB_DNN_TENSOR_TYPE_S64,
+    HB_DNN_TENSOR_TYPE_U64,
+    HB_DNN_TENSOR_TYPE_MAX
+  } hbDNNDataType;
+
+Tensor type.
+``S`` denotes signed; ``U`` denotes unsigned; and ``F`` denotes floating-point type.
+The digit at the tail denotes bit number.
+
++ Member
+
+  .. table::
+    :align: center
+
+    +-----------------------------------+--------------------------------------------------------------+
+    | **MEMBER NAME**                   | **DESCRIPTIONS**                                             |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_IMG_TYPE_Y``             | This tensor type denotes images who only contains Y channel. |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_NV12``       | This tensor type denotes a NV12 image.                       |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_IMG_TYPE_NV12_SEPARATE`` | This tensor type denotes images with Y and UV channel input. |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_IMG_TYPE_YUV444``        | This tensor type denotes images with YUV444 input.           |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_IMG_TYPE_RGB``           | This tensor type denotes images with RGB input.              |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_IMG_TYPE_BGR``           | This tensor type denotes images with BGR input.              |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_S4``         | This tensor type denotes signed 4bit.                        |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_U4``         | This tensor type denotes unsigned 4bit.                      |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_S8``         | This tensor type denotes signed 8bit.                        |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_U8``         | This tensor type denotes unsigned 8bit.                      |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_F16``        | This tensor type denotes floating-point type 8bit.           |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_S16``        | This tensor type denotes signed 16bit.                       |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_U16``        | This tensor type denotes unsigned 16bit.                     |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_F32``        | This tensor type denotes floating-point type 32bit.          |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_S32``        | This tensor type denotes signed 32bit.                       |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_U32``        | This tensor type denotes unsigned 32bit.                     |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_F64``        | This tensor type denotes floating-point type 64bit.          |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_S64``        | This tensor type denotes signed 64bit.                       |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_U64``        | This tensor type denotes unsigned 64bit.                     |
+    +-----------------------------------+--------------------------------------------------------------+
+    | ``HB_DNN_TENSOR_TYPE_MAX``        | denotes the type serial number of the maximum tensor.        |
+    +-----------------------------------+--------------------------------------------------------------+
+
+``hbDNNTensorShape``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef struct {
+    int32_t dimensionSize[HB_DNN_TENSOR_MAX_DIMENSIONS];
+    int32_t numDimensions;
+  } hbDNNTensorShape;
+
+Shape of tensor.
+E.g. a 224x224 bgr color space image whose ``numDimensions=4``, if its layout is NHWC, then the ``dimensionSize`` array should 
+save the image in such sequence: ``Number=1``, ``Height=224``, ``Width=224`` and ``Channel=3``.
+
++ Member
+
+  .. table::
+    :align: center
+
+    +-------------------+-----------------------------------+
+    | **MEMBER NAME**   | **DESCRIPTIONS**                  |
+    +-------------------+-----------------------------------+
+    | ``dimensionSize`` | Size of each dimension of tensor. |
+    +-------------------+-----------------------------------+
+    | ``numDimensions`` | Number of dimensions of tensor.   |
+    +-------------------+-----------------------------------+
+
+``hbDNNQuantiShift``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef struct {
+    int32_t shiftLen;
+    uint8_t *shiftData;
+  } hbDNNQuantiShift;
+
+The quantized/dequantized offset.
+
+**INPUT:** if collected floating-point data is ``data[i]``, then the corresponding offset should be ``shift[i]``,
+and the inference data that will be fed into the model should round up  :math:`data[i] * (1 << shift[i])`.
+
+**OUTPUT:** if the inference result is ``data[i]``, then the corresponding offset should be ``shift[i]``,
+the final inference result should be :math:`data[i] / (1 << shift[i])`.
+
++ Member
+
+  .. table::
+    :align: center
+
+    +-----------------+--------------------------+
+    | **MEMBER NAME** | **DESCRIPTIONS**         |
+    +-----------------+--------------------------+
+    | ``shiftLen``    | Shift length.            |
+    +-----------------+--------------------------+
+    | ``shiftData``   | Shift starting address.  |
+    +-----------------+--------------------------+
+
+``hbDNNQuantiScale``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    typedef struct {
+      int32_t scaleLen;
+      float *scaleData;
+    } hbDNNQuantiScale;
+
+The quantized/dequantized scaling results.
+
+**INPUT:** if collected floating-point data is ``data[i]``, then the corresponding scaling result should be ``scale[i]``,
+and the inference data that will be fed into the model should round up :math:`data[i] / scale[i]`.
+
+**OUTPUT:** if your inference result is ``data[i]``, then the corresponding scaling data should be ``scale[i]``,
+and the final inference result should be :math:`data[i] * scale[i]`.
+
++ Member
+
+    .. table::
+      :align: center
+
+      ==================== ==================================================
+      **MEMBER NAME**          **DESCRIPTIONS**
+      ==================== ==================================================
+      ``scaleLen``          Length of scaling data.
+      ``scaleData``          Starting address of scaling data.
+      ==================== ==================================================
+
+``hbDNNQuantiType``
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    typedef enum {
+      NONE, 
+      SHIFT,
+      SCALE,
+    } hbDNNQuantiType;
+
+The quantized/dequantized types converted from floating-point to fixed-point or vice versa.
+``NONE`` means that data will not be processed; ``SHIFT`` means that to store the corresponding quantized/dequantized parameters into the
+``hbDNNQuantiShift`` struct; ``SCALE`` means that to store the corresponding quantized/dequantized parameters into the ``hbDNNQuantiScale`` struct.
+
++ Member
+
+  .. table::
+    :align: center
+
+    ==================== ==================================================
+    **MEMBER NAME**              **DESCRIPTIONS**
+    ==================== ==================================================
+    ``NONE``                Not quantized.
+    ``SHIFT``                Quantization type is ``SHIFT``.
+    ``SCALE``                Quantization type is ``SCALE``.
+    ==================== ==================================================
+
+``hbDNNTensorProperties``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef struct {
+    hbDNNTensorShape validShape;
+    hbDNNTensorShape alignedShape;
+    int32_t tensorLayout;
+    int32_t tensorType;
+    hbDNNQuantiShift shift;
+    hbDNNQuantiScale scale;
+    hbDNNQuantiType quantiType;
+    int32_t alignedByteSize;
+  } hbDNNTensorProperties;
+
+
+Tensor information.
+
+Amongst, the ``alignedShape`` is obtained from model information and denotes the aligned shape;
+after input data is ready, the ``alignedShape`` must be the same as the input shape of tensor.
+
++ Member
+
+  .. table::
+    :align: center
+
+    ==================== ======================================================
+    **MEMBER NAME**          **DESCRIPTIONS**
+    ==================== ======================================================
+    ``validShape``        Shape of valid tensor content.
+    ``alignedShape``      Shape of aligned tensor content.
+    ``tensorLayout``      Layout of tensor.
+    ``tensorType``        Tensor type.
+    ``shift``              Shift of fixed-point to floating-point.
+    ``scale``              Scaling of fixed-point to floating-point.
+    ``quantiType``        Quantization type of fixed-point to floating-point.
+    ``alignedByteSize``   The memory size of the aligned tensor.
+    ==================== ======================================================
+
+``hbDNNTaskPriority``
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef enum {
+    HB_DNN_PRIORITY_LOWEST = 0,
+    HB_DNN_PRIORITY_HIGHEST = 255,
+    HB_DNN_PRIORITY_PREEMP = HB_DNN_PRIORITY_HIGHEST,
+  } hbDNNTaskPriority;
+
+Task priority with default values.
+
+``hbDNNTensor``
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef struct {
+    hbSysMem sysMem[4];
+    hbDNNTensorProperties properties;
+  } hbDNNTensor;
+
+Tensor.
+It is used for storing input/output information.
+Amongst, the ``NV12_SEPARATE`` type tensor requires 2 ``hbSysMem``; while all the rest types of tensor only require 1.
+
++ Member
+
+  .. table::
+    :align: center
+
+    ==================== ==================================================
+    **MEMBER NAME**           **DESCRIPTIONS**
+    ==================== ==================================================
+    ``sysMem``           Memory in which tensors are stored.
+    ``properties``       Tensor information.
+    ==================== ==================================================
+
+``hbDNNRoi``
+^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef struct {
+    int32_t left;
+    int32_t top;
+    int32_t right;
+    int32_t bottom;
+  } hbDNNRoi;
+
+The ROI (Region Of Interest) of rectangle. :math:`W∈[left, right], H∈[top, bottom]`.
+
++ Member
+
+  .. table::
+    :align: center
+
+    ==================== ========================================================
+    **MEMBER NAME**           **DESCRIPTIONS**
+    ==================== ========================================================
+    ``left``              The width pixel point at ROI's upper left corner.
+    ``top``                The height pixel point at ROI's upper left corner.
+    ``right``              The width pixel point at ROI's bottom right corner.
+    ``bottom``            The height pixel point at ROI's bottom right corner.
+    ==================== ========================================================
+
+``hbDNNInferCtrlParam``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef struct {
+    int32_t bpuCoreId;
+    int32_t dspCoreId;
+    int32_t priority;
+    int32_t more;
+    int32_t reserved1;
+    int32_t reserved2;
+    int32_t reserved3;
+    int32_t reserved4;
+  } hbDNNInferCtrlParam;
+
+Inference control parameters.
+Amongst, the ``more`` parameter is used for dealing with batch processing small models,
+if you expect to obtain the output when all tasks are done, you will need to specify the ``more`` of all previous tasks as ``1``, 
+except for specifying the ``more`` of the last task as ``0``. It can support inferencing up to 16 models.
+
++ Member
+
+  .. table::
+    :align: center
+
+    ==================== =====================================================
+    **MEMBER NAME**           **DESCRIPTIONS**
+    ==================== =====================================================
+    ``bpuCoreId``          BPU core ID.
+    ``dspCoreId``          DSP core ID.
+    ``priority``          Task priority.
+    ``more``              Whether or not there will be more tasks to follow. 
+    ``reserved1``          Reserved field No.1.
+    ``Reserved2``          Reserved field No.2.
+    ``Reserved3``          Reserved field No.3.
+    ``Reserved4``          Reserved field No.4.
+    ==================== =====================================================
+
+System Type
+------------------
+
+``hbBPUCore``
+^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef enum {
+    HB_BPU_CORE_ANY = 0,
+    HB_BPU_CORE_0 = (1 << 0),
+    HB_BPU_CORE_1 = (1 << 1)
+  } hbBPUCore;
+
+BPU core enumeration.
+
++ Member
+
+  .. table::
+    :align: center
+
+    ==================== ==================================================
+    **MEMBER NAME**          **DESCRIPTIONS**
+    ==================== ==================================================
+    ``HB_BPU_CORE_ANY``    A random BPU core.
+    ``HB_BPU_CORE_0``      BPU core 0.
+    ``HB_BPU_CORE_1``      BPU core 1.
+    ==================== ==================================================
+
+``hbDSPCore``
+^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef enum {
+    HB_DSP_CORE_ANY = 0,
+    HB_DSP_CORE_0 = (1 << 0),
+    HB_DSP_CORE_1 = (1 << 1)
+  } hbDSPCore;
+
+DSP core enumeration.
+
++ Member
+
+  .. table::
+    :align: center
+
+    ==================== ==================================================
+    **MEMBER NAME**          **DESCRIPTIONS**
+    ==================== ==================================================
+    ``HB_DSP_CORE_ANY``   Random DSP core.
+    ``HB_DSP_CORE_0``     DSP core 0.
+    ``HB_DSP_CORE_1``     DSP core 1.
+    ==================== ==================================================
+
+``hbSysMem``
+^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef struct {
+    uint64_t phyAddr;
+    void *virAddr;
+    uint32_t memSize;
+  } hbSysMem;
+
+System memory struct. It is used for allocating system memory.
+
++ Member
+
+  .. table::
+    :align: center
+
+    ==================== ==================================================
+    **MEMBER NAME**          **DESCRIPTIONS**
+    ==================== ==================================================
+    ``phyAddr``            Physical address.
+    ``virAddr``            Virtual address.
+    ``memSize``            Memory size.
+    ==================== ==================================================
+
+``hbSysMemFlushFlag``
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef enum {
+    HB_SYS_MEM_CACHE_INVALIDATE = 1,
+    HB_SYS_MEM_CACHE_CLEAN = 2
+  } hbSysMemFlushFlag;
+
+System memory and cache synchronization parameter.
+As there is a cache area between CPU and memory, the cache data and memory data can be out of sync.
+To be able to obtain the latest data, we will need to refresh data before CPU reads and after CPU writes.
+Before CPU reads, update memory data into cache, while after CPU writes, update cache data into memory.
+
+.. image:: ./images/hbSysMemFlushFlag.png
+  :align: center
+
++ Member
+
+  .. table::
+    :align: center
+
+    ================================= ==============================================================
+    **MEMBER NAME**                    **DESCRIPTIONS**
+    ================================= ==============================================================
+    ``HB_SYS_MEM_CACHE_INVALIDATE``    Before CPU reads, synchronize memory data into cache.
+    ``HB_SYS_MEM_CACHE_CLEAN``         After CPU writes, synchronize cache data into memory.
+    ================================= ==============================================================
+
+Preprocess Type
+-----------------
+
+``HB_DNN_INITIALIZE_RESIZE_CTRL_PARAM``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  #define HB_DNN_INITIALIZE_RESIZE_CTRL_PARAM(param)     \
+    {                                                     \
+      (param)->bpuCoreId = HB_BPU_CORE_ANY;              \
+      (param)->resizeType = HB_DNN_RESIZE_TYPE_BILINEAR; \
+      (param)->priority = HB_DNN_PRIORITY_LOWEST;        \
+      (param)->reserved1 = 0;                             \
+      (param)->reserved2 = 0;                             \
+      (param)->reserved3 = 0;                             \
+      (param)->reserved4 = 0;                             \
+    }
+
+Initialed control parameters.
+
+``hbDNNResizeType``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef enum {
+    HB_DNN_RESIZE_TYPE_BILINEAR = 0,
+  } hbDNNResizeType;
+
+``Resize`` type。
+
++ Member
+
+  .. table::
+    :align: center
+
+    =============================== ========================================
+    **MEMBER NAME**                     **DESCRIPTIONS**
+    =============================== ========================================
+    ``HB_DNN_RESIZE_TYPE_BILINEAR``   Resize type is bilinear interpolation.
+    =============================== ========================================
+
+hbDNNResizeCtrlParam
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  typedef struct {
+    int32_t bpuCoreId;
+    int32_t priority;
+    hbDNNResizeType resizeType;
+    int32_t reserved1;
+    int32_t reserved2;
+    int32_t reserved3;
+    int32_t reserved4;
+  } hbDNNResizeCtrlParam;
+
+Control parameters of ``Resize``.
+
++ Member
+
+  .. table::
+    :align: center
+
+    =============================== ===================================
+    **MEMBER NAME**                       **DESCRIPTIONS**
+    =============================== ===================================
+    ``bpuCoreId``                       BPU core ID.
+    ``priority``                       Task priority.
+    ``resizeType``                     Resize type.
+    ``reserved1``                       Reserved field No.1.
+    ``Reserved2``                       Reserved field No.2.
+    ``Reserved3``                       Reserved field No.3.
+    ``Reserved4``                       Reserved field No.4.
+    =============================== ===================================
+
+Plugin Type
+---------------
+
+``hbDNNLayerCreator``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    typedef hobot::dnn::Layer *(*hbDNNLayerCreator)();
+
+User defined Layer creating method.
+
+APIs
+==============================
+
+Version Information
+------------------------------
+
+``hbDNNGetVersion()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    const char *hbDNNGetVersion();
+
+Obtain the version information of ``DNN`` prediction library.
+
++ Return
+
+  - Return version information.
+
+Model Loading and Freeing
+----------------------------------
+
+``hbDNNInitializeFromFiles()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNInitializeFromFiles(hbPackedDNNHandle_t *packedDNNHandle,
+                                     const char **modelFileNames,
+                                     int32_t modelFileCount);
+
+Creating and Initializing ``packedDNNHandle`` from file.
+
++ Parameter
+
+  - [out] ``packedDNNHandle``   A Horizon DNN handle who points to multiple models.
+  - [in]  ``modelFileNames``    Path to model file.
+  - [in]  ``modelFileCount``    Number of model file.
+
++ Return
+
+    - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNInitializeFromDDR()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNInitializeFromDDR(hbPackedDNNHandle_t *packedDNNHandle,
+                                   const void **modelData, 
+                                   int32_t *modelDataLengths,
+                                   int32_t modelDataCount);
+
+Creating and Initializing ``packedDNNHandle`` from memory.
+
++ Parameter
+
+  - [out] ``packedDNNHandle``    A Horizon DNN handle who points to multiple models.
+  - [in]  ``modelData``          Pointer of model file.
+  - [in]  ``modelDataLengths``   Length of model file.
+  - [in]  ``modelFileCount``     Number of model file.
+
++ Return
+
+    - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNRelease()``
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNRelease(hbPackedDNNHandle_t packedDNNHandle);
+
+Free the model pointed to by ``packedDNNHandle``.
+
++ Parameter
+
+  - [in] ``packedDNNHandle``  A Horizon DNN handle who points to multiple models.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+Model Information
+--------------------
+
+``hbDNNGetModelNameList()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+   int32_t hbDNNGetModelNameList(const char ***modelNameList, 
+                                 int32_t *modelNameCount,
+                                 hbPackedDNNHandle_t packedDNNHandle);
+
+Obtain name list and number of models pointed to by ``packedDNNHandle``.
+
++ Parameter
+
+  - [out] ``modelNameList``    A list of model names.
+  - [out] ``modelNameCount``   Number of models.
+  - [in]  ``packedDNNHandle``  A Horizon DNN handle who points to multiple models.
+
++ Return
+
+    - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNGetModelHandle()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNGetModelHandle(hbDNNHandle_t *dnnHandle,
+                                hbPackedDNNHandle_t packedDNNHandle,
+                                const char *modelName);
+
+Obtain a model handle from the model list pointed to by ``packedDNNHandle`` .
+
++ Parameter
+
+  - [out] ``dnnHandle``         A DNN handle who points to one model.
+  - [in]  ``packedDNNHandle``   A DNN handle who points to multiple models.
+  - [in]  ``modelName``         Model name.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNGetInputCount()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNGetInputCount(int32_t *inputCount, 
+                               hbDNNHandle_t dnnHandle);
+
+Obtain the input tensor number of the model pointed to by ``dnnHandle``.
+
++ Parameter
+
+  - [out] ``inputCount``  Number of model input tensors.
+  - [in]  ``dnnHandle``   A DNN handle who points to one model.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNGetInputName()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+   int32_t hbDNNGetInputName(const char **name,
+                             hbDNNHandle_t dnnHandle,
+                             int32_t inputIndex);
+
+Obtain the ``name`` of model's input tensor.
+
++ Parameter
+
+  - [out] ``name``        The name of model's input tensor.
+  - [in]  ``dnnHandle``   The DNN handle pointing to a specific model.
+  - [in]  ``inputIndex``  The index of model's input tensor.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNGetInputTensorProperties()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNGetInputTensorProperties(hbDNNTensorProperties *properties,
+                                          hbDNNHandle_t dnnHandle,
+                                          int32_t inputIndex);
+
+Obtain the properties of specific input tensor of the model pointed to by ``dnnHandle``.
+
++ Parameter
+
+  - [out] ``properties``   Input tensor information.
+  - [in]  ``dnnHandle``    A DNN handle who points to one model.
+  - [in]  ``inputIndex``   Serial number of model input tensor.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNGetOutputCount()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNGetOutputCount(int32_t *outputCount, 
+                                hbDNNHandle_t dnnHandle);
+
+Obtain the output tensor number of the model pointed to by ``dnnHandle``.
+
++ Parameter
+
+    - [out] ``outputCount``  Number of model output tensors.
+    - [in]  ``dnnHandle``    A DNN handle who points to one model.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNGetOutputName()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+   int32_t hbDNNGetOutputName(const char **name,
+                              hbDNNHandle_t dnnHandle,
+                              int32_t outputIndex);
+
+
+Obtain the ``name`` of model output tensor.
+
++ Parameter
+
+  - [out] ``name``        The name of model output tensor.
+  - [in]  ``dnnHandle``   The DNN handler pointing to a model.
+  - [in]  ``outputIndex`` The index of model output tensor.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNGetOutputTensorProperties()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNGetOutputTensorProperties(hbDNNTensorProperties *properties,
+                                           hbDNNHandle_t dnnHandle, 
+                                           int32_t outputIndex);
+
+Obtain the properties of specific output tensor of the model pointed to by ``dnnHandle``.
+
++ Parameter
+
+  - [out] ``properties``    Output tensor information.
+  - [in]  ``dnnHandle``     A DNN handle who points to one model.
+  - [in]  ``outputIndex``   Serial number of model output tensor.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+Model Inference
+---------------------
+
+``hbDNNInfer()``
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNInfer(hbDNNTaskHandle_t *taskHandle,
+                       hbDNNTensor **output,
+                       const hbDNNTensor *input,
+                       hbDNNHandle_t dnnHandle,
+                       hbDNNInferCtrlParam *inferCtrlParam);
+
+Execute inference tasks in accordance with input parameters.
+
++ Parameter
+
+  - [out]     ``taskHandle``          Pointer of task handle.
+  - [in/out]  ``output``             Output of inference tasks.
+  - [in]      ``input``               Input of inference tasks.
+  - [in]      ``dnnHandle``           DNN handle pointer.
+  - [in]      ``inferCtrlParam``      Control parameter of inference tasks.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+.. note::
+
+  Please specify the ``taskHandle`` as ``nullptr`` in advance when submitting your task using this API, 
+  unless it is an additional task of a specified ``taskHandle`` (i.e. applying the ``inferCtrlParam::more`` feature).
+
+``hbDNNRoiInfer()``
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNRoiInfer(hbDNNTaskHandle_t *taskHandle,
+                          hbDNNTensor **output,
+                          const hbDNNTensor *input,
+                          hbDNNRoi *rois,
+                          int32_t roiCount,
+                          hbDNNHandle_t dnnHandle,
+                          hbDNNInferCtrlParam *inferCtrlParam);
+
+Execute ROI inference tasks in accordance with input parameters.
+
++ Parameter
+
+  - [out]     ``taskHandle``       Pointer of task handle.
+  - [in/out]  ``output``           Output of inference tasks.
+  - [in]      ``input``            Input of inference tasks.
+  - [in]      ``rois``             ROI box information.
+  - [in]      ``roiCount``         Number of ROI box.
+  - [in]      ``dnnHandle``        DNN handle pointer.
+  - [in]      ``inferCtrlParam``   Control parameter of inference tasks.
+
++ Return
+
+    - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+.. note::
+  
+  About the ``input`` parameter: when number of model input equals to ``input_count``, and number of ``roi`` equals to ``roiCount``, 
+  the subscript range of the ``input`` array corresponding to the i\ :sub:`st` ``roi`` should be: :math:`[i * input\_count, (i + 1) * input\_count)，i=[0,roiCount)`.
+
+  About priority and preemption tasks: currently, DNN can only support execution of up to 8 tasks.
+  If there are already 8 tasks up and running when you submit a preemption task, the preemption task 
+  to execute the highest prioritized task will not be supported, until one of the tasks is accomplished.
+
+  Please specify the ``taskHandle`` as ``nullptr`` in advance when submitting your task using this API, 
+  unless it is an additional task of a specified ``taskHandle`` (i.e. applying the ``inferCtrlParam::more`` feature).
+
+.. hbDNNContinueTask()
+.. ^^^^^^^^^^^^^^^^^^^^^^^
+
+.. .. code-block:: cpp
+
+..    int32_t hbDNNContinueTask(hbDNNTaskHandle_t taskHandle);
+
+.. 继续执行任务。对于多阶段输入模型，当准备好对应roi的输入数据时，执行该接口，执行次数等于阶段数-1。
+
+.. + Parameter
+
+..    - [in]  `taskHandle`         Pointer of task handle.
+
+.. + Return
+
+..    - 返回0则表示API成功执行，否则执行失败。
+
+``hbDNNWaitTaskDone()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNWaitTaskDone(hbDNNTaskHandle_t taskHandle,
+                              int32_t timeout);
+
+Wait until end of task or timeout.
+
++ Parameter
+
+  - [in]  ``taskHandle``         Pointer of task handle.
+  - [in]  ``timeout``            Timeout setting (Unit: millisecond).
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+.. note::
+
+  1. ``timeout > 0``    denotes waiting time;
+  2. ``timeout <= 0``   denotes keep wating until the end of the task.
+
+hbDNNReleaseTask()
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNReleaseTask(hbDNNTaskHandle_t taskHandle);
+
+Release task, cancel and release the task if the task has not yet been executed.
+Else if the task has been executed, it will be cancelled at a certain node and released.
+
++ Parameter
+
+    - [in]  ``taskHandle``         Pointer of task handle.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+Memory Related Operations
+------------------------------
+
+``hbSysAllocMem()``
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbSysAllocMem(hbSysMem *mem, uint32_t size);
+
+Allocate BPU memory.
+
++ Parameter
+
+  - [in]  ``size``                Size of the allocated memory.
+  - [out] ``mem``                 Memory pointer.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbSysAllocCachedMem()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbSysAllocCachedMem(hbSysMem *mem, uint32_t size);
+
+The BPU memory who allocates cache memory.
+
++ Parameter
+
+  - [in]  ``size``              Size of the allocated memory.
+  - [out] ``mem``               Memory pointer.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbSysFlushMem()``
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbSysFlushMem(hbSysMem *mem, int32_t flag);
+
+Refresh the cached BPU memory.
+
++ Parameter
+
+  - [in]  ``mem``               Memory pointer.
+  - [in]  ``flag``              Refresh flag.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbSysFreeMem()``
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbSysFreeMem(hbSysMem *mem);
+
+Free BPU memory.
+
++ Parameter
+
+  - [in]  ``mem``               Memory pointer.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbSysWriteMem()``
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbSysWriteMem(hbSysMem *dest, char *src, uint32_t size);
+
+Write BPU memory.
+
++ Parameter
+
+  - [out] ``dest``                Memory pointer.
+  - [in]  ``src``                 Data pointer.
+  - [in]  ``size``                Data size.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbSysReadMem()``
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbSysReadMem(char *dest, hbSysMem *src, uint32_t size);
+
+Read BPU memory.
+
++ Parameter
+
+  - [out] ``dest``               Data pointer.
+  - [in]  ``src``                Memory pointer.
+  - [in]  ``size``               Data size.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbSysRegisterMem()``
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbSysRegisterMem(hbSysMem *mem);
+
+Register known memory location of physical address as a BPU accessible memory flag, the obtained memory is cacheable.
+
++ Parameter
+
+  - [in/out] ``mem``               Memory pointer.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbSysUnregisterMem()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbSysUnregisterMem(hbSysMem *mem);
+
+Cancel the ``hbSysRegisterMem`` registered memory flag.
+
++ Parameter
+
+  - [in] ``mem``               Memory pointer.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+Preprocess
+--------------------
+
+``hbDNNResize()``
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNResize(hbDNNTaskHandle_t *taskHandle, 
+                        hbDNNTensor *output,
+                        const hbDNNTensor *input, 
+                        const hbDNNRoi *roi,
+                        hbDNNResizeCtrlParam *resizeCtrlParam);
+
+Execute resize task in accordance with input parameters.
+
++ Parameter
+
+  - [out]  ``taskHandle``           Pointer of task handle.
+  - [in/out] ``output``             Output of resize task.
+  - [in]   ``input``                Input of resize task.
+  - [in]   ``roi``                  Input ROI information.
+  - [in]   ``resizeCtrlParam``      Control parameters of resize tasks.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+.. note::
+
+  1. Currently can only support resize with the same ``hbDNNDataType``, and it must be ``IMG`` type.
+  2. As for ``HB_DNN_IMG_TYPE_NV12``, the width and height of the ``HB_DNN_IMG_TYPE_NV12_SEPARATE`` type input must be multiples of 2.
+  3. Scaling range is :math:`[1/185, 256)`; size requirement is :math:`H×W <= 4080×4080`, i.e. the max H of the scaled image is 4,080, 
+     while the max W of the scaled image is 4,080.
+  4. The ``roi`` must be inside the image.
+
+Plugin
+----------
+
+``hbDNNRegisterLayerCreator()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNRegisterLayerCreator(const char *layerType,
+                                      hbDNNLayerCreator layerCreator);
+
+Method to registering Layer.
+
++ Parameter
+
+  - [in]  ``layerType``                Layer type.
+  - [in]  ``layerCreator``             Layer creation method.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+``hbDNNUnregisterLayerCreator()``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    int32_t hbDNNUnregisterLayerCreator(const char *layerType);
+
+Layer。
+
++ Parameter
+
+  - [in]  ``layerType``                Layer type.
+
++ Return
+
+  - If returns ``0``, then API execution is successful. Otherwise API execution has failed.
+
+Data Layout and Alignment Rules
+=========================================
+
+Data Layout
+------------------
+
+To promote compute efficiency, the hardware uses special data layout in order to locate
+the feature maps and kernels in the same MAC batch in convolution operation next to each other in memory.
+In this section we describe the data layout concepts of Horizon's X/J3 ASICs.
+
+The variables in neural networks can be denoted by a 4D tensor, in which each digit denotes a tensor element,
+and this is what we call the native layout. By lining up different elements in different dimensions by certain rules
+in order to form an independent block, and then consider these blocks as new elements and form new 4D tensors.
+This is what we call the tensor with data layout.
+
+Input/output data will use different data layout.
+Users can obtain layout Descriptions using APIs, and data with different layouts can not be compared in a direct way.
+Users can choose to use the HBDK compiler provided APIs to convert data layout or write their own code to convert data layout 
+in accordance with actual scenarios.
+
+.. note::
+
+  Note that when converting data layout, padding value must be 0.
+
+Here below introduces 2 types of layouts: ``NHWC_NATIVE`` and ``NCHW_NATIVE``.
+Take the ``NHWC_NATIVE`` as an example, its layout is shown as below:
+
+.. table::
+  :align: center
+
+  +-------------+-------------+-------+
+  |             |             |       |
+  | N0H0W0C0    | N0H0W0C1    | ……    |
+  +-------------+-------------+-------+
+  |             |             |       |
+  | N0H0W1C0    | N0H0W1C1    | ……    |
+  +-------------+-------------+-------+
+  |             |             |       |
+  | ……          | ……          | ……    |
+  +-------------+-------------+-------+
+  |             |             |       |
+  | N0H1W0C0    | N0H1W0C1    | ……    |
+  +-------------+-------------+-------+
+  |             |             |       |
+  | ……          | ……          | ……    |
+  +-------------+-------------+-------+
+  |             |             |       |
+  | N1H0W0C0    | N1H0W0C1    | ……    |
+  +-------------+-------------+-------+
+  |             |             |       |
+  | ……          | ……          | ……    |
+  +-------------+-------------+-------+
+
+A N*H*W*C tensor can be denoted by below 4 nested loop:
+
+.. code-block:: cpp
+
+    for (int32_t n = 0; n < N; n++) {
+        for (int32_t h = 0; h < H; h++) {
+            for (int32_t w = 0; w < W; w++) {
+                for (int32_t c = 0; c < C; c++) {
+                    int32_t native_offset = n*H*W*C + h*W*C + w*C + c;
+                }
+            }
+        }
+    }
+
+As the difference between ``NCHW_NATIVE`` and ``NHWC_NATIVE`` lies only in loop layout, it is not described in detail here.
+
+.. attention::
+
+  All the "native" below refers specifically to layout.
+
+BPU Alignment Rules and Restrictions
+-------------------------------------------
+
+This section introduces BPU alignment rules and restrictions.
+
+Model Input
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+BPU has no restrictions on the model input size and parity.
+It can support both YOLO-like 416x416 input and SqueezeNet-like 227x227 input.
+However, NV12 is a special case, both height and width must use even numbers, so as to satisfy the rules that UV equals to half Y.
+
+Stride
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+BPU has restrictions on ``stride``.
+Usually it can be determined by the ``validShape`` and ``alignedShape`` of ``hbDNNTensorProperties``.
+``alignedShape`` is the requirement on ``stride``.
+In addition, there is a special requirement on the Y input of NV12, the ``stride`` of W must be multiples of 16,
+and no need to align in accordance with the requirement of the ``alignedShape``.
+Also, ``padding`` requirement doesn't care about specific value, it can be 0 or none-zero.
+
+About NV12
+----------------------------
+
+YUV Format
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+YUV format is used for optimizing transmission of colored visual signals.
+There are 3 components in YUV: Y indicates brightness, i.e. gray value; while U and V indicate the chrominance which is used to 
+describe the color and saturation of images. It is used for specifying pixel color.
+
+
+NV12 Format
+^^^^^^^^^^^^^^^^
+
+NV12 image format belongs to the YUV420SP format in YUV color space, in which each 4 Y component share one group of U and V components.
+Ys are lined up consecutively while UVs are lined up cross one another.
+
+Refer to below layout:
+
+.. figure:: ./images/nv12_layout.png
+  :align: center
+
+Error Code
+===================
+
+.. code-block:: bash
+
+    HB_DNN_SUCCESS = 0                   // Execution is successful
+    HB_DNN_INVALID_ARGUMENT              // Invalid argument
+    HB_DNN_INVALID_MODEL                 // Invalid model
+    HB_DNN_MODEL_NUMBER_EXCEED_LIMIT     // Model quantity over limit
+    HB_DNN_INVALID_PACKED_DNN_HANDLE     // Invalid packed handle
+    HB_DNN_INVALID_DNN_HANDLE            // Invalid handle
+    HB_DNN_CAN_NOT_OPEN_FILE             // File does not exist
+    HB_DNN_OUT_OF_MEMORY                 // Not enough memory
+    HB_DNN_TIMEOUT                       // Timeout
+    HB_DNN_TASK_NUM_EXCEED_LIMIT         // Task number over limit
+    HB_DNN_TASK_BATCH_SIZE_EXCEED_LIMIT  // Batched task quantity over limit
+    HB_DNN_INVALID_TASK_HANDLE           // Invalid task handle
+    HB_DNN_RUN_TASK_FAILED               // Task execution failed
+    HB_DNN_MODEL_IS_RUNNING              // Task execution underway
+    HB_DNN_INCOMPATIBLE_MODEL            // Incompatible models
+    HB_DNN_API_USE_ERROR                 // API use error
+
+    HB_SYS_SUCCESS                       // Execution is successful
+    HB_SYS_INVALID_ARGUMENT              // Invalid argument
+    HB_SYS_OUT_OF_MEMORY                 // Not enough memory
+    HB_SYS_REGISTER_MEM_FAILED           // Memory registration failed
+
+Configuration Information
+=================================
+
+1. Log levels. Logs in the ``dnn`` are composed by 4 levels:
+
+   - When ``HB_DNN_LOG_NONE = 0``, no log will be printed；
+   - When ``HB_DNN_LOG_WARNING = 3``, warning information will be printed;
+   - When ``HB_DNN_LOG_ERROR = 4``, error information will be printed;
+   - When ``HB_DNN_LOG_FATAL = 5``, those errors which can cause quit will be printed.
+
+2. Rules to set log levels:
+
+   If a log event whose level is higher than your specified log level takes place, then it will be printed, otherwise blocked.
+   That is to say, the lower level you specify, the more (levels of) logs you are going to get 
+   (except for level ``0``, which means print nothing).
+   E.g., if you specify log level as ``3`` (i.e. ``WARNING``), then level ``3``, ``4`` and ``5`` logs will be printed.
+   The default log level is ``HB_DNN_LOG_WARNING``, i.e., ``WARNING`` , ``ERROR`` and ``FATAL`` logs will be printed.
+
+3. Specify log level. 
+   Use the environment variable ``HB_DNN_LOG_LEVEL`` to specify log level. 
+   E.g. if ``export HB_DNN_LOG_LEVEL=3``, then all logs whose level are superior to and equal to ``WARNING`` will be printed.

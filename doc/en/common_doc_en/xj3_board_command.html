@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Frequently-used System Commands</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="About Development Platform" href="../source_doc/x3_ddk_user_guide.html" />
+  <link rel="prev" title="Firmware Upgrade Manual" href="xj3_board_update_guide.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">X/J3 SOC Dev Manual</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://en.horizon.ai/"
+        class="nav-link external">
+          Horizon <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          Community <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          Feedback <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://en.horizon.ai/"
+        class="nav-link external">
+          Horizon <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          Community <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          Feedback <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">General Descriptions</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About SoCs</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="x3_soc_user_guide.html" class="reference internal ">About Sunrise 3 (X3) AI Processor</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_soc_contrast.html" class="reference internal ">X3 vs. J3</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About DevKits</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 "><a href="xj3_board_overview.html" class="reference internal ">About DevKits</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_sdb_overview.html" class="reference internal ">X3 SDB Eco DevKits</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_update_guide.html" class="reference internal ">Firmware Upgrade Manual</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">Frequently-used System Commands</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#check-system-version" class="reference internal">1. Check System Version</a></li>
+                
+                  <li class="toctree-l2"><a href="#hrut-utilities-toolchain" class="reference internal">2. hrut_utilities Toolchain</a></li>
+                
+                  <li class="toctree-l2"><a href="#thermal-configuration-guide" class="reference internal">3. Thermal Configuration Guide</a></li>
+                
+                  <li class="toctree-l2"><a href="#cpu-frequency-adjustment" class="reference internal">4. CPU Frequency Adjustment</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About OpenExplorer</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_user_guide.html" class="reference internal ">About Development Platform</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_quick_start.html" class="reference internal ">Setup Development Environment</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_sample.html" class="reference internal ">Application Development Samples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_docs.html" class="reference internal ">Appendix: Development Manual</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">Others</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="other_sources.html" class="reference internal ">More Technical Support</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>Frequently-used System Commands</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="xj3_board_update_guide.html"
+       title="previous chapter">← Firmware Upgrade Manual</a>
+  </li>
+  <li class="next">
+    <a href="../source_doc/x3_ddk_user_guide.html"
+       title="next chapter">About Development Platform →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="frequently-used-system-commands">
+<h1>Frequently-used System Commands<a class="headerlink" href="#frequently-used-system-commands" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="check-system-version">
+<h2>1. Check System Version<a class="headerlink" href="#check-system-version" title="Permalink to this headline">¶</a></h2>
+<p>Run below command to check version information of current system.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cat /etc/version
+</pre></div>
+</div>
+</div>
+<div class="section" id="hrut-utilities-toolchain">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">hrut_utilities</span></code> Toolchain<a class="headerlink" href="#hrut-utilities-toolchain" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">hrut_utilities</span></code> refers to a set of tools used for capturing/specifying SoC system information, such as:
+dev board ID search/configuration, BPU (Brain Processing Unit) status monitor, DDR status monitor, temperature sensor
+reading, real-time CPU/BPU frequency information search, IP/MAC address search and configuration etc.
+Please refer to below descriptions:</p>
+<div class="section" id="hrut-boardid">
+<h3>2.1 <code class="docutils literal notranslate"><span class="pre">hrut_boardid</span></code><a class="headerlink" href="#hrut-boardid" title="Permalink to this headline">¶</a></h3>
+<p>This command is used for accquiring/specifying Board ID.
+Please refer to below ID definition:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>DESCRIPTIONS</p></th>
+<th class="head"><p>LENGTH</p></th>
+<th class="head"><p>VALUE RANGE</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Model</p></td>
+<td><p>DDR manufacturer</p></td>
+<td><p>4Bits</p></td>
+<td><p>0x0:automatic detection；0x1:Hynix；0x2:Micron；0x3:Samsung</p></td>
+</tr>
+<tr class="row-odd"><td><p>DDR Type</p></td>
+<td><p>DDR type</p></td>
+<td><p>4Bits</p></td>
+<td><p>0x0:automatic detection；0x1: LPDDR4；0x2: LPDDR4X；0x3: DDR4；0x4: DDR3L</p></td>
+</tr>
+<tr class="row-even"><td><p>Frequency</p></td>
+<td><p>DDR frequency</p></td>
+<td><p>4Bits</p></td>
+<td><p>0x0:automatic detection；0x1: 667；0x2: 1600；0x3: 2133；0x4: 2666；0x5: 3200；0x6: 3733；0x7: 4266</p></td>
+</tr>
+<tr class="row-odd"><td><p>Capacity</p></td>
+<td><p>DDR capacity</p></td>
+<td><p>4Bits</p></td>
+<td><p>0x0:automatic detection；0x1: 1GB；0x2: 2GB；0x3: 4GB</p></td>
+</tr>
+<tr class="row-even"><td><p>ECC</p></td>
+<td><p>ECC configuration</p></td>
+<td><p>4Bits</p></td>
+<td><p>0x0: Default；0x1: inline ECC All；0x2: inline ECC option1；0x3: inline ECC option2</p></td>
+</tr>
+<tr class="row-odd"><td><p>SOM Type</p></td>
+<td><p>SOM type</p></td>
+<td><p>4Bits</p></td>
+<td><p>0x0:automatic detection；0x1: X3；0x2: J3</p></td>
+</tr>
+<tr class="row-even"><td><p>Alternative</p></td>
+<td><p>additional configurations</p></td>
+<td><p>4Bits</p></td>
+<td><p>0x0: Default；0x1: Config1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Board Type</p></td>
+<td><p>motherboard type</p></td>
+<td><p>4Bits</p></td>
+<td><p>0x1: X3 DVB；0x2: J3 DVB；0x3: CVB</p></td>
+</tr>
+</tbody>
+</table>
+<p>Refer to below command samples:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Example: hrut_boardid g
+Options:
+  g get board id<span class="o">(</span>veeprom<span class="o">)</span>
+  s <span class="nb">set</span> board id<span class="o">(</span>veeprom<span class="o">)</span>
+  G get board id<span class="o">(</span>bootinfo<span class="o">)</span>
+  S <span class="nb">set</span> board id<span class="o">(</span>bootinfo<span class="o">)</span>
+  c clear board id<span class="o">(</span>veeprom<span class="o">)</span>
+  C clear board id<span class="o">(</span>bootinfo<span class="o">)</span>
+  h  display this <span class="nb">help</span> text
+
+// <span class="nb">read</span> boardid<span class="o">(</span>veeprom<span class="o">)</span>
+root@x3dvbx3-hynix1G-2666:~# hrut_boardid g
+<span class="m">11410101</span>
+
+// specify boardid<span class="o">(</span>veeprom<span class="o">)</span>
+root@x3dvbx3-hynix1G-2666:~# hrut_boardid s <span class="m">11410101</span>
+<span class="nb">set</span> board <span class="nv">id</span> <span class="o">=</span> <span class="m">11410101</span>
+
+// <span class="nb">read</span> boardid<span class="o">(</span>bootinfo<span class="o">)</span>
+root@x3dvbx3-hynix1G-2666:~# hrut_boardid G
+<span class="m">00</span>
+
+// specify boardid<span class="o">(</span>bootinfo<span class="o">)</span>
+root@x3dvbx3-hynix1G-2666:~# hrut_boardid S <span class="m">11410101</span>
+change board id from <span class="m">0</span> to <span class="m">11410101</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Because board ID can influence the SOM initiation, please be careful when specifying it.</p>
+</div>
+</div>
+<div class="section" id="hrut-bpuprofile">
+<h3>2.2 <code class="docutils literal notranslate"><span class="pre">hrut_bpuprofile</span></code><a class="headerlink" href="#hrut-bpuprofile" title="Permalink to this headline">¶</a></h3>
+<p>This command is used for specifying BPU status.
+For example, to adjust frequency of each BPU, power ON/OFF, clock ON/OFF.
+Help documentation is shown as below:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile
+bpu core error,you should <span class="k">select</span> <span class="m">0</span>/1/2
+BPU PROFILE HELP INFORMATION
+&gt;&gt;&gt; -b/--bpu         <span class="o">[</span>BPU CORE,0--bpu0,1--bpu1,2--ALL BPU<span class="o">]</span> <span class="o">(</span>required<span class="o">)</span>
+&gt;&gt;&gt; -p/--power       <span class="o">[</span>POWER OFF/ON,0--OFF,1--ON<span class="o">]</span>
+&gt;&gt;&gt; -c/--clock       <span class="o">[</span>CLOCK OFF/ON,0--OFF,1--ON<span class="o">]</span>
+&gt;&gt;&gt; -e/--enabletime  <span class="o">[</span>GET FC TIME/ON,0--OFF,1--ON<span class="o">]</span>
+&gt;&gt;&gt; -t/--time        <span class="o">[</span>GET FC TIME,NO ARGUMENT<span class="o">]</span>
+&gt;&gt;&gt; -f/--frq         <span class="o">[</span>SET BPU FREQUENCY,ARGUMENT:N<span class="o">]</span>
+&gt;&gt;&gt; -r/--ratio       <span class="o">[</span>BPU RATIO,N--N TIMES,0--FOREVER<span class="o">]</span>
+</pre></div>
+</div>
+<p>Please also refer to below most frequently-used commands:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>// checkout usage of <span class="m">2</span> BPUs
+root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b <span class="m">2</span> -r <span class="m">0</span>
+BPU   RATIO    FREE QUEUE
+<span class="m">0</span>     <span class="m">99</span>%       <span class="m">1020</span>
+<span class="m">1</span>     <span class="m">99</span>%       <span class="m">1024</span>
+
+// specify the frequency of bpu0 as 400M
+root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b <span class="m">0</span> -f <span class="m">400000000</span>
+
+// bpu1 poweroff
+root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b <span class="m">1</span> -p <span class="m">0</span>
+
+// checkout <span class="nb">fc</span> execution <span class="nb">time</span>
+// firstly, <span class="nb">enable</span> <span class="nb">fc</span> execution <span class="nb">time</span> recording feature
+root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b <span class="m">2</span> -e <span class="m">1</span>
+// checkout recorded <span class="nb">fc</span> execution <span class="nb">time</span>
+root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b <span class="m">2</span> -t
+// turn off this feature after use
+root@x3sdbx3-samsung2G-3200:~# hrut_bpuprofile -b <span class="m">2</span> -e <span class="m">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hrut-mac">
+<h3>2.3 <code class="docutils literal notranslate"><span class="pre">hrut_mac</span></code><a class="headerlink" href="#hrut-mac" title="Permalink to this headline">¶</a></h3>
+<p>This command is used for specifying MAC related parameters of the Ethernet board you’re using.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>// write
+hrut_mac s aa:bb:cc:dd:ee:ff
+
+// <span class="nb">read</span>
+hrut_mac g
+</pre></div>
+</div>
+</div>
+<div class="section" id="hrut-somstatus">
+<h3>2.4 <code class="docutils literal notranslate"><span class="pre">hrut_somstatus</span></code><a class="headerlink" href="#hrut-somstatus" title="Permalink to this headline">¶</a></h3>
+<p>This command is used for reading temperature sensor indicators and CPU/BPU frequency information in real-time fashion.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>root@x3sdbx3-samsung2G-3200:~# <span class="nv">hrut_somstatus</span>
+<span class="o">=====================</span><span class="nv">1</span><span class="o">=====================</span>
+temperature--&gt;
+    CPU      : <span class="m">72</span>.8 <span class="o">(</span>C<span class="o">)</span>
+cpu frequency--&gt;
+      min       cur     max
+    cpu0: <span class="m">240000</span>    <span class="m">1200000</span> <span class="m">1200000</span>
+    cpu1: <span class="m">240000</span>    <span class="m">1200000</span> <span class="m">1200000</span>
+    cpu2: <span class="m">240000</span>    <span class="m">1200000</span> <span class="m">1200000</span>
+    cpu3: <span class="m">240000</span>    <span class="m">1200000</span> <span class="m">1200000</span>
+bpu status information----&gt;
+      min        cur             max             ratio
+    bpu0: <span class="m">400000000</span> <span class="m">1000000000</span>      <span class="m">1000000000</span>      <span class="m">100</span>
+    bpu1: <span class="m">400000000</span> <span class="m">1000000000</span>      <span class="m">1000000000</span>      <span class="m">100</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hurt-ipfull">
+<h3>2.5 <code class="docutils literal notranslate"><span class="pre">hurt_ipfull</span></code><a class="headerlink" href="#hurt-ipfull" title="Permalink to this headline">¶</a></h3>
+<p>This command is used for specifying board IP related parameters,
+so that the board will be able to automatically specify IP,
+MASK and GATEWAY information when it is powered for the next time.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>// write
+// hrut_ipfull s IP MASK GATEWAY
+root@x3sdbx3-samsung2G-3200:~# hrut_ipfull s <span class="m">192</span>.168.1.10 <span class="m">255</span>.255.255.0 <span class="m">192</span>.168.1.255
+
+// <span class="nb">read</span>
+root@x3sdbx3-samsung2G-3200:~# hrut_ipfull g
+<span class="nv">ip</span><span class="o">=</span><span class="m">192</span>.168.1.10
+<span class="nv">mask</span><span class="o">=</span><span class="m">255</span>.255.255.0
+<span class="nv">gw</span><span class="o">=</span><span class="m">192</span>.168.1.255
+
+// delete
+// once deleted, the board will use the default <span class="m">192</span>.168.1.10 address when the next <span class="nb">time</span> you use it.
+root@x3sdbx3-samsung2G-3200:~# hrut_ipfull c
+</pre></div>
+</div>
+</div>
+<div class="section" id="hrut-ddr">
+<h3>2.6 <code class="docutils literal notranslate"><span class="pre">hrut_ddr</span></code><a class="headerlink" href="#hrut-ddr" title="Permalink to this headline">¶</a></h3>
+<p>This command is used for specifying DDR Qos and searching for DDR terminal bandwidth.
+Please refer to the <strong>X3_Platform_System_Software_User_Manual</strong> and <strong>J3_Platform_System_Software_User_Manual</strong> in the
+<cite>ddkdocdsp</cite> directory.</p>
+</div>
+</div>
+<div class="section" id="thermal-configuration-guide">
+<h2>3. Thermal Configuration Guide<a class="headerlink" href="#thermal-configuration-guide" title="Permalink to this headline">¶</a></h2>
+<p>There are in all 3 cooling devices in X3 dev board, they are respectively:
+<cite>cooling_device0：cnn0</cite>, <cite>cooling_device1: cnn1</cite> and <cite>cooling_device2: cpu</cite>.
+Presently the default colling strategy is <code class="docutils literal notranslate"><span class="pre">step_wise</span></code>, users can adjust the cooling strategy according to their needs.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>// search <span class="k">for</span> your current cooling strategy
+cat /sys/class/thermal/thermal_zone0/policy
+
+// supported types of strategies are: <span class="s2">&quot;user_space&quot;</span> and <span class="s2">&quot;step_wise&quot;</span>
+cat /sys/class/thermal/thermal_zone0/available_policies
+
+// switch to <span class="s2">&quot;user_space&quot;</span> cooling strategy
+<span class="nb">echo</span> user_space &gt; /sys/class/thermal/thermal_zone0/policy
+ls -l /sys/devices/virtual/thermal/thermal_zone0
+// there are <span class="m">3</span> available trip_points and the default trip_point is trip_point_1_temp <span class="o">(</span>temperature is <span class="m">75</span> Celsius degrees<span class="o">)</span>.
+// run below <span class="nb">command</span> to adjust to your expected trip_point_1_temp
+<span class="nb">echo</span> <span class="m">85000</span> &gt; /sys/devices/virtual/thermal/thermal_zone0/trip_point_1_temp
+</pre></div>
+</div>
+</div>
+<div class="section" id="cpu-frequency-adjustment">
+<h2>4. CPU Frequency Adjustment<a class="headerlink" href="#cpu-frequency-adjustment" title="Permalink to this headline">¶</a></h2>
+<p>The default CPU frequency adjustment strategy is <code class="docutils literal notranslate"><span class="pre">ondemand</span></code>.
+It can automatically adjust CPU frequency according to load.
+In some performance tests, users can adjust CPU frequency to the highest value or a certain value.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>// adjust CPU frequency to the highest value:
+<span class="nb">echo</span> performance &gt; /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+// to adjust to a certain value,
+// firstly, specify current frequency adjustment strategy as userspace :
+<span class="nb">echo</span> userspace&gt; /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+// check frequencies:
+cat /sys/devices/system/cpu/cpufreq/policy0/scaling_available_frequencies
+// specify as 500M:
+<span class="nb">echo</span> <span class="m">500000</span> &gt; /sys/devices/system/cpu/cpufreq/policy0/scaling_setspeed
+
+// checkout current CPU frequency:
+cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="xj3_board_update_guide.html"
+       title="previous chapter">← Firmware Upgrade Manual</a>
+  </li>
+  <li class="next">
+    <a href="../source_doc/x3_ddk_user_guide.html"
+       title="next chapter">About Development Platform →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,26 @@
+模型转换示例包手册
+================================================
+
+地平线 **模型转换示例包（即：horizon_model_convert_sample）** 涵盖了丰富的算法模型示例脚本，
+旨在帮助开发者快速上手 **芯片工具链** 提供的一系列模型转换和模型性能评估工具。
+开发者可以使用这些工具将开放DL框架获取到的原始浮点模型转换为地平线硬件可支持的定点模型，
+然后在嵌入式运行环境完成生产环境模型部署。
+  
+.. 由于libdnn暂不支持x86，此处暂时删除仿真相关内容。删除内容如下：
+.. ，或者在仿真运行环境中进行仿真验证
+
+.. note::
+
+  1. 有关地平线芯片工具链的更多信息，请参考： 
+     `《Horizon AI Toolchain User Guide》 <../horizon_ai_toolchain_user_guide/index.html>`_。
+  2. 有关 ``hb_mapper`` 工具的使用请参考： `《HB Mapper Tools Guide》 <../hb_mapper_tools_guide/index.html>`_。
+
+.. toctree::
+   :maxdepth: 2
+   :numbered:
+   :includehidden:
+
+   samples/01_general_descriptions.rst
+   samples/02_algorithm_sample.rst
+   samples/03_misc_sample.rst
+

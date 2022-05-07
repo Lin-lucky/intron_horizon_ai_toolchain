@@ -1,0 +1,52 @@
+``hb_perf`` 工具
+=====================
+
+``hb_perf`` 是用于分析地平线量化混合模型性能的分析工具。
+
+使用方法
+--------------
+
+.. code-block::
+
+  hb_perf [OPTIONS] BIN_FILE
+
+命令行参数
+-------------------
+
+.. data:: hb_perf的命令行参数
+
+  \-\-version
+    显示版本并退出。
+
+  -m
+    后接模型名称。当指定BIN_FILE为pack模型时, 仅输出指定模型的模型编译信息。
+    
+  \-\-help
+    显示帮助信息。
+
+输出内容
+----------------------
+
+模型的信息会输出在当前目录的 `hb_perf_result` 文件夹中。
+其中会有以该模型为名的文件夹，该模型信息将会展示在以其模型名称命名的 `html` 文件中。目录结构如下示例所示:
+
+.. code-block:: shell
+
+  hb_perf_result/
+  └── mobilenetv1
+      ├── mobilenetv1
+      ├── mobilenetv1.html
+      ├── mobilenetv1.png
+      ├── MOBILENET_subgraph_0.html
+      ├── MOBILENET_subgraph_0.json
+      └── temp.hbm
+
+
+若该模型在编译时未设置为debug模式(``compiler_parameters.debug:True``) 则 ``hb_perf`` 工具会产生如下提示，
+该提示仅表明子图信息中不包括逐层信息, 对模型整体信息的生成没有影响。
+
+.. code-block::
+
+  2021-01-12 10:41:40,000 WARNING bpu model don't have per-layer perf info.
+  2021-01-12 10:41:40,000 WARNING if you need per-layer perf info please enable[compiler_parameters.debug:True] when use makertbin.
+

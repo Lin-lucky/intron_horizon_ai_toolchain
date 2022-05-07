@@ -1,0 +1,2182 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>1 简介 &mdash; video source 组件  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="video_source 组件" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> video source 组件
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">1.1 内部框架</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1.2 主要功能</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">1.2.1 动态视频或者静态图片列表处理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">1.2.2 静态单张图片处理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">1.3 使用方式</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id7">2 依赖库说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id8">3 编译和运行</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id9">3.1 组件形式的使用</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">3.1.1 编译</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">3.1.2 运行</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">3.2 插件形式的使用</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">3.2.1 编译</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">3.2.2 运行</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">3.3 清除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">3.4 图像调试</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dump-vinmodule">3.4.1 dump vinmodule输出</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dump-vpsmodule">3.4.2 dump vpsmodule输出</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dump-sample">3.4.3 dump sample测试用例的输出</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dump">3.4.4 指定dump文件的数量</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id17">4 开发示例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id18">4.1 配置文件说明</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#video-source-plugin">4.1.1 video source plugin插件形式的入口配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mipi-camera-x3">4.1.1.1 插件形式的mipi camera场景配置(x3平台)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mipi-camera-j3">4.1.1.2 插件形式的mipi camera场景配置(j3平台)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#video-source">4.1.2 video source组件形式的入口配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#video-source-x3">4.1.2.1 video source组件形式的入口配置(x3平台)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#video-source-j3">4.1.2.2 video source组件形式的入口配置(j3平台)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id19">4.2 接口介绍</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id20">4.2.1 video source关键数据结构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">4.2.2 video source组件接口介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id22">4.3  示例程序</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#video-source-type">4.3.1 video source type动态视频示例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id23">4.3.1.1 异步模式获取结果</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">4.3.1.2 同步模式获取结果</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#image-source-type">4.3.2 image source type静态图片示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#videosource">5 videosource设计原理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vin-module">5.1 vin module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id25">5.1.1 vin module类的继承关系</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">5.1.2 vin module初始化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">5.1.3 vin module数据流向</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vin-module-buffer">5.1.4 vin module buffer轮转</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">5.1.5 vin module内置解码器</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#vps-module">5.2 vps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id29">5.2.1 vps module继承关系</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vps-module-groupchannel">5.2.1 vps module group和channel说明</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vps">5.2.2 vps输出说明</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vin-vps">5.3 vin-vps场景</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">video source 组件</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>1 简介</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>1 简介<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>video source是一套C++接口，封装了地平线xj3系统vio库的功能，支持多平台扩展，例如x3、j3、j5芯片平台。其中内部主要分为vin和vps模块，vin模块和vps模块可以单独使用，也可以组合使用。</p>
+<div class="section" id="id2">
+<h2>1.1 内部框架<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><img alt="video source组件内部结构" src="_images/video_source.png" />
+内部主要由VIN(video input)和VPS(video process system)两大模块构成。</p>
+<ul class="simple">
+<li><p>VIN模块主要是支持接入各种类型的视频源，输出是固定NV12格式的YUV图片。</p>
+<ul>
+<li><p>内部使用了x3芯片中的isp、vdec解码等硬件模块。</p></li>
+<li><p>输入源目前支持mipi camera、usb camera、image list图片列表回灌(nv12或者jpeg图片列表)、video视频回灌、rtsp client拉流等功能。当然，用户也可以在此基础上，扩展和修改自己的视频源。</p></li>
+<li><p>mipi camera场景不仅支持hapi接口封装(推荐运行在x3平台的AIoT场景)，还支持vapi接口封装(推荐运行在j3平台的AUTO场景)，不同的接口通过选择不同的平台类型来确认</p></li>
+<li><p>usb camera、图片列表回灌、video视频回灌、rtsp client拉流等场景，目前仅支持hapi接口，当然它们均可以运行在x3或者j3平台</p></li>
+</ul>
+</li>
+<li><p>VPS模块输入来自VIN的输出(NV12图像)，输出是NV12原图或者Pyramid金字塔图</p>
+<ul>
+<li><p>输出的NV12原图来自ipu裁剪或者缩放后；金字塔图是通过PYM硬件模块的输出</p></li>
+<li><p>内部包括IPU(image process unit)硬件模块和PYM(pyramid)硬件模块以及GDC模块(用于图像畸变矫正)</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>1.2 主要功能<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>video source组件支持动态视频处理和静态图片处理。</p>
+<ul class="simple">
+<li><p>动态视频处理是异步模式获取视频源数据，保证帧率优先。另外，视频回灌则支持同步模式。</p></li>
+<li><p>静态图片处理是同步模式获取源数据，一帧出结果后才能发送下一帧。</p></li>
+</ul>
+<div class="section" id="id4">
+<h3>1.2.1 动态视频或者静态图片列表处理<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>支持单路和多路mipi camera视频获取和金字塔输出</p></li>
+<li><p>支持单路和多路usb camera视频获取和金字塔输出</p></li>
+<li><p>支持单路和多路回灌，支持jpeg回灌、nv12回灌、video视频回灌(AVI、MP4、H264、H265等)，内部使用decode硬件解码器，加速解码</p></li>
+<li><p>视频回灌支持同步和异步模式。</p>
+<ul>
+<li><p>同步模式确保数据完整性优先，不会丢帧，由用户自己通过接口控制何时生成金字塔数据</p></li>
+<li><p>异步模式是模拟camera场景的发送，确保帧率优先，但不保证能够获取到每一帧的金字塔数据</p></li>
+</ul>
+</li>
+<li><p>支持单路和多路rtsp client拉流获取和金字塔输出</p></li>
+<li><p>支持一路回灌+一路mipi camera, 或者一路rtsp client+一路usb camera，然后两路同时运行输出</p></li>
+<li><p>支持一路camera+另外一路的视频源绑定到该camera通道，然后两路同时输出</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>1.2.2 静态单张图片处理<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>支持JPEG单独图片以文件路径方式读入，或者从内存读入。输出原图或者金字塔图</p></li>
+<li><p>支持NV12图片以文件路径方式读入，或者从内存读入。输出原图或者金字塔图</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>1.3 使用方式<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>面对用户主要有两种使用方式：</p>
+<ol class="simple">
+<li><p>支持组件形式单独运行输出，仅依赖系统软件相关动态库。</p></li>
+<li><p>支持挂载到xproto总线上，以plugin插件形式使用，输出vio message推送到xproto总线。需要依赖xproto、xstream动态库、系统软件相关动态库。</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="id7">
+<h1>2 依赖库说明<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h1>
+<ol class="simple">
+<li><p>背景：上述两种功能依赖的库和头文件，都存放在host package压缩包中，它是随每次统一发版包输出的内容。例如host_package_1.1.0.tar.gz。</p></li>
+<li><p>使用方式：将host_package_1.1.0.tar.gz解压到当前用户所用开发机的主目录(内部文件夹内容是.horizon文件夹，存放在~/.horizon) 。</p></li>
+<li><p>host_package内容包括：</p>
+<ul class="simple">
+<li><p>xstream动态库和头文件，提供AI模型集成形成workflow、策略处理和任务调度等功能</p></li>
+<li><p>xproto动态库和头文件，提供多插件消息通信的能力</p></li>
+<li><p>image_utils动态库和头文件，提供了c接口版本的图像处理接口(软件处理)</p></li>
+<li><p>bpu_predict动态库和头文件，提供模型预测的能力</p></li>
+<li><p>appsdk动态库和头文件，提供系统软件相关的能力</p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="id8">
+<h1>3 编译和运行<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id9">
+<h2>3.1 组件形式的使用<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>3.1.1 编译<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">bash</span> <span class="n">make</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h3>3.1.2 运行<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>编译后，会在当前目录输出output文件夹和deploy_noplugin文件夹。</p>
+<ul class="simple">
+<li><p>output文件夹仅仅包括videosource组件本身生成的头文件、动态库以及配置文件</p></li>
+<li><p>deploy_noplugin文件夹不仅仅包括videosource本身的相关文件，还包括测试用例和运行脚本以及可能依赖其他的动态库，可以直接部署到板端运行相关测试用例</p></li>
+</ul>
+<p>deploy_noplugin目录下有如下内容：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>.
+├── bin
+│   ├── video_source_sample               <span class="c1"># video source组件sample可执行文件</span>
+│   └── video_source_gtest                <span class="c1"># video source组件gtest测试用例可执行文件</span>
+├── configs
+│   ├── video_source                      <span class="c1"># 内部包括具体的每个video source的配置文件</span>
+│   │   └── x3dev
+│   │   └── j3dev 
+│   ├── j3_video_source.json.mipi_cam     <span class="c1"># j3平台mipi camera相关配置(使用vapi接口)</span>
+│   ├── x3_video_source.json.fb           <span class="c1"># feedback回灌相关配置，支持单路和多路</span>
+│   ├── x3_video_source.json.mipi_cam     <span class="c1"># x3平台mipi camera相关配置(使用hapi接口)</span>
+│   ├── x3_video_source.json.multi_mix    <span class="c1"># 多路混合的视频源，例如一路camera+一路回灌;一路usb_camera+一路rtsp</span>
+│   ├── x3_video_source.json.rtsp         <span class="c1"># rtsp client拉流相关配置，支持单路和多路</span>
+│   └── x3_video_source.json.usb_cam      <span class="c1"># usb camera相关配置，支持单路和多路</span>
+├── include
+│   ├── sensor_plugin                     <span class="c1"># 内部是sensor插件化输出的头文件</span>
+│   ├── version.h                         <span class="c1"># video source版本号</span>
+│   └── video_source                      <span class="c1"># video source组件输出的头文件</span>
+│       └── video_source.h
+│       └── video_source_type.h
+├── lib
+│   ├── ffmpeg
+│   ├── libf37_plugin.so                  <span class="c1"># videosource支持sensor插件化方式加载新的sensor，这里是f37 sensor参数配置库</span>
+│   ├── libimx586_plugin.so               <span class="c1"># videosource支持sensor插件化方式加载新的sensor，这里是imx586 sensor参数配置库</span>
+│   ├── libvideo_source.so                <span class="c1"># 生成的video source插件库</span>
+│   ├── README.md                         <span class="c1"># sensor插件化的集成方式，参考此README说明</span>
+│   └── sensor                            <span class="c1"># sensor驱动库，与具体使用的sensor相关(如果系统镜像自带驱动库，则忽略)</span>
+│       └── f37_gdc.bin
+│       └── imx586_linear.so
+│       └── libf37.so
+│       └── libimx586.so
+│       └── libjxf37_linear.so
+├── image                                 <span class="c1"># README文档使用图片</span>
+├── README.md                             <span class="c1"># video source参考使用手册</span>
+├── run_coverage_noplugin.sh              <span class="c1"># video source组件编译下代码覆盖率脚本</span>
+├── run.sh                                <span class="c1"># video source组件sample运行脚本</span>
+└── run_gtest.sh                          <span class="c1"># gtest测试用例运行脚本</span>
+</pre></div>
+</div>
+<p>将deploy_noplugin文件夹挂载到x3设备目录上，直接运行sh run.sh，使用交互式方式，将会看到如下提示：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> default log: <span class="o">[</span>-w<span class="o">]</span>
+Choose lunch video <span class="nb">source</span> <span class="nb">type</span> menu...pick a combo:
+	<span class="m">1</span>. video <span class="nb">source</span> <span class="nb">type</span>
+	<span class="m">2</span>. image <span class="nb">source</span> <span class="nb">type</span>
+Which would you like?
+</pre></div>
+</div>
+<p>支持两种类型的视频源</p>
+<ul class="simple">
+<li><p>video source type，则表示连续的视频或者静态图片列表(回灌方式)</p></li>
+<li><p>image source type，则表示静态单张图片处理生成金字塔</p></li>
+</ul>
+<p>会提示选择哪个视频类型，例如我们输入1，然后按enter回车键确认。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span> You choose <span class="m">1</span>:video <span class="nb">source</span> <span class="nb">type</span>
+Choose lunch platform <span class="nb">type</span> menu...pick a combo:
+	<span class="m">1</span>. x3 platform
+	<span class="m">2</span>. j3 platform
+Which would you like? 
+<span class="m">1</span>
+ You choose <span class="m">1</span>:x3 platform 
+</pre></div>
+</div>
+<p>支持x3和j3平台</p>
+<ul class="simple">
+<li><p>x3 platform，选择x3平台，内部将选用hapi接口，主要针对于aiot场景</p></li>
+<li><p>j3 platform，选择j3平台，内部将选用vapi接口，主要针对于auto场景</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Choose lunch video source file menu...pick a combo:
+   1. single camera: os8a10_2160P
+   2. single camera: os8a10_1080P
+   3. single camera: f37_1080p_1080P
+   4. single camera: imx586_2160p
+   5. single camera: imx586_1080p
+   6. single camera: imx327_1080p
+   7. single camera: usb_cam_1080P
+   8. single rtsp
+   9. 1080p image list feedback
+   10. 2160p image list feedback
+   11. 1080p video feedback
+Which would you like?
+1
+</pre></div>
+</div>
+<p>接着需要我们选择具体用哪个视频源，我们这边选择1 (os8a10_2160P) mipi sensor为例。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">1</span>
+ You choose <span class="m">1</span>:os8a10_2160p
+sensor is os8a10, default resolution 8M, 1080P X3 JPEG Codec...
+<span class="nb">test</span> type: <span class="m">0</span>
+video <span class="nb">source</span> config: ./configs/video_source/x3dev/mipi_cam/x3_mipi_cam_os8a10_2160p_chn0.json
+<span class="o">(</span>video_source.cc:218<span class="o">)</span>: <span class="o">=========================================================</span>
+<span class="o">(</span>video_source.cc:219<span class="o">)</span>: VideoSource VERSION: <span class="m">1</span>.0.4 Thu May <span class="m">27</span> <span class="m">16</span>:02:47 <span class="m">2021</span>
+<span class="o">(</span>video_source.cc:220<span class="o">)</span>: <span class="o">=========================================================</span>
+devId <span class="m">0</span> frameDepth <span class="m">10</span>
+<span class="o">(</span>vps_module_hapi.cc:1540<span class="o">)</span>: group_id:0 vio_fps:31
+<span class="o">(</span>vps_module_hapi.cc:1540<span class="o">)</span>: group_id:0 vio_fps:31
+<span class="o">(</span>vps_module_hapi.cc:1540<span class="o">)</span>: group_id:0 vio_fps:31
+<span class="o">(</span>vps_module_hapi.cc:1540<span class="o">)</span>: group_id:0 vio_fps:31
+</pre></div>
+</div>
+<p>可以看到os8a10 mipi camera运行起来了，其中会显示组号为0，fps帧率为31fps。</p>
+<p>如果想运行其他sensor或者回灌，则按照上述方式依次类推。</p>
+</div>
+</div>
+<div class="section" id="id12">
+<h2>3.2 插件形式的使用<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h3>3.2.1 编译<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash make.sh plugin
+</pre></div>
+</div>
+</div>
+<div class="section" id="id14">
+<h3>3.2.2 运行<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>编译后，会在当前目录输出ouput目录和deploy_plugin目录。</p>
+<ul class="simple">
+<li><p>与组件形式编译类似，output目录仅仅包括videosource插件本身生成的头文件、动态库以及配置文件</p></li>
+<li><p>deploy_plugin目录包括videosource插件生成的文件、测试用例以及其他依赖库，可直接部署到板端运行运行相关测试用例</p></li>
+</ul>
+<p>deploy_plugin目录下有如下内容：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>.
+├── bin
+│   └── video_source_plugin_sample        <span class="c1"># video source插件sample可执行文件</span>
+├── configs
+│   ├── video_source                      <span class="c1"># 内部包括具体的每个video source的配置文件</span>
+│   │   └── x3dev
+│   │   └── j3dev 
+│   ├── j3_video_source.json.mipi_cam     <span class="c1"># j3平台mipi camera相关配置(使用vapi接口)</span>
+│   ├── x3_video_source.json.fb           <span class="c1"># feedback回灌相关配置，支持单路和多路</span>
+│   ├── x3_video_source.json.multi_mix    <span class="c1"># 多路混合的视频源，例如一路camera+一路回灌;一路usb_camera+一路rtsp</span>
+│   ├── x3_video_source.json.mipi_cam     <span class="c1"># x3平台mipi camera相关配置(使用hapi接口)</span>
+│   ├── x3_video_source.json.rtsp         <span class="c1"># rtsp client拉流相关配置，支持单路和多路</span>
+│   └── x3_video_source.json.usb_cam      <span class="c1"># usb camera相关配置，支持单路和多路</span>
+├── include
+│   └── video_source_plugin
+│       └── video_source_plugin.h         <span class="c1"># video source插件化输出的头文件</span>
+│   └── sesor_plugin
+│       └──sensor_plugin.h                <span class="c1"># sensor插件化输出的头文件</span>
+│   └── version.h                         <span class="c1"># video source插件形式的版本号</span>
+├── lib
+│   ├── ffmpeg
+│   ├── libf37_plugin.so                  <span class="c1"># videosource支持sensor插件化方式加载新的sensor，这里是f37 sensor参数配置库</span>
+│   ├── libimx586_plugin.so               <span class="c1"># videosource支持sensor插件化方式加载新的sensor，这里是imx586 sensor参数配置库</span>
+│   ├── libvideo_source_plugin.so         <span class="c1"># 生成的video source插件库</span>
+│   ├── libxproto.so                      <span class="c1"># 依赖外部的xproto动态库</span>
+│   ├── libxstream.so                     <span class="c1"># 依赖外部的xstream动态库</span>
+│   ├── README.md                         <span class="c1"># sensor插件化的集成方式，参考此README说明</span>
+│   └── sensor                            <span class="c1"># sensor驱动库，与具体使用的sensor相关(如果系统镜像自带驱动库，则忽略)</span>
+│       └── f37_gdc.bin
+│       └── imx586_linear.so
+│       └── libf37.so
+│       └── libimx586.so
+│       └── libjxf37_linear.so
+├── image                                 <span class="c1"># README文档使用图片</span>
+├── README.md                             <span class="c1"># video source参考使用手册</span>
+├── run_coverage_plugin.sh                <span class="c1"># video source插件编译下代码覆盖率脚本</span>
+└── run.sh                                <span class="c1"># video source插件sample运行脚本</span>
+</pre></div>
+</div>
+<p>将deploy_plugin文件夹挂载到x3设备目录上，直接运行sh run.sh，使用交互式方式，将会看到如下提示：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>log_level: w
+Choose lunch platform <span class="nb">type</span> menu...pick a combo:
+	<span class="m">1</span>. x3 platform
+	<span class="m">2</span>. j3 platform
+Which would you like? 
+<span class="m">2</span>
+ You choose <span class="m">2</span>:j3 platform
+Choose lunch j3 video <span class="nb">source</span> <span class="nb">type</span> menu...pick a combo:
+	<span class="m">1</span>. mipi camera
+Which would you like?
+<span class="m">1</span>
+ You choose <span class="m">1</span>:mipi_camera
+Choose lunch camera sensor menu...pick a combo:
+	<span class="m">1</span>. mipi camera: ov10635_yuv_720p_1pipe
+	<span class="m">2</span>. mipi camera: ov10635_yuv_720p_4pipes
+	<span class="m">3</span>. mipi camera: ar0233_raw12_pwl_2048x_1280_1pipe
+	<span class="m">4</span>. mipi camera: ar0233_raw12_pwl_2048x_1280_5pipes
+	<span class="m">5</span>. mipi camera: ar0233_raw12_pwl_1080p_1pipe
+	<span class="m">6</span>. mipi camera: ar0233_raw12_pwl_1080p_5pipes
+Which would you like?
+<span class="m">2</span>
+ You choose <span class="m">2</span>:ov10635_yuv_720p_4pipes
+Choose lunch run_mode menu...pick a combo:
+	<span class="m">1</span>. start_stop_once_normal
+	<span class="m">2</span>. start_stop_once_ut
+	<span class="m">3</span>. start_stop_loop
+Which would you like?
+<span class="m">1</span>
+ You choose <span class="m">1</span>:run mode start_stop_once_normal
+video <span class="nb">source</span> file: ./configs/j3_video_source.json.mipi_cam
+run_mode: normal
+video consumer plugin start
+<span class="o">(</span>plugin_sample.cpp:324<span class="o">)</span>: start normal mode
+<span class="o">(</span>video_source.cc:379<span class="o">)</span>: <span class="o">=========================================================</span>
+<span class="o">(</span>video_source.cc:380<span class="o">)</span>: VideoSource VERSION: <span class="m">1</span>.0.13 Tue Oct <span class="m">26</span> <span class="m">14</span>:58:08 <span class="m">2021</span>
+<span class="o">(</span>video_source.cc:381<span class="o">)</span>: <span class="o">=========================================================</span>
+<span class="o">(</span>vps_module_vapi.cc:313<span class="o">)</span>: group_id: <span class="m">0</span> this_src_chn: <span class="m">0</span> this_ipu_chn: <span class="m">2</span> ipu_data_type: <span class="m">2</span>
+<span class="o">(</span>vps_module_vapi.cc:313<span class="o">)</span>: group_id: <span class="m">1</span> this_src_chn: <span class="m">1</span> this_ipu_chn: <span class="m">2</span> ipu_data_type: <span class="m">2</span>
+<span class="o">(</span>vps_module_vapi.cc:313<span class="o">)</span>: group_id: <span class="m">2</span> this_src_chn: <span class="m">2</span> this_ipu_chn: <span class="m">2</span> ipu_data_type: <span class="m">2</span>
+<span class="o">(</span>vps_module_vapi.cc:313<span class="o">)</span>: group_id: <span class="m">3</span> this_src_chn: <span class="m">3</span> this_ipu_chn: <span class="m">2</span> ipu_data_type: <span class="m">2</span>
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:0 vio_fps:30
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:1 vio_fps:30
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:3 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:2 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:0 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:1 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:3 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:2 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:0 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:1 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:3 vio_fps:31
+<span class="o">(</span>vps_module_vapi.cc:406<span class="o">)</span>: group_id:2 vio_fps:31
+</pre></div>
+</div>
+<p>根据提示，选择需要的选项，然后按下enter回车键确认选择，上面可以看到在j3平台上运行了4路ov10635（group-id为0~3），vio_fps为31。</p>
+<p>如果想运行其他sensor或者回灌，则按照上述方式依次类推。</p>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>3.3 清除<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash make.sh clean
+</pre></div>
+</div>
+<p>上述命令将会删除生成的目录，例如build（build_plugin）目录、output目录、deploy_noplugin（deploy_plugin）目录。</p>
+</div>
+<div class="section" id="id16">
+<h2>3.4 图像调试<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<p>video source支持一些图像调试dump功能，以帮助用户在整个视频通路的各个节点去check图像是否正常。</p>
+<ul class="simple">
+<li><p>包括sif的输出、isp的输出、ipu的输出、pym的输出、decodec的输入、decode的输出等</p></li>
+</ul>
+<div class="section" id="dump-vinmodule">
+<h3>3.4.1 dump vinmodule输出<a class="headerlink" href="#dump-vinmodule" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vinmoudle的输入和输出一般如下几种场景：
+1. 针对mipi camera场景(x3平台)
+   a) vinmodule的输入，一般是sif输出的raw数据或者yuv数据、或者isp输出的nv12输出
+      - vpsmodule enable时，要完成sif输出，一般将vin_out_en字段设置为1，vin_vps_mode字段设置为2
+      - vpsmodule disbale时，要完成sif输出，一般将vin_out_en字段设置为1，vin_vps_mode字段设置为9
+      - 无论vpsmoudle使能与否，要完成isp输出，一般将vin_out_en字段设置为1，vin_vps_mode字段设置为1
+   b) vinmodule的输出，与vinmodule的输入一致，vinmodule内部不做任何处理
+2. 针对mipi camera场景(j3平台)
+   a) j3不支持vinmodule的输入和输出，只能从从vps输出金字塔数据
+3. 针对非mipi camera场景，例如usb camera、feedback、rtsp client等
+   a) vinmodule的输入，即上述模块的原始数据输出，例如有JPEG数据、H264数据、H265数据、YUV数据等
+   b) vinmodule的输出，一般是nv12数据,vinmodule内部会根据选择做解码处理
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>在当前运行目录下，touch vin_input.txt新建文件, 则会一直dump vinmoudle模块的输入，
+一般用于dump非mipi camera场景的输入，例如usb camera源的jpeg图像</p></li>
+<li><p>在当前运行目录下，touch vin_output.txt新建文件, 则会一直dump vinmodule模块输出,
+一般用于mipi camera输出的raw或者nv12数据，或者非mipi camera场景输出的nv12数据</p></li>
+</ul>
+</div>
+<div class="section" id="dump-vpsmodule">
+<h3>3.4.2 dump vpsmodule输出<a class="headerlink" href="#dump-vpsmodule" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vpsmodule的输入一般是vinmodule的输出，因此一般只需要dump vpsmodule的输出就可以
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>在当前运行目录下，touch vps_output.txt新建文件，则会dump vps模块输出的nv12原图数据或者金字塔图像数据</p></li>
+</ul>
+</div>
+<div class="section" id="dump-sample">
+<h3>3.4.3 dump sample测试用例的输出<a class="headerlink" href="#dump-sample" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>如果运行video source plugin sample测试用例
+在当前运行目录下，touch pym_output.txt新建文件，则会输出consumer plugin消费插件接收的vio message，dump金字塔图像</p></li>
+</ul>
+</div>
+<div class="section" id="dump">
+<h3>3.4.4 指定dump文件的数量<a class="headerlink" href="#dump" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>如果vin_input.txt、vin_output.txt、vps_output.txt文本文件中写入20，则只会dump开始接收的20帧，写入30，则只会dump 30帧，依次类推</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="id17">
+<h1>4 开发示例<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id18">
+<h2>4.1 配置文件说明<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<p>针对mipi camera场景使用说明：</p>
+<ul class="simple">
+<li><p>如果使用的是x3芯片，board_name字段推荐配置为”x3dev”；如果使用的是j3芯片，board_name字段推荐配置为”j3dev”</p></li>
+<li><p>x3平台和j3平台不仅是入口配置不一样，内部使用的系统接口也完全不一样，例如x3使用的是地平线系统软件hapi接口，j3使用的是系统软件vapi接口</p></li>
+<li><p>总体来说hapi接口使用较为灵活，vapi使用较为简单，具体对比如下</p></li>
+<li><p>hapi接口相比vapi接口有如下的优势：</p>
+<ul>
+<li><p>hapi支持VIN和VPS单独启停；vapi不支持，整个vio通路是通过配置文件一起启动的</p></li>
+<li><p>hapi支持isp、ipu、gdc、pym模块任意绑定，数据由用户自由控制；vapi不支持，模块的数据输出通过配置文件依次完成，虽然支持sif或者isp的数据获取(不影响主路)，但是无法对整个vio通路进行主动控制</p></li>
+<li><p>hapi支持对ipu和pym的回灌，即满足ddr-&gt;ipu-&gt;ddr、ddr→pym→ddr；vapi不支持对ipu的回灌，仅支持对pym的回灌，ipu是offline的话，内部系统软件层进行了isp-&gt;ddr-&gt;ipu的绑定，用户无法 取出isp的输出数据(主路上)作为下一级模块的输入</p></li>
+<li><p>hapi支持从ipu-&gt;ddr→pym→ddr的数据自动绑定； vapi不支持从ipu-&gt;ddr→pym的数据绑定，需要用户先获取ipu的输出，再主动send to pym进行处理后输出</p></li>
+<li><p>hapi支持在整个通路中bypass一些模块，例如ipu；vapi只要使用了sif或者isp模块，一定会输出到ipu(要么isp-&gt;ipu，要么sif-&gt;ipu，无法bypass掉ipu的处理)</p></li>
+<li><p>hapi支持gdc放入到isp之后或者放入到ipu之后进行处理； vapi仅支持gdc放入到ipu之后进行处理(因为不支持用户控制从isp-&gt;ddr-&gt;gdc-&gt;ddr-&gt;ipu的处理)</p></li>
+</ul>
+</li>
+<li><p>vapi接口相比hapi接口有如下的优势：</p>
+<ul>
+<li><p>api操作使用简单，配置文件比较少(一个camera和一个vio配置)，面向硬件的控制字段基本都覆盖</p></li>
+<li><p>有生成gdc bin文件的接口</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="video-source-plugin">
+<h3>4.1.1 video source plugin插件形式的入口配置<a class="headerlink" href="#video-source-plugin" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="mipi-camera-x3">
+<h4>4.1.1.1 插件形式的mipi camera场景配置(x3平台)<a class="headerlink" href="#mipi-camera-x3" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;config_index&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                                     <span class="c1"># 选择confg_0还是config_1</span>
+  <span class="s2">&quot;board_name&quot;</span><span class="p">:</span> <span class="s2">&quot;x3dev&quot;</span><span class="p">,</span>                                 <span class="c1"># x3开发平台</span>
+  <span class="s2">&quot;config_0&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;produce_name&quot;</span><span class="p">:</span> <span class="s2">&quot;panel_camera&quot;</span><span class="p">,</span>                      <span class="c1"># 用户自定义产品对象，基于mipi_cam、usb_cam、feedback、rtsp四大基础功能</span>
+    <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;mono&quot;</span><span class="p">,</span>                                 <span class="c1"># 使用下面的mono还是dual，mono是单路，dual是多路</span>
+    <span class="s2">&quot;max_vio_buffer&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>                                 <span class="c1"># 上层使用的最大video source buffer个数</span>
+    <span class="s2">&quot;is_msg_package&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                                 <span class="c1"># 是否同步，1为多路同步图像到一个message，0为异步推送vio message</span>
+    <span class="s2">&quot;mono&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                                   <span class="c1"># 用户指定通道号，用于区分不同的视频源</span>
+      <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="s2">&quot;configs/video_source/x3dev/mipi_cam/x3_mipi_cam_os8a10_2160p_chn0.json&quot;</span> <span class="c1"># video source配置文件</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;dual&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+      <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;configs/video_source/x3dev/mipi_cam/x3_mipi_cam_os8a10_2160p_chn1.json&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;configs/video_source/x3dev/mipi_cam/x3_mipi_cam_f37_1080p_chn1.json&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;config_1&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;produce_name&quot;</span><span class="p">:</span> <span class="s2">&quot;panel_camera&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;mono&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;max_vio_buffer&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;is_msg_package&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;mono&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="s2">&quot;configs/video_source/x3dev/mipi_cam/x3_mipi_cam_f37_1080p_chn0.json&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;dual&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+      <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;configs/video_source/x3dev/mipi_cam/x3_mipi_cam_f37_1080p_chn0.json&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;configs/video_source/x3dev/mipi_cam/x3_mipi_cam_f37_1080p_chn1.json&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mipi-camera-j3">
+<h4>4.1.1.2 插件形式的mipi camera场景配置(j3平台)<a class="headerlink" href="#mipi-camera-j3" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;config_index&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>                                          <span class="c1"># 选择confg_0还是config_1</span>
+  <span class="s2">&quot;board_name&quot;</span><span class="p">:</span> <span class="s2">&quot;j3dev&quot;</span><span class="p">,</span>                                      <span class="c1"># x3开发平台</span>
+  <span class="s2">&quot;config_0&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;produce_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mipi_camera&quot;</span><span class="p">,</span>                            <span class="c1"># mipi camera场景对象</span>
+    <span class="s2">&quot;data_source_num&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>                                     <span class="c1"># 选择使用几路，需要和下面的channel_id数组的个数对齐</span>
+    <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>                                        <span class="c1"># 使用第0路mipi camera</span>
+    <span class="s2">&quot;max_vio_buffer&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>                                      <span class="c1"># 上层使用的最大video source buffer个数，用于最多存放3个vio message，一般在3~5之间控制，默认是3</span>
+    <span class="s2">&quot;is_msg_package&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                                      <span class="c1"># 用于多路中message是否同步发送</span>
+    <span class="s2">&quot;max_ts_compare&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                                      <span class="c1"># 当该值大于0时，用于多路时间戳同步，如果两路之间时间戳差小于max_ts_compare值，则认为是同一帧</span>
+    <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="s2">&quot;configs/video_source/j3dev/j3_mipi_cam_f37_raw10_1080p_offline_1pipe.json&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;config_1&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;produce_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mipi_camera&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data_source_num&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;max_vio_buffer&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;is_msg_package&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;max_ts_compare&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="s2">&quot;configs/video_source/j3dev/j3_mipi_cam_ov10635_yuv_720p_offline_960_4pipes.json&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;config_2&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;produce_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mipi_camera&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data_source_num&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>                                     <span class="c1"># 最大输出能力是4路，可修改为1~4之间任意数字</span>
+    <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>                               <span class="c1"># 指定输出4路之间的任意1路或者4路输出，例如改成[1，2], 则只输出第1路和第2路，同时上面的data_source_num改成2</span>
+    <span class="s2">&quot;max_vio_buffer&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;is_msg_package&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;max_ts_compare&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="s2">&quot;configs/video_source/j3dev/j3_mipi_cam_ov10635_yuv_720p_offline_960_4pipes.json&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;config_3&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;produce_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mipi_camera&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data_source_num&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;max_vio_buffer&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;is_msg_package&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;max_ts_compare&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="s2">&quot;configs/video_source/j3dev/j3_mipi_cam_ar0233_raw12_pwl_2048x1280_offline_5pipes.json&quot;</span>
+  <span class="p">},</span>
+<span class="s2">&quot;config_4&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;produce_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mipi_camera&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data_source_num&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;channel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="s2">&quot;max_vio_buffer&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;is_msg_package&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;is_msg_order&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;max_ts_compare&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;video_source_file&quot;</span><span class="p">:</span> <span class="s2">&quot;configs/video_source/j3dev/j3_mipi_cam_ar0233_raw12_pwl_2048x1280_offline_5pipes.json&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="video-source">
+<h3>4.1.2 video source组件形式的入口配置<a class="headerlink" href="#video-source" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="video-source-x3">
+<h4>4.1.2.1 video source组件形式的入口配置(x3平台)<a class="headerlink" href="#video-source-x3" title="Permalink to this headline">¶</a></h4>
+<p>例如x3dev/mipi_cam/x3_mipi_cam_os8a10_2160p_chn0.json</p>
+<p>主要包括VIN和VPS两大模块的配置</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+  &quot;data_source&quot;: &quot;mipi_cam&quot;,               # 支持mipi_cam、usb_cam、feedback、rtsp四种基础功能
+  &quot;channel_id&quot;: 0,                         # 用户自定义使用的通道号，用于区分不同的sensor
+  &quot;vin_out_en&quot;: 0,                         # 支持vin输出的能力，默认关闭输出。如果使能，可以直接利用SDK的接口获取vin输出的nv12图片
+  &quot;vps_en&quot;: 1,                             # vps模块是否使能，包括图像裁剪、金字塔生成，默认使能。如果关闭，vps模块则不会运行。
+  &quot;config_file&quot;: {
+    &quot;vin_config_file&quot;: &quot;configs/video_source/x3dev/mipi_cam/vin/x3_vin_os8a10_2160p_chn0.json&quot;,   # vin模块的配置文件
+    &quot;vps_config_file&quot;: &quot;configs/video_source/x3dev/mipi_cam/vps/x3_vps_os8a10_2160p.json&quot;         # vps模块的配置文件
+  }
+}
+</pre></div>
+</div>
+<p>a) VIN配置如下，以os8a10为例</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+  &quot;bind_chn_id&quot;: -1,                               # -1表示该vin模块的来源是当前自己的camera输出的数据，如果是非负数，则表示来源是其他vin模块的输出数据
+  &quot;vin_vps_mode&quot;: 1,                               # vin vps模块的连接方式
+  &quot;sensor&quot;: {
+    &quot;sensor_id&quot;: 5,                                # sensor的枚举号
+    &quot;sensor_plugin_en&quot;: 0,                         # 是否是插件形式导入sensor参数配置，默认关闭状态
+    &quot;sensor_plugin_path&quot;: &quot;./lib/&quot;,                # sensor插件库的存放目录
+    &quot;sensor_plugin_name&quot;: &quot;os8a10_plugin&quot;,         # sensor插件库的名称
+    &quot;sensor_plugin_type&quot;: &quot;linear&quot;,                # sensor插件库的类型，支持linear、dol2、dol3模块，根据sensor的配置来决定
+    &quot;sensor_port&quot;: 0,                              # sensor端口配置，默认为0
+    &quot;i2c_bus&quot;: 2,                                  # i2c总线，根据具体的硬件配置
+    &quot;need_clk&quot;: 1,                                 # 是否使用x3输出的clk供給sensor子板
+    &quot;serdes_index&quot;: 0,                             # 使用FPD-Link线束的解串形式的sensor的索引号
+    &quot;serdes_port&quot;: 0,                              # 解串的端口号
+    &quot;extra_mode&quot;: 0                                # 扩展模式，默认为0为正常模式。如果extra_mode为1，需要与bind_chn_id参数配合使用，用于输入数据来源于其他的sensor
+  },
+  &quot;mipi&quot;: {
+    &quot;host_index&quot;: 1,                               # mipi host索引号
+    &quot;vc_index&quot;: 0,                                 # 虚拟通道索引号
+    &quot;dol2_vc_index&quot;: 1                             # dol2的虚拟通道起始索引号
+  },
+  &quot;sif&quot;: {
+    &quot;need_md&quot;: 0,                                  # 是否启用sif功能的motion detect，默认关闭
+    &quot;sif_out_buf_num&quot;: 8                           # sif-&gt;ddr的输出buffer个数配置
+  },
+  &quot;isp&quot;: {
+    &quot;temper_mode&quot;: 2,                              # 3d降噪模式等级，设置为0或者1是不使能，设置2和3分别是temper2和temper3等级，默认是temper2等级
+    &quot;isp_3a_en&quot;: 1,                                # isp 3a功能的使能，1为打开，0为关闭，默认打开
+    &quot;isp_out_buf_num&quot;: 5                           # isp-&gt;ddr的输出buffer个数配置
+  },
+  &quot;dwe&quot;: {
+    &quot;ldc&quot;: {
+      &quot;ldc_en&quot;: 0                                  # ldc模块是否使能，默认关闭
+    },
+    &quot;dis&quot;: {
+      &quot;dis_en&quot;: 0                                  # dis模块是否使能，默认关闭
+    }
+  }
+}
+</pre></div>
+</div>
+<p>补充：vin_vps_mode的说明</p>
+<p>| 索引 | 模式| 数据流 |
+| ——–| —— | —— |
+| M0 | VIN_ONLINE_VPS_ONLINE  | sif-&gt;online-&gt;isp→online→ipu |
+| M1 | VIN_ONLINE_VPS_OFFLINE | sif-&gt;online-&gt;isp-&gt;offline-&gt;ipu |
+| M2 | VIN_OFFLINE_VPS_ONLINE | sif-&gt;offline-&gt;isp-&gt;online-&gt;ipu |
+| M3 | VIN_OFFLINE_VPS_OFFINE | sif-&gt;offline-&gt;isp-&gt;offline-&gt;ipu |
+| M4 | VIN_SIF_VPS_ONLINE |sif-&gt;online-&gt;ipu |
+| M5 | VIN_SIF_OFFLINE_ISP_OFFLINE_VPS_ONLINE | sif-&gt;offline-&gt;isp-&gt;online→ipu  同时isp→ddr 可dump isp yuv图 |
+| M6 | VIN_SIF_ONLINE_DDR_ISP_DDR_VPS_ONLINE | sif-&gt;online-&gt;isp-&gt;offline→ipu 同时sif→ddr 可dump raw图 |
+| M7 | VIN_SIF_ONLINE_DDR_ISP_ONLINE_VPS_ONLINE | sif-&gt;online-&gt;isp-&gt;online→ipu   同时sif→ddr 可dump raw图 |
+| M8 | VIN_FEEDBACK_ISP_ONLINE_VPS_ONLINE | ddrin-&gt;isp-&gt;online→ipu   同时isp→ddr 可dump isp yuv图 |
+| M9 | VIN_SIF_OFFLINE_VPS_OFFLINE | sif-&gt;offline→ipu  多路yuv场景使用, isp disable |
+| M10 | VIN_SIF_OFFLINE | sif→ddr, isp enable |</p>
+<p>b) VPS配置如下，以os8a10为例</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+  &quot;debug&quot;: {
+    &quot;vps_dump_num&quot;: 0,                             # 是否开启vps图像dump的功能，0为不dump，大于0则是dump多少帧图像，5为5帧图像
+    &quot;vps_layer_dump&quot;: 4                            # dump金字塔哪一层图像，4为第4层，20为第20层，24则dump所有层使能的金字塔图像
+  },
+  &quot;input&quot;: {
+    &quot;width&quot;: 3840,                                 # vps输入的图像分辨率，如果使能了vin模块，则应该与vin模块的输出分辨率一致
+    &quot;height&quot;: 2160
+  },
+  &quot;gdc&quot;: {
+    &quot;gdc0&quot;: {
+      &quot;enable&quot;: 1,                                 # 使能gdc0模块
+      &quot;gdc_type&quot;: 1,                               # gdc的类型，0为非法模式，1为isp-&gt;ddr-&gt;gdc，2为ipu_chn-&gt;ddr-&gt;gdc，3为pym-&gt;ddr-&gt;gdc
+      &quot;frame_depth&quot;: 2,                            # gdc的输入buffer个数，即vps组的个数
+      &quot;rotate&quot;: 0,                                 # gdc旋转，0为不旋转，1为90度旋转，2为180度旋转，3为270度旋转
+      &quot;path&quot;: &quot;/app/bin/hapi_xj3/os8a10.bin&quot;,      # gdc文件的路径
+      &quot;bind_ipu_chn&quot;: -1                           # 如果gdc_type为2，则这里表示绑定到ipu的哪个通道,-1表示不绑定到ipu通道
+    },
+    &quot;gdc1&quot;: {
+      &quot;enable&quot;: 0,                                 # gdc1模块，功能与gdc0一样
+      &quot;gdc_type&quot;: 2,
+      &quot;frame_depth&quot;: 2,
+      &quot;rotate&quot;: 0,
+      &quot;path&quot;: &quot;&quot;,
+      &quot;bind_ipu_chn&quot;: -1
+    }
+  },
+  &quot;ipu&quot;: {
+    &quot;chn0&quot;: {
+      &quot;ipu_chn_en&quot;: 0,                             # 使能ipu通道，图像仅经过ipu硬件
+      &quot;pym_chn_en&quot;: 0,                             # 使能pym通道，图像经过金字塔模块
+      &quot;roi_en&quot;: 0,                                 # roi裁剪功能是否使能，ipu通道使能才有效
+      &quot;roi_x&quot;: 0,                                  # roi裁剪的左上角x坐标，ipu通道使能才有效
+      &quot;roi_y&quot;: 0,                                  # roi裁剪的左上角y坐标，ipu通道使能才有效
+      &quot;roi_w&quot;: 3840,                               # roi裁剪的左上角roi宽度，ipu通道使能才有效
+      &quot;roi_h&quot;: 2160,                               # roi裁剪的左上角roi高度，ipu通道使能才有效
+      &quot;scale_w&quot;: 3840,                             # ipu输出的图像缩放宽度，ipu通道使能才有效
+      &quot;scale_h&quot;: 2160,                             # ipu输出的图像缩放高度，ipu通道使能才有效
+      &quot;frame_depth&quot;: 8,                            # ipu-&gt;ddr的buffer个数，ipu通道使能才有效
+      &quot;timeout&quot;: 2000                              # 获取ipu输出图像的超时时间
+    },
+    &quot;chn1&quot;: {
+      &quot;ipu_chn_en&quot;: 0,
+      &quot;pym_chn_en&quot;: 0,
+      &quot;roi_en&quot;: 0,
+      &quot;roi_x&quot;: 0,
+      &quot;roi_y&quot;: 0,
+      &quot;roi_w&quot;: 3840,
+      &quot;roi_h&quot;: 2160,
+      &quot;scale_w&quot;: 3840,
+      &quot;scale_h&quot;: 2160,
+      &quot;frame_depth&quot;: 8,
+      &quot;timeout&quot;: 2000
+    },
+    &quot;chn2&quot;: {
+      &quot;ipu_chn_en&quot;: 0,
+      &quot;pym_chn_en&quot;: 0,
+      &quot;roi_en&quot;: 0,
+      &quot;roi_x&quot;: 0,
+      &quot;roi_y&quot;: 0,
+      &quot;roi_w&quot;: 3840,
+      &quot;roi_h&quot;: 2160,
+      &quot;scale_w&quot;: 3840,
+      &quot;scale_h&quot;: 2160,
+      &quot;frame_depth&quot;: 8,
+      &quot;timeout&quot;: 2000
+    },
+    &quot;chn3&quot;: {
+      &quot;ipu_chn_en&quot;: 0,
+      &quot;pym_chn_en&quot;: 0,
+      &quot;roi_en&quot;: 0,
+      &quot;roi_x&quot;: 0,
+      &quot;roi_y&quot;: 0,
+      &quot;roi_w&quot;: 3840,
+      &quot;roi_h&quot;: 2160,
+      &quot;scale_w&quot;: 3840,
+      &quot;scale_h&quot;: 2160,
+      &quot;frame_depth&quot;: 8,
+      &quot;timeout&quot;: 2000
+    },
+    &quot;chn4&quot;: {
+      &quot;ipu_chn_en&quot;: 0,
+      &quot;pym_chn_en&quot;: 0,
+      &quot;roi_en&quot;: 0,
+      &quot;roi_x&quot;: 0,
+      &quot;roi_y&quot;: 0,
+      &quot;roi_w&quot;: 3840,
+      &quot;roi_h&quot;: 2160,
+      &quot;scale_w&quot;: 3840,
+      &quot;scale_h&quot;: 2160,
+      &quot;frame_depth&quot;: 8,
+      &quot;timeout&quot;: 2000
+    },
+    &quot;chn5&quot;: {
+      &quot;ipu_chn_en&quot;: 0,
+      &quot;pym_chn_en&quot;: 0,
+      &quot;roi_en&quot;: 0,
+      &quot;roi_x&quot;: 0,
+      &quot;roi_y&quot;: 0,
+      &quot;roi_w&quot;: 3840,
+      &quot;roi_h&quot;: 2160,
+      &quot;scale_w&quot;: 3840,
+      &quot;scale_h&quot;: 2160,
+      &quot;frame_depth&quot;: 8,
+      &quot;timeout&quot;: 2000
+    },
+    &quot;chn6&quot;: {
+      &quot;ipu_chn_en&quot;: 1,
+      &quot;pym_chn_en&quot;: 1,
+      &quot;roi_en&quot;: 0,
+      &quot;roi_x&quot;: 0,
+      &quot;roi_y&quot;: 0,
+      &quot;roi_w&quot;: 3840,
+      &quot;roi_h&quot;: 2160,
+      &quot;scale_w&quot;: 3840,
+      &quot;scale_h&quot;: 2160,
+      &quot;frame_depth&quot;: 8,
+      &quot;timeout&quot;: 2000
+    }
+  },
+  &quot;pym&quot;: {
+    &quot;pym_ctrl_config&quot;: {
+      &quot;frame_id&quot;: 1,                                 # frame_id起始帧号
+      &quot;ds_layer_en&quot;: 23,                             # 金字塔down scale的使能金字塔层数，23则为0~23层全部使能，5为0~5层使能，有效取值为4~23
+      &quot;ds_uv_bypass&quot;: 0,                             # 金字塔down scale uv分量bypass，默认为0则说明使用uv分量(金字塔层使能的情况下才有效)
+      &quot;us_layer_en&quot;: 0,                              # 金字塔up scale金字塔层是否使能，默认为0关闭
+      &quot;us_uv_bypass&quot;: 0,                             # 金字塔up scale uv分量bypass，默认为0则说明使用uv分量(金字塔层使能的情况下才有效)
+      &quot;frame_depth&quot;: 5,                              # pym-&gt;ddr的buffer个数
+      &quot;timeout&quot;: 2000                                # 获取金字塔帧的超时时间
+    },
+    &quot;pym_ds_config&quot;: {
+      &quot;roi_x_1&quot;: 0,                                  # roi 区域相对于对应基本层左顶点坐标,需为偶数
+      &quot;roi_y_1&quot;: 0,                                  # roi 区域相对于对应基本层左顶点坐标，需为偶数
+      &quot;roi_w_1&quot;: 0,                                  # roi 区域大小,不能超过基本层大小，需为偶数
+      &quot;roi_h_1&quot;: 0,                                  # roi 区域大小,不能超过基本层大小，需为偶数
+      &quot;factor_1&quot;: 0,                                 # roi 缩放系数 64/(64 + factor),factor 为0时，表示disable 该层缩放，factor 取值范围 0~63
+      &quot;roi_x_2&quot;: 0,
+      &quot;roi_y_2&quot;: 0,
+      &quot;roi_w_2&quot;: 0,
+      &quot;roi_h_2&quot;: 0,
+      &quot;factor_2&quot;: 0,
+      &quot;roi_x_3&quot;: 0,
+      &quot;roi_y_3&quot;: 0,
+      &quot;roi_w_3&quot;: 0,
+      &quot;roi_h_3&quot;: 0,
+      &quot;factor_3&quot;: 0,
+      &quot;roi_x_5&quot;: 0,
+      &quot;roi_y_5&quot;: 0,
+      &quot;roi_w_5&quot;: 1920,
+      &quot;roi_h_5&quot;: 1080,
+      &quot;factor_5&quot;: 32,
+      &quot;roi_x_6&quot;: 0,
+      &quot;roi_y_6&quot;: 0,
+      &quot;roi_w_6&quot;: 0,
+      &quot;roi_h_6&quot;: 0,
+      &quot;factor_6&quot;: 0,
+      &quot;roi_x_7&quot;: 0,
+      &quot;roi_y_7&quot;: 0,
+      &quot;roi_w_7&quot;: 0,
+      &quot;roi_h_7&quot;: 0,
+      &quot;factor_7&quot;: 0,
+      &quot;roi_x_9&quot;: 0,
+      &quot;roi_y_9&quot;: 0,
+      &quot;roi_w_9&quot;: 960,
+      &quot;roi_h_9&quot;: 540,
+      &quot;factor_9&quot;: 32,
+      &quot;roi_x_10&quot;: 0,
+      &quot;roi_y_10&quot;: 0,
+      &quot;roi_w_10&quot;: 0,
+      &quot;roi_h_10&quot;: 0,
+      &quot;factor_10&quot;: 0,
+      &quot;roi_x_11&quot;: 0,
+      &quot;roi_y_11&quot;: 0,
+      &quot;roi_w_11&quot;: 0,
+      &quot;roi_h_11&quot;: 0,
+      &quot;factor_11&quot;: 0,
+      &quot;roi_x_13&quot;: 0,
+      &quot;roi_y_13&quot;: 0,
+      &quot;roi_w_13&quot;: 0,
+      &quot;roi_h_13&quot;: 0,
+      &quot;factor_13&quot;: 0,
+      &quot;roi_x_14&quot;: 0,
+      &quot;roi_y_14&quot;: 0,
+      &quot;roi_w_14&quot;: 0,
+      &quot;roi_h_14&quot;: 0,
+      &quot;factor_14&quot;: 0,
+      &quot;roi_x_15&quot;: 0,
+      &quot;roi_y_15&quot;: 0,
+      &quot;roi_w_15&quot;: 0,
+      &quot;roi_h_15&quot;: 0,
+      &quot;factor_15&quot;: 0,
+      &quot;roi_x_17&quot;: 0,
+      &quot;roi_y_17&quot;: 0,
+      &quot;roi_w_17&quot;: 0,
+      &quot;roi_h_17&quot;: 0,
+      &quot;factor_17&quot;: 0,
+      &quot;roi_x_18&quot;: 0,
+      &quot;roi_y_18&quot;: 0,
+      &quot;roi_w_18&quot;: 0,
+      &quot;roi_h_18&quot;: 0,
+      &quot;factor_18&quot;: 0,
+      &quot;roi_x_19&quot;: 0,
+      &quot;roi_y_19&quot;: 0,
+      &quot;roi_w_19&quot;: 0,
+      &quot;roi_h_19&quot;: 0,
+      &quot;factor_19&quot;: 0,
+      &quot;roi_x_21&quot;: 0,
+      &quot;roi_y_21&quot;: 0,
+      &quot;roi_w_21&quot;: 0,
+      &quot;roi_h_21&quot;: 0,
+      &quot;factor_21&quot;: 0,
+      &quot;roi_x_22&quot;: 0,
+      &quot;roi_y_22&quot;: 0,
+      &quot;roi_w_22&quot;: 0,
+      &quot;roi_h_22&quot;: 0,
+      &quot;factor_22&quot;: 0,
+      &quot;roi_x_23&quot;: 0,
+      &quot;roi_y_23&quot;: 0,
+      &quot;roi_w_23&quot;: 0,
+      &quot;roi_h_23&quot;: 0,
+      &quot;factor_23&quot;: 0
+    },
+    &quot;pym_us_config&quot;: {
+      &quot;roi_x_0&quot;: 0,
+      &quot;roi_y_0&quot;: 0,
+      &quot;roi_w_0&quot;: 0,
+      &quot;roi_h_0&quot;: 0,
+      &quot;factor_0&quot;: 0,
+      &quot;roi_x_1&quot;: 0,
+      &quot;roi_y_1&quot;: 0,
+      &quot;roi_w_1&quot;: 0,
+      &quot;roi_h_1&quot;: 0,
+      &quot;factor_1&quot;: 0,
+      &quot;roi_x_2&quot;: 0,
+      &quot;roi_y_2&quot;: 0,
+      &quot;roi_w_2&quot;: 0,
+      &quot;roi_h_2&quot;: 0,
+      &quot;factor_2&quot;: 0,
+      &quot;roi_x_3&quot;: 0,
+      &quot;roi_y_3&quot;: 0,
+      &quot;roi_w_3&quot;: 0,
+      &quot;roi_h_3&quot;: 0,
+      &quot;factor_3&quot;: 0,
+      &quot;roi_x_4&quot;: 0,
+      &quot;roi_y_4&quot;: 0,
+      &quot;roi_w_4&quot;: 0,
+      &quot;roi_h_4&quot;: 0,
+      &quot;factor_4&quot;: 0,
+      &quot;roi_x_5&quot;: 0,
+      &quot;roi_y_5&quot;: 0,
+      &quot;roi_w_5&quot;: 0,
+      &quot;roi_h_5&quot;: 0,
+      &quot;factor_5&quot;: 0
+    }
+  }
+}
+</pre></div>
+</div>
+<p>补充：ipu通道尺寸的说明</p>
+<p>| 通道号 | 功能 | 最大FIFO(bytes) | 分辨率(pixel) |
+| ——–| —— | —— | —— |
+| CHN0 | 缩小| 1280 | 1M |
+| CHN1 | 缩小| 2048 | 2M |
+| CHN2 | 缩小| 4096 | 8M |
+| CHN3 | 缩小| 2048 | 2M |
+| CHN4 | 缩小| 1280 | 1M |
+| CHN5 | 放大| 4096 | 8M |
+| CHN6 | 缩小| 4096 | 8M |</p>
+</div>
+<div class="section" id="video-source-j3">
+<h4>4.1.2.2 video source组件形式的入口配置(j3平台)<a class="headerlink" href="#video-source-j3" title="Permalink to this headline">¶</a></h4>
+<p>例如j3_mipi_cam_ar0233_raw12_pwl_2048x1280_offline_5pipes.json</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+  &quot;platform_type&quot;: &quot;j3&quot;,            # 使用j3平台，如果没有这行，内部默认是x3平台
+  &quot;data_source&quot;: &quot;mipi_cam&quot;,        # mipi camera视频源
+  &quot;vin_config&quot;: {
+    &quot;mipi_cam&quot;: {
+      &quot;cam_index&quot;: 3,               # 下面cam_cfg_file配置列表文件中选用第3个配置
+      &quot;cam_cfg_file&quot;: &quot;configs/video_source/j3dev/vin/mipi_cam/hb_xj3dev_user.json&quot;     # camera的配置列表
+    }
+  },
+  &quot;vps_config&quot;: {
+     &quot;vio_cfg_file&quot;: &quot;configs/video_source/j3dev/vps/ar0233_raw12_pwl_2048x1280_offline_5pipes.json&quot;,   # vio配置文件列表
+     &quot;gdc_en&quot;: [0, 0, 0, 0, 0],                        # 对应上面5路每一路的gdc使能
+     &quot;bind_source_chn&quot;: [-1, 0, -1, -1, -1],           # 对应每一路绑定到其他路，-1表示不绑定到其他源。例如这个例子中的0表示第1路绑定到第0路上
+     &quot;ipu_chn&quot;: [1, 2, -1, -1, -1]                     # 对应上面5路每一路ipu使用哪个通道，值为-1则无需指定，内部会根据vio配置自动解析
+  }
+}
+</pre></div>
+</div>
+<p>a) VIN配置(j3平台mipi camera)</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+    &quot;config_number&quot;:4,
+    &quot;board_name&quot;:&quot;x3dev&quot;,
+    &quot;config_0&quot;:{
+        &quot;interface_type&quot;: &quot;mipi&quot;,                      # 数据接口类型，目前使用的都是mipi
+        &quot;deserial_num&quot;:1,                              # 解串器数量,实际代表子板数量，这里是1个960子板接4路
+        &quot;deserial_0&quot;:{                                 # 如果是2个解串器，会有deserial_1的参数信息
+            &quot;deserial_name&quot;:&quot;s960&quot;,                    # 解串器的名字，954、960等
+            &quot;deserial_addr&quot;:&quot;0x30&quot;,                    # 解串器的地址
+            &quot;bus_type&quot;:0,                              # 当前解串器所在总线类型,0为I2C
+            &quot;bus_num&quot;: 1,                              # I2C总线号
+            &quot;power_mode&quot;:0                             # 上电是否可控，有的板子不需要上电，有的板子需要操作GPIO上电或者复位
+        },
+        &quot;port_number&quot;: 4,                              # 表示几路sensor
+        &quot;port_0&quot;:{
+            &quot;dev_port&quot;:0,                              # 具体表示port0这一路
+            &quot;bus_type&quot;:0,                              # 0: I2C， 1: SPI
+            &quot;bus_num&quot;: 1,                              # I2C总线号
+            &quot;entry_num&quot;: 0,                            # 对应mipi host rx号
+            &quot;serial_addr&quot;:&quot;0x1c&quot;,                      # 加串器地址
+            &quot;sensor_addr&quot;:&quot;0x40&quot;,                      # sensor地址
+            &quot;sensor_name&quot;:&quot;ov10635&quot;,                   # sensor名字
+            &quot;sensor_mode&quot;: 1,                          # sensor模式，NORMAL_MODE = 1,  DOL2_MODE=2, DOL3_MODE=3,   DOL4_MODE=4,  PWL_MODE = 5
+            &quot;reg_width&quot;:16,                            # sensor的寄存器宽度
+            &quot;fps&quot;:30,                                  # sensor输出帧率
+            &quot;resolution&quot;:720,                          # sensor输出分辨率
+            &quot;deserial_index&quot;:0,                        # 解串器索引号，即第几个解串器
+            &quot;deserial_port&quot;:0,                         # 解串器端口号，与port号对应
+            &quot;config_path&quot;:&quot;/etc/cam/hb_mipi_ov10635_%dfps_%dP.json&quot;  # mipi配置文件
+        },
+        &quot;port_1&quot;:{
+            &quot;dev_port&quot;:1,
+            &quot;bus_type&quot;:0,
+            &quot;bus_num&quot;: 1,
+            &quot;entry_num&quot;: 0,
+            &quot;serial_addr&quot;:&quot;0x1d&quot;,
+            &quot;sensor_addr&quot;:&quot;0x41&quot;,
+            &quot;sensor_name&quot;:&quot;ov10635&quot;,
+            &quot;sensor_mode&quot;: 1,
+            &quot;reg_width&quot;:16,
+            &quot;fps&quot;:30,
+            &quot;resolution&quot;:720,
+            &quot;deserial_index&quot;:0,
+            &quot;deserial_port&quot;:1,
+            &quot;config_path&quot;:&quot;/etc/cam/hb_mipi_ov10635_%dfps_%dP.json&quot;
+        },
+        &quot;port_2&quot;:{
+            &quot;dev_port&quot;:2,
+            &quot;bus_type&quot;:0,
+            &quot;bus_num&quot;: 1,
+            &quot;entry_num&quot;: 0,
+            &quot;serial_addr&quot;:&quot;0x1e&quot;,
+            &quot;sensor_addr&quot;:&quot;0x42&quot;,
+            &quot;sensor_name&quot;:&quot;ov10635&quot;,
+            &quot;sensor_mode&quot;: 1,
+            &quot;reg_width&quot;:16,
+            &quot;fps&quot;:30,
+            &quot;resolution&quot;:720,
+            &quot;deserial_index&quot;:0,
+            &quot;deserial_port&quot;:2,
+            &quot;config_path&quot;:&quot;/etc/cam/hb_mipi_ov10635_%dfps_%dP.json&quot;
+        },
+        &quot;port_3&quot;:{
+            &quot;dev_port&quot;:3,
+            &quot;bus_type&quot;:0,
+            &quot;bus_num&quot;: 1,
+            &quot;entry_num&quot;: 0,
+            &quot;serial_addr&quot;:&quot;0x1f&quot;,
+            &quot;sensor_addr&quot;:&quot;0x43&quot;,
+            &quot;sensor_name&quot;:&quot;ov10635&quot;,
+            &quot;sensor_mode&quot;: 1,
+            &quot;reg_width&quot;:16,
+            &quot;fps&quot;:30,
+            &quot;resolution&quot;:720,
+            &quot;deserial_index&quot;:0,
+            &quot;deserial_port&quot;:3,
+            &quot;config_path&quot;:&quot;/etc/cam/hb_mipi_ov10635_%dfps_%dP.json&quot;
+        },
+    },
+    &quot;config_1&quot;:{
+       .....
+    }
+}
+</pre></div>
+</div>
+<p>b) VPS配置(j3平台vio)</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+  &quot;pipeline0&quot;:{
+    &quot;sif&quot;: {
+      &quot;input&quot;: {
+        &quot;dvp&quot;: {
+          &quot;enable&quot;: 0,
+          &quot;hsync_inv&quot;: 0,
+          &quot;vsync_inv&quot;: 1,
+          &quot;width&quot;: 1280,
+          &quot;height&quot;: 720,
+          &quot;format&quot;: 0,
+          &quot;pix_length&quot;: 2,
+          &quot;enable_mux_out&quot;: 1,
+          &quot;enable_frame_id&quot;: 1,
+          &quot;enable_pattern&quot;: 0,
+          &quot;set_init_frame_id&quot;: 100,
+          &quot;set_mux_out_index&quot;: 0
+        },
+        &quot;mipi&quot;: {
+          &quot;enable&quot;: 1,                   # 使能mipi输入
+          &quot;ipi_channels&quot;: 1,             # 标识使用的内部ipi通道数目
+          &quot;mipi_rx_index&quot;: 0,            # 标识接入的mipi模块号
+          &quot;width&quot;: 1952,                 # mipi 接入width匹配 sensor格式
+          &quot;height&quot;: 1097,                # mipi 接入height匹配 sensor格式
+          &quot;format&quot;: 0,                   # 0 raw， 8 yuv422(只支持8 or 10 bit)
+          &quot;pix_length&quot;: 2,               # PIX_LEN_8 = 0, PIX_LEN_10 = 1,PIX_LEN_12 = 2,PIX_LEN_14 = 3,PIX_LEN_16 = 4
+          &quot;enable_mux_out&quot;: 1,           # sif 内部mux通道使能，需开启
+          &quot;enable_pattern&quot;: 0,           # 测试使用，是否开启sif内部的testpattern 测试数据，有sensor接入时不需要使能
+          &quot;enable_frame_id&quot;: 1,          # 设置frame_id从1开始累计
+          &quot;enable_bypass&quot;: 0,            # 使能bypass mipi host
+          &quot;enable_line_shift&quot;: 0,        # 使能sensor line shift dol, 普通不需要配置
+          &quot;enable_id_decoder&quot;: 0,        # 使能sensor id decoder dol，普通不需要配置
+          &quot;set_init_frame_id&quot;: 1,        # 使能frame id计数，默认建议1起始
+          &quot;set_line_shift_count&quot;: 0,     # sensor line shift模式下对应的设置，普通不需要
+          &quot;set_bypass_channels&quot;: 1,      # 设置mipi tx bypass通道
+          &quot;set_mux_out_index&quot;: 0         # 该数据通路使用的内部mux号
+        },
+        &quot;ddr_to_isp&quot;: {
+          &quot;ddr_in_enable&quot;: 0,            # 使能从ddr送给isp处理， 0: sif-oline-isp  1：sif-offline-isp
+          &quot;ddr_in_width&quot;: 1952,          # ddr in到isp的数据宽度
+          &quot;ddr_in_height&quot;: 1097,         # ddr in到isp的数据高度
+          &quot;ddr_in_format&quot;: 0,            # 目前固定raw格式，不需改动
+          &quot;ddr_in_pix_length&quot;: 2,        # raw的pix格式，同上
+          &quot;ddr_in_buf_num&quot;: 4,           # 回灌ddr in的数据buf数目，正常情况不需要配置
+          &quot;ddr_raw_feedback_debug&quot;: 0    # 使能raw回灌，不与正常sensor数据以及raw dump同时工作，hb_vio_raw_feedback可使用
+        }
+      },
+      &quot;output&quot;: {
+          &quot;ddr&quot;: {
+            &quot;ddr_output_enable&quot; : 0,     # sif ddr输出使能
+            &quot;stride&quot; :  2928,            # 输出到ddr的stride的大小，raw12计算为1952*1.5
+            &quot;ddr_output_buf_num&quot;: 8,     # 输出到内存的buf数目，一般建议6或以上
+            &quot;mux_out_enable_index&quot;: 0,   # 该数据通路使用的内部mux号，对应mipi设置
+            &quot;ddr_raw_dump_debug&quot;: 0      # 使能raw dump，可使用hb_vio_raw_dump进行dump，不与raw回灌同时使用
+          },
+          &quot;isp&quot;: {
+            &quot;isp_enable&quot;: 1,             # 使能ISP，一般的raw格式不管都需要使能，YUV sensor 场景下可以不使能
+            &quot;enable_flyby&quot;: 1,           # 1: sif-online-isp   0: sif-offline-isp，多路场景下需要通过ddr in进isp进行复用的模式下需要关闭
+            &quot;dol_exp_num&quot;: 1,            # 曝光模式，1 为普通模式，dol 2 或者 3 设置对应数目
+            &quot;enable_dgain &quot;: 0,          # ISP内部调试参数，暂可忽略
+            &quot;short_maxexp_lines&quot;: 0,     # 最短帧的最大曝光行数，一般是sensor mode寄存器表中找，DOL2/3需要填，用来分配IRAM大小
+            &quot;medium_maxexp_lines&quot;: 0,    # 普通帧的最大曝光行数，一般是sensor mode寄存器表中找，DOL3需要填，用来分配IRAM大小
+            &quot;vc_short_seq&quot;:0,            # 用来描述DOL2/3模式下，短帧的顺序
+            &quot;vc_medium_seq&quot;:0,           # 用来描述DOL3模式下，普通帧的顺序
+            &quot;vc_long_seq&quot;:1,             # 用来描述DOL2/3模式下，长帧的顺序
+            &quot;set_dgain_short&quot;: 0,        # ISP内部调试参数，暂可忽略
+            &quot;set_dgain_midium&quot;: 0,       # ISP内部调试参数，暂可忽略
+            &quot;set_dgain_long&quot;: 0          # ISP内部调试参数，暂可忽略
+          },
+          &quot;ipu&quot;: {
+            &quot;enable_flyby&quot; : 0           # 开启后SIF 直连到IPU，只有YUV sensor 可用，并且是单路online的yuv sensor,一般不开启*/
+          },
+          &quot;md&quot;: {
+            &quot;enable&quot;: 0,                 # 模块暂时未开启
+            &quot;path_sel&quot; : 0,              # 0：sif-isp通路；1：sif-ipu通路
+            &quot;roi_top&quot;: 0,                # ROI的y坐标
+            &quot;roi_left&quot;: 0,               # ROI的x坐标
+            &quot;roi_width&quot;: 0,              # ROI的长，必须是step的整数倍
+            &quot;roi_height&quot;: 0,             # ROI的宽， 必须是step的整数倍
+            &quot;grid_step&quot;: 0,              # 对应motion detect的区域中划分的每块的宽和高。为2的整数次幂，有效范围为4~128
+            &quot;grid_tolerance&quot;: 0,         # 每个块前后两帧进行比较的阈值。当前后两帧中相同块进行相减，插值超过这个阈值时，判断为不同
+            &quot;threshold&quot;: 0,              # 动态检测选取的ROI区域中划分的块比较不同的个数超过这个阈值,发出mot_det中断
+            &quot;weight_decay&quot;: 0,
+            # 新的一帧更新ref buffer时不是完全替代上一帧的数据，而是前后两帧加权平均的结果。Mot_det_wgt_decay为当前帧的权重，前一帧的权重为(256-mot_det_wgt_decay)
+            &quot;precision&quot;: 0               # 为进行每个块计算时保留的小数点后的精度的位数，有效范围为1~4.
+          }
+        }
+      },
+    &quot;isp&quot;: {
+         &quot;sensor_mode&quot;: 1,                             # NORMAL_MODE = 1,  DOL2_MODE=2, DOL3_MODE=3,   DOL4_MODE=4,  PWL_MODE = 5(压缩模式),
+         &quot;cfa_pattern&quot;: 0,                             # BAYER_RGGB = 0,  BAYER_GRBG = 1, BAYER_GBRG = 2, BAYER_BGGR = 3, MONOCHROME = 4
+         &quot;bit_width&quot;: 12,                              # 有效值 8  10  12   14  16   20
+        &quot;isp_raw_bypass&quot;: 0,                           # 是否bypass raw 处理，yuv格式流经时开启
+        &quot;test_pattern_enable&quot; : 0,                     # 内部测试数据开启
+        &quot;test_pattern_type&quot;: 0,                        # 内部测试数据类型
+        &quot;out_width&quot;: 1920,                             # ISP输出宽度
+        &quot;out_height&quot;: 1080,                            # ISP输出高度
+        &quot;output_dma_enable&quot;: 0,                        # ISP可以同时onlie 到后一级以及ddr 输出，控制是否写入ddr, (若要dump isp 数据则需要开启)
+        &quot;output_format&quot;: 0,                            # nv12目前固定
+        &quot;output_buf_num&quot;: 8,                           # ddr 输出的buf数目。一般建议6或以上
+       &quot;isp_algo_state&quot;: 1,                            # 是否开启isp 3a算法工作
+      &quot;calib_mode&quot;: 1,                                 # 是否开启sensor矫正数据加载
+      &quot;calib_lname&quot;: &quot;/etc/cam/libimx327_linear.so&quot;,   # 对应使用的校准库
+      &quot;calib_sname&quot;: &quot;/etc/cam/imx327_static.json&quot;,    # 对应使用的校准参数
+      &quot;calib_dname&quot;: &quot;/etc/cam/imx327_dynamic.json&quot;    # 对应使用的校准参数
+    },
+    &quot;dwe&quot;: {
+      &quot;ldc&quot;: {
+        &quot;ldc_enable&quot;: 0,               # 1使能ldc处理， 0 bypass to ipu
+        &quot;y_only&quot;: 0,                   # 0 YCC 420  1 only y , 不修改
+        &quot;uv_mode&quot;: 0,                  # 0 output nv12  1 output nv21
+        &quot;uv_interpolation&quot;: 0,         # 0 插值  1 向左上取点
+        &quot;h_blank_cycle&quot;: 32,           # 给IPU 空开行数，最小32
+        &quot;image_width&quot;: 1919,           # 设置接入宽 -1的size, 目前ISP输出1920, 则这里设置1919
+        &quot;image_height&quot;: 1079,          # 设置接入高 -1的size, 目前ISP输出1080, 则这里设置1079
+        &quot;y_start_addr&quot;: 524288,        # iram 使用地址, 计算缓存
+        &quot;c_start_addr&quot;: 786432,        # iram 使用地址, 计算缓存
+        &quot;line_buf&quot;    : 99,            # 缓存buf line
+        &quot;algo_xpara_a&quot;: 1,             # 参数需要tuning
+        &quot;algo_xpara_b&quot;: 1,             # 参数需要tuning
+        &quot;algo_ypara_a&quot;: 1,             # 参数需要tuning
+        &quot;algo_ypara_b&quot;: 1,             # 参数需要tuning
+        &quot;center_xoffset&quot;: 0,           # 中心处理区域修正x偏移，0则为原图起始点开始
+        &quot;center_yoffset&quot;: 0,           # 中心处理区域修正y偏移，0则为原图起始点开始
+        &quot;x_start&quot;: 0,                  # input 有效区域
+        &quot;x_length&quot;: 1919,              # input 有效区域
+        &quot;y_start&quot;: 0,                  # input 有效区域
+        &quot;y_length&quot;: 1079               # input 有效区域
+      },
+      &quot;dis&quot;: {
+        &quot;dis_enable&quot;: 0,               # 使能dis.0则bypass
+        &quot;dis_path_sel&quot;: 1,             # 0 before ldc， 1 after ldc
+        &quot;image_width&quot;: 1919,           # 设置接入宽 -1 的size, 目前ISP输出1920, 则这里设置1919
+        &quot;image_height&quot;: 1079,          # 设置接入高 -1的size, 目前ISP输出1080, 则这里设置1079
+        &quot;h_ratio&quot;: 65536,              # 缩小比例，16小数 eg. 设置0x20000 表示缩放1/2
+        &quot;v_ratio&quot;: 65536,              # 缩小比例，16小数
+        &quot;x_start&quot;: 0,                  # input crop
+        &quot;x_end&quot;: 1919,                 # input crop
+        &quot;y_start&quot;: 0,                  # input crop
+        &quot;y_end&quot;: 1079                  # input crop
+      }
+    },
+    &quot;ipu&quot;: {
+      &quot;ipu_config&quot;: {
+        &quot;source_sel&quot;: 1,               # 0为sif直连模式(yuv422)，1为ISP硬件直连模式(yuv420)，3为ddr in模式(yuv420sp)
+        &quot;ds2_to_ddr_en&quot;: 0,            # ds2通道支持online到pym同时也可到ddr, 开关控制是否输出到ddr
+        &quot;frame_id&quot;: 1,                 # 设置 frame id初始值，建议从1 开始
+        &quot;us_frame_id_en&quot;: 0,           # 使能frame id计数，目前硬件默认开启
+        &quot;ds_0_frame_id_en&quot;: 0,
+        &quot;ds_1_frame_id_en&quot;: 0,
+        &quot;ds_2_frame_id_en&quot;: 0,
+        &quot;ds_3_frame_id_en&quot;: 0,
+        &quot;ds_4_frame_id_en&quot;: 0,
+        &quot;ddr_in_buf_num&quot; : 0,          # ddr in模式下输入的buf数目
+        &quot;timeout&quot;: 2000,               # 获取数据的超时时间
+         “dq_select_timeout”: 50000    # 内部线程dq IPU/PYM时的select超时时间，单位us，QEMU时需设置此字段，其他情况不用设置
+      },
+      &quot;cfg_size&quot;: {
+        &quot;source_width&quot;: 1920,          # 进入ipu的数据宽度,最大4096
+        &quot;source_height&quot;: 1080,         # 进入ipu的数据高度，最大4096
+        &quot;source_stride_y&quot;: 1920,       # 进入ipu的硬件y读取stride,一般与宽相同
+        &quot;source_stride_uv&quot;: 1920,      # 进入ipu的硬件uv读取stride,一般与宽相同
+ 
+        &quot;ipu_us_config&quot; : {
+          &quot;upscale_roi_en&quot;: 0,         # 使能roi功能，若通道要输出到ddr,roi或scale必须开启一个
+          &quot;us_roi_start_x&quot;: 0,         # roi的x起点坐标，需要为4的倍数，并不能超过输入尺寸宽度
+          &quot;us_roi_start_y&quot;: 0,         # roi的y起点坐标，需要为4的倍数，并不能超过输入尺寸高度
+          &quot;us_roi_width&quot;: 1920,        # roi区域的宽度，需要为4的倍数，并不能超过输入尺寸宽度
+          &quot;us_roi_height&quot;: 1080,       # roi区域的高度，需要为4的倍数，并不能超过输入尺寸高度
+          &quot;upscale_us_en&quot;: 0,          # 使能scale功能
+          &quot;us_tag_width&quot;: 1920,        # 支持水平方向最大1.5倍放大，宽度需为4的倍数，最小32x32，最大4096, 若不使能scale则设置等于roi width */
+          &quot;us_tag_height&quot;: 1080,       # 支持垂直方向最大1.5倍放大, 高度需为偶数，最小32x32，最大4096, 若不使能scale则设置等于roi height */
+          &quot;us_buf_num&quot;: 8              # 通道输出buf的数目
+        },
+# 
+# downscale 最大输入 4096x4096, 最大输出4096x4096
+# 水平方向最大缩小为原尺寸的1/8（大于1/8）
+# 垂直方向最大缩小为原尺寸的1/8（大于1/8）
+# 
+        &quot;ipu_ds_config&quot; : [
+          {
+            &quot;ds0_roi_en&quot;: 1,           # ds roi 使能开关，若通道要输出到ddr,roi或scale必须开启一个
+            &quot;ds0_roi_start_x&quot;: 0,      # roi的x起点坐标，需要为4的倍数，并不能超过输入尺寸宽度
+            &quot;ds0_roi_start_y&quot;: 0,      # roi的y起点坐标，需要为4的倍数，并不能超过输入尺寸高度
+            &quot;ds0_roi_width&quot;: 800,      # roi区域的宽度，需要为4的倍数，并不能超过输入尺寸宽度
+            &quot;ds0_roi_height&quot;: 480,     # roi区域的高度，需要为4的倍数，并不能超过输入尺寸高度
+            &quot;downscale_ds0_en&quot;: 1,     # scale 使能开关
+            &quot;ds0_tag_width&quot;: 800,      # 水平方向最大缩小为原尺寸的1/8（大于1/8）, 最小32x32，最大4096, 若不使能scale则设置等于roi width
+            &quot;ds0_tag_height&quot;: 480,     # 垂直方向最大缩小为原尺寸的1/8（大于1/8）, 最小32x32，最大4096, 若不使能scale则设置等于roi height
+            &quot;ds0_buf_num&quot;: 16          # 通道输出buf数目
+          },
+          {
+            &quot;ds1_roi_en&quot;: 0,
+            &quot;ds1_roi_start_x&quot;: 0,
+            &quot;ds1_roi_start_y&quot;: 0,
+            &quot;ds1_roi_width&quot;: 1280,
+            &quot;ds1_roi_height&quot;: 720,
+            &quot;downscale_ds1_en&quot;: 0,
+            &quot;ds1_tag_width&quot;: 1280,
+            &quot;ds1_tag_height&quot;: 720,
+            &quot;ds1_buf_num&quot;: 8
+          },
+          {
+            &quot;ds2_roi_en&quot;: 0， # 特别说明：ds2 通道可以直连到pym，同时也可以输出到ddr. 当pym 选为直连模式后，ds2的roi 或者 scale 必须开启一个，否则pym 无数据， ds2的ddr 是否输出由上面ds2_to_ddr_en 单独控制
+            &quot;ds2_roi_start_x&quot;: 0,
+            &quot;ds2_roi_start_y&quot;: 0,
+            &quot;ds2_roi_width&quot;: 1280,
+            &quot;ds2_roi_height&quot;: 720,
+            &quot;downscale_ds2_en&quot;: 0,
+            &quot;ds2_tag_width&quot;: 1280,
+            &quot;ds2_tag_height&quot;: 720,
+            &quot;ds2_buf_num&quot;: 8
+          },
+          {
+            &quot;ds3_roi_en&quot;: 0,
+            &quot;ds3_roi_start_x&quot;: 0,
+            &quot;ds3_roi_start_y&quot;: 0,
+            &quot;ds3_roi_width&quot;: 1280,
+            &quot;ds3_roi_height&quot;: 720,
+            &quot;downscale_ds3_en&quot;: 0,
+            &quot;ds3_tag_width&quot;: 1280,
+            &quot;ds3_tag_height&quot;: 720,
+            &quot;ds3_buf_num&quot;: 8
+          },
+          {
+            &quot;ds4_roi_en&quot;: 0,
+            &quot;ds4_roi_start_x&quot;: 0,
+            &quot;ds4_roi_start_y&quot;: 0,
+            &quot;ds4_roi_width&quot;: 1280,
+            &quot;ds4_roi_height&quot;: 720,
+            &quot;downscale_ds4_en&quot;: 0,
+            &quot;ds4_tag_width&quot;: 1280,
+            &quot;ds4_tag_height&quot;: 720,
+            &quot;ds4_buf_num&quot;: 8
+          }
+        ]
+      }
+    },
+    &quot;pym&quot;: {
+      &quot;pym_ctrl_config&quot;: {
+        &quot;img_src_sel&quot;: 0,           # 0 为ddr in 模式， 1为 ipu online模式，数据从ds2接收
+        &quot;frame_id&quot;: 0,              # frame id起始设置
+        &quot;src_w&quot;: 1280,              # 输入到pym的size大小，如果是从ds2直连模式，宽需与ds2 target w相同, MAX 4096, MIN 64
+        &quot;src_h&quot;: 720,               # 输入到pym的size大小，如果是从ds2直连模式，宽需与ds2 target h相同, MAX 4096, MIN 64
+        &quot;ds_layer_en&quot;: 24,          # down scale 层数，4 ~ 24
+        &quot;ds_uv_bypass&quot;: 0,          # 是否 bypass 处理 uv 值
+        &quot;us_layer_en&quot;: 0,           # up scale 层数，0 ~ 6
+        &quot;us_uv_bypass&quot;: 0,          # 是否 bypass 处理 uv 值
+        &quot;ddr_in_buf_num&quot; : 6,
+        &quot;output_buf_num&quot;: 8,
+        &quot;timeout&quot;: 2000
+      },
+# 
+# down scale 需要先知道两个概念基础层 &amp;&amp; ROI 层：
+# 基础层：为 4 * k(k 取值 0--5)层，每层缩放倍数为(1/2)^k ;
+# ROI层：由基础层通过选定roi区域进行缩放得到 ;
+# layer 1、2、3基于layer 0
+# layer 5、6、7基于layer 4
+# layer 9、10、11基于layer 8
+# layer 13、14、15基于layer 12
+# layer 17、18、19基于layer 16
+# layer 21、22、23基于layer 20
+# roi 缩放系数 64/(64 + factor),factor 为0时，表示disable 该层缩放，factor 取值范围 0--63
+# target_width_y   = ((roi_w - 1) * 64 / (64 + factor) +1 &gt;&gt; 1) &lt;&lt; 1
+# target_height_y  = ((roi_h - 1) * 64 / (64 + factor) +1 &gt;&gt; 1) &lt;&lt; 1
+# target_width_uv  = ((roi_w /2 - 1) * 64 / (64 + factor) +1 &gt;&gt; 1) &lt;&lt; 1
+# target_height_uv = (((roi_h /2 - 1) * 64 / (64 + factor) +1 &gt;&gt; 1) &lt;&lt; 1
+# 芯片限制：
+#      pym缩放输出最小size 48 * 32
+#      pym缩放输出最大size 2048 * 2048
+#      tag宽高向下取偶，如得到一个401 * 401的size，会向下取偶得到400 * 400
+#
+ 
+      &quot;pym_ds_config&quot;: {
+        &quot;roi_x_1&quot;: 0,           # roi 区域相对于对应基本层左顶点坐标,需为偶数
+        &quot;roi_y_1&quot;: 0,           # roi 区域相对于对应基本层左顶点坐标，需为偶数
+        &quot;roi_w_1&quot;: 0,           # roi 区域大小,不能超过基本层大小，需为偶数
+        &quot;roi_h_1&quot;: 0,           # roi 区域大小,不能超过基本层大小，需为偶数
+        &quot;factor_1&quot;: 0,
+        &quot;roi_x_2&quot;: 0,
+        &quot;roi_y_2&quot;: 0,
+        &quot;roi_w_2&quot;: 0,
+        &quot;roi_h_2&quot;: 0,
+        &quot;factor_2&quot;: 0,
+       。。。
+        &quot;roi_x_23&quot;: 0,
+        &quot;roi_y_23&quot;: 0,
+        &quot;roi_w_23&quot;: 0,
+        &quot;roi_h_23&quot;: 0,
+        &quot;factor_23&quot;: 0
+      },
+# 
+# up_scaler图层共6层，从原始图像层任意选取6个区域进行放大，目前factor 放大尺寸为固定值，即
+# factor_0:50 放大 1.28倍
+# factor_1:40 放大 1.6倍
+# factor_2:32 放大 2倍
+# factor_3:25 放大 2.56倍
+# factor_4:20 放大 3.2倍
+# factor_5:16 放大 4倍
+# 计算：
+#    target_width = (((roi_w / 2 - 1) * 64 - 1) / (factor) + 1) * 2
+#    target_hight = (((roi_h / 2 - 1) * 64 - 1) / (factor) + 1) * 2
+#    MAX 4096 x 4096
+# 
+      &quot;pym_us_config&quot;: {
+        &quot;roi_x_0&quot;: 0,           # roi 区域相对于对应基本层左顶点坐标,需为偶数
+        &quot;roi_y_0&quot;: 0,           # roi 区域相对于对应基本层左顶点坐标,需为偶数
+        &quot;roi_w_0&quot;: 200,         # roi 区域大小，不能超过输入大小，需为偶数
+        &quot;roi_h_0&quot;: 100,         # roi 区域大小, 不能超过输入大小，需为偶数
+        &quot;factor_0&quot;: 50,
+        &quot;roi_x_1&quot;: 0,
+        &quot;roi_y_1&quot;: 0,
+        &quot;roi_w_1&quot;: 0,
+        &quot;roi_h_1&quot;: 0,
+        &quot;factor_1&quot;: 40,
+        &quot;roi_x_2&quot;: 0,
+        &quot;roi_y_2&quot;: 0,
+        &quot;roi_w_2&quot;: 0,
+        &quot;roi_h_2&quot;: 0,
+        &quot;factor_2&quot;: 32,
+        &quot;roi_x_3&quot;: 0,
+        &quot;roi_y_3&quot;: 0,
+        &quot;roi_w_3&quot;: 0,
+        &quot;roi_h_3&quot;: 0,
+        &quot;factor_3&quot;: 25,
+        &quot;roi_x_4&quot;: 0,
+        &quot;roi_y_4&quot;: 0,
+        &quot;roi_w_4&quot;: 0,
+        &quot;roi_h_4&quot;: 0,
+        &quot;factor_4&quot;: 20,
+        &quot;roi_x_5&quot;: 0,
+        &quot;roi_y_5&quot;: 0,
+        &quot;roi_w_5&quot;: 0,
+        &quot;roi_h_5&quot;: 0,
+        &quot;factor_5&quot;: 16
+      }
+    },
+# 
+# GDC request output width 16 align
+# In 1920x1080 -0 rotate-&gt; Out 1920x1080
+# In 1920x1080 -90 rotate-&gt;Out 1088x1920
+# In 1080x1920 -0 rotate-&gt; Out 1088x1920
+# In 1080x1920 -90 rotate-&gt;Out 1920x1080
+#
+    &quot;gdc&quot;: {
+      &quot;sensor_id&quot;: 0,            # 对应通路的sensor id，gdc校准文件加载依赖该id,支持0,90,180,270旋转
+      &quot;output_width&quot;: 1280,      # gdc处理的宽度设置
+      &quot;output_height&quot;: 720,      # gdc处理的高度设置
+      &quot;buf_num&quot;: 8               # gdc 输出的buf数目设置
+    }
+  }
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id19">
+<h2>4.2 接口介绍<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h3>4.2.1 video source关键数据结构<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>video source目前仅支持以下定义的HorizonVisionPixelFormat图像类型，如果用户需要扩展，可以自行添加。</p></li>
+<li><p>输出的图像数据结构，只有原图ImageFrame数据结构，以及金字塔PyramidFrame数据结构。</p></li>
+<li><p>针对FrameInfo信息的说明：</p>
+<ul class="simple">
+<li><p>channel_id是针对不同video设备而言，由用户自定义，一般从0开始，最大为7 (最大同时支持8路)</p></li>
+<li><p>数据从进入到vin module到从vps输出，同一帧图像frame_id唯一，一直跟随这一帧数据的流向</p></li>
+<li><p>time_stamp_字段只有video 设备是mipi camera时候才有效，它实际是硬件sif根据晶振打上去的时间</p></li>
+<li><p>system_time_stamp_字段是linux系统的时间，它是产生原图数据时的系统时间</p></li>
+<li><p>frame_id字段是每帧图像的序列号</p></li>
+</ul>
+</li>
+<li><p>针对ImageFrame原图的说明：</p>
+<ul class="simple">
+<li><p>src_context_字段是内部的数据结构，包括原图相关的更多信息</p></li>
+</ul>
+</li>
+<li><p>针对PyramidFrame金字塔图的说明：</p>
+<ul class="simple">
+<li><p>src_info_是金字塔0层的输出，一般和金字塔的输入一样</p></li>
+<li><p>bl_ds_是双线性输出，对于x3是表示全部最大24层缩放的输出；对于j5是仅仅表示最大输出5层双线性金字塔层</p></li>
+<li><p>gs_ds_仅仅是针对j5高斯金字塔输出而言，最大输出5层</p></li>
+<li><p>roi_ds_是针对j5的双线性、高斯金字塔层中的roi模块</p></li>
+<li><p>roi_us_是金字塔放大层。x3最大是6层，j5最大为1层</p></li>
+<li><p>pym_context_和src_context_字段是内部的数据结构，包括更多的金字塔和原图信息</p></li>
+</ul>
+</li>
+</ol>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span> <span class="nc">HorizonVisionPixelFormat</span> <span class="p">{</span>
+    <span class="n">kHorizonVisionPixelFormatNone</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">kHorizonVisionPixelFormatRaw</span><span class="p">,</span>
+    <span class="n">kHorizonVisionPixelFormatYUY2</span><span class="p">,</span>
+    <span class="n">kHorizonVisionPixelFormatNV12</span><span class="p">,</span>
+    <span class="n">kHorizonVisionPixelFormatPYM</span><span class="p">,</span>
+    <span class="n">kHorizonVisionPixelFormatJPEG</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>  <span class="c1">// hard codec support</span>
+    <span class="n">kHorizonVisionPixelFormatMJPEG</span><span class="p">,</span>      <span class="c1">// hard codec support</span>
+    <span class="n">kHorizonVisionPixelFormatH264</span><span class="p">,</span>       <span class="c1">// hard codec support</span>
+    <span class="n">kHorizonVisionPixelFormatH265</span><span class="p">,</span>       <span class="c1">// hard codec support</span>
+    <span class="n">kHorizonVisionPixelFormatMax</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">FrameInfo</span> <span class="p">{</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">FrameInfo</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="n">HorizonVisionPixelFormat</span> <span class="n">pixel_format_</span> <span class="o">=</span>
+    <span class="n">HorizonVisionPixelFormat</span><span class="o">::</span><span class="n">kHorizonVisionPixelFormatNone</span><span class="p">;</span>
+  <span class="kt">uint32_t</span> <span class="n">channel_id_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">time_stamp_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// HW time stamp</span>
+  <span class="c1">// struct timeval tv_;  //system time</span>
+  <span class="kt">uint64_t</span> <span class="n">system_time_stamp_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// system time</span>
+  <span class="kt">uint64_t</span> <span class="n">frame_id_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">ImageLevelInfo</span> <span class="p">{</span>
+  <span class="kt">uint16_t</span> <span class="n">width</span><span class="p">;</span>
+  <span class="kt">uint16_t</span> <span class="n">height</span><span class="p">;</span>
+  <span class="kt">uint16_t</span> <span class="n">stride</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">y_paddr</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">c_paddr</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">y_vaddr</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">c_vaddr</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// source image frame: nv12 or raw format</span>
+<span class="k">struct</span> <span class="nc">ImageFrame</span> <span class="o">:</span> <span class="k">public</span> <span class="n">FrameInfo</span> <span class="p">{</span>
+  <span class="n">ImageFrame</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">pixel_format_</span> <span class="o">=</span> <span class="n">HorizonVisionPixelFormat</span><span class="o">::</span><span class="n">kHorizonVisionPixelFormatNV12</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">ImageLevelInfo</span> <span class="n">src_info_</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">src_context_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// pyramid image frame, compatible xj3 and j5</span>
+<span class="k">struct</span> <span class="nc">PyramidFrame</span> <span class="o">:</span> <span class="k">public</span> <span class="n">FrameInfo</span> <span class="p">{</span>
+  <span class="n">PyramidFrame</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">pixel_format_</span> <span class="o">=</span> <span class="n">HorizonVisionPixelFormat</span><span class="o">::</span><span class="n">kHorizonVisionPixelFormatPYM</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * 1. src_info is source image output for xj3 or j5.</span>
+<span class="cm">   *    a) pyramid 0-layer ouput for xj3</span>
+<span class="cm">   *    b) source image ouput without pyramid process for j5</span>
+<span class="cm">   * 2. bl_ds is bilinear downscale for xj3 or j5.</span>
+<span class="cm">   *    a) xj3 including all bilinear base layer and roi layer.</span>
+<span class="cm">   *    b) j5 only for bilinear base layer.</span>
+<span class="cm">   * 3. gs_ds is gauss downscale only for j5, including all gauss base layer</span>
+<span class="cm">   * 4. roi_ds is roi downscale only for j5, including some downscale roi layer</span>
+<span class="cm">   *    which input based on either of them as follow:</span>
+<span class="cm">   *    a) bilinear pyramid certain some base layer</span>
+<span class="cm">   *    b) gauss pyramid certain some base layer</span>
+<span class="cm">   *    c) source image.</span>
+<span class="cm">   * 5. roi_us is roi upscale for xj3 or j5.</span>
+<span class="cm">   *    a) including some upscale roi layer</span>
+<span class="cm">   *       which base on as well as roi_ds for j5.</span>
+<span class="cm">   *    b) it is independent module for xj3.</span>
+<span class="cm">   */</span>
+  <span class="n">ImageLevelInfo</span> <span class="n">src_info_</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>
+  <span class="c1">// max bilinear layer is 24 for xj3 or 5 for j5</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ImageLevelInfo</span><span class="o">&gt;</span> <span class="n">bl_ds_</span><span class="p">;</span>
+  <span class="c1">// max gauss layer is 5 for j5</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ImageLevelInfo</span><span class="o">&gt;</span> <span class="n">gs_ds_</span><span class="p">;</span>
+  <span class="c1">// max roi downscale is 6 for j5</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ImageLevelInfo</span><span class="o">&gt;</span> <span class="n">roi_ds_</span><span class="p">;</span>
+  <span class="c1">// max roi upscale layer is 6 for xj3 or 1 for j5</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ImageLevelInfo</span><span class="o">&gt;</span> <span class="n">roi_us_</span><span class="p">;</span>
+  <span class="c1">// pyramid context for xj3 or j5</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">pym_context_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="c1">// source context for j5</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">src_context_</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id21">
+<h3>4.2.2 video source组件接口介绍<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>video source对象的构造函数主要有两种：</p>
+<ul class="simple">
+<li><p>video source type类型。用户需要指定channel id号，用于在同时接入多路视频源时，区分不同的视频源，config_file是video source的入口配置</p></li>
+<li><p>image source type类型。没有channel_id号，默认是同步获取，用户可以根据需要使用异步获取
+如下是VideoSource对象对外的接口：</p></li>
+</ul>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VideoSource</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">VideoSource</span><span class="p">()</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+  <span class="cm">/**</span>
+<span class="cm">   * video source class. including</span>
+<span class="cm">   * -- a) mipi camera</span>
+<span class="cm">   * -- b) usb camera</span>
+<span class="cm">   * -- c) feedback(nv12 image list, jpeg image list)</span>
+<span class="cm">   * -- d) rtsp client</span>
+<span class="cm">   */</span>
+  <span class="k">explicit</span> <span class="n">VideoSource</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">channel_id</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">config_file</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * video source class. only including</span>
+<span class="cm">   * -- a) feedback(single nv12 image or jpeg image)</span>
+<span class="cm">   */</span>
+  <span class="k">explicit</span> <span class="n">VideoSource</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">config_file</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">is_sync_mode</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+  <span class="o">~</span><span class="n">VideoSource</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="nf">Init</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="nf">DeInit</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="nf">Start</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="nf">Stop</span><span class="p">();</span>
+
+  <span class="n">VideoSourceType</span> <span class="nf">GetSourceType</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">source_type_</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">void</span> <span class="nf">SetLoggingLevel</span><span class="p">(</span><span class="n">VideoSourceLogLevel</span> <span class="o">&amp;</span><span class="n">log_level</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @description: Get one nv12 image frame data from diffent vin(video_input)</span>
+<span class="cm">   * module, such as mipi_cam, usb_cam, feedback, rtsp_stream and so on.</span>
+<span class="cm">   * @param[in]  vin_nv12_image is nullptr</span>
+<span class="cm">   * @param[out] vin_nv12_image is shared_ptr which including image data</span>
+<span class="cm">   * @return The interface returns 0 to indicate that the function is</span>
+<span class="cm">   * successful, otherwise it indicates that the return failed.</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">GetVinImageFrame</span><span class="p">(</span><span class="n">OUT</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">nv12_image</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @description: Free one or more nv12 image frame data from vin module</span>
+<span class="cm">   * @param[in]  vin_nv12_image is shared pointer being used by user</span>
+<span class="cm">   * @return The interface returns 0 to indicate that the function is</span>
+<span class="cm">   * successful, otherwise it indicates that the return failed.</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">FreeVinImageFrame</span><span class="p">(</span><span class="n">IN</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">nv12_image</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @description: Get one or more nv12 images frame data from vps(video</span>
+<span class="cm">   * processsing system) hardware module in xj3 or j5.If soc is xj3,</span>
+<span class="cm">   * image frame data is derived from ipu multi-channel ouput in vps.</span>
+<span class="cm">   * @param[in]  vps_nv12_image is nullptr</span>
+<span class="cm">   * @param[out] vps_nv12_image is shared_ptr which including image data</span>
+<span class="cm">   * @return The interface returns 0 to indicate that the function is</span>
+<span class="cm">   * successful, otherwise it indicates that the return failed.</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">GetVpsImageFrame</span><span class="p">(</span><span class="n">OUT</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;&gt;</span>
+      <span class="o">&amp;</span><span class="n">nv12_image_list</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @description: Free one or more nv12 image frame data from vps module</span>
+<span class="cm">   * @param[in]  vps_nv12_image is shared pointer being used by user</span>
+<span class="cm">   * @return The interface returns 0 to indicate that the function is</span>
+<span class="cm">   * successful, otherwise it indicates that the return failed.</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">FreeVpsImageFrame</span><span class="p">(</span><span class="n">IN</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;&gt;</span>
+      <span class="o">&amp;</span><span class="n">nv12_image_list</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @description: Get one pyramid image frame data from pyramid</span>
+<span class="cm">   * hardware module in xj3 or j5.</span>
+<span class="cm">   * @param[in]  pym_image is nullptr</span>
+<span class="cm">   * @param[out] pym_image is shared_ptr which including pyramid data</span>
+<span class="cm">   * @return The interface returns 0 to indicate that the function is</span>
+<span class="cm">   * successful, otherwise it indicates that the return failed.</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">GetPyramidFrame</span><span class="p">(</span><span class="n">OUT</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">PyramidFrame</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">pym_image</span><span class="p">);</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @description: Free pyramid frame data from pyramid module</span>
+<span class="cm">   * @param[in]  pym_image is shared pointer being used by user</span>
+<span class="cm">   * @return The interface returns 0 to indicate that the function is</span>
+<span class="cm">   * successful, otherwise it indicates that the return failed.</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">FreePyramidFrame</span><span class="p">(</span><span class="n">IN</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">PyramidFrame</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">pym_image</span><span class="p">);</span>
+   <span class="cm">/**</span>
+<span class="cm">   * @description: Set sync mode to video source</span>
+<span class="cm">   *</span>
+<span class="cm">   * Attention: Only feedback video source support set sync mode</span>
+<span class="cm">   * @param[in]  NONE</span>
+<span class="cm">   * @return The interface returns 0 to indicate that the function is</span>
+<span class="cm">   * successful, otherwise it indicates that the return failed.</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">SetSyncMode</span><span class="p">();</span>
+  <span class="cm">/**</span>
+<span class="cm">   * @description: send frame to vps in sync mode</span>
+<span class="cm">   * @param[in]  vin_nv12_image is shared pointer being used by user</span>
+<span class="cm">   * @return The interface returns 0 to indicate that the function is</span>
+<span class="cm">   * successful, otherwise it indicates that the return failed.</span>
+<span class="cm">   */</span>
+  <span class="kt">int</span> <span class="nf">SendFrameToVps</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">nv12_image</span><span class="p">);</span>
+
+  <span class="kt">bool</span> <span class="nf">GetVinOutEnable</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">vin_out_en_</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">bool</span> <span class="nf">GetVpsEnable</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">vps_en_</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">int</span> <span class="nf">ReadImage</span><span class="p">(</span><span class="n">IN</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">path</span><span class="p">,</span>
+      <span class="n">IN</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">&amp;</span><span class="n">width</span><span class="p">,</span> <span class="n">IN</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">&amp;</span><span class="n">height</span><span class="p">,</span>
+      <span class="n">IN</span> <span class="k">const</span> <span class="n">HorizonVisionPixelFormat</span> <span class="o">&amp;</span><span class="n">pixel_format</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="nf">ReadImage</span><span class="p">(</span><span class="n">IN</span> <span class="kt">char</span><span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="n">IN</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">,</span>
+      <span class="n">IN</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">&amp;</span><span class="n">width</span><span class="p">,</span> <span class="n">IN</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">&amp;</span><span class="n">height</span><span class="p">,</span>
+      <span class="n">IN</span> <span class="k">const</span> <span class="n">HorizonVisionPixelFormat</span> <span class="o">&amp;</span><span class="n">pixel_format</span><span class="p">);</span>
+<span class="p">....</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id22">
+<h2>4.3  示例程序<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="video-source-type">
+<h3>4.3.1 video source type动态视频示例<a class="headerlink" href="#video-source-type" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h4>4.3.1.1 异步模式获取结果<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  除了回灌，其他只支持异步模式。
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span>  <span class="kt">int</span> <span class="n">channel_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">auto</span> <span class="n">video_source</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">VideoSource</span><span class="o">&gt;</span><span class="p">(</span><span class="n">channel_id</span><span class="p">,</span> <span class="n">config_file</span><span class="p">);</span>
+
+  <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">SetLoggingLevel</span><span class="p">(</span><span class="n">level</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;video source config: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">config_file</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;video source init failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;video source start failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">bool</span> <span class="n">vin_out_en</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVinOutEnable</span><span class="p">();</span>
+  <span class="kt">bool</span> <span class="n">vps_en</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVpsEnable</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">g_ctx</span><span class="p">.</span><span class="n">exit</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 1. get vin output</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">vin_out_en</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;</span> <span class="n">vin_image</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+      <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVinImageFrame</span><span class="p">(</span><span class="n">vin_image</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;get vin image frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">FreeVinImageFrame</span><span class="p">(</span><span class="n">vin_image</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;free vin image frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 2. get vps output</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">vps_en</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">PyramidFrame</span><span class="o">&gt;</span> <span class="n">pym_image</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+      <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetPyramidFrame</span><span class="p">(</span><span class="n">pym_image</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;get pyramid frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">FreePyramidFrame</span><span class="p">(</span><span class="n">pym_image</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;free pyramid frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;video source sample quit</span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">Stop</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;video source stop failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">DeInit</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;video source deinit failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>注意，该config file是video source的入口配置，例如x3_mipi_cam_os8a10_1080p_chn0.json</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+  <span class="s2">&quot;data_source&quot;</span>: <span class="s2">&quot;mipi_cam&quot;</span>,
+  <span class="s2">&quot;channel_id&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;vin_out_en&quot;</span>: <span class="m">0</span>,
+  <span class="s2">&quot;vin_frame_depth&quot;</span>: <span class="m">8</span>,
+  <span class="s2">&quot;vps_en&quot;</span>: <span class="m">1</span>,
+  <span class="s2">&quot;config_file&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;vin_config_file&quot;</span>: <span class="s2">&quot;configs/video_source/x3dev/mipi_cam/vin/x3_vin_os8a10_2160p_chn0.json&quot;</span>,
+    <span class="s2">&quot;vps_config_file&quot;</span>: <span class="s2">&quot;configs/video_source/x3dev/mipi_cam/vps/x3_vps_os8a10_1080p.json&quot;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id24">
+<h4>4.3.1.2 同步模式获取结果<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  这里主要是视频回灌的支持，其他视频源因为无法控制视频源的输出，因此不支持同步模式。
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;</span> <span class="n">vin_image</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;&gt;</span> <span class="n">ipu_image_list</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">PyramidFrame</span><span class="o">&gt;</span> <span class="n">pym_image</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+
+  <span class="kt">bool</span> <span class="n">vin_out_en</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVinOutEnable</span><span class="p">();</span>
+  <span class="kt">bool</span> <span class="n">vps_en</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVpsEnable</span><span class="p">();</span>
+  <span class="c1">// 1. get vin output</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">vin_out_en</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVinImageFrame</span><span class="p">(</span><span class="n">vin_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;get vin image frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 2. get vps output</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">vin_out_en</span> <span class="o">==</span> <span class="nb">true</span> <span class="o">&amp;&amp;</span> <span class="n">vps_en</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 2.1 send vin frame to vps</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">SendFrameToVps</span><span class="p">(</span><span class="n">vin_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;send frame to vps failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 2.3 try get ipu nv12 image frame</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVpsImageFrame</span><span class="p">(</span><span class="n">ipu_image_list</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;get vps image frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 2.3 try get pyramid image frame</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetPyramidFrame</span><span class="p">(</span><span class="n">pym_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;get pyramid frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 3. free vin frame</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">vin_out_en</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">FreeVinImageFrame</span><span class="p">(</span><span class="n">vin_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;free vin image frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 4. free vps frame</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">vin_out_en</span> <span class="o">==</span> <span class="nb">true</span> <span class="o">&amp;&amp;</span> <span class="n">vps_en</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">FreeVpsImageFrame</span><span class="p">(</span><span class="n">ipu_image_list</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;free vps image frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">FreePyramidFrame</span><span class="p">(</span><span class="n">pym_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;free pyramid frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="image-source-type">
+<h3>4.3.2 image source type静态图片示例<a class="headerlink" href="#image-source-type" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span> <span class="k">auto</span> <span class="n">video_source</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">VideoSource</span><span class="o">&gt;</span><span class="p">(</span><span class="n">config_file</span><span class="p">);</span>
+  <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">SetLoggingLevel</span><span class="p">(</span><span class="n">level</span><span class="p">);</span>
+
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">ReadImage</span><span class="p">(</span><span class="n">image_name</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">pixel_format</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;read image: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">image_name</span>
+      <span class="o">&lt;&lt;</span> <span class="s">&quot; failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">bool</span> <span class="n">vin_out_en</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVinOutEnable</span><span class="p">();</span>
+  <span class="kt">bool</span> <span class="n">vps_en</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVpsEnable</span><span class="p">();</span>
+  <span class="c1">// 1. get vin output</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">vin_out_en</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">ImageFrame</span><span class="o">&gt;</span> <span class="n">vin_image</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetVinImageFrame</span><span class="p">(</span><span class="n">vin_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;get vin image frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">FreeVinImageFrame</span><span class="p">(</span><span class="n">vin_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;free vin image frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 2. get vps output</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">vps_en</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">PyramidFrame</span><span class="o">&gt;</span> <span class="n">pym_image</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">GetPyramidFrame</span><span class="p">(</span><span class="n">pym_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;get pyramid frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">video_source</span><span class="o">-&gt;</span><span class="n">FreePyramidFrame</span><span class="p">(</span><span class="n">pym_image</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;free pyramid frame failed, ret: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>注意，静态图片config_file固定使用 configs/video_source/x3dev/feedback/x3_image_feedback.json</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+ &quot;data_source&quot;: &quot;feedback&quot;,
+ &quot;vin_out_en&quot;: 1,
+ &quot;vin_frame_depth&quot;: 3,
+ &quot;vps_en&quot;: 1,
+ &quot;config_file&quot;: {
+   &quot;vps_config_file&quot;: [   
+     // 默认提供4种VPS配置文件模板，video source组件内部会自动根据用户图像输入分辨率来选择合适的vps配置文件，无需用户指定(如果vps配置不满足用户需要，可以自己添加或者修改)
+     &quot;configs/video_source/x3dev/feedback/vps/x3_vps_feedback_640_480.json&quot;,
+     &quot;configs/video_source/x3dev/feedback/vps/x3_vps_feedback_720p.json&quot;,
+     &quot;configs/video_source/x3dev/feedback/vps/x3_vps_feedback_1080p.json&quot;,
+     &quot;configs/video_source/x3dev/feedback/vps/x3_vps_feedback_2160p.json&quot;
+   ]
+ }
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="videosource">
+<h1>5 videosource设计原理<a class="headerlink" href="#videosource" title="Permalink to this headline">¶</a></h1>
+<p>上面的章节描述的video source层的接口和使用方式，相当于是从用户角度来阐述。</p>
+<p>本章节将描述video source层以下的设计原理</p>
+<div class="section" id="vin-module">
+<h2>5.1 vin module<a class="headerlink" href="#vin-module" title="Permalink to this headline">¶</a></h2>
+<p>vinmodule内部包括mipi_cam、usb_cam、feedback、rtsp等视频源，支持用户扩展其他视频源。内部同时集成了一个x3 decodec解码器，用于加速编码数据的解码。</p>
+<div class="section" id="id25">
+<h3>5.1.1 vin module类的继承关系<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>vin module是基类, 接口Init()、DeInit()、Start()、Stop()均由子类来实现。</p></li>
+<li><p>vin module内部由自己的VinInit()、VinDeInit()、VinStart()、VinStop()接口，主要是用于内部的buffer管理和解码器的管理。</p></li>
+<li><p>vin module子类(各种video设备)与vinmodule基类对接的入口是InputData()函数。该接口函数是将各种类型的数据送入到vinmodule，由vinmodule来统一管理和消费。</p></li>
+<li><p>vin module的输出是nv12格式的图像。</p></li>
+<li><p>如下是vin module继承关系：
+<img alt="vin module继承关系内部结构" src="image/vinmodule%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB.png" /></p></li>
+</ol>
+</div>
+<div class="section" id="id26">
+<h3>5.1.2 vin module初始化<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<p>vin module初始化采用动态加载过程。只有当vin module收到第一帧数据后，才开始进行vin modue本身的init和start操作。这种动态加载的有如下优势：</p>
+<ol class="simple">
+<li><p>video设备在运行过程中可能会改变输出格式或者分辨率，这样整个video source系统不需要退出进程重新启动，而快速自动适配重新加载整个vin module设备，提升了系统的灵活性。</p></li>
+<li><p>针对于rtsp源的设备，实际用户在拉流的过程中，并不需要知道所要拉流的分辨率，只有收到视频数据后，才获取到分辨率，增强了系统的实时性。</p></li>
+<li><p>如下是vin module的初始化流程 (vps模块也采用了动态加载，跟随vin设备的输出而动态切换系统所需的参数)。
+<img alt="vin module初始化" src="image/%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B5%81%E7%A8%8B.png" /></p></li>
+</ol>
+</div>
+<div class="section" id="id27">
+<h3>5.1.3 vin module数据流向<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>各种类型的video设备源对象(mipi camera不走该vin module模块)，在自己的接口函数中获取不同的视频数据，然后通过vin module提供的InputData()接口函数，将数据传输到vin module对象中。</p></li>
+<li><p>在vin module对象中有一个数据缓存池，用于缓存原始的数据(例如H264、H265、JPEG或者yuv数据)，数据缓冲池buffer的最大个数在配置文件中由用户指定，默认是8个(如果8个buffer数据满了，则会自动将最前面一帧buffer的数据给drop掉)。</p></li>
+<li><p>经过vin module内部的解码或者图像处理之后，将输出nv12图像，图像放入vin module管理的buffer队列中。</p></li>
+<li><p>如果用户在配置文件中使能了vps模块，则数据会自动流转到vps模块进行相应的处理。如果用户没有使能vps模块，则数据将在vin module中截止。</p></li>
+<li><p>vin module也提供了输出处理完的nv12原图的接口，供用户获取。</p></li>
+</ol>
+<p><img alt="vin module数据流向" src="image/vin%E6%95%B0%E6%8D%AE%E6%B5%81%E5%90%91.png" /></p>
+</div>
+<div class="section" id="vin-module-buffer">
+<h3>5.1.4 vin module buffer轮转<a class="headerlink" href="#vin-module-buffer" title="Permalink to this headline">¶</a></h3>
+<p>vin module内部管理使用了三种队列状态来管理frame数据。frame buffer的个数由用户在配置文件中指定。</p>
+<ol class="simple">
+<li><p>vin module初始化后，利用ION申请vin buffer(会分配连续的物理地址和虚拟地址)，同时带地址vin Buffer的结构体都推进FreeQueue队列中。</p></li>
+<li><p>一帧数据获取后(如果是编码数据，需要解码为nv12)，从free queue中pop出一个buffer，拷贝nv12数据到buffer中；如果使能了vps，则同时send 该frame到vps，最后将该buffer推进Done Queue队列中。</p></li>
+<li><p>Done Queue buffer是完成数据的buffer队列，有三种情况会从该buffer队列中pop出来：</p>
+<ul class="simple">
+<li><p>当done buffer满了后，最前面的第一帧buffer将被pop出，同时推送进FreeQueue队列中 (用户不取buffer，导致done queue满了)</p></li>
+<li><p>检测到Free Queue的长度为空时，从Done Queue中pop最前面一帧buffer推进FreeQueue中 (用户buffer不及时释放，导致无free queue可用，而此时done queue未满)</p></li>
+<li><p>如果上层用户主动从VIN获取数据，最前面的第一帧buffer将被pop出，同时推送进UserQueue队列中</p></li>
+</ul>
+</li>
+<li><p>UserQueue队列是用户正在使用的buffer状态，此时需要用户主动调用FreeVinImageFrame()函数，才会将buffer返回给free queue队列。</p></li>
+<li><p>对于各个Queue队列的长度说明：</p>
+<ul class="simple">
+<li><p>FreeQueue的最大长度为：用户设置的buffer数量+2</p></li>
+<li><p>DoneQueue的最大长度为：用户设置的buffer数量+1</p></li>
+<li><p>UserQueue的最大长度为：用户设置的buffer数量+0</p></li>
+</ul>
+</li>
+</ol>
+<p><img alt="vin module buffer轮转" src="image/vin_buffer%E8%BD%AE%E8%BD%AC.png" /></p>
+</div>
+<div class="section" id="id28">
+<h3>5.1.5 vin module内置解码器<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>vin module内部使用了x3内部自带的硬件解码器，支持H264、H265、JPEG、MJPEG的解码，解码分辨率最大支持4K。</p></li>
+<li><p>vin module内部的解码器支持创建多通道解码(每个通道对应一个视频源)，同一台设备JPEG/MJPEG最大支持64路；H265/H265最大支持32路；硬件是分时复用。</p></li>
+<li><p>解码器通道采用有名管理进行统一分配和管理(支持多进程)。</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="vps-module">
+<h2>5.2 vps module<a class="headerlink" href="#vps-module" title="Permalink to this headline">¶</a></h2>
+<p>vps模块内部包括ipu、gdc、pym三个模块。</p>
+<ul class="simple">
+<li><p>ipu支持图像的缩小、放大、裁剪、帧率控制配置。chn0~chn4是缩小，chn5是放大，chn6是online→pym模式，输入和输出支持online和offline模式</p></li>
+<li><p>gdc支持图像旋转、矫正、镜像功能，输入和输出必须是offline模式</p></li>
+<li><p>pym生成金字塔图像，输入支持online和offline，输出一般是offline</p></li>
+</ul>
+<p>如下是vps module内部硬件结构</p>
+<p><img alt="vps module内部硬件结构" src="image/vps%E7%A1%AC%E4%BB%B6%E8%AF%B4%E6%98%8E.png" /></p>
+<div class="section" id="id29">
+<h3>5.2.1 vps module继承关系<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<p>vps module内部包括vps module继承以及VpsModuleHapi子类，其中VpsModuleHapi子类使用了系统软件的x3 Hapi接口来进行使用。
+<img alt="vps module继承关系" src="image/vpsmodule%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB.png" /></p>
+<p>注意：</p>
+<ol class="simple">
+<li><p>vps module同时支持扩展j3 VAPI接口以及J5接口。</p></li>
+<li><p>vin-&gt;vps之间的数据传递是通过SendFrame接口来完成(mipi_camera设备除外)。</p></li>
+</ol>
+</div>
+<div class="section" id="vps-module-groupchannel">
+<h3>5.2.1 vps module group和channel说明<a class="headerlink" href="#vps-module-groupchannel" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>vps module在同一台设备上支持最大创建8个vps group同时运行(硬件是通过分时复用)，vps group是虚拟的概念。</p></li>
+<li><p>vps group组号是通过有名管道进行分配和管理（支持多进程）。</p></li>
+<li><p>vps module内部包括6个ipu channel硬件通道(chn0~chn5)，其中chn0~chn4是缩放通道(支持crop裁剪，先裁剪再缩放)，chn5是放大通道，chn6是虚拟通道(与chn2实际是同一个硬件设备，只是它是online模式到pyramid金字塔)，其余chn0~chn5均是offline模式到pyramid金字塔。</p></li>
+<li><p>online和offline说明</p>
+<ul class="simple">
+<li><p>online模式到金字塔含义是chn通道输出的数据直接送入金字塔模块进行处理，不经过ddr</p></li>
+<li><p>offline模式到金字塔含义是chn通道输出的数据先写入ddr，然后再从ddr读入到金字塔进行处理</p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="vps">
+<h3>5.2.2 vps输出说明<a class="headerlink" href="#vps" title="Permalink to this headline">¶</a></h3>
+<p>vps module支持输出两种类型的数据：</p>
+<ol class="simple">
+<li><p>ipu输出的原图数据(可能经过裁剪或者缩放)，通过GetFrame()接口获取。</p></li>
+<li><p>pyramid输出的金字塔数据(默认基础层全开,roi层根据需要用户在配置文件中获取)，通过GetPyramidFrame()接口获取。</p></li>
+</ol>
+<p>vps模块实际也是动态加载的，在vps配置文件中，用户可以写入一组vps配置文件，然后vps根据vin输出的分辨率，来选择合适的vps配置文件来进行动态加载，如果找不到合适vps配置文件，则会报错退出。</p>
+</div>
+<div class="section" id="vin-vps">
+<h3>5.3 vin-vps场景<a class="headerlink" href="#vin-vps" title="Permalink to this headline">¶</a></h3>
+<p>vin-&gt;vps的配置灵活多变，默认video source已经配置好，无需用户关心。而对于高阶用户，需要修改自己的vin-&gt;vps配置，需要了解此章节。</p>
+<ol class="simple">
+<li><p>对于mipi camera设备，vin-&gt;vps可以是online，也可以是offline模式。如果是online模式，下面条件需要全部满足：</p>
+<ul class="simple">
+<li><p>单路camera设备</p></li>
+<li><p>如果使能isp，则必须使能ldc(镜头畸变矫正)模块</p></li>
+<li><p>如果不使能isp，则sif可以直接online到ipu模块</p></li>
+</ul>
+</li>
+</ol>
+<p>如下是典型的mipi-camera的vin-&gt;vps场景的经过各个模块的数据流
+<img alt="mipi_camera数据流向" src="image/mipi_camera%E6%95%B0%E6%8D%AE%E6%B5%81%E5%90%91.png" /></p>
+<ol class="simple">
+<li><p>对于非mipi camera设备，vin-&gt;vps之间是offline的，因为vinmodule产生的数据均先存放在buffer queue中，然后再通过send frame to vps，从ddr读入vps模块中。</p></li>
+<li><p>下面是几种常见的vin-&gt;vps场景(实线是数据online模式，虚线是offline模式)：</p>
+<ul class="simple">
+<li><p>第一种是典型的mipi camera模式，vin-&gt;vps支持online或者offline，vps输出支持ipu通道输出和金字塔输出</p></li>
+<li><p>第二种是vin-&gt;vps offline模式，输出ipu chn0缩放输出和 chn5放大输出</p></li>
+<li><p>第三种是vin-&gt;vps offline模式，vps使用了gdc进行图像畸变矫正，ipu chn2缩放输出</p></li>
+<li><p>第四种是vin-&gt;vps offline模式，vps使用了gdc进行图像畸变矫正，pyramid金字塔输出</p></li>
+</ul>
+</li>
+</ol>
+<p><img alt="vin-vps场景" src="image/vin-vps%E5%9C%BA%E6%99%AF.png" /></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="video_source 组件" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

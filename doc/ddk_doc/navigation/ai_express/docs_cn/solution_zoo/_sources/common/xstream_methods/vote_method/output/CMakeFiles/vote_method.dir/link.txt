@@ -1,0 +1,2 @@
+/usr/bin/ar qc libvote_method.a  CMakeFiles/vote_method.dir/src/vote_method.cc.o
+/usr/bin/ranlib libvote_method.a

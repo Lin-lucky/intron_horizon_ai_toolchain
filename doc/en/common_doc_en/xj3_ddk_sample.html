@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Application Development Samples</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Appendix: Development Manual" href="../source_doc/x3_ddk_docs.html" />
+  <link rel="prev" title="Setup Development Environment" href="xj3_ddk_quick_start.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">X/J3 SOC Dev Manual</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://en.horizon.ai/"
+        class="nav-link external">
+          Horizon <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          Community <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          Feedback <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://en.horizon.ai/"
+        class="nav-link external">
+          Horizon <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          Community <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          Feedback <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">General Descriptions</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About SoCs</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="x3_soc_user_guide.html" class="reference internal ">About Sunrise 3 (X3) AI Processor</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_soc_contrast.html" class="reference internal ">X3 vs. J3</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About DevKits</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="xj3_board_overview.html" class="reference internal ">About DevKits</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_sdb_overview.html" class="reference internal ">X3 SDB Eco DevKits</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_update_guide.html" class="reference internal ">Firmware Upgrade Manual</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_command.html" class="reference internal ">Frequently-used System Commands</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About OpenExplorer</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_user_guide.html" class="reference internal ">About Development Platform</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_quick_start.html" class="reference internal ">Setup Development Environment</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">Application Development Samples</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#confirm-your-development-environment" class="reference internal">1. Confirm Your Development Environment</a></li>
+                
+                  <li class="toctree-l2"><a href="#compile-samples" class="reference internal">2. Compile Samples</a></li>
+                
+                  <li class="toctree-l2"><a href="#dev-board-deployment" class="reference internal">3. Dev Board Deployment</a></li>
+                
+                  <li class="toctree-l2"><a href="#execution-and-visualization" class="reference internal">4. Execution and Visualization</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_docs.html" class="reference internal ">Appendix: Development Manual</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">Others</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="other_sources.html" class="reference internal ">More Technical Support</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>Application Development Samples</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="xj3_ddk_quick_start.html"
+       title="previous chapter">← Setup Development Environment</a>
+  </li>
+  <li class="next">
+    <a href="../source_doc/x3_ddk_docs.html"
+       title="next chapter">Appendix: Development Manual →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="application-development-samples">
+<h1>Application Development Samples<a class="headerlink" href="#application-development-samples" title="Permalink to this headline">¶</a></h1>
+<p>After powering the dev board, compiling image, upgrading dev board system and installing development environment,
+the next step is to run the samples in the <code class="docutils literal notranslate"><span class="pre">ddk/samples</span></code> directory.
+This chapter explains how to run the entire process by taking the multitask perception reference solution in the
+<code class="docutils literal notranslate"><span class="pre">ddk/samples/solution_zoo/multitask_perception_solution</span></code> directory.</p>
+<div class="section" id="confirm-your-development-environment">
+<h2>1. Confirm Your Development Environment<a class="headerlink" href="#confirm-your-development-environment" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Confirm that cross-compilation environment has been installed:</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>work@work-server:~$ ll /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu
+total <span class="m">36</span>
+drwxr-xr-x <span class="m">7</span> root root <span class="m">4096</span> Oct. <span class="m">15</span>  <span class="m">2019</span> aarch64-linux-gnu
+drwxr-xr-x <span class="m">2</span> root root <span class="m">4096</span> Oct. <span class="m">15</span>  <span class="m">2019</span> bin
+-rw-r--r-- <span class="m">1</span> root root <span class="m">9489</span> Oct. <span class="m">15</span>  <span class="m">2019</span> gcc-linaro-6.5.0-2018.12-linux-manifest.txt
+drwxr-xr-x <span class="m">3</span> root root <span class="m">4096</span> Oct. <span class="m">15</span>  <span class="m">2019</span> include
+drwxr-xr-x <span class="m">3</span> root root <span class="m">4096</span> Oct. <span class="m">15</span>  <span class="m">2019</span> lib
+drwxr-xr-x <span class="m">3</span> root root <span class="m">4096</span> Oct. <span class="m">15</span>  <span class="m">2019</span> libexec
+drwxr-xr-x <span class="m">8</span> root root <span class="m">4096</span> Oct. <span class="m">15</span>  <span class="m">2019</span> share
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Confirm that the <code class="docutils literal notranslate"><span class="pre">ddk/package/host</span></code> package has been installed:</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>~/.horizon/ddk/
+├── xj3_aarch64
+│   ├── appsdk
+│   │   └── appuser
+│   ├── appsdk_1.9.0.tar.gz
+│   ├── bpu_predict
+│   │   ├── include
+│   │   └── lib
+│   ├── bpu_predict_1.10.2.tar.gz
+│   ├── dnn
+│   │   ├── include
+│   │   └── lib
+│   ├── dnn_1.1.2a.tar.gz
+│   ├── hobotsdk
+│   │   ├── include
+│   │   └── lib
+│   ├── hobotsdk_1.9.13.tar.gz
+│   ├── image_utils
+│   │   ├── include
+│   │   └── lib
+│   ├── image_utils_1.1.10c.tar.gz
+│   ├── model_inference
+│   │   ├── include
+│   │   └── lib
+│   ├── model_inference_1.0.13.tar.gz
+│   ├── rtsp_server
+│   │   ├── include
+│   │   └── lib
+│   ├── rtsp_server_1.0.13.tar.gz
+│   ├── uvc_server
+│   │   ├── include
+│   │   └── lib
+│   ├── uvc_server_1.0.13.tar.gz
+│   ├── video_source
+│   │   ├── include
+│   │   └── lib
+│   ├── video_source_1.0.13.tar.gz
+│   ├── xproto
+│   │   ├── include
+│   │   └── lib
+│   ├── xproto_1.1.10c.tar.gz
+│   ├── xstream
+│   │   ├── include
+│   │   └── lib
+│   └── xstream_1.1.10c.tar.gz
+└── xj3_x86_64_gcc_4.8.5
+    ├── bpu_predict
+    │   ├── include
+    │   └── lib
+    ├── bpu_predict_1.10.2.tar.gz
+    ├── dnn_x86
+    │   ├── include
+    │   └── lib
+    ├── dnn_x86_1.1.2a.tar.gz
+    ├── hobotsdk
+    │   ├── include
+    │   └── lib
+    ├── hobotsdk_1.9.13.tar.gz
+    ├── xproto
+    │   ├── include
+    │   └── lib
+    ├── xproto_1.1.10c.tar.gz
+    ├── xstream
+    │   ├── include
+    │   └── lib
+    └── xstream_1.1.10c.tar.gz
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Confirm the connection between dev board and dev machine and upgrade supporting system image.
+The following sample is based on the 0207 version.</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>root@x3sdbx3-samsung2G-3200:~# cat /etc/version
+LNX_PL2.0_WB_20210207 release
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Confirm that dev board tools in the <code class="docutils literal notranslate"><span class="pre">ddk/package/board</span></code> directory have been installed.</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>// install ddk/package/board on dev board
+work@work-server:/ddk/package/board$ sh install.sh <span class="m">10</span>.64.35.206
+
+// validate installation
+root@x3sdbx3-samsung2G-3200:/userdata/.horizon/# ll
+drwxr-xr-x    <span class="m">6</span> root     root          <span class="m">4096</span> Jan  <span class="m">1</span> <span class="m">08</span>:14 ai_express_webservice_display
+-rwx------    <span class="m">1</span> root     root      <span class="m">10424232</span> Jan  <span class="m">1</span> <span class="m">08</span>:15 hrt_bin_dump
+-rwx------    <span class="m">1</span> root     root      <span class="m">15380352</span> Jan  <span class="m">1</span> <span class="m">08</span>:15 hrt_model_exec
+</pre></div>
+</div>
+</div>
+<div class="section" id="compile-samples">
+<h2>2. Compile Samples<a class="headerlink" href="#compile-samples" title="Permalink to this headline">¶</a></h2>
+<p>There are rich build-in source code of face and body perception related algorithms
+in the multitask perception reference solution.</p>
+<p>Please compile before running samples. Enter the <code class="docutils literal notranslate"><span class="pre">ddk/samples/solution_zoo/multitask_perception_solution</span></code> directory and
+run the <code class="docutils literal notranslate"><span class="pre">build_and_deploy.sh</span></code> script to compile.</p>
+<p>Once successfully compiled, a new <code class="docutils literal notranslate"><span class="pre">/deploy</span></code> directory will be added into the <code class="docutils literal notranslate"><span class="pre">multitask_perception_solution</span></code> directory.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>work@work-server:/multitask_perception_solution/deploy$ ll
+total <span class="m">44</span>
+drwxr-xr-x <span class="m">6</span> work work  <span class="m">4096</span> Apr.  <span class="m">13</span> <span class="m">11</span>:32 configs
+drwxrwxr-x <span class="m">2</span> work work  <span class="m">4096</span> Apr.  <span class="m">13</span> <span class="m">11</span>:32 lib
+drwxr-xr-x <span class="m">2</span> work work  <span class="m">4096</span> Apr.  <span class="m">13</span> <span class="m">11</span>:32 models
+drwxrwxr-x <span class="m">3</span> work work  <span class="m">4096</span> Apr.  <span class="m">13</span> <span class="m">11</span>:32 multitask_perception
+-rwxr-xr-x <span class="m">1</span> work work <span class="m">12366</span> Apr.  <span class="m">13</span> <span class="m">11</span>:32 run_body.sh
+-rwxr-xr-x <span class="m">1</span> work work <span class="m">11637</span> Apr.  <span class="m">13</span> <span class="m">11</span>:32 run_face_recog.sh
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The first compilation can be slow as it involves multiple dependencies.
+However, succeeding compilations will be faster when running the <code class="docutils literal notranslate"><span class="pre">build_and_deploy.sh</span></code> script again
+as source code are modified.</p>
+</div>
+</div>
+<div class="section" id="dev-board-deployment">
+<h2>3. Dev Board Deployment<a class="headerlink" href="#dev-board-deployment" title="Permalink to this headline">¶</a></h2>
+<p>It is simple to deploy the multitask perception reference solution in dev board.
+You only need to deploy the <code class="docutils literal notranslate"><span class="pre">multitask_perception_solution/deploy</span></code> into the <code class="docutils literal notranslate"><span class="pre">/userdata</span></code> directory in dev board.</p>
+<p>You can use scp/tftp/nfs etc. methods to transmit data between dev machine and dev board.
+The samples in this chapter uses <code class="docutils literal notranslate"><span class="pre">scp</span></code> implementation.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>// install /deploy onto dev board
+work@work-server:/solution_zoo/multitask_perception_solution$ scp -r deploy root@10.64.35.206:/userdata/
+
+// validate whether installation is successfully on dev board
+root@x3sdbx3-samsung2G-3200:/userdata/deploy# ll
+drwxr-xr-x    <span class="m">6</span> root     root          <span class="m">4096</span> Jan  <span class="m">1</span> <span class="m">08</span>:29 configs
+drwxrwxr-x    <span class="m">2</span> root     root          <span class="m">4096</span> Jan  <span class="m">1</span> <span class="m">08</span>:29 lib
+drwxr-xr-x    <span class="m">2</span> root     root          <span class="m">4096</span> Jan  <span class="m">1</span> <span class="m">08</span>:29 models
+drwxrwxr-x    <span class="m">3</span> root     root          <span class="m">4096</span> Jan  <span class="m">1</span> <span class="m">08</span>:29 multitask_perception
+-rwx------    <span class="m">1</span> root     root         <span class="m">12366</span> Jan  <span class="m">1</span> <span class="m">08</span>:29 run_body.sh
+-rwx------    <span class="m">1</span> root     root         <span class="m">11637</span> Jan  <span class="m">1</span> <span class="m">08</span>:29 run_face_recog.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="execution-and-visualization">
+<h2>4. Execution and Visualization<a class="headerlink" href="#execution-and-visualization" title="Permalink to this headline">¶</a></h2>
+<p>There are <code class="docutils literal notranslate"><span class="pre">run_body.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">run_face_recog.sh</span></code> scripts in the <code class="docutils literal notranslate"><span class="pre">/userdata/deploy</span></code> directory, they are respectively
+used for running the human body and face perception samples.</p>
+<p>Your implementation also depends on your camera type. Here we use a ASHU 1080p USB camera.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>root@x3sdbx3-samsung2G-3200:/userdata/deploy# sh run_face_recog.sh
+chmod: start_nginx.sh: No such file or directory
+sh: can&#39;t open &#39;start_nginx.sh&#39;: No such file or directory
+Choose lunch x3 vio type menu...pick a combo:
+        1. single cam
+        2. single feedback
+Which would you like?
+1
+You choose 1:single_cam
+Choose lunch single cam sensor menu...pick a combo:
+        1. single camera: os8a10, 2160P
+        2. single camera: os8a10, 1080P
+        3. single camera: usb_cam, 1080P
+        4. single camera: f37_1080p, 1080P
+Which would you like?
+3
+You choose 3:usb_cam
+vio_mode: usb_cam
+vio_pipe_file: configs/vio/x3dev/iot_vio_x3_usb_cam_1080p.json
+usb_cam start, default resolution 1080P...
+/usr/bin/adbd is not runnning
+vio_cfg_file: ./configs/vio_config.json.x3dev.cam
+turn on mallopt
+use bpu native engine
+[1970-01-01 08:35:32 INFO 548044893280 hr_api.cpp:479] HorizonRT version = 1.5.1
+[1970-01-01 08:35:32 INFO 548044893280 hr_api.cpp:484] hbrt version = 3.12.2
+</pre></div>
+</div>
+<p>Once operation begins, you can visit the dev machine address <code class="docutils literal notranslate"><span class="pre">http://[dev</span> <span class="pre">board]</span></code> within the same network segment and
+visualize output results. Here we take <code class="docutils literal notranslate"><span class="pre">http://10.64.35.206</span></code> as an example.</p>
+<p>Refer to below result sample:</p>
+<a class="reference internal image-reference" href="../_images/demo.png"><img alt="../_images/demo.png" src="../_images/demo.png" style="width: 767.4px; height: 462.0px;" /></a>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="xj3_ddk_quick_start.html"
+       title="previous chapter">← Setup Development Environment</a>
+  </li>
+  <li class="next">
+    <a href="../source_doc/x3_ddk_docs.html"
+       title="next chapter">Appendix: Development Manual →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

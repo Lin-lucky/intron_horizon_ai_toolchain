@@ -1,0 +1,23 @@
+HB Mapper Tools Guide
+================================================
+
+.. role:: red
+
+Horizon **FPM Model Conversion Tools** [#FPM]_ (i.e. the ``horizon_tc_ui`` release package) are used for converting 
+the original Caffe/ONNX frameworks trained FPMs into Horizon Runtime supported fixed-point models. 
+If the FPMs are trained from other opensource ML frameworks, e.g. TensorFlow, PyTorch etc., Users will need to convert 
+the FPMs into ONNX models before using the FPM model conversion tools.
+
+This guide elaborates the workflow of FPM model conversion tools and explains the usages of tools, 
+helps developers understand tools' features e.g. model conversion, model accuracy evaluations etc.
+
+.. toctree::
+   :maxdepth: 2
+   :numbered:
+   :includehidden:
+
+   01_model_conversion_details.rst
+   02_tools.rst
+
+
+.. [#FPM] refers to the floating-point model users obtained from open source deep learning frameworks.

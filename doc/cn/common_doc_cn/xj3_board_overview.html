@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>开发套件概述</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="X3 SDB生态套件" href="x3_sdb_overview.html" />
+  <link rel="prev" title="X3与J3差异描述" href="xj3_soc_contrast.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">地平线 X3J3 芯片开发手册</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">整体概述</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">芯片介绍</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="x3_soc_user_guide.html" class="reference internal ">旭日X3芯片概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_soc_contrast.html" class="reference internal ">X3与J3差异描述</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">开发套件介绍</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">开发套件概述</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#id1" class="reference internal">开发套件概述</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_sdb_overview.html" class="reference internal ">X3 SDB生态套件</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_update_guide.html" class="reference internal ">固件升级手册</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_command.html" class="reference internal ">常见系统命令</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">天工开物开发平台</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_user_guide.html" class="reference internal ">开发平台概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_quick_start.html" class="reference internal ">开发环境搭建</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_sample.html" class="reference internal ">应用开发示例</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_docs.html" class="reference internal ">附录：开发手册</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">其他</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="other_sources.html" class="reference internal ">社区资源索引</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>开发套件概述</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="xj3_soc_contrast.html"
+       title="previous chapter">← X3与J3差异描述</a>
+  </li>
+  <li class="next">
+    <a href="x3_sdb_overview.html"
+       title="next chapter">X3 SDB生态套件 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="id1">
+<h1>开发套件概述<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>针对X3和J3两款芯片，地平线对外开放了三款开发套件，分别为：<strong>J3 DVB 开发板</strong>， <strong>X3 DVB 开发板</strong> 和 <strong>X3 SDB 开发板</strong> 。</p>
+<ol class="arabic simple">
+<li><p><strong>X3 SDB 开发板</strong>，俗称X3生态板或X3小板，是目前给到开发者使用最多的一款开发板。它基于X3M主控芯片打造，可以提供等效5TAI算力、支持多路摄像头输入。
+SDB开发板由底板和核心板（X3 SOM）组成，两者通过DIMM插槽连接，并具有防呆设计，安装方法跟笔记本内存类似，将核心板倾斜45度插入DIMM插槽，然后按压锁止即可。
+示意图如下所示：</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/assembling.png"><img alt="../_images/assembling.png" src="../_images/assembling.png" style="width: 883.2px; height: 519.2px;" /></a>
+<ol class="arabic simple" start="2">
+<li><p><strong>X3 DVB开发板</strong>，俗称X3平台开发板或X3大板，目前基本上不再提供给客户进行使用，如果你是早期用户，希望置换为X3 SDB开发板，可以联系我们销售和技术支持进行沟通。</p></li>
+<li><p><strong>J3 DVB开发板</strong>，俗称J3平台开发板或J3大板，是目前J3对外开放的标准开发板，它基于J3主控芯片打造，可以提供等效5T AI 算力、支持多路摄像头输入。</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/j3_dvb_board.png"><img alt="../_images/j3_dvb_board.png" src="../_images/j3_dvb_board.png" style="width: 630.4000000000001px; height: 540.8000000000001px;" /></a>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>从应用开发角度来说，X3和J3除了芯片性能规格上有些差异，其他软件层面基本完全一致。
+因此很多场景下，我们都是直接提供X3 SDB生态开发板给到客户，并基于它来进行芯片评测或软件开发。</p>
+<p>如果你后续产品化是基于J3进行落地，你也可以联系商务获取到J3 DVB开发板进行开发。</p>
+<p>另外X3 SDB开发板从通用性考虑，在一些板卡功耗控制上没有做到很严格，如果你希望针对芯片做功耗相关评测，请联系地平线技术支持来拉齐功耗评测方案。</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="xj3_soc_contrast.html"
+       title="previous chapter">← X3与J3差异描述</a>
+  </li>
+  <li class="next">
+    <a href="x3_sdb_overview.html"
+       title="next chapter">X3 SDB生态套件 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

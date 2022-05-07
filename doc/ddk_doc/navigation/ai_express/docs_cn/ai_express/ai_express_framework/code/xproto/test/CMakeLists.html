@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>x86 architecture &mdash; AIExpress 应用开发框架  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> AIExpress 应用开发框架
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">AI Express用户手册</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../xstream/README.html">XStream算法SDK开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../xproto/README.html">XProto应用开发框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../image_utils/README.html">图像处理加速库(ImageUtil)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">AIExpress 应用开发框架</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>x86 architecture</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/ai_express_framework/code/xproto/test/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>cmake_minimum_required(VERSION 2.8)</p>
+<p>include_directories(
+${PROJECT_SOURCE_DIR}/include
+)</p>
+<div class="section" id="x86-architecture">
+<h1>x86 architecture<a class="headerlink" href="#x86-architecture" title="Permalink to this headline">¶</a></h1>
+<p>if (${X86_ARCH})</p>
+</div>
+<div class="section" id="centos-release">
+<h1>centos release<a class="headerlink" href="#centos-release" title="Permalink to this headline">¶</a></h1>
+<p>if (${X86_CENTOS})
+include_directories(
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/gtest/include
+)
+link_directories(
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/hobotlog/lib
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/centos/gtest/lib
+)
+elseif(${ARM_ANDROID})
+include_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/gtest/include
+)
+link_directories(
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/hobotlog/lib
+${XPROTO_CURRENT_DIR}/xproto/third_party/arm/android/gtest/lib
+)
+else ()
+include_directories(
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/gtest/include
+)
+link_directories(
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/hobotlog/lib
+${XSTREAM_CURRENT_DIR}/framework/third_party/x86/ubuntu/gtest/lib
+)
+endif()</p>
+</div>
+<div class="section" id="arm-architecture">
+<h1>arm architecture<a class="headerlink" href="#arm-architecture" title="Permalink to this headline">¶</a></h1>
+<p>else ()
+include_directories(
+${RELEASE_ROOT_DIR}/deps/gtest/include
+)</p>
+<p>link_directories(
+${RELEASE_ROOT_DIR}/deps/gtest/lib
+${RELEASE_ROOT_DIR}/deps/hobotlog/lib
+)
+endif()</p>
+</div>
+<div class="section" id="test-casecpp">
+<h1>test case的所有cpp文件<a class="headerlink" href="#test-casecpp" title="Permalink to this headline">¶</a></h1>
+<p>set(SOURCE_FILES
+gtest_main.cc
+test_api.cc
+test_xplugin.cc
+)</p>
+</div>
+<div class="section" id="id1">
+<h1>添加依赖<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="base-deps">
+<h2>base deps<a class="headerlink" href="#base-deps" title="Permalink to this headline">¶</a></h2>
+<p>if (PLATFORM_WIN)
+set(BASE_LIBRARIES gtest.lib hobotlog.lib)
+else ()
+if (PLATFORM_ANDROID)
+set(BASE_DEPS -ldl -lm -llog libc++_static.a)
+else()
+set(BASE_DEPS -ldl -lm -lpthread -lrt)
+endif()
+set(BASE_LIBRARIES ${BASE_LIBRARIES} libgtest.a libhobotlog.a)
+set(BASE_LIBRARIES ${BASE_LIBRARIES} ${BASE_DEPS})
+endif ()</p>
+</div>
+</div>
+<div class="section" id="hobot-util-cmakebuild-bin-test">
+<h1>hobot_util.cmake已经设置了在build/bin中生成可执行文件，默认应该在test目录里生成<a class="headerlink" href="#hobot-util-cmakebuild-bin-test" title="Permalink to this headline">¶</a></h1>
+<p>add_executable(xproto_unit_test ${SOURCE_FILES})
+target_link_libraries(xproto_unit_test
+PUBLIC ${PROJECT_NAME} ${BASE_LIBRARIES}
+)</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

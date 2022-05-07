@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Firmware Upgrade Manual</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Frequently-used System Commands" href="xj3_board_command.html" />
+  <link rel="prev" title="X3 SDB Eco DevKits" href="x3_sdb_overview.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">X/J3 SOC Dev Manual</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://en.horizon.ai/"
+        class="nav-link external">
+          Horizon <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          Community <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          Feedback <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://en.horizon.ai/"
+        class="nav-link external">
+          Horizon <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          Community <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          Feedback <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">General Descriptions</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About SoCs</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="x3_soc_user_guide.html" class="reference internal ">About Sunrise 3 (X3) AI Processor</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_soc_contrast.html" class="reference internal ">X3 vs. J3</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About DevKits</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 "><a href="xj3_board_overview.html" class="reference internal ">About DevKits</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_sdb_overview.html" class="reference internal ">X3 SDB Eco DevKits</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">Firmware Upgrade Manual</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#system-image" class="reference internal">1. System Image</a></li>
+                
+                  <li class="toctree-l2"><a href="#upgrade-tools" class="reference internal">2. Upgrade Tools</a></li>
+                
+                  <li class="toctree-l2"><a href="#upgrade-method" class="reference internal">3. Upgrade Method</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_command.html" class="reference internal ">Frequently-used System Commands</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">About OpenExplorer</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_user_guide.html" class="reference internal ">About Development Platform</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_quick_start.html" class="reference internal ">Setup Development Environment</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_sample.html" class="reference internal ">Application Development Samples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_docs.html" class="reference internal ">Appendix: Development Manual</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#horizon-x3-j3-soc-development-manual">Others</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="other_sources.html" class="reference internal ">More Technical Support</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>Firmware Upgrade Manual</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="x3_sdb_overview.html"
+       title="previous chapter">← X3 SDB Eco DevKits</a>
+  </li>
+  <li class="next">
+    <a href="xj3_board_command.html"
+       title="next chapter">Frequently-used System Commands →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="firmware-upgrade-manual">
+<h1>Firmware Upgrade Manual<a class="headerlink" href="#firmware-upgrade-manual" title="Permalink to this headline">¶</a></h1>
+<p>This chapter describes how to upgrade firmware, note that J3 DVB’s firmware upgrading is similar.</p>
+<div class="section" id="system-image">
+<h2>1. System Image<a class="headerlink" href="#system-image" title="Permalink to this headline">¶</a></h2>
+<p>XJ3 AI processors use <code class="docutils literal notranslate"><span class="pre">embedded</span> <span class="pre">Linux</span></code> operating system, firmware release uses precompiled image
+<code class="docutils literal notranslate"><span class="pre">X3J3-Img-PL2.0-${version}.tgz</span></code> and PlatformSDK source code <code class="docutils literal notranslate"><span class="pre">X3J3-PlatformSDK-PL2.0-${version}.tgz</span></code>,
+please refer to the <cite>bsp/</cite> release directory. Users can remove modules or modify the PlatformSDK release package
+in accordance with their own needs and compile to generate their private system images.</p>
+<p>The PlatformSDK sourcecode package comes with cross-compilation toolchain and preset compilation scripts.
+See the <code class="docutils literal notranslate"><span class="pre">bsp/PlatformSDK/prebuilts/host</span></code> directory. Users only need to create compilation environment so as to quickly
+accomplish source code compilation of system image. Presently PlatformSDK can be compiled in either Ubuntu18.04 or CentOS7.</p>
+<p>Create your compilation environment in Ubuntu18.04 by running the following commands:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt install build-essential
+sudo apt-get install make
+sudo apt install cmake
+sudo apt install bison
+sudo apt install flex
+sudo apt-get install python-numpy
+sudo apt install android-tools-fsutils
+sudo apt install mtd-utils
+sudo apt install zlib1g-dev
+</pre></div>
+</div>
+<p>Likewise, create your compilation environment in CentOS7 by running the following commands:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>yum install glib cmake gcc bison flex minicom python-pip
+pip install numpy
+yum install make_ext4fs-1.0.0-1.el7.x86_64.rpm
+yum install zlib-devel
+yum install mtd-utils-1.5.0-2.el6.nux.x86_64.rpm
+</pre></div>
+</div>
+<p>Run below commands to compile after configuring your environment:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> ./build/envsetup.sh
+lunch
+./build.sh -m <span class="o">{</span>memory_type<span class="o">}</span> -f <span class="o">{</span>frequency<span class="o">}</span> -i2
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">build.sh</span></code> configurable parameters are as follows.
+Users can compile the corresponding image according to the hardware configuration of the development board</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">build</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">h</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">src</span><span class="o">|</span><span class="n">pre</span><span class="o">|</span><span class="n">mod</span><span class="o">|</span><span class="n">none</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">xj3</span><span class="o">|</span><span class="n">cvb</span><span class="o">|</span><span class="n">x3dvb</span><span class="o">|</span><span class="n">j3dvb</span><span class="o">|</span><span class="n">customer</span><span class="o">|</span><span class="n">fpga</span><span class="o">&gt;</span><span class="n">_</span><span class="o">&lt;</span><span class="n">ap</span><span class="o">|</span><span class="n">uart</span><span class="o">|</span><span class="n">emmc</span><span class="o">|</span><span class="n">nor</span><span class="o">|</span><span class="n">nand</span><span class="o">&gt;</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="mi">2133</span><span class="o">|</span><span class="mi">2666</span><span class="o">|</span><span class="mi">3200</span><span class="o">|</span><span class="mi">3733</span><span class="o">|</span><span class="mi">4266</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">e</span> <span class="n">uboot</span><span class="o">|</span><span class="nb">all</span><span class="o">|</span><span class="n">ut</span><span class="o">|</span><span class="n">nor</span><span class="o">|</span><span class="n">nand</span><span class="o">|</span><span class="n">ft</span><span class="o">|</span><span class="n">gui</span><span class="o">|</span><span class="n">ful</span><span class="o">|</span><span class="n">cramfs</span><span class="o">|</span><span class="n">squashfs</span><span class="o">|</span><span class="n">cpio</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">E</span> <span class="n">DDR</span> <span class="n">ECC</span> <span class="n">pre</span> <span class="n">defined</span> <span class="n">mode</span> <span class="n">select</span> <span class="o">|</span><span class="mi">0</span><span class="o">|</span><span class="mi">1</span><span class="o">|</span><span class="mi">2</span><span class="o">|</span><span class="mi">3</span><span class="o">|</span><span class="mi">4</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">k</span> <span class="n">sdk</span><span class="o">|</span><span class="n">exsdk</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="n">dual_boot</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">v</span> <span class="n">db</span><span class="o">|</span><span class="n">dt</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">recovery</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">ubifs</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">ddr_name</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">hynix</span><span class="o">|</span><span class="n">micron</span><span class="o">|</span><span class="n">samsung</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">LPDDR4</span><span class="o">|</span><span class="n">LPDDR4X</span><span class="o">|</span><span class="n">DDR4</span><span class="o">|</span><span class="n">DDR3L</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">a</span> <span class="mi">1</span><span class="o">|</span><span class="mi">2</span><span class="o">|</span><span class="mi">4</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">x3som</span><span class="o">|</span><span class="n">j3som</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">yes</span><span class="o">|</span><span class="n">no</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">g</span> <span class="n">stresstest</span><span class="o">|</span><span class="n">gcov</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="nb">all</span> <span class="o">|</span> <span class="n">secure</span> <span class="o">|</span> <span class="n">kernel</span> <span class="o">|</span> <span class="n">avb_dm</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="mi">0</span><span class="o">|</span><span class="mi">1</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="p">]</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">]</span> <span class="nb">set</span> <span class="n">ddr_alternative</span><span class="p">,</span> <span class="n">no</span> <span class="n">blank</span> <span class="n">bewteen</span> <span class="n">i</span> <span class="ow">and</span> <span class="nb">set</span> <span class="n">value</span>
+  <span class="p">[</span><span class="o">-</span><span class="n">I</span><span class="p">]</span> <span class="n">enable</span> <span class="n">dfs</span>
+  <span class="p">[</span><span class="n">modulename</span> <span class="p">[</span><span class="n">action</span><span class="p">]]</span>
+<span class="n">The</span> <span class="n">complete</span> <span class="n">parameters</span> <span class="n">are</span> <span class="k">as</span> <span class="n">follows</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">c</span>              <span class="n">default</span> <span class="ow">is</span> <span class="n">mod</span>
+    <span class="s1">&#39;src&#39;</span> <span class="n">means</span> <span class="n">build</span> <span class="n">minimal</span> <span class="n">rootfs</span> <span class="kn">from</span> <span class="nn">yocto</span> <span class="ow">and</span> <span class="nb">all</span> <span class="n">modules</span> <span class="ow">in</span> <span class="n">MODULES_MANIFEST</span>
+    <span class="s1">&#39;mod&#39;</span> <span class="n">means</span> <span class="n">get</span> <span class="n">rootfs</span> <span class="kn">from</span> <span class="nn">prebuilts</span> <span class="ow">and</span> <span class="n">build</span> <span class="nb">all</span> <span class="n">modules</span> <span class="ow">in</span> <span class="n">MODULES_MANIFEST</span>
+    <span class="s1">&#39;pre&#39;</span> <span class="n">means</span> <span class="n">get</span> <span class="n">binaries</span> <span class="kn">from</span> <span class="nn">prebuilts</span>
+    <span class="s1">&#39;none&#39;</span> <span class="n">means</span> <span class="n">build</span> <span class="n">specified</span> <span class="n">module</span>
+  <span class="o">-</span><span class="n">k</span>              <span class="n">build</span> <span class="n">sdk</span>
+    <span class="s1">&#39;sdk&#39;</span> <span class="n">contains</span> <span class="n">include</span><span class="p">,</span><span class="n">lib</span> <span class="ow">and</span> <span class="n">example</span>
+    <span class="s1">&#39;exsdk&#39;</span> <span class="n">contains</span> <span class="n">more</span> <span class="n">contents</span>
+  <span class="o">-</span><span class="n">v</span>              <span class="n">build</span> <span class="n">version</span> <span class="n">db</span> <span class="o">-</span> <span class="n">daily</span> <span class="n">build</span>   <span class="n">dt</span> <span class="o">-</span> <span class="n">distribution</span> <span class="n">release</span>
+  <span class="o">-</span><span class="n">e</span>              <span class="n">build</span> <span class="n">image</span>
+    <span class="s1">&#39;uboot&#39;</span> <span class="n">means</span> <span class="n">build</span> <span class="n">image</span> <span class="n">up</span> <span class="n">until</span> <span class="n">uboot</span>
+    <span class="s1">&#39;all&#39;</span> <span class="n">means</span> <span class="nb">all</span> <span class="n">partitions</span> <span class="n">combine</span> <span class="ow">in</span><span class="p">,</span> <span class="n">no</span> <span class="n">unittest</span>
+    <span class="s1">&#39;ut&#39;</span> <span class="n">means</span> <span class="n">unittest</span> <span class="n">will</span> <span class="n">be</span> <span class="n">combined</span> <span class="ow">in</span>
+    <span class="s1">&#39;ft&#39;</span> <span class="n">means</span> <span class="n">factory</span> <span class="n">test</span> <span class="n">image</span>
+    <span class="s1">&#39;nor&#39;</span> <span class="n">means</span> <span class="n">norflash</span>
+    <span class="s1">&#39;nand&#39;</span> <span class="n">means</span> <span class="n">nandflash</span>
+    <span class="s1">&#39;nand_4096&#39;</span> <span class="n">means</span> <span class="n">nandflash</span> <span class="k">with</span> <span class="mi">4096</span> <span class="n">pagesize</span>
+    <span class="s1">&#39;gui&#39;</span> <span class="n">means</span> <span class="n">rootfs</span> <span class="k">with</span> <span class="n">minigui</span>
+    <span class="s1">&#39;ful&#39;</span> <span class="n">means</span> <span class="n">rootfs</span> <span class="k">with</span> <span class="n">large</span> <span class="n">size</span> <span class="k">for</span> <span class="n">app</span> <span class="n">debug</span>
+    <span class="s1">&#39;cramfs&#39;</span> <span class="n">means</span> <span class="n">rootfs</span> <span class="nb">type</span> <span class="ow">is</span> <span class="n">cramfs</span><span class="p">,</span> <span class="n">according</span> <span class="n">to</span> <span class="n">ramdisk</span><span class="o">.</span><span class="n">manifest</span>
+    <span class="s1">&#39;squashfs&#39;</span> <span class="n">means</span> <span class="n">rootfs</span> <span class="nb">type</span> <span class="ow">is</span> <span class="n">squashfs</span><span class="p">,</span> <span class="n">according</span> <span class="n">to</span> <span class="n">ramdisk</span><span class="o">.</span><span class="n">manifest</span>
+    <span class="s1">&#39;cpio&#39;</span> <span class="n">means</span> <span class="n">Image</span> <span class="k">with</span> <span class="n">cpio</span> <span class="n">according</span> <span class="n">to</span> <span class="n">ramdisk</span><span class="o">.</span><span class="n">manifest</span>
+  <span class="o">-</span><span class="n">E</span>              <span class="n">ddr</span> <span class="n">ECC</span> <span class="n">pre</span> <span class="n">defined</span> <span class="n">mode</span> <span class="n">select</span>
+    <span class="mi">0</span><span class="o">--</span><span class="n">off</span>
+    <span class="mi">1</span><span class="o">--</span><span class="n">gran</span> <span class="mi">0</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="nb">map</span> <span class="mi">127</span><span class="p">(</span><span class="mi">01111111</span><span class="p">)</span> <span class="p">,</span> <span class="n">default</span> <span class="n">option</span>
+    <span class="mi">2</span><span class="o">--</span><span class="n">gran</span> <span class="mi">0</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="nb">map</span> <span class="mi">15</span><span class="p">(</span><span class="mi">00001111</span><span class="p">)</span>
+    <span class="mi">3</span><span class="o">--</span><span class="n">gran</span> <span class="mi">1</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">16</span><span class="p">)</span> <span class="nb">map</span> <span class="mi">127</span><span class="p">(</span><span class="mi">01111111</span><span class="p">)</span>
+    <span class="mi">4</span><span class="o">--</span><span class="n">gran</span> <span class="mi">1</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">16</span><span class="p">)</span> <span class="nb">map</span> <span class="mi">15</span><span class="p">(</span><span class="mi">00001111</span><span class="p">)</span>
+    <span class="n">append</span><span class="p">:</span> <span class="n">DDR_SBR_PATTERN0</span> <span class="n">DDR_SBR_PATTERN1</span> <span class="n">can</span> <span class="n">be</span> <span class="nb">set</span><span class="p">,</span><span class="n">to</span> <span class="n">initialize</span> <span class="n">related</span> <span class="n">registers</span> <span class="n">at</span> <span class="n">ddr</span> <span class="n">initialization</span>
+  <span class="o">-</span><span class="n">f</span>              <span class="n">ddr</span> <span class="n">frequences</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="mi">2666</span>
+  <span class="o">-</span><span class="n">b</span>              <span class="n">choose</span> <span class="n">board</span> <span class="nb">type</span> <span class="ow">and</span> <span class="n">boot</span> <span class="n">mode</span> <span class="ow">and</span> <span class="nb">set</span> <span class="n">environment</span> <span class="n">BOARD_TYPE</span> <span class="ow">and</span> <span class="n">BOOT_MODE</span><span class="o">.</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="p">,</span> <span class="n">svb_emmc</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="mi">0</span><span class="n">som_emmc</span>
+  <span class="o">-</span><span class="n">d</span>              <span class="n">dual</span> <span class="n">boot</span> <span class="n">partiton</span>
+  <span class="o">-</span><span class="n">r</span>              <span class="n">build</span> <span class="n">recovery</span><span class="o">.</span><span class="n">gz</span>
+    <span class="s1">&#39;recovery&#39;</span> <span class="n">means</span> <span class="n">support</span> <span class="n">recovery</span> <span class="n">mode</span>
+  <span class="o">-</span><span class="n">u</span>              <span class="n">flash</span> <span class="n">file</span> <span class="n">system</span> <span class="n">selection</span>
+    <span class="s1">&#39;ubifs&#39;</span> <span class="n">means</span> <span class="n">using</span> <span class="n">ubifs</span> <span class="n">file</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">flash</span>
+  <span class="o">-</span><span class="n">n</span>              <span class="n">ddr</span> <span class="n">manufacturer</span><span class="s1">&#39;s name, default is ddrphy_phyinit</span>
+  <span class="o">-</span><span class="n">F</span>              <span class="n">enable</span> <span class="n">FDE</span><span class="p">(</span><span class="n">Full</span> <span class="n">Disk</span> <span class="n">Encryption</span><span class="p">)</span> <span class="n">feature</span>
+  <span class="o">-</span><span class="n">g</span>              <span class="n">special</span> <span class="n">test</span> <span class="n">options</span>
+    <span class="s1">&#39;stresstest&#39;</span> <span class="n">means</span> <span class="n">using</span> <span class="n">test</span> <span class="n">spl</span> <span class="n">image</span>
+    <span class="s1">&#39;gcov&#39;</span> <span class="n">means</span> <span class="n">build</span> <span class="n">gcov</span> <span class="n">coverage</span> <span class="n">test</span> <span class="n">image</span>
+  <span class="o">-</span><span class="n">s</span>              <span class="n">select</span> <span class="n">secure</span> <span class="n">image</span> <span class="nb">type</span><span class="p">,</span> <span class="n">by</span> <span class="n">default</span><span class="p">,</span> <span class="n">ONLY</span> <span class="n">Kernel</span> <span class="n">verification</span> <span class="ow">is</span> <span class="n">enabled</span>
+    <span class="s1">&#39;all&#39;</span> <span class="n">means</span> <span class="n">build</span> <span class="nb">all</span> <span class="n">images</span> <span class="k">with</span> <span class="n">different</span> <span class="n">verification</span> <span class="n">modes</span> <span class="n">where</span> <span class="n">disk</span><span class="o">.</span><span class="n">img</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">default</span> <span class="n">image</span>
+    <span class="s1">&#39;secure&#39;</span> <span class="n">means</span> <span class="n">EFUSE</span> <span class="n">encryption</span><span class="p">,</span> <span class="n">Kernel</span> <span class="n">verification</span> <span class="ow">and</span> <span class="n">dm</span><span class="o">-</span><span class="n">verity</span> <span class="n">are</span> <span class="n">enalbed</span>
+    <span class="s1">&#39;kernel&#39;</span> <span class="n">means</span> <span class="n">ONLY</span> <span class="n">Kernel</span> <span class="n">verification</span> <span class="ow">is</span> <span class="n">enabled</span> <span class="p">(</span><span class="n">NO</span> <span class="n">EFUSE</span> <span class="ow">or</span> <span class="n">dm</span><span class="o">-</span><span class="n">verity</span><span class="p">)</span>
+    <span class="s1">&#39;avb_dm&#39;</span>  <span class="n">means</span> <span class="n">ONLY</span> <span class="n">Kernel</span> <span class="n">verification</span> <span class="ow">and</span> <span class="n">dm</span><span class="o">-</span><span class="n">verity</span> <span class="ow">is</span> <span class="n">enalbed</span> <span class="p">(</span><span class="n">NO</span> <span class="n">EFUSE</span><span class="p">)</span>
+  <span class="o">-</span><span class="n">x</span>              <span class="n">BPU</span> <span class="n">framework</span> <span class="n">version</span> <span class="n">default</span><span class="p">,</span> <span class="n">version</span> <span class="mi">0</span>
+    <span class="s1">&#39;0&#39;</span><span class="p">:</span><span class="n">bpu</span> <span class="n">framework</span> <span class="n">version</span> <span class="mi">0</span>
+    <span class="s1">&#39;1&#39;</span><span class="p">:</span><span class="n">bpu</span> <span class="n">framework</span> <span class="n">version</span> <span class="mi">1</span>
+  <span class="o">-</span><span class="n">i</span>              <span class="nb">set</span> <span class="n">ddr_alternative</span> <span class="ow">in</span> <span class="n">boardid</span><span class="p">,</span> <span class="nb">set</span> <span class="n">to</span> <span class="mi">1</span><span class="p">(</span><span class="n">default</span><span class="p">)</span> <span class="ow">in</span> <span class="n">xg</span><span class="o">-</span><span class="mi">1</span><span class="n">g</span> <span class="ow">is</span> <span class="n">used</span> <span class="k">for</span> <span class="nb">compile</span> <span class="n">dfs</span> <span class="n">image</span><span class="p">,</span>
+          <span class="nb">set</span> <span class="n">to</span> <span class="mi">2</span> <span class="ow">is</span> <span class="n">xg</span><span class="o">-</span><span class="mi">2</span><span class="n">g</span><span class="p">,</span><span class="n">no</span> <span class="n">blank</span> <span class="n">bewteen</span> <span class="n">i</span> <span class="ow">and</span> <span class="nb">set</span> <span class="n">value</span>
+  <span class="o">-</span><span class="n">l</span>              <span class="n">gets</span> <span class="n">the</span> <span class="n">minimum</span> <span class="n">boot</span> <span class="n">log</span> <span class="n">image</span><span class="p">,</span> <span class="n">include</span> <span class="n">spl</span><span class="p">,</span> <span class="n">bl31</span><span class="p">,</span> <span class="n">uboot</span> <span class="ow">and</span> <span class="n">kernel</span> <span class="n">log</span>
+  <span class="n">modulename</span>      <span class="n">module</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">MODULES_MANIFEST</span><span class="o">.</span> <span class="n">If</span> <span class="ow">not</span> <span class="n">selected</span><span class="p">,</span> <span class="n">no</span> <span class="n">module</span> <span class="n">will</span> <span class="n">be</span> <span class="n">rebuild</span><span class="o">.</span>
+    <span class="k">if</span> <span class="s1">&#39;all&#39;</span> <span class="ow">is</span> <span class="n">present</span><span class="p">,</span> <span class="n">it</span> <span class="n">means</span> <span class="nb">all</span> <span class="n">modules</span> <span class="ow">in</span> <span class="n">MODULES_MANIFEST</span> <span class="n">are</span> <span class="n">selected</span>
+  <span class="n">action</span>          <span class="nb">all</span><span class="p">,</span> <span class="n">all_32</span><span class="p">,</span> <span class="n">clean</span>
+    <span class="s1">&#39;all&#39;</span> <span class="n">means</span> <span class="nb">compile</span> <span class="mi">64</span><span class="o">-</span><span class="n">bit</span> <span class="n">module</span><span class="p">,</span> <span class="n">only</span> <span class="n">used</span> <span class="n">when</span> <span class="n">TARGET_BIT</span> <span class="ow">is</span> <span class="mi">64</span>
+    <span class="s1">&#39;all_32&#39;</span> <span class="n">means</span> <span class="nb">compile</span> <span class="mi">32</span><span class="o">-</span><span class="n">bit</span> <span class="n">module</span><span class="p">,</span> <span class="n">only</span> <span class="n">used</span> <span class="n">when</span> <span class="n">TARGET_BIT</span> <span class="ow">is</span> <span class="mi">32</span>
+    <span class="s1">&#39;clean&#39;</span> <span class="n">means</span> <span class="n">clean</span> <span class="n">up</span> <span class="n">module</span>
+<span class="n">Refer</span> <span class="n">to</span> <span class="n">below</span> <span class="n">samples</span><span class="p">:</span>
+  <span class="n">build</span> <span class="n">xj3</span> <span class="n">sdb</span> <span class="n">samsung</span> <span class="mi">3200</span> <span class="n">image</span> <span class="p">:</span> <span class="o">./</span><span class="n">build</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">m</span> <span class="n">samsung</span> <span class="o">-</span><span class="n">f</span> <span class="mi">3200</span> <span class="o">-</span><span class="n">i2</span> <span class="o">-</span><span class="n">s</span> <span class="n">secure</span>
+</pre></div>
+</div>
+<p>After compilation, an <code class="docutils literal notranslate"><span class="pre">out/horizon_x3-release.64/target/deploy/</span></code> folder will be output based on the <code class="docutils literal notranslate"><span class="pre">PlatformSDK</span></code> folder, who is supposed to be the same with the unzipped
+directory structure of <code class="docutils literal notranslate"><span class="pre">X3J3-Img-PL2.0-${version}.tgz</span></code> package:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>PLATFORMSDK_OUT
+├── <span class="m">30500020</span>-emmc-3200-all-gpt.conf
+├── <span class="m">30500020</span>-emmc-3200-all-gpt-dual.conf
+├── bl31
+├── bl31.img
+├── boot
+├── boot.img
+├── bpu
+├── combind_disk_app
+├── cr5
+├── ddr
+├── ddr.img
+├── disk.img
+├── fastboot_config.json
+├── gen_disk.sh
+├── gen_ota.sh
+├── gpt_backup_dual.img
+├── gpt_backup.img
+├── gpt_main_dual.img
+├── gpt_main.img
+├── mbr
+├── mbr.bin
+├── ota
+├── recovery
+├── recovery.img
+├── sbl
+├── sbl.img
+├── system
+├── system.img
+├── uboot
+├── ubootbak
+├── uboot.img
+├── usb_uart_pkg
+├── vbmeta
+├── vbmeta.img
+├── veeprom
+└── veeprom.img
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">PLATFORMSDK_OUT</span></code> directory contains all partition images and the <code class="docutils literal notranslate"><span class="pre">gen_disk.sh</span></code> packaging script,
+as below described:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash gen_disk.sh -h
+  usage: gen_disk.sh &lt;-b board&gt; <span class="o">[</span>-s<span class="o">]</span> <span class="o">[</span>-u<span class="o">]</span> <span class="o">[</span>-t Debug/Release<span class="o">]</span> <span class="o">[</span>-i uboot<span class="o">]</span> <span class="o">[</span> -l <span class="o">]</span> <span class="o">[</span>-o output_file<span class="o">]</span> <span class="o">[</span>-F<span class="o">]</span>
+  avaliable board  : -b xj3<span class="o">(</span>auto detect<span class="o">)</span>, x3_dvb, j3_dvb, xj3_cvb, xj3_sdb, xj3_cus<span class="o">(</span>customer<span class="o">)</span> board
+  output file name : -o specify the output file name instead of generate automatically
+  secure image     : -s generate secure image
+  unittests        : -u generate images with unittests
+  uboot image      : -i uboot    contain the image before uboot partition
+  optimize boot    : -l reduce boot log <span class="k">for</span> performance <span class="nb">test</span> and projects that are needed
+  ddr <span class="nb">type</span>         : -m specify ddr type, e.g. hynix_lpddr4
+  dual_boot        : -d generate dual_boot disk image, currently only supported on emmc
+  force generate   : -F ignore any missing files and generate disk.img
+  dfs boot         : -k generate image to support dfs, supported in only non-secure image
+  cvb power <span class="nb">test</span>   : -c generate image to support cvb <span class="m">3200</span> power <span class="nb">test</span>
+  pin secure mode  : -p generate image to support boot pin secure mode to <span class="nb">test</span> suspend/resume
+  ddr_alternative  : -a <span class="nb">set</span> ddr_alternative, <span class="nb">set</span> to <span class="m">2</span> in xg is used <span class="k">for</span> xg-2g
+  <span class="m">4096</span> nand page   : --nand_4096 generate nand image of <span class="m">4096</span> page size
+Refer to below samples:
+  build xj3 UT disk image           :   ./gen_disk.sh -b xj3 -u
+  build xj3 normal disk image       :   ./gen_disk.sh -b xj3
+  build xj3 micron ddr4 disk image  :   ./gen_disk.sh -b xj3 -m micron_ddr4
+  build xj3 secure disk image       :   ./gen_disk.sh -b xj3 -s -F
+  build xj3 UT dual boot disk image :   ./gen_disk.sh -b xj3 -u -d
+  build xj3 samsung <span class="m">3200</span> image      :   ./gen_disk.sh -b xj3 -u -t Release -m samsung -a <span class="m">2</span> -F -s
+</pre></div>
+</div>
+<p>The final image file for system upgrading firmware can be generated using the <code class="docutils literal notranslate"><span class="pre">gen_disk.sh</span></code> script.</p>
+</div>
+<div class="section" id="upgrade-tools">
+<h2>2. Upgrade Tools<a class="headerlink" href="#upgrade-tools" title="Permalink to this headline">¶</a></h2>
+<p>We provide the one-click <code class="docutils literal notranslate"><span class="pre">hbupdate</span></code> tool for board system upgrade.
+Board system can be upgraded using either ethernet port, serial port or USB port.
+Complete toolset please refer to the <code class="docutils literal notranslate"><span class="pre">tools/</span></code> directory:</p>
+<ol class="arabic simple">
+<li><p><strong>0A_PL2302-USB-to-Serial-Comm-Port.zip</strong>: PL2303 serial port driver</p></li>
+<li><p><strong>0A_CP210x_USB2UART_Driver.zip</strong>: CP210X serial port driver</p></li>
+<li><p><strong>0A_PL2303-M_LogoDriver_Setup_v202_20200527.zip</strong>: PL2302 serial port driver</p></li>
+<li><p><strong>0B_hbupdate_win64_${version}.zip</strong>: is used for one-click upgrading tool in Window 64</p></li>
+<li><p><strong>0B_hbupdate_linux_cli_${version}.tgz</strong>: is used for command-line upgrading tool in Ubuntu</p></li>
+<li><p><strong>0B_hbupdate_linux_gui_${version}.tgz</strong>: is used for one-click upgrading tool in Ubuntu</p></li>
+<li><p><strong>0B_hbupdate_mac_${version}.app.tar.gz</strong>: is used for one-click upgrading tool in MacOS</p></li>
+<li><p><strong>0B_hbupdate_burn_secure-key1.zip</strong>: is used for burn chip into <code class="docutils literal notranslate"><span class="pre">hbupdate</span></code> upgrading tool of secure chip</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Secure chip is a kind of system security protection machenism used for preventing the SoC software system
+from forcedly crack during operation, and thus enhance application system and data safety. If you’re using a non
+secure chip, then please convert it into a secure chip using the <code class="docutils literal notranslate"><span class="pre">0B_hbupdate_burn_secure-key1.zip</span></code> tool when you use it
+for the first time. Afterwards, you can upgrade using the regular <code class="docutils literal notranslate"><span class="pre">hbupdate</span></code> tool. Please note that the secure chip is
+an irreversible process, after successfully upgrade using the <code class="docutils literal notranslate"><span class="pre">0B_hbupdate_burn_secure-key1.zip</span></code> tool, you will need to
+keep using the <code class="docutils literal notranslate"><span class="pre">./gen_disk.sh</span> <span class="pre">-b</span> <span class="pre">xj3</span> <span class="pre">-F</span> <span class="pre">-s</span> <span class="pre">secure</span></code> to generate secured system images.</p>
+<p>Because secure chip is not sensitive to application layer, you are recommended to upgrade the chip into secure chip
+so as to guarantee that the future application system is consistent with chip development system.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Images of secure chip and non-secure chip are incompatible, i.e., a secure chip dev board cannot burn an image of
+a non-secure chip, and vice versa.</p>
+</div>
+<p>Before running <code class="docutils literal notranslate"><span class="pre">hbupdate</span></code>, please install serial port driver into your host OS.
+By default, the CP210X, PL2302 and PL2303 serial port drivers are provided.
+Please choose to install according to your host OS, or just try to install them one by one.
+If you find that neither can work, please contact Horizon Robotics for technical support.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Before running <code class="docutils literal notranslate"><span class="pre">hbupdate</span></code>, please add it into the whitelist of your antivirus software or
+turn off your antivirus software, otherwise upgrade may fail.</p>
+</div>
+<p>You will see below operating interface when you open the <code class="docutils literal notranslate"><span class="pre">hbupdate</span></code> upgrading tool:
+(Here takes the <code class="docutils literal notranslate"><span class="pre">hbupdate</span> <span class="pre">v0.8.4</span></code> and system image 20210601 <code class="docutils literal notranslate"><span class="pre">disk_xj3_secure_ut_emmc202106011037.img</span></code> as an example,
+operating method is similar while tool version varies.)</p>
+<a class="reference internal image-reference" href="../_images/fastboot_upgrade.png"><img alt="../_images/fastboot_upgrade.png" src="../_images/fastboot_upgrade.png" style="width: 774.6px; height: 621.0px;" /></a>
+<ol class="arabic simple">
+<li><p><strong>Product Type</strong>: Supported products can be selected. As for X3 SDB (xj3_sdb), please select <code class="docutils literal notranslate"><span class="pre">XJ3-key1</span></code>.</p></li>
+<li><p><strong>Product Name</strong>: Please select the name of your dev board. As for X3 SDB (xj3_sdb), please select <code class="docutils literal notranslate"><span class="pre">xj3_sdb</span></code>.</p></li>
+<li><p><strong>Download Mode</strong>: Please select among <code class="docutils literal notranslate"><span class="pre">ota</span></code>, <code class="docutils literal notranslate"><span class="pre">uboot</span></code> and <code class="docutils literal notranslate"><span class="pre">uart</span></code>.</p></li>
+<li><p><strong>Download Method</strong>: Please select either <code class="docutils literal notranslate"><span class="pre">fastboot</span></code> or <code class="docutils literal notranslate"><span class="pre">tftp</span></code>.
+This parameter works in conjunction with <strong>Download Mode</strong>.</p></li>
+<li><p><strong>SDRam Type</strong>: xj3_sdb utlized Samsung Particle by default, so you don’t need to specify this parameter.</p></li>
+<li><p><strong>Verify Afterwards</strong>: It only applies to <code class="docutils literal notranslate"><span class="pre">uboot</span></code> and <code class="docutils literal notranslate"><span class="pre">uart</span></code> download modes.
+If checked, the tool will send the board to reboot to verify if the board can boot into Linux Shell.
+If successfully boot into Linux shell, upgrade success, otherwise failure.</p></li>
+<li><p><strong>Display Serial Output</strong>: If checked, the serial output from the board will be displayed under <code class="docutils literal notranslate"><span class="pre">Upgrade</span> <span class="pre">Message</span></code>.
+The messages displayed can be used to debug.</p></li>
+<li><p><strong>Product Configuration</strong>: including the IP address of dev board, Gateway Address, MAC Address and Subnet Mask.
+These information will be sent to dev board during upgrade, network segment must be the same as the IP address
+(first 3 segments should be the same) in your host machine configuration.</p></li>
+<li><p><strong>Computer Configuration</strong>: including Serial Port and IP Address.</p></li>
+<li><p><strong>Image File</strong>: Select a .img file. Note that there mustn’t be Chinese characters or spaces.</p></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ol class="arabic simple">
+<li><p>As default Baud rate of upgrade tool serial port is 921600,
+the DIP switch of dev board must be adjusted to 921600 mode.</p></li>
+<li><p>There mustn’t be Chinese characters or spaces in upgrade tool’s decompression path and image file’s storing path.</p></li>
+<li><p>The serial port cannot be opened repeatedly, There is a prompt for it after clicking <code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">download</span></code>.
+There may be a situation that the serial port can be opened repeatedly under Ubuntu system,
+but it will still lead to the failure of download.</p></li>
+<li><p>The update tool will start a tftp service.
+If the tool cannot apply to port 69, the system software will shut down after an error is reported.
+At this time, it needs to check (1) whether there are other applications in the system to open the tftp service,
+or whether the system has its own tftp service, (2) whether to open the update tool multiple times.</p></li>
+<li><p>Most download modes require a network.
+Please make sure that the device IP and PC IP are in the same network segment.
+There cannot be duplicate IP in the network segment, and the IP mask on both sides must be the same.</p></li>
+<li><p>The upgrade tool won’t upgrade the <code class="docutils literal notranslate"><span class="pre">/userdata</span></code> directory in order to prevent that userdata to be overwritten.</p></li>
+<li><p>After image is created, only the <code class="docutils literal notranslate"><span class="pre">/app</span></code> and <code class="docutils literal notranslate"><span class="pre">/userdata</span></code> directories have write permission.
+If you wish all partitions and directories to have write permission, please run:
+<code class="docutils literal notranslate"><span class="pre">mount</span> <span class="pre">-o</span> <span class="pre">remount,rw</span> <span class="pre">/</span></code> to obtain write permission.</p></li>
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">Type</span></code> menu in <code class="docutils literal notranslate"><span class="pre">hbupdate</span></code>’s GUI, the <code class="docutils literal notranslate"><span class="pre">XJ3-normal</span></code> applies to non-secure image authoring.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="upgrade-method">
+<h2>3. Upgrade Method<a class="headerlink" href="#upgrade-method" title="Permalink to this headline">¶</a></h2>
+<p>There are 4 methods to upgrade SoC image: <strong>Ethernet Port Uboot, USB Uboot, UART and OTA</strong>.
+Wherein, Ethernet Port Uboot, USB Uboot and OTA are recommended as long as the dev board system is available;
+otherwise choose UART to recover and upgrade when the dev board system is unavailable.</p>
+<div class="section" id="ethernet-port-uboot-upgrade-method">
+<h3>3.1 Ethernet Port Uboot Upgrade Method<a class="headerlink" href="#ethernet-port-uboot-upgrade-method" title="Permalink to this headline">¶</a></h3>
+<p>Ethernet Port Uboot refers to an upgrade method to transmit and upgrade image files via ethernet port
+when you can power the dev board and enter host OS. The tool will send reboot command via serial port
+and stay in Uboot.</p>
+<p>Due to the fact that tool network transmission is restricted by TFTP, user must guarantee that there isn’t any other
+softwares taking up TFTP service, and that dev board and PC are in the same network segment
+(i.e. the IP addresses of the first 3 segments are the same).</p>
+<p>Please refer to the following upgrading configurations:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that tool GUI varies by versions, here is just an example.</p>
+</div>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">Type</span></code>: choose <code class="docutils literal notranslate"><span class="pre">XJ3-key1</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">Name</span></code>: choose <code class="docutils literal notranslate"><span class="pre">xj3_sdb</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Mode</span></code>: choose <code class="docutils literal notranslate"><span class="pre">uboot</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Method</span></code>: choose <code class="docutils literal notranslate"><span class="pre">tftp</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CP</span> <span class="pre">IP</span> <span class="pre">Address</span></code>: configure before upgrade, the first 3 IP segments should be the same.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Gateway</span> <span class="pre">Address</span></code>: configure before upgrade.</p></li>
+<li><p>Computer <code class="docutils literal notranslate"><span class="pre">IP</span> <span class="pre">Address</span></code>: run <code class="docutils literal notranslate"><span class="pre">ping</span></code> command to ensure that dev board IP is accessible.
+The first 3 IP segments should be the same.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Serial</span> <span class="pre">Port</span></code>: default Baud rate is 921600.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Image</span> <span class="pre">File</span></code>: choose .img file. There mustn’t be Chinese characters or spaces in paths or filenames.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/uboot_upgrade.png"><img alt="../_images/uboot_upgrade.png" src="../_images/uboot_upgrade.png" style="width: 730.4000000000001px; height: 354.8px;" /></a>
+</div>
+<div class="section" id="usb-uboot-upgrade-method">
+<h3>3.2 USB Uboot Upgrade Method<a class="headerlink" href="#usb-uboot-upgrade-method" title="Permalink to this headline">¶</a></h3>
+<p>USB Uboot refers to the upgrade method when dev board is turned on and enters the OS, the tool will send reboot command
+via serial port and stay in Uboot, then use USB fastboot to accomplish image file transmission and upgrade.</p>
+<p>Wherein, fastboot transmission requires support of computer driver, users need to install fastboot driver in computer
+and the X3 fastboot port can be recognized.</p>
+<p>Follow below graph to configure upgrade tool:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">Type</span></code>, choose <code class="docutils literal notranslate"><span class="pre">XJ3-key1</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">Name</span></code>, choose <code class="docutils literal notranslate"><span class="pre">xj3_sdb</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Mode</span></code>, choose <code class="docutils literal notranslate"><span class="pre">uboot</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Method</span></code>, choose <code class="docutils literal notranslate"><span class="pre">fastboot</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">file</span></code>, choose a .img file whose path and filename cannot contain either Chinese character or spaces.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Serial</span> <span class="pre">Port</span></code>, default Baud rate is <code class="docutils literal notranslate"><span class="pre">921600</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PC</span> <span class="pre">IP</span></code>, no need to choose this field.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/usb_uboot.png"><img alt="../_images/usb_uboot.png" src="../_images/usb_uboot.png" style="width: 754.8px; height: 555.0px;" /></a>
+</div>
+<div class="section" id="uart-upgrade-method">
+<h3>3.3 UART Upgrade Method<a class="headerlink" href="#uart-upgrade-method" title="Permalink to this headline">¶</a></h3>
+<p>To upgrade UART, sends UART start-up command via serial port using the tool before X3 dev board is powered,
+so that the system will enter UART start-up mode when the powered X3 dev board receives the command.
+Having done all above, the tool will be able to send the build-in SPL and Uboot images using UART, and the dev board
+will enter Uboot and upgrade user specified images via either USB or ethernet port.</p>
+<p>When X3 SDB becomes brick or blank, it can be recovered and upgraded using the UART method.
+Please configure as following:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Mode</span></code>, choose <code class="docutils literal notranslate"><span class="pre">uart</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Memory</span> <span class="pre">Type</span></code>, choose <code class="docutils literal notranslate"><span class="pre">lpddr4-samsung-sec</span></code> because X3 SDB uses Samsung particle.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/uart_upgrade.png"><img alt="../_images/uart_upgrade.png" src="../_images/uart_upgrade.png" style="width: 755.4px; height: 555.0px;" /></a>
+</div>
+<div class="section" id="ota-upgrade-method">
+<h3>3.4 OTA Upgrade Method<a class="headerlink" href="#ota-upgrade-method" title="Permalink to this headline">¶</a></h3>
+<p>OTA upgrade method is an online upgrade method for X3 SDB, it can implement basic online upgrade feature and upgrade
+the partition files after Uboot, including: kernel and rootfs etc.</p>
+<p>After PlatformSDK compilation, a corresponding OTA package will be generated in the
+out/horizon_x3-release.64/target/deploy/ota/all_disk.zip.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">Type</span></code>, choose <code class="docutils literal notranslate"><span class="pre">XJ3-key1</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">Name</span></code>, choose <code class="docutils literal notranslate"><span class="pre">xj3_sdb</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Mode</span></code>, choose <code class="docutils literal notranslate"><span class="pre">ota</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Method</span></code>, choose <code class="docutils literal notranslate"><span class="pre">tftp</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Image</span> <span class="pre">File</span></code>, choose <code class="docutils literal notranslate"><span class="pre">all_disk.zip</span></code>. Paths and filenames mustn’t contain Chinese characters or spaces.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CP</span> <span class="pre">IP</span> <span class="pre">Address</span></code> must be in the same segment with the computer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Serial</span> <span class="pre">Port</span></code>, default Baud rate is <code class="docutils literal notranslate"><span class="pre">921600</span></code>.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/ota_upgrade.png"><img alt="../_images/ota_upgrade.png" src="../_images/ota_upgrade.png" style="width: 754.1999999999999px; height: 556.1999999999999px;" /></a>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="x3_sdb_overview.html"
+       title="previous chapter">← X3 SDB Eco DevKits</a>
+  </li>
+  <li class="next">
+    <a href="xj3_board_command.html"
+       title="next chapter">Frequently-used System Commands →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

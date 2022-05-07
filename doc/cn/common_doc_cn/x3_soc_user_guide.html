@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>旭日X3芯片概述</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="X3与J3差异描述" href="xj3_soc_contrast.html" />
+  <link rel="prev" title="地平线 X3J3 芯片开发手册" href="../index.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">地平线 X3J3 芯片开发手册</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">整体概述</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">芯片介绍</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">旭日X3芯片概述</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#x3" class="reference internal">旭日X3芯片概述</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_soc_contrast.html" class="reference internal ">X3与J3差异描述</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">开发套件介绍</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="xj3_board_overview.html" class="reference internal ">开发套件概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_sdb_overview.html" class="reference internal ">X3 SDB生态套件</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_update_guide.html" class="reference internal ">固件升级手册</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_command.html" class="reference internal ">常见系统命令</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">天工开物开发平台</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_user_guide.html" class="reference internal ">开发平台概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_quick_start.html" class="reference internal ">开发环境搭建</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_sample.html" class="reference internal ">应用开发示例</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_docs.html" class="reference internal ">附录：开发手册</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">其他</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="other_sources.html" class="reference internal ">社区资源索引</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>旭日X3芯片概述</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="../index.html"
+       title="previous chapter">← 地平线 X3J3 芯片开发手册</a>
+  </li>
+  <li class="next">
+    <a href="xj3_soc_contrast.html"
+       title="next chapter">X3与J3差异描述 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="x3">
+<h1>旭日X3芯片概述<a class="headerlink" href="#x3" title="Permalink to this headline">¶</a></h1>
+<p>旭日Sunrise3（简称 X3）是2020年推出的低功耗、高性能AI处理器，主要面向人工智能物联网AIOT领域。
+根据用户场景需求不同，X3进一步划分出X3M和X3E两个版本。</p>
+<p>芯片的功能框图如下图所示：</p>
+<a class="reference internal image-reference" href="../_images/soc_chip_block.png"><img alt="../_images/soc_chip_block.png" class="align-center" src="../_images/soc_chip_block.png" style="width: 1210.0px; height: 656.0px;" /></a>
+<ol class="arabic simple">
+<li><p><strong>CPU规格</strong>：X3芯片采用的ARM® Cortex®-A53作为主控CPU，L1 Cache大小为32KB, L2 Cache大小为512KB，支持FPU, NEON加速。
+典型工作频率为1.2GHz，并支持软件层面进行频率控制。X3M芯片内部4个 CPU Core，X3E芯片中内置了2个CPU Core.</p></li>
+<li><p><strong>BPU规格</strong>：BPU为基于地平线自研伯努利二代架构打造的AI加速IP核，X3芯片内置了2个IP核心。
+其中X3M的两个BPU核典型工作频率1.2GHz，X3E的两个BPU核典型工作频率0.6GHz，等效AI算力分别高达5TOPS和3TOPS。</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>X3内置的2个BPU Core，为了业务层面的模型调度提供了非常灵活的多核调度能力，其中包括：</p>
+<ol class="arabic simple">
+<li><p>单帧单核：将单次模型推理手动调度到单个BPU Core上进行推理。从而针对检测+分类等场景，可以将全图检测高优先级模型与一些低优先级模型进行物理隔离。</p></li>
+<li><p>单帧双核：单次模型推理同时使用两个BPU Core的硬件资源来进行推理，实现 <strong>真双核</strong> 的执行能力，可以显著地降低单次模型推理的延迟。</p></li>
+</ol>
+<p>在DDR等资源未达到瓶颈的情况下，单帧单核可以保证两个BPU核的调度推理隔离。多线程单帧双核场景可以实现推理FPS的双倍提升。
+单帧双核场景下，针对大模型，它可以显著的降低单次模型推理延迟。但是在多线程多帧双核场景，会因为双核调度开销，无法实现FPS的双倍提升。</p>
+<p>关于高效的使用双核BPU，你可以参考AI算法工具链接口文档来了解相关技术细节。</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>视频通路能力</strong>：X3芯片提供了视频输入Video In,视频输出Video Out,视频编解码Video CODEC以及图像编解码Image Process等完整视频通路，详细请参考下图</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/soc_video.png"><img alt="../_images/soc_video.png" class="align-center" src="../_images/soc_video.png" style="width: 1164.8px; height: 572.8000000000001px;" /></a>
+<ul class="simple">
+<li><p><strong>Video In模块</strong>：支持MIPI和DVP两种类型图像Sensor的输入。
+其中MIPI Rx分为Rx0，Rx1/3，Rx2，总共支持8条Lane，每个Lane带宽设计支持2Gbps，支持YUV422 8/10bit以及Raw 8，10，12，14几种格式的Sensor输入。</p></li>
+<li><p><strong>SIF模块</strong>：承载了Video In输入的虚拟通道到下游ISP/IPU模块的转发工作，并支持直接通过bypass旁路的功能将Video In数据转发到第三方SOC芯片。</p></li>
+<li><p><strong>ISP模块</strong>：支持LSC/LDC/DIS/DPC/SNR等，可以在宽动态、低照度场景下得到高质量的图像。同时提供ISP Tuning工具支持用户自行进行ISP调试。</p></li>
+<li><p><strong>VPS硬件</strong>：提供了缩放，镜像，旋转，矫正，流控，金字塔等图像处理能力。硬件上由单个IPU，单个金字塔PYM，两个GDC组成。软件上则采用分组来实现分时复用硬件，最大支持8个组的分时复用。</p></li>
+<li><p><strong>VENC/VDEC模块</strong>：提供了最大8M&#64;60fps的H.265编解码，最大8M&#64;30fps的H.264 编解码能力，以及支持最大16Mpixels的JPEG编解码能力。</p></li>
+<li><p><strong>Video Out模块</strong>：支持BT1120，BT656，MIPI等输出场景。</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Video In模块除了支持MIPI和DVP两种RAW类型Sensor的输入以外，我们还支持通过USB接口的Sensor输入。
+常见场景是通过USB驱动拿到JPEG等格式的USB输入图像，并经过VDEC解码模块进行图像解码，输出YUV格式的数据给到VPS模块。</p>
+<p>关于基础视频通路使用和USB Camera的使用，你可以参考系统软件基础API，或通过VideoSource应用开发组件来简化你的使用。</p>
+</div>
+<p>其他关于芯片外设等端口，你可以参考X3M/X3E芯片Datasheet手册。</p>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="../index.html"
+       title="previous chapter">← 地平线 X3J3 芯片开发手册</a>
+  </li>
+  <li class="next">
+    <a href="xj3_soc_contrast.html"
+       title="next chapter">X3与J3差异描述 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,18 @@
+工具详细介绍
+===================
+
+.. note::
+
+  本章是地平线浮点模型转换工具的使用手册，介绍各工具的详细参数。
+
+.. toctree::
+  
+  03_tools/hb_mapper
+  03_tools/hb_perf
+  03_tools/vec_diff
+  03_tools/model_info
+  03_tools/hb_pack
+  03_tools/hb_model_verifier
+  03_tools/hb_model_modifier
+  03_tools/hb_custom_op
+  03_tools/hb_eval_preprocess

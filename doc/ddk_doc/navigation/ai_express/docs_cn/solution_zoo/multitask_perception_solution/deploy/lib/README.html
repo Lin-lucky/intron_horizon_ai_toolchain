@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>1. 系统sensor库 &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>1. 系统sensor库</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/multitask_perception_solution/deploy/lib/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sensor">
+<h1>1. 系统sensor库<a class="headerlink" href="#sensor" title="Permalink to this headline">¶</a></h1>
+<p>mipi camera的运行需要依赖系统软件驱动库，有些sensor库并没有放入到系统镜像中，因此需要用户手动更新，具体更新位置如下：</p>
+<ul class="simple">
+<li><p>f37 sensor：</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mount -o remount,rw /               <span class="c1"># 重新mount，获取根目录的权限</span>
+cp f37/libf37.so /lib/sensorlib/    <span class="c1"># 驱动库</span>
+cp f37/libjxf37_linear.so /etc/cam/  <span class="c1"># isp turning库</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>imx586 sensor:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cp imx586/libimx586.so /lib/sensorlib/    <span class="c1"># 驱动库</span>
+cp imx586/libimx586_linear.so /etc/cam/  <span class="c1"># isp turning库</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="video-sourcesensor">
+<h1>2. video source内部sensor插件库<a class="headerlink" href="#video-sourcesensor" title="Permalink to this headline">¶</a></h1>
+<p>video source对于集成一款新的sensor，有两种方式：</p>
+<ul class="simple">
+<li><p>枚举方式：通过下面配置的sensor_id来使用</p></li>
+<li><p>插件库方式：通过打开下面的sensor_plugin_en字段来使用。默认集成了f37和imx586的插件库，用户可以根据需要，集成自己的sensor插件库</p></li>
+</ul>
+<p>当用户不想修改video source源代码时，可以使用sensor插件库的方式集成进video source</p>
+<ul class="simple">
+<li><p>例如libf37_plugin.so这插件库的使用方式如下：</p>
+<ul>
+<li><p>在vin的配置文件中，设置sensor_plugin_en为1</p></li>
+<li><p>设置sensor_plugin_path字段，这个为libf37_plugin.so的存放位置</p></li>
+<li><p>设置设置sensor_plugin_name字段，这个是寻找的插件库的名字</p></li>
+<li><p>sensor_plugin_type字段，这个是该sensor启动的模式</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+.....
+  &quot;sensor&quot;: {
+    &quot;sensor_id&quot;: 5,                                # sensor的枚举号
+    &quot;sensor_plugin_en&quot;: 1,                         # 是否是插件形式导入sensor参数配置，默认关闭状态
+    &quot;sensor_plugin_path&quot;: &quot;./lib/&quot;,                # sensor插件库的存放目录
+    &quot;sensor_plugin_name&quot;: &quot;f37_plugin&quot;,         # sensor插件库的名称
+    &quot;sensor_plugin_type&quot;: &quot;linear&quot;,                # sensor插件库的类型，支持linear、dol2、dol3模块，根据sensor的配置来决定
+.....
+  }
+....
+</pre></div>
+</div>
+<p>设置完上面的操作后，video source将会从插件库中读取保存的参数，然后初始化sensor，此时camera就会正常跑起来了。</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

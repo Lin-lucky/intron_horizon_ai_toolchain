@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. 概述 &mdash; BPU SDK API  文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="BPU SDK API手册" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> BPU SDK API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. 概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id2">2. 数据类型和数据结构</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2.1. 版本信息类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-version-major">2.1.1. <code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_MAJOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-version-minor">2.1.2. <code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_MINOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-version-patch">2.1.3. <code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_PATCH</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2.2. 模型类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-tensor-max-dimensions">2.2.1. <code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_MAX_DIMENSIONS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-initialize-infer-ctrl-param">2.2.2. <code class="docutils literal notranslate"><span class="pre">HB_DNN_INITIALIZE_INFER_CTRL_PARAM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbpackeddnnhandle-t">2.2.3. <code class="docutils literal notranslate"><span class="pre">hbPackedDNNHandle_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnhandle-t">2.2.4. <code class="docutils literal notranslate"><span class="pre">hbDNNHandle_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntaskhandle-t">2.2.5. <code class="docutils literal notranslate"><span class="pre">hbDNNTaskHandle_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntensorlayout">2.2.6. <code class="docutils literal notranslate"><span class="pre">hbDNNTensorLayout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnndatatype">2.2.7. <code class="docutils literal notranslate"><span class="pre">hbDNNDataType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntensorshape">2.2.8. <code class="docutils literal notranslate"><span class="pre">hbDNNTensorShape</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnquantishift">2.2.9. <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiShift</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnquantiscale">2.2.10. <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiScale</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnquantitype">2.2.11. <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntensorproperties">2.2.12. <code class="docutils literal notranslate"><span class="pre">hbDNNTensorProperties</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntaskpriority">2.2.13. <code class="docutils literal notranslate"><span class="pre">hbDNNTaskPriority</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnntensor">2.2.14. <code class="docutils literal notranslate"><span class="pre">hbDNNTensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnroi">2.2.15. <code class="docutils literal notranslate"><span class="pre">hbDNNRoi</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnninferctrlparam">2.2.16. <code class="docutils literal notranslate"><span class="pre">hbDNNInferCtrlParam</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">2.3. 系统类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbbpucore">2.3.1. <code class="docutils literal notranslate"><span class="pre">hbBPUCore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdspcore">2.3.2. <code class="docutils literal notranslate"><span class="pre">hbDSPCore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysmem">2.3.3. <code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysmemflushflag">2.3.4. <code class="docutils literal notranslate"><span class="pre">hbSysMemFlushFlag</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">2.4. 前处理类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hb-dnn-initialize-resize-ctrl-param">2.4.1. <code class="docutils literal notranslate"><span class="pre">HB_DNN_INITIALIZE_RESIZE_CTRL_PARAM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnresizetype">2.4.2. <code class="docutils literal notranslate"><span class="pre">hbDNNResizeType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnresizectrlparam">2.4.3. hbDNNResizeCtrlParam</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">2.5. 插件类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnlayercreator">2.5.1. <code class="docutils literal notranslate"><span class="pre">hbDNNLayerCreator</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#api">3. API接口</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id8">3.1. 版本信息</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetversion">3.1.1. <code class="docutils literal notranslate"><span class="pre">hbDNNGetVersion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">3.2. 模型加载/释放</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnninitializefromfiles">3.2.1. <code class="docutils literal notranslate"><span class="pre">hbDNNInitializeFromFiles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnninitializefromddr">3.2.2. <code class="docutils literal notranslate"><span class="pre">hbDNNInitializeFromDDR()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnrelease">3.2.3. <code class="docutils literal notranslate"><span class="pre">hbDNNRelease()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">3.3. 模型信息</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetmodelnamelist">3.3.1. <code class="docutils literal notranslate"><span class="pre">hbDNNGetModelNameList()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetmodelhandle">3.3.2. <code class="docutils literal notranslate"><span class="pre">hbDNNGetModelHandle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetinputcount">3.3.3. <code class="docutils literal notranslate"><span class="pre">hbDNNGetInputCount()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetinputname">3.3.4. <code class="docutils literal notranslate"><span class="pre">hbDNNGetInputName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetinputtensorproperties">3.3.5. <code class="docutils literal notranslate"><span class="pre">hbDNNGetInputTensorProperties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetoutputcount">3.3.6. <code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputCount()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetoutputname">3.3.7. <code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnngetoutputtensorproperties">3.3.8. <code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputTensorProperties()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">3.4. 模型推理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnninfer">3.4.1. <code class="docutils literal notranslate"><span class="pre">hbDNNInfer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnroiinfer">3.4.2. <code class="docutils literal notranslate"><span class="pre">hbDNNRoiInfer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnwaittaskdone">3.4.3. <code class="docutils literal notranslate"><span class="pre">hbDNNWaitTaskDone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnreleasetask">3.4.4. <code class="docutils literal notranslate"><span class="pre">hbDNNReleaseTask()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">3.5. 内存操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysallocmem">3.5.1. <code class="docutils literal notranslate"><span class="pre">hbSysAllocMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysalloccachedmem">3.5.2. <code class="docutils literal notranslate"><span class="pre">hbSysAllocCachedMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysflushmem">3.5.3. <code class="docutils literal notranslate"><span class="pre">hbSysFlushMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysfreemem">3.5.4. <code class="docutils literal notranslate"><span class="pre">hbSysFreeMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsyswritemem">3.5.5. <code class="docutils literal notranslate"><span class="pre">hbSysWriteMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysreadmem">3.5.6. <code class="docutils literal notranslate"><span class="pre">hbSysReadMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysregistermem">3.5.7. <code class="docutils literal notranslate"><span class="pre">hbSysRegisterMem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbsysunregistermem">3.5.8. <code class="docutils literal notranslate"><span class="pre">hbSysUnregisterMem()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">3.6. 前处理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnresize">3.6.1. <code class="docutils literal notranslate"><span class="pre">hbDNNResize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">3.7. 插件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnregisterlayercreator">3.7.1. <code class="docutils literal notranslate"><span class="pre">hbDNNRegisterLayerCreator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbdnnunregisterlayercreator">3.7.2. <code class="docutils literal notranslate"><span class="pre">hbDNNUnregisterLayerCreator()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id15">4. 数据排布及对齐规则</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id16">4.1. 数据排布</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bpu">4.2. BPU对齐限制规则</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id17">4.2.1. 模型输入要求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stride">4.2.2. stride要求</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#nv12">4.3. NV12介绍</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#yuv">4.3.1. YUV格式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">4.3.2. NV12排布</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id19">5. 错误码</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id20">6. 配置信息</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BPU SDK API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">1. </span>概述</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/bpu_sdk_api_doc_cn.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1. </span>概述<a class="headerlink" href="#id1" title="永久链接至标题"></a></h1>
+<p>本文档主要介绍了地平线天工开物工具链Runtime的API、数据、结构体、排布及对齐规则等。
+通过阅读本文档，用户可以在Horizon开发板上利用API完成模型的加载与释放，模型信息的获取，以及模型的推理等操作。</p>
+</section>
+<section id="id2">
+<h1><span class="section-number">2. </span>数据类型和数据结构<a class="headerlink" href="#id2" title="永久链接至标题"></a></h1>
+<section id="id3">
+<h2><span class="section-number">2.1. </span>版本信息类<a class="headerlink" href="#id3" title="永久链接至标题"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>注意，本小节中的版本信息类型的版本号随版本变化有所不同，此处的版本号仅供参考，实际版本请以您获取到的发布物为准。</p>
+</div>
+<section id="hb-dnn-version-major">
+<h3><span class="section-number">2.1.1. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_MAJOR</span></code><a class="headerlink" href="#hb-dnn-version-major" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_VERSION_MAJOR 1U</span>
+</pre></div>
+</div>
+<p>DNN主版本号信息。</p>
+</section>
+<section id="hb-dnn-version-minor">
+<h3><span class="section-number">2.1.2. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_MINOR</span></code><a class="headerlink" href="#hb-dnn-version-minor" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_VERSION_MINOR 1U</span>
+</pre></div>
+</div>
+<p>DNN次版本号信息。</p>
+</section>
+<section id="hb-dnn-version-patch">
+<h3><span class="section-number">2.1.3. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_VERSION_PATCH</span></code><a class="headerlink" href="#hb-dnn-version-patch" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_VERSION_PATCH 0U</span>
+</pre></div>
+</div>
+<p>DNN补丁版本号信息。</p>
+</section>
+</section>
+<section id="id4">
+<h2><span class="section-number">2.2. </span>模型类<a class="headerlink" href="#id4" title="永久链接至标题"></a></h2>
+<section id="hb-dnn-tensor-max-dimensions">
+<h3><span class="section-number">2.2.1. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_MAX_DIMENSIONS</span></code><a class="headerlink" href="#hb-dnn-tensor-max-dimensions" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_TENSOR_MAX_DIMENSIONS 8</span>
+</pre></div>
+</div>
+<p>张量最大的维度设置为 <code class="docutils literal notranslate"><span class="pre">8</span></code>。</p>
+</section>
+<section id="hb-dnn-initialize-infer-ctrl-param">
+<h3><span class="section-number">2.2.2. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_INITIALIZE_INFER_CTRL_PARAM</span></code><a class="headerlink" href="#hb-dnn-initialize-infer-ctrl-param" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_INITIALIZE_INFER_CTRL_PARAM(param) \</span>
+<span class="cp">{                                                  \</span>
+<span class="cp">    (param)-&gt;bpuCoreId = HB_BPU_CORE_ANY;         \</span>
+<span class="cp">    (param)-&gt;dspCoreId = HB_DSP_CORE_ANY;         \</span>
+<span class="cp">    (param)-&gt;priority = HB_DNN_PRIORITY_LOWEST;   \</span>
+<span class="cp">    (param)-&gt;reserved1 = 0;                        \</span>
+<span class="cp">    (param)-&gt;reserved2 = 0;                        \</span>
+<span class="cp">    (param)-&gt;reserved3 = 0;                        \</span>
+<span class="cp">    (param)-&gt;reserved4 = 0;                        \</span>
+<span class="cp">    (param)-&gt;more = false;                         \</span>
+<span class="cp">}</span>
+</pre></div>
+</div>
+<p>初始化控制参数。</p>
+</section>
+<section id="hbpackeddnnhandle-t">
+<h3><span class="section-number">2.2.3. </span><code class="docutils literal notranslate"><span class="pre">hbPackedDNNHandle_t</span></code><a class="headerlink" href="#hbpackeddnnhandle-t" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">hbPackedDNNHandle_t</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>DNN句柄，指向打包的多个模型。</p>
+</section>
+<section id="hbdnnhandle-t">
+<h3><span class="section-number">2.2.4. </span><code class="docutils literal notranslate"><span class="pre">hbDNNHandle_t</span></code><a class="headerlink" href="#hbdnnhandle-t" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">hbDNNHandle_t</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>DNN句柄，指向单一模型。</p>
+</section>
+<section id="hbdnntaskhandle-t">
+<h3><span class="section-number">2.2.5. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTaskHandle_t</span></code><a class="headerlink" href="#hbdnntaskhandle-t" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">hbDNNTaskHandle_t</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>任务句柄，指向一个任务。</p>
+</section>
+<section id="hbdnntensorlayout">
+<h3><span class="section-number">2.2.6. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTensorLayout</span></code><a class="headerlink" href="#hbdnntensorlayout" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_LAYOUT_NHWC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_LAYOUT_NCHW</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_LAYOUT_NONE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTensorLayout</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>张量的排布形式。 <code class="docutils literal notranslate"><span class="pre">NHWC</span></code> 分别代表Number、Height、Width和Channel。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 51%" />
+<col style="width: 49%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>成员名称</strong></p></td>
+<td><p><strong>描述</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LAYOUT_NONE</span></code></p></td>
+<td><p>没有定义排布形式。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LAYOUT_NHWC</span></code></p></td>
+<td><p>排布形式为 <code class="docutils literal notranslate"><span class="pre">NHWC</span></code>。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LAYOUT_NCHW</span></code></p></td>
+<td><p>排布形式为 <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnndatatype">
+<h3><span class="section-number">2.2.7. </span><code class="docutils literal notranslate"><span class="pre">hbDNNDataType</span></code><a class="headerlink" href="#hbdnndatatype" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_Y</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_NV12</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_NV12_SEPARATE</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_YUV444</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_RGB</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_IMG_TYPE_BGR</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S4</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U4</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S8</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U8</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_F16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_F32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_F64</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_S64</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_U64</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_TENSOR_TYPE_MAX</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNDataType</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>张量的类型。 <code class="docutils literal notranslate"><span class="pre">S</span></code> 代表有符号， <code class="docutils literal notranslate"><span class="pre">U</span></code> 代表无符号， <code class="docutils literal notranslate"><span class="pre">F</span></code> 代表浮点型，后面的数字代表bit数。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 53%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>成员名称</strong></p></td>
+<td><p><strong>描述</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_Y</span></code></p></td>
+<td><p>张量类型为仅有Y通道的图片。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_NV12</span></code></p></td>
+<td><p>张量类型为一张NV12的图片。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_NV12_SEPARATE</span></code></p></td>
+<td><p>张量类型为Y通道及UV通道为输入的图片。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_YUV444</span></code></p></td>
+<td><p>张量类型为YUV444为输入的图片。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_RGB</span></code></p></td>
+<td><p>张量类型为RGB为输入的图片。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_BGR</span></code></p></td>
+<td><p>张量类型为BGR为输入的图片。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S4</span></code></p></td>
+<td><p>张量类型为有符号4bit。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U4</span></code></p></td>
+<td><p>张量类型为无符号4bit。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S8</span></code></p></td>
+<td><p>张量类型为有符号8bit。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U8</span></code></p></td>
+<td><p>张量类型为无符号8bit。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_F16</span></code></p></td>
+<td><p>张量类型为浮点型16bit。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S16</span></code></p></td>
+<td><p>张量类型为有符号16bit。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U16</span></code></p></td>
+<td><p>张量类型为无符号16bit。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_F32</span></code></p></td>
+<td><p>张量类型为浮点型32bit。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S32</span></code></p></td>
+<td><p>张量类型为有符号32bit。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U32</span></code></p></td>
+<td><p>张量类型为无符号32bit。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_F64</span></code></p></td>
+<td><p>张量类型为浮点型64bit。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_S64</span></code></p></td>
+<td><p>张量类型为有符号64bit。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_U64</span></code></p></td>
+<td><p>张量类型为无符号64bit。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_TENSOR_TYPE_MAX</span></code></p></td>
+<td><p>代表最大的张量类型编号。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnntensorshape">
+<h3><span class="section-number">2.2.8. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTensorShape</span></code><a class="headerlink" href="#hbdnntensorshape" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">dimensionSize</span><span class="p">[</span><span class="n">HB_DNN_TENSOR_MAX_DIMENSIONS</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">numDimensions</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTensorShape</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>张量的形状。例如一张224x224的bgr彩色空间的图片 <code class="docutils literal notranslate"><span class="pre">numDimensions=4</span></code>，若排布形式为NHWC，
+则 <code class="docutils literal notranslate"><span class="pre">dimensionSize</span></code> 数组中按顺序存储图片 <code class="docutils literal notranslate"><span class="pre">Number=1</span></code>、 <code class="docutils literal notranslate"><span class="pre">Height=224</span></code>、 <code class="docutils literal notranslate"><span class="pre">Width=224</span></code>、 <code class="docutils literal notranslate"><span class="pre">Channel=3</span></code>。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 54%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>成员名称</strong></p></td>
+<td><p><strong>描述</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dimensionSize</span></code></p></td>
+<td><p>张量每个维度的大小。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">numDimensions</span></code></p></td>
+<td><p>张量的维度。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnnquantishift">
+<h3><span class="section-number">2.2.9. </span><code class="docutils literal notranslate"><span class="pre">hbDNNQuantiShift</span></code><a class="headerlink" href="#hbdnnquantishift" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">shiftLen</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">shiftData</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNQuantiShift</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>量化/反量化的移位数据。</p>
+<p><strong>对于输入：</strong> 若采集到浮点数据 <code class="docutils literal notranslate"><span class="pre">data[i]</span></code>, 对应的移位数据是 <code class="docutils literal notranslate"><span class="pre">shift[i]</span></code>， 则送入模型的推理数据为: <span class="math notranslate nohighlight">\(data[i] * (1 &lt;&lt; shift[i])\)</span> 取整；</p>
+<p><strong>对于输出：</strong> 若推理结果 <code class="docutils literal notranslate"><span class="pre">data[i]</span></code>, 对应的移位数据是 <code class="docutils literal notranslate"><span class="pre">shift[i]</span></code>， 则最终的推理结果为： <span class="math notranslate nohighlight">\(data[i] / (1 &lt;&lt; shift[i])\)</span>。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 57%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>成员名称</strong></p></td>
+<td><p><strong>描述</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shiftLen</span></code></p></td>
+<td><p>移位数据的长度。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">shiftData</span></code></p></td>
+<td><p>移位数据的首地址。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnnquantiscale">
+<h3><span class="section-number">2.2.10. </span><code class="docutils literal notranslate"><span class="pre">hbDNNQuantiScale</span></code><a class="headerlink" href="#hbdnnquantiscale" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">scaleLen</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">scaleData</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNQuantiScale</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>量化/反量化的缩放数据。</p>
+<p><strong>对于输入：</strong> 若采集到浮点数据 <code class="docutils literal notranslate"><span class="pre">data[i]</span></code>, 对应的缩放数据是 <code class="docutils literal notranslate"><span class="pre">scale[i]</span></code>， 则送入模型的推理数据为: <span class="math notranslate nohighlight">\(data[i] / scale[i]\)</span> 取整；</p>
+<p><strong>对于输出：</strong> 若推理结果 <code class="docutils literal notranslate"><span class="pre">data[i]</span></code>, 对应的缩放数据是 <code class="docutils literal notranslate"><span class="pre">scale[i]</span></code>， 则最终的推理结果为： <span class="math notranslate nohighlight">\(data[i] * scale[i]\)</span>。</p>
+<ul>
+<li><p>成员</p>
+<blockquote>
+<div><table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scaleLen</span></code></p></td>
+<td><p>缩放数据的长度。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scaleData</span></code></p></td>
+<td><p>缩放数据的首地址。</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="hbdnnquantitype">
+<h3><span class="section-number">2.2.11. </span><code class="docutils literal notranslate"><span class="pre">hbDNNQuantiType</span></code><a class="headerlink" href="#hbdnnquantitype" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">NONE</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">SHIFT</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">SCALE</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNQuantiType</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>定点浮点转换的量化/反量化类型。
+<code class="docutils literal notranslate"><span class="pre">NONE</span></code> 代表不需要对数据做任何处理； <code class="docutils literal notranslate"><span class="pre">SHIFT</span></code> 类型对应的量化/反量化参数存储在 <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiShift</span></code> 结构体中， <code class="docutils literal notranslate"><span class="pre">SCALE</span></code> 对应的量化/反量化参数存储在 <code class="docutils literal notranslate"><span class="pre">hbDNNQuantiScale</span></code> 结构体中。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NONE</span></code></p></td>
+<td><p>没有量化。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SHIFT</span></code></p></td>
+<td><p>量化类型为 <code class="docutils literal notranslate"><span class="pre">SHIFT</span></code>。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SCALE</span></code></p></td>
+<td><p>量化类型为 <code class="docutils literal notranslate"><span class="pre">SCALE</span></code>。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnntensorproperties">
+<h3><span class="section-number">2.2.12. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTensorProperties</span></code><a class="headerlink" href="#hbdnntensorproperties" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNTensorShape</span><span class="w"> </span><span class="n">validShape</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNTensorShape</span><span class="w"> </span><span class="n">alignedShape</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">tensorLayout</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">tensorType</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNQuantiShift</span><span class="w"> </span><span class="n">shift</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNQuantiScale</span><span class="w"> </span><span class="n">scale</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNQuantiType</span><span class="w"> </span><span class="n">quantiType</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">alignedByteSize</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTensorProperties</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>张量的信息。</p>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> 从模型信息中获取时，为张量对齐后的形状；
+在准备完输入数据之后， <code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> 需要与张量真实输入的形状保持一致。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">validShape</span></code></p></td>
+<td><p>张量有效内容的形状。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alignedShape</span></code></p></td>
+<td><p>张量对齐内容的形状。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tensorLayout</span></code></p></td>
+<td><p>张量的排布形式。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tensorType</span></code></p></td>
+<td><p>张量的类型。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shift</span></code></p></td>
+<td><p>定点转浮点的偏移量。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scale</span></code></p></td>
+<td><p>定点转浮点的缩放量。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">quantiType</span></code></p></td>
+<td><p>定点转浮点的量化类型。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alignedByteSize</span></code></p></td>
+<td><p>张量对齐内容的内存大小。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnntaskpriority">
+<h3><span class="section-number">2.2.13. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTaskPriority</span></code><a class="headerlink" href="#hbdnntaskpriority" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_PRIORITY_LOWEST</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_PRIORITY_HIGHEST</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_PRIORITY_PREEMP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HB_DNN_PRIORITY_HIGHEST</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTaskPriority</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Task优先级配置，提供默认参数。</p>
+</section>
+<section id="hbdnntensor">
+<h3><span class="section-number">2.2.14. </span><code class="docutils literal notranslate"><span class="pre">hbDNNTensor</span></code><a class="headerlink" href="#hbdnntensor" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbSysMem</span><span class="w"> </span><span class="n">sysMem</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNTensorProperties</span><span class="w"> </span><span class="n">properties</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNTensor</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>张量。用于存放输入输出的信息。其中 <code class="docutils literal notranslate"><span class="pre">NV12_SEPARATE</span></code> 类型的张量需要用2个 <code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code>，其余都为1个。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sysMem</span></code></p></td>
+<td><p>存放张量的内存。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">properties</span></code></p></td>
+<td><p>张量的信息。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnnroi">
+<h3><span class="section-number">2.2.15. </span><code class="docutils literal notranslate"><span class="pre">hbDNNRoi</span></code><a class="headerlink" href="#hbdnnroi" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">left</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">top</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">right</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">bottom</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNRoi</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>矩形的感兴趣区域。<span class="math notranslate nohighlight">\(W∈[left, right], H∈[top, bottom]\)</span>。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">left</span></code></p></td>
+<td><p>感兴趣区域左上点宽度像素点。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">top</span></code></p></td>
+<td><p>感兴趣区域左上点高度像素点。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">right</span></code></p></td>
+<td><p>感兴趣区域右下点宽度像素点。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bottom</span></code></p></td>
+<td><p>感兴趣区域右下点高度像素点。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnninferctrlparam">
+<h3><span class="section-number">2.2.16. </span><code class="docutils literal notranslate"><span class="pre">hbDNNInferCtrlParam</span></code><a class="headerlink" href="#hbdnninferctrlparam" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">bpuCoreId</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">dspCoreId</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">more</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved3</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved4</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNInferCtrlParam</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>模型推理的控制参数。
+其中 <code class="docutils literal notranslate"><span class="pre">more</span></code> 参数用于小模型批量处理场景，当希望所有任务都执行完再获得输出时，除最后一个任务设置 <code class="docutils literal notranslate"><span class="pre">more</span></code> 为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 外，
+之前的任务 <code class="docutils literal notranslate"><span class="pre">more</span></code> 都设置为 <code class="docutils literal notranslate"><span class="pre">1</span></code>，最多支持16个小模型的推理。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bpuCoreId</span></code></p></td>
+<td><p>BPU核ID。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dspCoreId</span></code></p></td>
+<td><p>DSP核ID。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">priority</span></code></p></td>
+<td><p>任务优先级。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">more</span></code></p></td>
+<td><p>该任务后续是否有跟随任务。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reserved1</span></code></p></td>
+<td><p>保留字段1。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved2</span></code></p></td>
+<td><p>保留字段2。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved3</span></code></p></td>
+<td><p>保留字段3。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved4</span></code></p></td>
+<td><p>保留字段4。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h2><span class="section-number">2.3. </span>系统类<a class="headerlink" href="#id5" title="永久链接至标题"></a></h2>
+<section id="hbbpucore">
+<h3><span class="section-number">2.3.1. </span><code class="docutils literal notranslate"><span class="pre">hbBPUCore</span></code><a class="headerlink" href="#hbbpucore" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_BPU_CORE_ANY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_BPU_CORE_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_BPU_CORE_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbBPUCore</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>BPU核枚举。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_BPU_CORE_ANY</span></code></p></td>
+<td><p>任意的BPU核。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_BPU_CORE_0</span></code></p></td>
+<td><p>BPU核0。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_BPU_CORE_1</span></code></p></td>
+<td><p>BPU核1。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdspcore">
+<h3><span class="section-number">2.3.2. </span><code class="docutils literal notranslate"><span class="pre">hbDSPCore</span></code><a class="headerlink" href="#hbdspcore" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DSP_CORE_ANY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DSP_CORE_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DSP_CORE_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDSPCore</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>DSP核枚举。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DSP_CORE_ANY</span></code></p></td>
+<td><p>任意的DSP核。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DSP_CORE_0</span></code></p></td>
+<td><p>DSP核0。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DSP_CORE_1</span></code></p></td>
+<td><p>DSP核1。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbsysmem">
+<h3><span class="section-number">2.3.3. </span><code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code><a class="headerlink" href="#hbsysmem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">phyAddr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">virAddr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">memSize</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbSysMem</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>系统内存结构体，用于申请系统内存。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">phyAddr</span></code></p></td>
+<td><p>物理地址。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">virAddr</span></code></p></td>
+<td><p>虚拟地址。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">memSize</span></code></p></td>
+<td><p>内存大小。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbsysmemflushflag">
+<h3><span class="section-number">2.3.4. </span><code class="docutils literal notranslate"><span class="pre">hbSysMemFlushFlag</span></code><a class="headerlink" href="#hbsysmemflushflag" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_SYS_MEM_CACHE_INVALIDATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_SYS_MEM_CACHE_CLEAN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbSysMemFlushFlag</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>系统内存与缓存同步参数。CPU与内存之间有一个缓存区，导致缓存中内容与内存中内容会出现不同步的情况，为了每次都能够拿到最新的数据，
+我们需要在CPU读前、写后进行数据更新。CPU读前，将内存中数据更新到缓存中。CPU写后，将缓存中数据更新到内存中。</p>
+<img alt="_images/hbSysMemFlushFlag.png" class="align-center" src="_images/hbSysMemFlushFlag.png" />
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 53%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>成员名称</strong></p></td>
+<td><p><strong>描述</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_SYS_MEM_CACHE_INVALIDATE</span></code></p></td>
+<td><p>将内存同步到缓存中，CPU读前使用。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HB_SYS_MEM_CACHE_CLEAN</span></code></p></td>
+<td><p>将缓存数据同步到内存中，CPU写后使用。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h2><span class="section-number">2.4. </span>前处理类<a class="headerlink" href="#id6" title="永久链接至标题"></a></h2>
+<section id="hb-dnn-initialize-resize-ctrl-param">
+<h3><span class="section-number">2.4.1. </span><code class="docutils literal notranslate"><span class="pre">HB_DNN_INITIALIZE_RESIZE_CTRL_PARAM</span></code><a class="headerlink" href="#hb-dnn-initialize-resize-ctrl-param" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define HB_DNN_INITIALIZE_RESIZE_CTRL_PARAM(param)     \</span>
+<span class="cp">  {                                                     \</span>
+<span class="cp">    (param)-&gt;bpuCoreId = HB_BPU_CORE_ANY;              \</span>
+<span class="cp">    (param)-&gt;resizeType = HB_DNN_RESIZE_TYPE_BILINEAR; \</span>
+<span class="cp">    (param)-&gt;priority = HB_DNN_PRIORITY_LOWEST;        \</span>
+<span class="cp">    (param)-&gt;reserved1 = 0;                             \</span>
+<span class="cp">    (param)-&gt;reserved2 = 0;                             \</span>
+<span class="cp">    (param)-&gt;reserved3 = 0;                             \</span>
+<span class="cp">    (param)-&gt;reserved4 = 0;                             \</span>
+<span class="cp">  }</span>
+</pre></div>
+</div>
+<p>初始化控制参数。</p>
+</section>
+<section id="hbdnnresizetype">
+<h3><span class="section-number">2.4.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNResizeType</span></code><a class="headerlink" href="#hbdnnresizetype" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">HB_DNN_RESIZE_TYPE_BILINEAR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNResizeType</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Resize</span></code> 类型。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_RESIZE_TYPE_BILINEAR</span></code></p></td>
+<td><p>Resize类型为双线性插值。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+<section id="hbdnnresizectrlparam">
+<h3><span class="section-number">2.4.3. </span>hbDNNResizeCtrlParam<a class="headerlink" href="#hbdnnresizectrlparam" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">bpuCoreId</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">hbDNNResizeType</span><span class="w"> </span><span class="n">resizeType</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved3</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">reserved4</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">hbDNNResizeCtrlParam</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Resize</span></code> 的控制参数。</p>
+<ul>
+<li><p>成员</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>成员名称</strong></p></th>
+<th class="head"><p><strong>描述</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bpuCoreId</span></code></p></td>
+<td><p>BPU核ID。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">priority</span></code></p></td>
+<td><p>任务优先级。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">resizeType</span></code></p></td>
+<td><p>Resize类型。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reserved1</span></code></p></td>
+<td><p>保留字段1。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved2</span></code></p></td>
+<td><p>保留字段2。</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved3</span></code></p></td>
+<td><p>保留字段3。</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Reserved4</span></code></p></td>
+<td><p>保留字段4。</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</section>
+</section>
+<section id="id7">
+<h2><span class="section-number">2.5. </span>插件类<a class="headerlink" href="#id7" title="永久链接至标题"></a></h2>
+<section id="hbdnnlayercreator">
+<h3><span class="section-number">2.5.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNLayerCreator</span></code><a class="headerlink" href="#hbdnnlayercreator" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="n">hobot</span><span class="o">::</span><span class="n">dnn</span><span class="o">::</span><span class="n">Layer</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">hbDNNLayerCreator</span><span class="p">)();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>用户自定义Layer创建方法。</p>
+</section>
+</section>
+</section>
+<section id="api">
+<h1><span class="section-number">3. </span>API接口<a class="headerlink" href="#api" title="永久链接至标题"></a></h1>
+<section id="id8">
+<h2><span class="section-number">3.1. </span>版本信息<a class="headerlink" href="#id8" title="永久链接至标题"></a></h2>
+<section id="hbdnngetversion">
+<h3><span class="section-number">3.1.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetVersion()</span></code><a class="headerlink" href="#hbdnngetversion" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="nf">hbDNNGetVersion</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>获取 <code class="docutils literal notranslate"><span class="pre">DNN</span></code> 预测库版本信息。</p>
+<ul class="simple">
+<li><p>返回值</p>
+<ul>
+<li><p>返回版本信息。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="id9">
+<h2><span class="section-number">3.2. </span>模型加载/释放<a class="headerlink" href="#id9" title="永久链接至标题"></a></h2>
+<section id="hbdnninitializefromfiles">
+<h3><span class="section-number">3.2.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNInitializeFromFiles()</span></code><a class="headerlink" href="#hbdnninitializefromfiles" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNInitializeFromFiles</span><span class="p">(</span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">packedDNNHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                 </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">modelFileNames</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                 </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">modelFileCount</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>从文件完成对 <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code> 的创建和初始化。</p>
+<ul>
+<li><p>参数</p>
+<ul class="simple">
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>  Horizon DNN句柄，指向多个模型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelFileNames</span></code>   模型文件的路径。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelFileCount</span></code>   模型文件的个数。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="hbdnninitializefromddr">
+<h3><span class="section-number">3.2.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNInitializeFromDDR()</span></code><a class="headerlink" href="#hbdnninitializefromddr" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNInitializeFromDDR</span><span class="p">(</span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">packedDNNHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">**</span><span class="n">modelData</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">modelDataLengths</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">modelDataCount</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>从内存完成对 <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code> 的创建和初始化。</p>
+<ul>
+<li><p>参数</p>
+<ul class="simple">
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>  Horizon DNN句柄，指向多个模型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelData</span></code>        模型文件的指针。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelDataLengths</span></code> 模型数据的长度。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelDataCount</span></code>   模型数据的个数。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="hbdnnrelease">
+<h3><span class="section-number">3.2.3. </span><code class="docutils literal notranslate"><span class="pre">hbDNNRelease()</span></code><a class="headerlink" href="#hbdnnrelease" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNRelease</span><span class="p">(</span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="n">packedDNNHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>将 <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code> 所指向的模型释放。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in] <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>  Horizon DNN句柄，指向多个模型。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="id10">
+<h2><span class="section-number">3.3. </span>模型信息<a class="headerlink" href="#id10" title="永久链接至标题"></a></h2>
+<section id="hbdnngetmodelnamelist">
+<h3><span class="section-number">3.3.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetModelNameList()</span></code><a class="headerlink" href="#hbdnngetmodelnamelist" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetModelNameList</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">***</span><span class="n">modelNameList</span><span class="p">,</span><span class="w"></span>
+<span class="w">                              </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">modelNameCount</span><span class="p">,</span><span class="w"></span>
+<span class="w">                              </span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="n">packedDNNHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>获取 <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code> 所指向模型的名称列表和个数。</p>
+<ul>
+<li><p>参数</p>
+<ul class="simple">
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">modelNameList</span></code>    模型名称列表。</p></li>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">modelNameCount</span></code>   模型名称个数。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>  Horizon DNN句柄，指向多个模型。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="hbdnngetmodelhandle">
+<h3><span class="section-number">3.3.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetModelHandle()</span></code><a class="headerlink" href="#hbdnngetmodelhandle" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetModelHandle</span><span class="p">(</span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">hbPackedDNNHandle_t</span><span class="w"> </span><span class="n">packedDNNHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">modelName</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>从 <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code> 所指向模型列表中获取一个模型的句柄。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>         DNN句柄，指向一个模型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">packedDNNHandle</span></code>   DNN句柄，指向多个模型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">modelName</span></code>         模型名称。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetinputcount">
+<h3><span class="section-number">3.3.3. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetInputCount()</span></code><a class="headerlink" href="#hbdnngetinputcount" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetInputCount</span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">inputCount</span><span class="p">,</span><span class="w"></span>
+<span class="w">                           </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>获取 <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code> 所指向模型输入张量的个数。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">inputCount</span></code>  模型输入张量的个数。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>   DNN句柄，指向一个模型。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetinputname">
+<h3><span class="section-number">3.3.4. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetInputName()</span></code><a class="headerlink" href="#hbdnngetinputname" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetInputName</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">name</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">inputIndex</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>获取模型输入张量的 <code class="docutils literal notranslate"><span class="pre">name</span></code></p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">name</span></code>        模型输入张量的名称。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>   DNN句柄，指向一个模型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">inputIndex</span></code>  模型输入张量的编号。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetinputtensorproperties">
+<h3><span class="section-number">3.3.5. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetInputTensorProperties()</span></code><a class="headerlink" href="#hbdnngetinputtensorproperties" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetInputTensorProperties</span><span class="p">(</span><span class="n">hbDNNTensorProperties</span><span class="w"> </span><span class="o">*</span><span class="n">properties</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                      </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">inputIndex</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>获取 <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code> 所指向模型特定输入张量的属性。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">properties</span></code>   输入张量的信息。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>    DNN句柄，指向一个模型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">inputIndex</span></code>   模型输入张量的编号。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetoutputcount">
+<h3><span class="section-number">3.3.6. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputCount()</span></code><a class="headerlink" href="#hbdnngetoutputcount" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetOutputCount</span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">outputCount</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>获取 <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code> 所指向模型输出张量的个数。</p>
+<ul>
+<li><p>参数</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">outputCount</span></code>  模型输出张量的个数。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>    DNN句柄，指向一个模型。</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>返回值</p>
+<ul class="simple">
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetoutputname">
+<h3><span class="section-number">3.3.7. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputName()</span></code><a class="headerlink" href="#hbdnngetoutputname" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetOutputName</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">name</span><span class="p">,</span><span class="w"></span>
+<span class="w">                           </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                           </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">outputIndex</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>获取模型输出张量的 <code class="docutils literal notranslate"><span class="pre">name</span></code></p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">name</span></code>        模型输出张量的名称。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>   DNN句柄，指向一个模型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">outputIndex</span></code>  模型输出张量的编号。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnngetoutputtensorproperties">
+<h3><span class="section-number">3.3.8. </span><code class="docutils literal notranslate"><span class="pre">hbDNNGetOutputTensorProperties()</span></code><a class="headerlink" href="#hbdnngetoutputtensorproperties" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNGetOutputTensorProperties</span><span class="p">(</span><span class="n">hbDNNTensorProperties</span><span class="w"> </span><span class="o">*</span><span class="n">properties</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                       </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">outputIndex</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>获取 <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code> 所指向模型特定输出张量的属性。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">properties</span></code>    输出张量的信息。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>     DNN句柄，指向一个模型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">outputIndex</span></code>   模型输出张量的编号。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="id11">
+<h2><span class="section-number">3.4. </span>模型推理<a class="headerlink" href="#id11" title="永久链接至标题"></a></h2>
+<section id="hbdnninfer">
+<h3><span class="section-number">3.4.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNInfer()</span></code><a class="headerlink" href="#hbdnninfer" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNInfer</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">taskHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">**</span><span class="n">output</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="k">const</span><span class="w"> </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="n">hbDNNInferCtrlParam</span><span class="w"> </span><span class="o">*</span><span class="n">inferCtrlParam</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>根据输入参数执行推理任务。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out]     <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>          任务句柄指针。</p></li>
+<li><p>[in/out]  <code class="docutils literal notranslate"><span class="pre">output</span></code>              推理任务的输出。</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">input</span></code>               推理任务的输入。</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>           DNN句柄指针。</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">inferCtrlParam</span></code>      控制推理任务的参数。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>使用该接口提交任务时应提前将 <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code> 置为 <code class="docutils literal notranslate"><span class="pre">nullptr</span></code>，除非是给指定 <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code> 追加任务（即使用 <code class="docutils literal notranslate"><span class="pre">inferCtrlParam::more</span></code> 功能）。</p>
+</div>
+</section>
+<section id="hbdnnroiinfer">
+<h3><span class="section-number">3.4.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNRoiInfer()</span></code><a class="headerlink" href="#hbdnnroiinfer" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNRoiInfer</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">taskHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">**</span><span class="n">output</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="k">const</span><span class="w"> </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">hbDNNRoi</span><span class="w"> </span><span class="o">*</span><span class="n">rois</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">roiCount</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">hbDNNHandle_t</span><span class="w"> </span><span class="n">dnnHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">hbDNNInferCtrlParam</span><span class="w"> </span><span class="o">*</span><span class="n">inferCtrlParam</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>根据输入参数执行ROI推理任务。</p>
+<ul>
+<li><p>参数</p>
+<ul class="simple">
+<li><p>[out]     <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>       任务句柄指针。</p></li>
+<li><p>[in/out]  <code class="docutils literal notranslate"><span class="pre">output</span></code>           推理任务的输出。</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">input</span></code>            推理任务的输入。</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">rois</span></code>             Roi框信息。</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">roiCount</span></code>         Roi框数量。</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">dnnHandle</span></code>        dnn句柄指针。</p></li>
+<li><p>[in]      <code class="docutils literal notranslate"><span class="pre">inferCtrlParam</span></code>   控制推理任务的参数。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>关于准备输入参数 <code class="docutils literal notranslate"><span class="pre">input</span></code>：当模型输入个数为 <code class="docutils literal notranslate"><span class="pre">input_count</span></code>， <code class="docutils literal notranslate"><span class="pre">roi</span></code> 个数为 <code class="docutils literal notranslate"><span class="pre">roiCount</span></code> 时，
+第i个 <code class="docutils literal notranslate"><span class="pre">roi</span></code> 对应的 <code class="docutils literal notranslate"><span class="pre">input</span></code> 数组下标范围是 <span class="math notranslate nohighlight">\([i * input\_count, (i + 1) * input\_count)，i=[0,roiCount)\)</span>;</p>
+<p>关于优先级与抢占任务：DNN内部目前只允许最多8个任务同时进行。若提交抢占任务时已经有8个任务正在运行，此时不支持抢占操作，直到有任务完成后才可以调度优先级最高的任务执行。</p>
+<p>使用该接口提交任务时应提前将 <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code> 置为 <code class="docutils literal notranslate"><span class="pre">nullptr</span></code>，除非是给指定 <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code> 追加任务（即使用 <code class="docutils literal notranslate"><span class="pre">inferCtrlParam::more</span></code> 功能）。</p>
+</div>
+</section>
+<section id="hbdnnwaittaskdone">
+<h3><span class="section-number">3.4.3. </span><code class="docutils literal notranslate"><span class="pre">hbDNNWaitTaskDone()</span></code><a class="headerlink" href="#hbdnnwaittaskdone" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNWaitTaskDone</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="n">taskHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>等待任务完成或超时。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>         任务句柄指针。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">timeout</span></code>            超时配置（单位：毫秒）。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">timeout</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> 表示等待时间；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeout</span> <span class="pre">&lt;=</span> <span class="pre">0</span></code> 表示一直等待，直到任务完成。</p></li>
+</ol>
+</div>
+</section>
+<section id="hbdnnreleasetask">
+<h3><span class="section-number">3.4.4. </span><code class="docutils literal notranslate"><span class="pre">hbDNNReleaseTask()</span></code><a class="headerlink" href="#hbdnnreleasetask" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNReleaseTask</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="n">taskHandle</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>释放任务，如果任务未执行则会直接取消并释放任务，如果已经执行则会在运行到某些节点后取消并释放任务。</p>
+<ul>
+<li><p>参数</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>         任务句柄指针。</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>返回值</p>
+<ul class="simple">
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="id12">
+<h2><span class="section-number">3.5. </span>内存操作<a class="headerlink" href="#id12" title="永久链接至标题"></a></h2>
+<section id="hbsysallocmem">
+<h3><span class="section-number">3.5.1. </span><code class="docutils literal notranslate"><span class="pre">hbSysAllocMem()</span></code><a class="headerlink" href="#hbsysallocmem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysAllocMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>申请BPU内存。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">size</span></code>                申请内存的大小。</p></li>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">mem</span></code>                 内存指针。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysalloccachedmem">
+<h3><span class="section-number">3.5.2. </span><code class="docutils literal notranslate"><span class="pre">hbSysAllocCachedMem()</span></code><a class="headerlink" href="#hbsysalloccachedmem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysAllocCachedMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>申请缓存的BPU内存。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">size</span></code>              申请内存的大小。</p></li>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">mem</span></code>               内存指针。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysflushmem">
+<h3><span class="section-number">3.5.3. </span><code class="docutils literal notranslate"><span class="pre">hbSysFlushMem()</span></code><a class="headerlink" href="#hbsysflushmem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysFlushMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">flag</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>对缓存的BPU内存进行刷新。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">mem</span></code>               内存指针。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">flag</span></code>              刷新标志符。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysfreemem">
+<h3><span class="section-number">3.5.4. </span><code class="docutils literal notranslate"><span class="pre">hbSysFreeMem()</span></code><a class="headerlink" href="#hbsysfreemem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysFreeMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>释放BPU内存。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">mem</span></code>               内存指针。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsyswritemem">
+<h3><span class="section-number">3.5.5. </span><code class="docutils literal notranslate"><span class="pre">hbSysWriteMem()</span></code><a class="headerlink" href="#hbsyswritemem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysWriteMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>写入BPU内存。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">dest</span></code>                内存指针。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">src</span></code>                 数据指针。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">size</span></code>                数据大小。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysreadmem">
+<h3><span class="section-number">3.5.6. </span><code class="docutils literal notranslate"><span class="pre">hbSysReadMem()</span></code><a class="headerlink" href="#hbsysreadmem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysReadMem</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>读取BPU内存。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out] <code class="docutils literal notranslate"><span class="pre">dest</span></code>               数据指针。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">src</span></code>                内存指针。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">size</span></code>               数据大小。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysregistermem">
+<h3><span class="section-number">3.5.7. </span><code class="docutils literal notranslate"><span class="pre">hbSysRegisterMem()</span></code><a class="headerlink" href="#hbsysregistermem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysRegisterMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>将已知物理地址的内存区间注册成可被BPU使用的内存标识，得到的内存是cacheable的。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in/out] <code class="docutils literal notranslate"><span class="pre">mem</span></code>               内存指针。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbsysunregistermem">
+<h3><span class="section-number">3.5.8. </span><code class="docutils literal notranslate"><span class="pre">hbSysUnregisterMem()</span></code><a class="headerlink" href="#hbsysunregistermem" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbSysUnregisterMem</span><span class="p">(</span><span class="n">hbSysMem</span><span class="w"> </span><span class="o">*</span><span class="n">mem</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>注销由 <code class="docutils literal notranslate"><span class="pre">hbSysRegisterMem</span></code> 注册的内存标识。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in] <code class="docutils literal notranslate"><span class="pre">mem</span></code>               内存指针。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="id13">
+<h2><span class="section-number">3.6. </span>前处理<a class="headerlink" href="#id13" title="永久链接至标题"></a></h2>
+<section id="hbdnnresize">
+<h3><span class="section-number">3.6.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNResize()</span></code><a class="headerlink" href="#hbdnnresize" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNResize</span><span class="p">(</span><span class="n">hbDNNTaskHandle_t</span><span class="w"> </span><span class="o">*</span><span class="n">taskHandle</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">*</span><span class="n">output</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="n">hbDNNTensor</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="n">hbDNNRoi</span><span class="w"> </span><span class="o">*</span><span class="n">roi</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="n">hbDNNResizeCtrlParam</span><span class="w"> </span><span class="o">*</span><span class="n">resizeCtrlParam</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>根据输入参数进行resize任务。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[out]  <code class="docutils literal notranslate"><span class="pre">taskHandle</span></code>           任务句柄指针。</p></li>
+<li><p>[in/out] <code class="docutils literal notranslate"><span class="pre">output</span></code>             resize任务的输出。</p></li>
+<li><p>[in]   <code class="docutils literal notranslate"><span class="pre">input</span></code>                resize任务的输入。</p></li>
+<li><p>[in]   <code class="docutils literal notranslate"><span class="pre">roi</span></code>                  输入的roi信息。</p></li>
+<li><p>[in]   <code class="docutils literal notranslate"><span class="pre">resizeCtrlParam</span></code>      控制resize任务的参数。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ol class="arabic simple">
+<li><p>目前只支持相同 <code class="docutils literal notranslate"><span class="pre">hbDNNDataType</span></code> 的resize，并且必须为 <code class="docutils literal notranslate"><span class="pre">IMG</span></code> 类型；</p></li>
+<li><p>对于 <code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_NV12</span></code>， <code class="docutils literal notranslate"><span class="pre">HB_DNN_IMG_TYPE_NV12_SEPARATE</span></code> 类型的输入，宽和高必须为2的倍数；</p></li>
+<li><p>缩放范围是 <span class="math notranslate nohighlight">\([1/185, 256)\)</span>；</p></li>
+<li><p>原图尺寸要求是 <span class="math notranslate nohighlight">\(1 &lt;= W &lt;= 4080\)</span>, <span class="math notranslate nohighlight">\(16 &lt;= stride &lt;= 4080\)</span>， <code class="docutils literal notranslate"><span class="pre">stride</span></code> 必须是16的倍数；</p></li>
+<li><p>输出尺寸要求是 <span class="math notranslate nohighlight">\(Wout &lt;= 4080\)</span>, <span class="math notranslate nohighlight">\(Hout &lt;= 4080\)</span>；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">roi</span></code> 必须在图像的内部。</p></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="id14">
+<h2><span class="section-number">3.7. </span>插件<a class="headerlink" href="#id14" title="永久链接至标题"></a></h2>
+<section id="hbdnnregisterlayercreator">
+<h3><span class="section-number">3.7.1. </span><code class="docutils literal notranslate"><span class="pre">hbDNNRegisterLayerCreator()</span></code><a class="headerlink" href="#hbdnnregisterlayercreator" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNRegisterLayerCreator</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">layerType</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">hbDNNLayerCreator</span><span class="w"> </span><span class="n">layerCreator</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>注册Layer创建方法。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">layerType</span></code>                Layer类型。</p></li>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">layerCreator</span></code>             Layer创建方法。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hbdnnunregisterlayercreator">
+<h3><span class="section-number">3.7.2. </span><code class="docutils literal notranslate"><span class="pre">hbDNNUnregisterLayerCreator()</span></code><a class="headerlink" href="#hbdnnunregisterlayercreator" title="永久链接至标题"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">hbDNNUnregisterLayerCreator</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">layerType</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>注销Layer。</p>
+<ul class="simple">
+<li><p>参数</p>
+<ul>
+<li><p>[in]  <code class="docutils literal notranslate"><span class="pre">layerType</span></code>                Layer类型。</p></li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li><p>返回 <code class="docutils literal notranslate"><span class="pre">0</span></code> 则表示API成功执行，否则执行失败。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="id15">
+<h1><span class="section-number">4. </span>数据排布及对齐规则<a class="headerlink" href="#id15" title="永久链接至标题"></a></h1>
+<section id="id16">
+<h2><span class="section-number">4.1. </span>数据排布<a class="headerlink" href="#id16" title="永久链接至标题"></a></h2>
+<p>硬件内部为了提高计算效率，其数据使用特殊的排布方式以使得卷积运算中同一批次乘加用到的feature map和kernel在内存中相邻排放。
+下面简要介绍XJ3中数据排布（layout）的概念。</p>
+<p>神经网络模型中的变量可以用一个4维的张量表示，每个数字是这个张量中的元素，我们称之为自然排布。
+将不同维度的不同元素按一定规则紧密排列在一起，形成一个独立的小块（block），然后将这些小块看成新的元素，组成新的4维张量，
+我们称之为带有数据排布的张量。</p>
+<p>输入输出数据会用到不同的layout数据排布，用户可通过API获取layout描述信息，不同的layout数据不可以直接比较。
+用户可自行选择用编译工具提供的API进行数据排布的转换或根据实际场景自行编写高效的数据排布转换代码。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>需要注意的是，在进行数据排布转换时，如果需要padding，则padding的值必须为零。</p>
+</div>
+<p>此处介绍两种数据排布： <code class="docutils literal notranslate"><span class="pre">NHWC_NATIVE</span></code> 和 <code class="docutils literal notranslate"><span class="pre">NCHW_NATIVE</span></code> ，以 <code class="docutils literal notranslate"><span class="pre">NHWC_NATIVE</span></code> 为例，其数据排布如下：</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 39%" />
+<col style="width: 21%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>N0H0W0C0</p></td>
+<td><p>N0H0W0C1</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-even"><td><p>N0H0W1C0</p></td>
+<td><p>N0H0W1C1</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-odd"><td><p>……</p></td>
+<td><p>……</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-even"><td><p>N0H1W0C0</p></td>
+<td><p>N0H1W0C1</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-odd"><td><p>……</p></td>
+<td><p>……</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-even"><td><p>N1H0W0C0</p></td>
+<td><p>N1H0W0C1</p></td>
+<td><p>……</p></td>
+</tr>
+<tr class="row-odd"><td><p>……</p></td>
+<td><p>……</p></td>
+<td><p>……</p></td>
+</tr>
+</tbody>
+</table>
+<p>一个N*H*W*C大小的张量可用如下4重循环表示：</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">H</span><span class="p">;</span><span class="w"> </span><span class="n">h</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">W</span><span class="p">;</span><span class="w"> </span><span class="n">w</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">C</span><span class="p">;</span><span class="w"> </span><span class="n">c</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">native_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="n">H</span><span class="o">*</span><span class="n">W</span><span class="o">*</span><span class="n">C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="o">*</span><span class="n">W</span><span class="o">*</span><span class="n">C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">w</span><span class="o">*</span><span class="n">C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">NCHW_NATIVE</span></code> 和 <code class="docutils literal notranslate"><span class="pre">NHWC_NATIVE</span></code> 相比，只是排布循环顺序不一样，此处不再单独列出。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>下文中提到的native都特指该layout。</p>
+</div>
+</section>
+<section id="bpu">
+<h2><span class="section-number">4.2. </span>BPU对齐限制规则<a class="headerlink" href="#bpu" title="永久链接至标题"></a></h2>
+<p>本节内容介绍使用BPU的对齐限制规则。</p>
+<section id="id17">
+<h3><span class="section-number">4.2.1. </span>模型输入要求<a class="headerlink" href="#id17" title="永久链接至标题"></a></h3>
+<p>BPU不限制模型输入大小或者奇偶。既像YOLO这种416x416的输入可以支持，对于像SqueezeNet这种227x227的输入也可以支持。
+对于NV12输入比较特别，要求HW都是偶数，是为了满足UV是Y的一半的要求。</p>
+</section>
+<section id="stride">
+<h3><span class="section-number">4.2.2. </span>stride要求<a class="headerlink" href="#stride" title="永久链接至标题"></a></h3>
+<p>BPU有 <code class="docutils literal notranslate"><span class="pre">stride</span></code> 要求。通常可以在 <code class="docutils literal notranslate"><span class="pre">hbDNNTensorProperties</span></code> 中根据 <code class="docutils literal notranslate"><span class="pre">validShape</span></code> 和 <code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> 来确定。
+<code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> 就是 <code class="docutils literal notranslate"><span class="pre">stride</span></code> 对齐的要求。对于NV12或Y输入的有些特别，只要求W的 <code class="docutils literal notranslate"><span class="pre">stride</span></code> 是16的倍数，不需要完全按照 <code class="docutils literal notranslate"><span class="pre">alignedShape</span></code> 进行对齐。
+<code class="docutils literal notranslate"><span class="pre">padding</span></code> 不关心具体值，可以是0或者非0。</p>
+</section>
+</section>
+<section id="nv12">
+<h2><span class="section-number">4.3. </span>NV12介绍<a class="headerlink" href="#nv12" title="永久链接至标题"></a></h2>
+<section id="yuv">
+<h3><span class="section-number">4.3.1. </span>YUV格式<a class="headerlink" href="#yuv" title="永久链接至标题"></a></h3>
+<p>YUV格式主要用于优化彩色视频信号的传输。
+YUV分为三个分量：Y表示明亮度，也就是灰度值；而U和V表示的则是色度，作用是描述影像色彩及饱和度，用于指定像素的颜色。</p>
+</section>
+<section id="id18">
+<h3><span class="section-number">4.3.2. </span>NV12排布<a class="headerlink" href="#id18" title="永久链接至标题"></a></h3>
+<p>NV12图像格式属于YUV颜色空间中的YUV420SP格式，每四个Y分量共用一组U分量和V分量，Y连续排序，U与V交叉排序。</p>
+<p>排列方式如下：</p>
+<figure class="align-center">
+<img alt="_images/nv12_layout.png" src="_images/nv12_layout.png" />
+</figure>
+</section>
+</section>
+</section>
+<section id="id19">
+<h1><span class="section-number">5. </span>错误码<a class="headerlink" href="#id19" title="永久链接至标题"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">HB_DNN_SUCCESS</span> <span class="o">=</span> <span class="m">0</span>                   // 执行成功
+HB_DNN_INVALID_ARGUMENT              // 非法参数
+HB_DNN_INVALID_MODEL                 // 非法模型
+HB_DNN_MODEL_NUMBER_EXCEED_LIMIT     // 模型个数超过限制
+HB_DNN_INVALID_PACKED_DNN_HANDLE     // 非法packed handle
+HB_DNN_INVALID_DNN_HANDLE            // 非法handle
+HB_DNN_CAN_NOT_OPEN_FILE             // 文件不存在
+HB_DNN_OUT_OF_MEMORY                 // 没有足够的内存
+HB_DNN_TIMEOUT                       // 超时
+HB_DNN_TASK_NUM_EXCEED_LIMIT         // 任务数量超限制
+HB_DNN_TASK_BATCH_SIZE_EXCEED_LIMIT  // 多任务处理数量超限制
+HB_DNN_INVALID_TASK_HANDLE           // 非法task handle
+HB_DNN_RUN_TASK_FAILED               // 任务执行失败
+HB_DNN_MODEL_IS_RUNNING              // 任务执行中
+HB_DNN_INCOMPATIBLE_MODEL            // 不兼容的模型
+HB_DNN_API_USE_ERROR                 // 接口使用错误
+
+HB_SYS_SUCCESS                       // 执行成功
+HB_SYS_INVALID_ARGUMENT              // 非法参数
+HB_SYS_OUT_OF_MEMORY                 // 没有足够的内存
+HB_SYS_REGISTER_MEM_FAILED           // 注册内存失败
+</pre></div>
+</div>
+</section>
+<section id="id20">
+<h1><span class="section-number">6. </span>配置信息<a class="headerlink" href="#id20" title="永久链接至标题"></a></h1>
+<ol class="arabic">
+<li><p>日志等级。<code class="docutils literal notranslate"><span class="pre">dnn</span></code> 中的日志主要分为4个等级，：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_NONE</span> <span class="pre">=</span> <span class="pre">0</span></code>，不输出日志；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_WARNING</span> <span class="pre">=</span> <span class="pre">3</span></code>，该等级主要用来输出代码中的告警信息；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_ERROR</span> <span class="pre">=</span> <span class="pre">4</span></code>，该等级主要用来输出代码中的报错信息；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_FATAL</span> <span class="pre">=</span> <span class="pre">5</span></code>，该等级主要用来输出代码中的导致退出的错误信息。</p></li>
+</ul>
+</li>
+<li><p>日志等级设置规则：</p>
+<p>若发生的LOG等级 &gt;= 设置的等级，则该LOG可以被打印，反之被屏蔽；设置的LOG等级越小，打印信息越多（等级0除外，0不输出日志）。
+例如：设置LOG等级为3，即为 <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> 级别，则3,4,5等级的LOG均可以被打印；
+预测库默认LOG等级为 <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_WARNING</span></code> ，则以下LOG级别的信息可以被打印：
+<code class="docutils literal notranslate"><span class="pre">WARNING</span></code> 、 <code class="docutils literal notranslate"><span class="pre">ERROR</span></code> 、 <code class="docutils literal notranslate"><span class="pre">FATAL</span></code>。</p>
+</li>
+<li><p>日志等级设置方式：
+可通过环境变量 <code class="docutils literal notranslate"><span class="pre">HB_DNN_LOG_LEVEL</span></code> 设置日志等级。
+比如： <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">HB_DNN_LOG_LEVEL=3</span></code>，则输出 <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> 级以上级别的日志。</p></li>
+</ol>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="BPU SDK API手册" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

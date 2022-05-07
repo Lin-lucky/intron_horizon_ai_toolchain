@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>项目名称 &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>项目名称</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/common/xproto_plugins/visual_plugin/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>cmake_minimum_required(VERSION 2.8)</p>
+<p>option(PARENT_BUILD “is build from parent” OFF)
+if(NOT ${PARENT_BUILD})
+set(CMAKE_C_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++)
+endif()
+message(“tool chain:${CMAKE_CXX_COMPILER}”)
+string(REGEX REPLACE “.<em>/(.</em>)” “\1” CURDIR ${CMAKE_CURRENT_SOURCE_DIR})
+message(“${CMAKE_CURRENT_SOURCE_DIR}”)</p>
+<div class="section" id="id1">
+<h1>项目名称<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>project(visual_plugin)
+option(X3_MEDIA_CODEC “x3 media codec” ON)
+if (${X3_MEDIA_CODEC})
+add_definitions(-DX3_MEDIA_CODEC)
+endif()</p>
+<p>message(${PROJECT_SOURCE_DIR})
+set(SOLUTION_ZOO_COMMON_DIR)
+function(get_parent_dir arg dir n)
+foreach(i RANGE ${ARGV2})
+# message(“i:${i} dir:${dir}”)
+get_filename_component(dir ${dir} DIRECTORY)
+endforeach(i)
+set(SOLUTION_ZOO_COMMON_DIR ${dir} PARENT_SCOPE)
+endfunction()
+get_parent_dir(XSTREAM_CURRENT_DIR ${PROJECT_SOURCE_DIR} 1)</p>
+<p>message(“solution_zoo common dir:${SOLUTION_ZOO_COMMON_DIR}”)</p>
+</div>
+<div class="section" id="get-deps-directory-end">
+<h1>get deps directory end<a class="headerlink" href="#get-deps-directory-end" title="Permalink to this headline">¶</a></h1>
+<p>set(WRAPPER_CODEC_SOURCE ${SOLUTION_ZOO_COMMON_DIR}/wrapper/media_codec/)
+message(“audio wrapper dir:${WRAPPER_CODEC_SOURCE}”)</p>
+<p>if(DEFINED ENV{HORIZON_LIB_PATH})
+set(HOST_PACKAGE_DIR $ENV{HORIZON_LIB_PATH}/ddk/xj3_aarch64)
+else()
+set(HOST_PACKAGE_DIR ~/.horizon/ddk/xj3_aarch64)
+endif()</p>
+</div>
+<div class="section" id="id2">
+<h1>添加头文件路径<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<p>include_directories(
+${CMAKE_CURRENT_SOURCE_DIR}/include
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/hobotlog/include
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/jsoncpp/include
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/xproto_plugins/message/include
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/xproto_plugins/protobuf/include
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/protobuf/include
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/live555/include
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/opencv/include
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/libjpeg-turbo/include<br />${CMAKE_CURRENT_SOURCE_DIR}/../../../common/wrapper/media_codec/include
+${HOST_PACKAGE_DIR}/appsdk/appuser/include
+${HOST_PACKAGE_DIR}/appsdk/appuser/include/vio/
+${HOST_PACKAGE_DIR}/xproto/include
+${HOST_PACKAGE_DIR}/xstream/include
+)</p>
+<p>link_directories(
+${HOST_PACKAGE_DIR}/xstream/lib
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/hobotlog/lib
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/jsoncpp/lib
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/protobuf/lib
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/live555/lib
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/opencv/lib
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/deps/libjpeg-turbo/lib
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib/hbmedia/
+${CMAKE_CURRENT_SOURCE_DIR}/../../../common/wrapper/media_codec/output/xstream_media_codec/lib/
+)</p>
+<p>file(GLOB PROJECT_INC
+“include/visualplugin/<em>.h”
+“include/visualplugin/</em>.hh”
+)
+file(GLOB PROJECT_SRC “src/*.cc”)</p>
+<p>set(SOURCE_FILES ${PROJECT_SRC} ${PROJECT_INC})</p>
+<p>if (NOT TARGET xstream_media_codec)
+add_subdirectory(${WRAPPER_CODEC_SOURCE}
+${WRAPPER_CODEC_SOURCE}/output
+)
+endif()</p>
+<p>set(BASE_LIBRARIES opencv_world pthread  jsoncpp protobuf
+)</p>
+<p>set(LIVE_LIB liveMedia BasicUsageEnvironment groupsock UsageEnvironment turbojpeg)
+add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME}
+PUBLIC xstream_media_codec
+PUBLIC ${BASE_LIBRARIES}
+PUBLIC ${LIVE_LIB}
+)</p>
+<p>if(NOT ${PARENT_BUILD})
+set(OUTPUT_ROOT ${CMAKE_SOURCE_DIR}/output/)
+endif()
+set(MY_OUTPUT_ROOT ${OUTPUT_ROOT}/visual_plugin)</p>
+<p>set(MY_OUTPUT_ROOT ${OUTPUT_ROOT}/${PROJECT_NAME}/)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+DESTINATION ${MY_OUTPUT_ROOT}/include/${PROJECT_NAME})
+install(TARGETS ${PROJECT_NAME} DESTINATION ${MY_OUTPUT_ROOT}/lib)</p>
+</div>
+<div class="section" id="install-configs-some-scripts-will-depends-this">
+<h1>install configs, some scripts will depends this<a class="headerlink" href="#install-configs-some-scripts-will-depends-this" title="Permalink to this headline">¶</a></h1>
+<p>install(DIRECTORY
+${CMAKE_CURRENT_SOURCE_DIR}/configs/
+DESTINATION ${MY_OUTPUT_ROOT}/config/)</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

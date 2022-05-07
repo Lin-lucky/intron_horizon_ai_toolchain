@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. 应用开发 &mdash; horizon_ai_toolchain_user_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="5. 自定义算子开发" href="chapter_5_custom_op_development.html" />
+    <link rel="prev" title="3. 模型转换" href="chapter_3_model_conversion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> horizon_ai_toolchain_user_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AI工具链:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter_1_introduction.html">1. 产品介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_2_prerequisites.html">2. 环境部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_3_model_conversion.html">3. 模型转换</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. 应用开发</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">4.1. 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-your-project">4.2. 工程创建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#engineer-implementation">4.3. 工程实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compile-and-run">4.4. 工程编译与运行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">4.5. 多模型控制策略</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preemption">4.5.1. 模型优先级控制</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">4.6. 应用调优建议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">4.7. 其他应用开发工具</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hrt-bin-dump">4.7.1. <code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> 工具</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hrt-model-exec">4.7.2. <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> 工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#model-info">4.7.2.1. <code class="docutils literal notranslate"><span class="pre">model_info</span></code> 子命令</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#infer">4.7.2.2. <code class="docutils literal notranslate"><span class="pre">infer</span></code> 子命令</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#perf">4.7.2.3. <code class="docutils literal notranslate"><span class="pre">perf</span></code> 子命令</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">4.8. 常见问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nv12bgr">4.8.1. 如何将摄像头输出的NV12图片转换为BGR等格式？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bpucache">4.8.2. 如何理解BPU内存Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bpu">4.8.3. 理解BPU内存中的物理地址和虚拟地址</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_5_custom_op_development.html">5. 自定义算子开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_6_appendix.html">6. 附录</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">horizon_ai_toolchain_user_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">4. </span>应用开发</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/chapter_4_application_development.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">4. </span>应用开发<a class="headerlink" href="#id1" title="永久链接至标题"></a></h1>
+<section id="id2">
+<h2><span class="section-number">4.1. </span>简介<a class="headerlink" href="#id2" title="永久链接至标题"></a></h2>
+<p>本章节介绍了在地平线平台进行应用开发，将转换得到的模型部署运行起来，需要您注意的相关注意事项在此章节也会介绍。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>在应用开发前请，请确保您已经通过 <a class="reference internal" href="chapter_2_prerequisites.html"><span class="doc">环境部署</span></a> 部分的介绍完成了开发环境的准备。</p>
+</div>
+<p>最简易的开发过程包括工程创建、工程实现、工程编译与运行三个阶段。
+考虑到实际业务场景开发的较复杂需求，对于常用的多模型控制概念和应用调优建议也都提供了一些说明。</p>
+</section>
+<section id="create-your-project">
+<span id="id3"></span><h2><span class="section-number">4.2. </span>工程创建<a class="headerlink" href="#create-your-project" title="永久链接至标题"></a></h2>
+<p>地平线推荐使用cmake进行应用工程管理，前文介绍的环境部署部分也已经完成了cmake安装。
+在阅读本节内容前，我们希望您已经了解cmake的使用。</p>
+<p>地平线开发库提供了arm的依赖环境和板端应用程序。我们在Docker镜像中提供的工程依赖信息如下：</p>
+<ul class="simple">
+<li><p>地平线评测库libdnn.so，路径：<cite>~/.horizon/ddk/xj3_aarch64/dnn/lib/</cite>。</p></li>
+<li><p>地平线编译器依赖 libhbrt_bernoulli_aarch64.so，路径：<cite>~/.horizon/ddk/xj3_aarch64/dnn/lib/</cite>。</p></li>
+<li><p>地平线 xj3 芯片系统依赖，路径：<cite>~/.horizon/ddk/xj3_aarch64/appsdk/appuser/</cite>。</p></li>
+<li><p>c编译器 aarch64-linux-gnu-gcc。</p></li>
+<li><p>c++编译器 aarch64-linux-gnu-g++。</p></li>
+</ul>
+<p>创建一个工程用户需要编写CMakeLists.txt文件。
+脚本中定义了编译工具路径，CMakeLists.txt文件中定义了一些编译选项，以及依赖库、头文件的路径。参考如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake_minimum_required<span class="o">(</span>VERSION <span class="m">2</span>.8<span class="o">)</span>
+
+project<span class="o">(</span>your_project_name<span class="o">)</span>
+
+set<span class="o">(</span>CMAKE_CXX_FLAGS <span class="s2">&quot;</span><span class="si">${</span><span class="nv">CMAKE_CXX_FLAGS</span><span class="si">}</span><span class="s2"> -std=c++11&quot;</span><span class="o">)</span>
+
+set<span class="o">(</span>CMAKE_CXX_FLAGS_DEBUG <span class="s2">&quot; -Wall -Werror -g -O0 &quot;</span><span class="o">)</span>
+set<span class="o">(</span>CMAKE_C_FLAGS_DEBUG <span class="s2">&quot; -Wall -Werror -g -O0 &quot;</span><span class="o">)</span>
+set<span class="o">(</span>CMAKE_CXX_FLAGS_RELEASE <span class="s2">&quot; -Wall -Werror -O3 &quot;</span><span class="o">)</span>
+set<span class="o">(</span>CMAKE_C_FLAGS_RELEASE <span class="s2">&quot; -Wall -Werror -O3 &quot;</span><span class="o">)</span>
+
+<span class="k">if</span> <span class="o">(</span>NOT CMAKE_BUILD_TYPE<span class="o">)</span>
+    set<span class="o">(</span>CMAKE_BUILD_TYPE Release<span class="o">)</span>
+endif <span class="o">()</span>
+
+message<span class="o">(</span>STATUS <span class="s2">&quot;Build type: </span><span class="si">${</span><span class="nv">CMAKE_BUILD_TYPE</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">)</span>
+
+<span class="c1"># define dnn lib path</span>
+set<span class="o">(</span>DNN_PATH <span class="s2">&quot;~/.horizon/ddk/xj3_aarch64/dnn/&quot;</span><span class="o">)</span>
+set<span class="o">(</span>APPSDK_PATH <span class="s2">&quot;~/.horizon/ddk/xj3_aarch64/appsdk/appuser/&quot;</span><span class="o">)</span>
+
+set<span class="o">(</span>DNN_LIB_PATH <span class="si">${</span><span class="nv">DNN_PATH</span><span class="si">}</span>/lib<span class="o">)</span>
+set<span class="o">(</span>APPSDK_LIB_PATH <span class="si">${</span><span class="nv">APPSDK_PATH</span><span class="si">}</span>/lib/hbbpu<span class="o">)</span>
+set<span class="o">(</span>BPU_libs dnn cnn_intf hbrt_bernoulli_aarch64<span class="o">)</span>
+
+include_directories<span class="o">(</span><span class="si">${</span><span class="nv">DNN_PATH</span><span class="si">}</span>/include
+                    <span class="si">${</span><span class="nv">APPSDK_PATH</span><span class="si">}</span>/include<span class="o">)</span>
+link_directories<span class="o">(</span><span class="si">${</span><span class="nv">DNN_LIB_PATH</span><span class="si">}</span>
+                <span class="si">${</span><span class="nv">APPSDK_PATH</span><span class="si">}</span>/lib/hbbpu
+                <span class="si">${</span><span class="nv">APPSDK_PATH</span><span class="si">}</span>/lib<span class="o">)</span>
+
+add_executable<span class="o">(</span>user_app main.cc<span class="o">)</span>
+target_link_libraries<span class="o">(</span>user_app
+                      <span class="si">${</span><span class="nv">BPU_libs</span><span class="si">}</span>
+                      pthread
+                      rt
+                      dl<span class="o">)</span>
+</pre></div>
+</div>
+<p>注意在以上示例中，我们没有指定编译器位置，会在配合工程编译阶段补充编译器指定，请参考 <strong>工程编译与运行</strong> 小节部分的介绍。</p>
+</section>
+<section id="engineer-implementation">
+<span id="id4"></span><h2><span class="section-number">4.3. </span>工程实现<a class="headerlink" href="#engineer-implementation" title="永久链接至标题"></a></h2>
+<p>工程实现主要介绍如何将前文模型转换得到的bin模型在地平线平台运行起来。
+最简单的步骤应该包括模型加载、准备输入数据、准备输出内存、推理和结果解析，以下是一份简单的加载部署模型参考代码：</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/hb_dnn.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;dnn/hb_sys.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 第一步加载模型</span>
+  <span class="n">hbPackedDNNHandle_t</span> <span class="n">packed_dnn_handle</span><span class="p">;</span>
+  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">model_file_name</span><span class="o">=</span> <span class="s">&quot;./mobilenetv1.bin&quot;</span><span class="p">;</span>
+  <span class="n">hbDNNInitializeFromFiles</span><span class="p">(</span><span class="o">&amp;</span><span class="n">packed_dnn_handle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">model_file_name</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="c1">// 第二步获取模型名称</span>
+  <span class="k">const</span> <span class="kt">char</span> <span class="o">**</span><span class="n">model_name_list</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">model_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">hbDNNGetModelNameList</span><span class="p">(</span><span class="o">&amp;</span><span class="n">model_name_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">model_count</span><span class="p">,</span> <span class="n">packed_dnn_handle</span><span class="p">);</span>
+
+  <span class="c1">// 第三步获取dnn_handle</span>
+  <span class="n">hbDNNHandle_t</span> <span class="n">dnn_handle</span><span class="p">;</span>
+  <span class="n">hbDNNGetModelHandle</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dnn_handle</span><span class="p">,</span> <span class="n">packed_dnn_handle</span><span class="p">,</span> <span class="n">model_name_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+  <span class="c1">// 第四步准备输入数据</span>
+  <span class="n">hbDNNTensor</span> <span class="n">input</span><span class="p">;</span>
+  <span class="n">hbDNNTensorProperties</span> <span class="n">input_properties</span><span class="p">;</span>
+  <span class="n">hbDNNGetInputTensorProperties</span><span class="p">(</span><span class="o">&amp;</span><span class="n">input_properties</span><span class="p">,</span> <span class="n">dnn_handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">input</span><span class="p">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">input_properties</span><span class="p">;</span>
+  <span class="k">auto</span> <span class="o">&amp;</span><span class="n">mem</span> <span class="o">=</span> <span class="n">input</span><span class="p">.</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+  <span class="kt">int</span> <span class="n">yuv_length</span> <span class="o">=</span> <span class="mi">224</span> <span class="o">*</span> <span class="mi">224</span> <span class="o">*</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="n">hbSysAllocCachedMem</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mem</span><span class="p">,</span> <span class="n">yuv_length</span><span class="p">);</span>
+  <span class="c1">//memcpy(mem.virAddr, yuv_data, yuv_length);</span>
+  <span class="c1">//hbSysFlushMem(&amp;mem, HB_SYS_MEM_CACHE_CLEAN);</span>
+
+  <span class="c1">// 第五步准备模型输出数据的空间</span>
+  <span class="kt">int</span> <span class="n">output_count</span><span class="p">;</span>
+  <span class="n">hbDNNGetOutputCount</span><span class="p">(</span><span class="o">&amp;</span><span class="n">output_count</span><span class="p">,</span> <span class="n">dnn_handle</span><span class="p">);</span>
+  <span class="n">hbDNNTensor</span> <span class="o">*</span><span class="n">output</span> <span class="o">=</span> <span class="k">new</span> <span class="n">hbDNNTensor</span><span class="p">[</span><span class="n">output_count</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">output_count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">hbDNNTensorProperties</span> <span class="o">&amp;</span><span class="n">output_properties</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">properties</span><span class="p">;</span>
+  <span class="n">hbDNNGetOutputTensorProperties</span><span class="p">(</span><span class="o">&amp;</span><span class="n">output_properties</span><span class="p">,</span> <span class="n">dnn_handle</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+
+  <span class="c1">// 获取模型输出尺寸</span>
+  <span class="kt">int</span> <span class="n">out_aligned_size</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">output_properties</span><span class="p">.</span><span class="n">alignedShape</span><span class="p">.</span><span class="n">numDimensions</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">out_aligned_size</span> <span class="o">=</span>
+        <span class="n">out_aligned_size</span> <span class="o">*</span> <span class="n">output_properties</span><span class="p">.</span><span class="n">alignedShape</span><span class="p">.</span><span class="n">dimensionSize</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">hbSysMem</span> <span class="o">&amp;</span><span class="n">mem</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">hbSysAllocCachedMem</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mem</span><span class="p">,</span> <span class="n">out_aligned_size</span><span class="p">);</span>
+<span class="p">}</span>
+
+  <span class="c1">// 第六步推理模型</span>
+  <span class="n">hbDNNTaskHandle_t</span> <span class="n">task_handle</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="n">hbDNNInferCtrlParam</span> <span class="n">infer_ctrl_param</span><span class="p">;</span>
+  <span class="n">HB_DNN_INITIALIZE_INFER_CTRL_PARAM</span><span class="p">(</span><span class="o">&amp;</span><span class="n">infer_ctrl_param</span><span class="p">);</span>
+  <span class="n">hbDNNInfer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">task_handle</span><span class="p">,</span>
+              <span class="o">&amp;</span><span class="n">output</span><span class="p">,</span>
+              <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+              <span class="n">dnn_handle</span><span class="p">,</span>
+              <span class="o">&amp;</span><span class="n">infer_ctrl_param</span><span class="p">);</span>
+
+  <span class="c1">// 第七步等待任务结束</span>
+  <span class="n">hbDNNWaitTaskDone</span><span class="p">(</span><span class="n">task_handle</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="c1">//第八步解析模型输出，例子就获取mobilenetv1的top1分类</span>
+  <span class="kt">float</span> <span class="n">max_prob</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">max_prob_type_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">hbSysFlushMem</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">output</span><span class="o">-&gt;</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">HB_SYS_MEM_CACHE_INVALIDATE</span><span class="p">);</span>
+  <span class="kt">float</span> <span class="o">*</span><span class="n">scores</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">float</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">output</span><span class="o">-&gt;</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">virAddr</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="o">*</span><span class="n">shape</span> <span class="o">=</span> <span class="n">output</span><span class="o">-&gt;</span><span class="n">properties</span><span class="p">.</span><span class="n">validShape</span><span class="p">.</span><span class="n">dimensionSize</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_prob</span><span class="p">)</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="n">max_prob</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">max_prob_type_id</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;max id: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">max_prob_type_id</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="c1">// 释放内存</span>
+  <span class="n">hbSysFreeMem</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+  <span class="n">hbSysFreeMem</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">output</span><span class="o">-&gt;</span><span class="n">sysMem</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+
+  <span class="c1">// 释放模型</span>
+  <span class="n">hbDNNRelease</span><span class="p">(</span><span class="n">packed_dnn_handle</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>示例代码中，为了缩减篇幅，对于部分数据就直接使用了已知的常数。
+在实际使用过程中，您应该通过 <code class="docutils literal notranslate"><span class="pre">hbDNNGetInputTensorProperties/hbDNNGetOutputTensorProperties</span></code>
+等接口获取尺寸和数据类型等信息。</p>
+<p>需要您注意的是，在输入数据准备阶段，我们注释掉了一段 <code class="docutils literal notranslate"><span class="pre">memcpy</span></code> 代码。
+这里应当是根据模型的输入格式要求准备输入样本，并将其拷贝到 <code class="docutils literal notranslate"><span class="pre">input.sysMem[0]</span></code> 中，
+前文转换配置中的 <code class="docutils literal notranslate"><span class="pre">input_type_rt</span></code> 和 <code class="docutils literal notranslate"><span class="pre">input_layout_rt</span></code> 参数共同决定了模型使用什么样的输入，
+具体信息可以参考 <a class="reference internal" href="chapter_3_model_conversion.html#conversion-interpretation"><span class="std std-ref">转换内部过程解读</span></a> 部分的介绍。</p>
+<p>更加全面的工程实现指导，请您参考 <strong>《BPU SDK API手册》</strong>。</p>
+</section>
+<section id="compile-and-run">
+<span id="id5"></span><h2><span class="section-number">4.4. </span>工程编译与运行<a class="headerlink" href="#compile-and-run" title="永久链接至标题"></a></h2>
+<p>结合 <strong>工程创建</strong> 一节中的cmake工程配置，参考编译脚本如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># define gcc path for arm</span>
+<span class="nv">LINARO_GCC_ROOT</span><span class="o">=</span>/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/
+
+<span class="nv">DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="s2">&quot;</span><span class="k">$(</span>dirname <span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span><span class="p">;</span><span class="nb">pwd</span><span class="k">)</span>
+
+<span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span><span class="si">${</span><span class="nv">LINARO_GCC_ROOT</span><span class="si">}</span>/bin/aarch64-linux-gnu-gcc
+<span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span><span class="si">${</span><span class="nv">LINARO_GCC_ROOT</span><span class="si">}</span>/bin/aarch64-linux-gnu-g++
+
+rm -rf build_arm
+mkdir build_arm
+<span class="nb">cd</span> build_arm
+
+cmake <span class="si">${</span><span class="nv">DIR</span><span class="si">}</span>
+
+make -j8
+</pre></div>
+</div>
+<p>根据 <strong>第2章：环境部署</strong> 部分的指引，您的开发机中应该已经安装有相应编译器，将上述脚本中的编译器配置指定为您的安装项目即可。</p>
+<p>arm程序拷贝到地平线开发板上可运行，注意程序依赖的文件也需要一同拷贝到开发板，并在启动脚本中配置依赖。
+例如我们的示例程序依赖库有：libhbrt_bernoulli_aarch64.so、libdnn.so，
+这两个依赖库在本地的位置为：<cite>~/.horizon/ddk/xj3_aarch64/dnn/lib/</cite>，需要将之上传到板子的运行环境中。
+建议在板端的 <code class="docutils literal notranslate"><span class="pre">/userdata</span></code> 路径下新建 <code class="docutils literal notranslate"><span class="pre">lib</span></code> 路径并将库传送至该目录下，则在板端运行程序前，需指定的依赖库路径信息如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/userdata/lib
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2><span class="section-number">4.5. </span>多模型控制策略<a class="headerlink" href="#id6" title="永久链接至标题"></a></h2>
+<p>多模型场景中，每个模型都需要使用有限的计算资源完成推理，不可避免地会出现计算资源地争夺情况。
+为了便于您控制多模型的执行，地平线提供了模型优先级的控制策略供您使用。</p>
+<section id="preemption">
+<span id="id7"></span><h3><span class="section-number">4.5.1. </span>模型优先级控制<a class="headerlink" href="#preemption" title="永久链接至标题"></a></h3>
+<p>XJ3芯片BPU计算单元硬件本身没有任务抢占功能，对于每一个推理任务，一旦它进到BPU模型计算之后，
+在该任务执行完成之前都会一直占用BPU，其他任务只能排队等待。
+此时很容易出现BPU计算资源被一个大模型推理任务所独占，进而影响其他高优先级模型的推理任务执行。
+针对这种问题，Runtime SDK基于模型的优先级通过软件的方式实现了BPU资源抢占的功能。</p>
+<p>其中有以下点需要被关注：</p>
+<ul class="simple">
+<li><p>编译后的数据指令模型在BPU上进行推理计算时，它将表现为1个或者多个function-call 的调用，其中function-call是BPU的执行粒度，
+多个function-call调用任务将在BPU的硬件队列上按序进行调度，当一个模型所有的function-call都执行完成，
+那么一个模型推理任务也就执行完成了。</p></li>
+<li><p>基于上述描述，BPU模型任务抢占粒度设计为function-call更为简单，即BPU执行完一个function-call之后，暂时挂起当前模型，
+然后切入执行另外一个模型，当新模型执行完成之后，再恢复原来模型的状态继续运行。但是这里存在两个问题，
+第一是经过编译器编译出来的模型function-call都是merge在一起，此时模型只有一个大的function-call，它无法被抢占；
+第二是每个function-call的执行时间比较长或者不固定，也会造成抢占时机不固定，影响抢占效果。</p></li>
+</ul>
+<p>为了解决上述的两个问题，地平线在模型转换工具和系统软件都给予了支持，下面分别介绍其实现原理和操作方法：</p>
+<ul class="simple">
+<li><p>首先，在 <strong>模型转换</strong> 阶段，可以在模型的YAML配置文件中的编译器相关参数（即 <code class="docutils literal notranslate"><span class="pre">compiler_parameters</span></code> ）中，
+通过 <code class="docutils literal notranslate"><span class="pre">max_time_per_fc</span></code> 参数（以微秒为单位，默认取值为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，即不做限制。）来设置每个function-call的执行时间。
+假设某function-call执行时间为10ms，如将其 <code class="docutils literal notranslate"><span class="pre">max_time_per_fc</span></code> 设置为 <code class="docutils literal notranslate"><span class="pre">500</span></code>，
+则这个function-call将会被拆分成20个。</p></li>
+<li><p>其次，系统软件层面设计了 <code class="docutils literal notranslate"><span class="pre">BPLAT_CORELIMIT</span></code> 环境变量用于设置可抢占的粒度。
+如将此参数设置为 <code class="docutils literal notranslate"><span class="pre">2</span></code>，则高优先级被调度执行的时间为前面2个低优先级function-call的处理时间。
+如果为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，则不抢占。因此，为了尽早执行高优先级的任务，可在 <strong>上板</strong> 时，先运行 <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">BPLAT_CORELIMIT=1</span></code> 将此环境变量的取值设置为 <code class="docutils literal notranslate"><span class="pre">1</span></code>。
+这样当系统底层收到模型的function-call时，会判断其优先级，对于优先级高的function-call则放入单独队列，以便能够在一个function-call
+执行完成之后，抢占到BPU资源。</p></li>
+<li><p>接着，由于模型抢占机制是在libdnn中实现的，继续设置 <code class="docutils literal notranslate"><span class="pre">dnn</span></code> 的 <code class="docutils literal notranslate"><span class="pre">infer</span></code> 接口提供的 <code class="docutils literal notranslate"><span class="pre">hbDNNInferCtrlParam.priority</span></code>
+参数。如：配置 <code class="docutils literal notranslate"><span class="pre">infer</span></code> 任务为 <code class="docutils literal notranslate"><span class="pre">HB_DNN_PRIORITY_PREEMP(255)</span></code>，则为抢占任务，可支持function-call级别抢占；
+您也可以配置优先级为 <code class="docutils literal notranslate"><span class="pre">[0,255]</span></code> 的任意等级，在同等条件下的执行队列中(粒度为任务)，优先级越高的task会更优先执行。
+需要说明的是，目前DNN内部最多支持8个任务同时进行。因此若提交抢占任务时已经有8个任务正在运行，则不支持抢占操作。
+直到有任务完成后才可以调度优先级最高的任务执行。</p></li>
+</ul>
+</section>
+</section>
+<section id="id8">
+<h2><span class="section-number">4.6. </span>应用调优建议<a class="headerlink" href="#id8" title="永久链接至标题"></a></h2>
+<p>地平线建议的应用调优策略包括工程任务调度和算法任务整合两个方面。</p>
+<p><strong>工程任务调度</strong> 方面，我们推荐您使用一些workflow调度管理工具，充分发挥不同任务阶段的并行能力。
+一般AI应用可以简单拆分为输入前处理、模型推理、输出后处理三个阶段，在简易流程下，其处理流程如下图。</p>
+<img alt="_images/app_optimization_1.png" class="align-center" src="_images/app_optimization_1.png" />
+<p>充分利用workflow管理实现不同任务阶段并行后，理想的任务处理流程将达到下图效果。</p>
+<img alt="_images/app_optimization_2.png" class="align-center" src="_images/app_optimization_2.png" />
+<p>地平线推荐的workflow管理工具是xstream，具体使用请参考《XStream算法SDK开发框架》。</p>
+<p>当然，XStream也不是必选的，您如果有自研的或者其他更加熟悉的workflow管理策略，也可以根据自己的实际需要选取。</p>
+<p><strong>算法任务整合</strong> 方面，地平线推荐您使用多任务模型。
+这样一方面可以在一定程度上避免多模型调度管理的困难；
+另一方面多任务模型也能充分共享主干网络的计算量，较于使用各个独立的模型，可以在整个AI应用级别明显减少计算量，从而达到更高的整体性能。
+在地平线内部和许多合作客户的业务实践中，多任务也是常见的应用级优化策略。</p>
+</section>
+<section id="id9">
+<h2><span class="section-number">4.7. </span>其他应用开发工具<a class="headerlink" href="#id9" title="永久链接至标题"></a></h2>
+<section id="hrt-bin-dump">
+<h3><span class="section-number">4.7.1. </span><code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> 工具<a class="headerlink" href="#hrt-bin-dump" title="永久链接至标题"></a></h3>
+<p><strong>输入参数描述</strong></p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 14%" />
+<col style="width: 5%" />
+<col style="width: 13%" />
+<col style="width: 65%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>编号</p></td>
+<td><p>参数</p></td>
+<td><p>类型</p></td>
+<td><p>描述</p></td>
+<td><p>说明</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>模型文件路径。</p></td>
+<td><p>必须为debug model。</p>
+<p>即模型的编译参数 <code class="docutils literal notranslate"><span class="pre">layer_out_dump</span></code> 需要设置为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，指定模型转换过程中输出各层的中间结果。</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">input_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>输入文件路径。</p></td>
+<td><p>模型的输入文件，支持 <code class="docutils literal notranslate"><span class="pre">hbDNNDataType</span></code> 所有类型的输入；</p>
+<p>IMG类型文件需为二进制文件（后缀必须为.bin），二进制文件的大小应与模型的输入信息相匹配，</p>
+<p>如：YUV444文件大小为 <span class="math notranslate nohighlight">\(height * width * 3\)</span>；</p>
+<p>TENSOR类型文件需为二进制文件或文本文件（后缀必须为.bin/.txt），二进制文件的大小应与模型的输入信息相匹配，</p>
+<p>文本文件的大小必须大于模型要求的输入大小，多余的数据会被丢弃；每个输入之间通过逗号分隔，如：模型有两个输入，</p>
+<p>则： <code class="docutils literal notranslate"><span class="pre">--input_file=kite.bin,input.txt</span></code>。</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">conv_mapping_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>模型卷积层配置文件。</p></td>
+<td><p>模型layer配置文件，配置文件中标明了模型各层信息，在模型编译过程中生成。文件名称一般为：</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">model_name_quantized_model_conv_output_map.json</span></code>。</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">conv_dump_path</span></code></p></td>
+<td><p>string</p></td>
+<td><p>工具输出路径。</p></td>
+<td><p>工具的输出路径，该路径应为合法路径。</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用说明</strong></p>
+<p>工具提供dump卷积层输出功能，输出文件为二进制文件。
+直接运行 <code class="docutils literal notranslate"><span class="pre">hrt_bin_dump</span></code> 获取工具使用详情。
+参见下代码块：</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>以下代码块所示命令行输出可能随工具版本不同有所差异，此处仅为示例。</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span>
+<span class="n">hrt_bin_dump</span> <span class="p">[</span><span class="n">Option</span><span class="o">...</span><span class="p">]</span> <span class="p">[</span><span class="n">Parameter</span><span class="p">]</span>
+
+<span class="p">[</span><span class="n">Option</span><span class="p">]</span>            <span class="p">[</span><span class="n">Parameter</span><span class="p">]</span>
+<span class="o">---------------------------------------------------------------------------------------------------</span>
+<span class="o">--</span><span class="n">model_file</span>        <span class="p">[</span><span class="n">string</span><span class="p">]:</span> <span class="n">Model</span> <span class="n">file</span> <span class="n">path</span><span class="p">,</span> <span class="n">model</span> <span class="n">must</span> <span class="n">be</span> <span class="n">debug</span> <span class="n">model</span><span class="o">.</span>
+<span class="o">--</span><span class="n">conv_mapping_file</span> <span class="p">[</span><span class="n">string</span><span class="p">]:</span> <span class="n">conv</span> <span class="n">mapping</span> <span class="n">file</span> <span class="n">path</span><span class="p">,</span> <span class="n">json</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">input_file</span>        <span class="p">[</span><span class="n">string</span><span class="p">]:</span> <span class="n">Input</span> <span class="n">file</span> <span class="n">paths</span><span class="p">,</span> <span class="n">separate</span> <span class="n">by</span> <span class="n">comma</span><span class="p">,</span> <span class="n">each</span> <span class="n">represents</span> <span class="n">one</span> <span class="nb">input</span><span class="o">.</span>
+                              <span class="n">The</span> <span class="n">extension</span> <span class="n">of</span> <span class="n">files</span> <span class="n">should</span> <span class="n">be</span> <span class="n">one</span> <span class="n">of</span> <span class="p">[</span><span class="nb">bin</span><span class="p">,</span> <span class="n">txt</span><span class="p">]</span><span class="o">.</span>
+                              <span class="nb">bin</span> <span class="k">for</span> <span class="n">binary</span> <span class="n">such</span> <span class="k">as</span> <span class="n">image</span> <span class="n">data</span><span class="p">,</span> <span class="n">nv12</span> <span class="ow">or</span> <span class="n">yuv444</span> <span class="n">etc</span><span class="o">.</span>
+                              <span class="n">txt</span> <span class="k">for</span> <span class="n">plain</span> <span class="n">data</span> <span class="n">such</span> <span class="k">as</span> <span class="n">image</span> <span class="n">info</span><span class="o">.</span>
+<span class="o">--</span><span class="n">conv_dump_path</span>    <span class="p">[</span><span class="n">string</span><span class="p">]:</span> <span class="n">output</span> <span class="n">path</span> <span class="n">of</span> <span class="n">conv</span> <span class="n">output</span> <span class="n">file</span>
+
+<span class="p">[</span><span class="n">Examples</span><span class="p">]</span>
+<span class="o">---------------------------------------------------------------------------------------------------</span>
+<span class="n">hrt_bin_dump</span>
+  <span class="o">--</span><span class="n">model_file</span>
+  <span class="o">--</span><span class="n">input_file</span>
+  <span class="o">--</span><span class="n">conv_mapping_file</span>
+  <span class="o">--</span><span class="n">conv_dump_path</span>
+</pre></div>
+</div>
+<p><strong>示例</strong></p>
+<p>以mobilenetv1的debug模型为例，创建outputs文件夹，执行以下命令：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">hrt_bin_dump</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=./</span><span class="n">mobilenetv1_hybrid_horizonrt</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">conv_mapping_file</span><span class="o">=./</span><span class="n">mobilenetv1_quantized_model_conv_output_map</span><span class="o">.</span><span class="n">json</span> <span class="o">--</span><span class="n">conv_dump_path</span><span class="o">=./</span><span class="n">outputs</span> <span class="o">--</span><span class="n">input_file</span><span class="o">=./</span><span class="n">zebra_cls</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+<p>运行日志参见以下截图：</p>
+<img alt="_images/run_log.png" src="_images/run_log.png" />
+<p>在路径 <strong>outputs/</strong> 文件夹下可以查看输出，参见以下截图：</p>
+<img alt="_images/output.png" src="_images/output.png" />
+</section>
+<section id="hrt-model-exec">
+<h3><span class="section-number">4.7.2. </span><code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> 工具<a class="headerlink" href="#hrt-model-exec" title="永久链接至标题"></a></h3>
+<p><strong>工具简介</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> 是一个模型执行工具，可直接在开发板上评测模型的推理性能、获取模型信息。
+一方面可以让用户拿到模型时实际了解模型真实性能；
+另一方面也可以帮助用户了解模型可以做到的速度极限，对于应用调优的目标极限具有指导意义。</p>
+<p><code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> 工具分别提供了模型推理 <code class="docutils literal notranslate"><span class="pre">infer</span></code>、模型性能分析 <code class="docutils literal notranslate"><span class="pre">perf</span></code> 和查看模型信息 <code class="docutils literal notranslate"><span class="pre">model_info</span></code> 三类功能，
+如下表：</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 24%" />
+<col style="width: 62%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>编号</strong></p></td>
+<td><p><strong>子命令</strong></p></td>
+<td><p><strong>说明</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model_info</span></code></p></td>
+<td><p>获取模型信息，如：模型的输入输出信息等。</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ìnfer</span></code></p></td>
+<td><p>执行模型推理，获取模型推理结果。</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perf</span></code></p></td>
+<td><p>执行模型性能分析，获取性能分析结果。</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>输入参数描述</strong></p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 28%" />
+<col style="width: 10%" />
+<col style="width: 52%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>编号</strong></p></td>
+<td><p><strong>参数</strong></p></td>
+<td><p><strong>类型</strong></p></td>
+<td><p><strong>说明</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>模型文件路径，多个路径可通过逗号分隔。</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model_name</span></code></p></td>
+<td><p>string</p></td>
+<td><p>指定模型中某个模型的名称。</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">core_id</span></code></p></td>
+<td><p>int</p></td>
+<td><p>指定运行核。</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">input_file</span></code></p></td>
+<td><p>string</p></td>
+<td><p>模型输入信息，多个可通过逗号分隔。</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">enable_cls_post_process</span></code></p></td>
+<td><p>bool</p></td>
+<td><p>使能分类后处理。</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">enable_dump</span></code></p></td>
+<td><p>bool</p></td>
+<td><p>使能dump模型输入和输出。</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dump_format</span></code></p></td>
+<td><p>string</p></td>
+<td><p>dump模型输入和输出的格式。</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dump_precision</span></code></p></td>
+<td><p>int</p></td>
+<td><p>控制txt格式输出float型数据的小数点位数。</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dump_txt_axis</span></code></p></td>
+<td><p>int</p></td>
+<td><p>控制txt格式输入输出的换行规则。</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">profile_path</span></code></p></td>
+<td><p>string</p></td>
+<td><p>模型性能/调度性能统计数据的保存路径。</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">frame_count</span></code></p></td>
+<td><p>int</p></td>
+<td><p>执行模型运行帧数。</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perf_time</span></code></p></td>
+<td><p>int</p></td>
+<td><p>执行模型运行时间。</p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">thread_num</span></code></p></td>
+<td><p>int</p></td>
+<td><p>指定程序运行线程数。</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用说明</strong></p>
+<p>工具提供三类功能：模型信息获取、单帧推理功能、多帧性能评测。
+运行 <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span></code> 、<code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span> <span class="pre">-h</span></code> 或 <code class="docutils literal notranslate"><span class="pre">hrt_model_exec</span> <span class="pre">--help</span></code> 获取工具使用详情。
+如下代码块中所示：</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>以下代码块所示命令行输出可能随工具版本不同有所差异，此处仅为示例。</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Usage:
+hrt_model_exec [Option...] [Parameter]
+
+[Option]                      [Parameter]
+---------------------------------------------------------------------------------------------------------------
+--model_file                  [string]: Model file paths, separate by comma, each represents one model file path.
+--model_name                  [string]: Model name.
+                                        When model_file has one more model and Subcommand is infer or perf,
+                                        &quot;model_name&quot; must be specified!
+--core_id                     [int]   : core id, 0 for any core, 1 for core 0, 2 for core 1.
+--input_file                  [string]: Input file paths, separate by comma, each represents one input.
+                                        The extension of files should be one of [jpg, JPG, jpeg, JPEG, png, PNG, bin, txt]
+                                        bin for binary such as image data, nv12 or yuv444 etc.
+                                        txt for plain data such as image info.
+--enable_cls_post_process     [bool]  : flag for classification post process, only for ptq model now.
+                                        Subcommand must be infer.
+--enable_dump                 [bool]  : flag for dump infer output. The default is false. Subcommand must be infer.
+--dump_format                 [string]: output dump format, only support [bin, txt]. The default is bin.
+                                        Subcommand must be infer.
+--dump_txt_axis               [int]   : The txt file of dump is expanded according to the specified axis;
+                                        the default is 4, which means there is only one data per line
+                                        (for 4-dimensional data); Subcommand must be perf, dump_format must be txt
+--profile_path                [string]: profile log path, set to get detail information of model execution.
+--frame_count                 [int]   : frame count for run loop, default 200, valid when perf_time is 0.
+                                        Subcommand must be perf.
+--perf_time                   [int]   : minute, perf time for run loop, default 0.
+                                        Subcommand must be perf.
+--thread_num                  [int]   : thread num for run loop, thread_num range:[0,8],
+                                        if thread_num &gt; 8, set thread_num = 8. Subcommand must be perf.
+
+[Examples]
+---------------------------------------------------------------------------------------------------------------
+hrt_model_exec model_info          | hrt_model_exec infer               | hrt_model_exec perf
+   --model_file                    |    --model_file                    |    --model_file
+   --model_name                    |    --model_name                    |    --model_name
+                                   |    --core_id                       |    --core_id
+                                   |    --input_file                    |    --frame_count
+                                   |    --enable_cls_post_process       |    --perf_time
+                                   |    --enable_dump                   |    --thread_num
+                                   |    --dump_format                   |    --profile_path
+                                   |    --dump_txt_axis                 |
+</pre></div>
+</div>
+<section id="model-info">
+<h4><span class="section-number">4.7.2.1. </span><code class="docutils literal notranslate"><span class="pre">model_info</span></code> 子命令<a class="headerlink" href="#model-info" title="永久链接至标题"></a></h4>
+<p>该参数用于获取模型信息，模型支持范围：ptq模型。该参数与 <code class="docutils literal notranslate"><span class="pre">model_file</span></code> 一起使用，用于获取模型的详细信息，
+信息包括：模型输入输出信息 <code class="docutils literal notranslate"><span class="pre">hbDNNTensorProperties</span></code> 以及模型的分段信息 <code class="docutils literal notranslate"><span class="pre">stage</span></code>, 分段信息是指；一张图片可以分多个阶段进行推理，<code class="docutils literal notranslate"><span class="pre">stage</span></code> 信息为 <code class="docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code>，分别为图片推理的左上角和右下角坐标，目前地平线J5的芯片架构支持这类分段模型的推理，xj3上模型均为1个 <code class="docutils literal notranslate"><span class="pre">stage</span></code>。</p>
+<p>不指定 <code class="docutils literal notranslate"><span class="pre">model_name</span></code> 输出模型中所有模型信息，指定 <code class="docutils literal notranslate"><span class="pre">model_name</span></code> 则只输出对应模型的信息。</p>
+<p><strong>示例</strong></p>
+<ol class="arabic simple">
+<li><p>单模型</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>多模型（输出所有模型信息）</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span><span class="p">,</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>多模型--pack模型（输出指定模型信息）</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">model_name</span><span class="o">=</span><span class="n">xx</span>
+</pre></div>
+</div>
+<img alt="_images/model_info.png" src="_images/model_info.png" />
+</div></blockquote>
+</section>
+<section id="infer">
+<h4><span class="section-number">4.7.2.2. </span><code class="docutils literal notranslate"><span class="pre">infer</span></code> 子命令<a class="headerlink" href="#infer" title="永久链接至标题"></a></h4>
+<p><strong>概述</strong></p>
+<p>该参数用于模型推理，用户自定义输入图片，推理一帧。
+该参数需要与 <code class="docutils literal notranslate"><span class="pre">input_file</span></code> 一起使用，指定输入图片路径，工具根据模型信息resize图片，整理模型输入信息。</p>
+<p>程序单线程运行单帧数据，输出模型运行的时间。</p>
+<p><strong>示例</strong></p>
+<ol class="arabic simple">
+<li><p>单模型</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">infer</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">input_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">jpg</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>多模型</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">infer</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span><span class="p">,</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">model_name</span><span class="o">=</span><span class="n">xx</span> <span class="o">--</span><span class="n">input_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">jpg</span>
+</pre></div>
+</div>
+<img alt="_images/infer.png" src="_images/infer.png" />
+</div></blockquote>
+<p><strong>可选参数</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 74%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>参数</p></td>
+<td><p>说明</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core_id</span></code></p></td>
+<td><p>指定模型推理的核id，<code class="docutils literal notranslate"><span class="pre">0</span></code>：任意核，<code class="docutils literal notranslate"><span class="pre">1</span></code>：core0，<code class="docutils literal notranslate"><span class="pre">2</span></code>：core1；默认 <code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_cls_post_process</span></code></p></td>
+<td><p>使能分类后处理，目前只支持ptq分类模型，默认 <code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enable_dump</span></code></p></td>
+<td><p>dump模型输出数据，默认 <code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dump_format</span></code></p></td>
+<td><p>dump模型输出文件的类型，可选参数为 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 或 <code class="docutils literal notranslate"><span class="pre">txt</span></code> ，默认为 <code class="docutils literal notranslate"><span class="pre">bin</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dump_txt_axis</span></code></p></td>
+<td><p>dump模型txt格式输出的换行规则；若输出维度为n，则参数范围为 <code class="docutils literal notranslate"><span class="pre">[0,n]</span></code>。默认为 <code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="perf">
+<h4><span class="section-number">4.7.2.3. </span><code class="docutils literal notranslate"><span class="pre">perf</span></code> 子命令<a class="headerlink" href="#perf" title="永久链接至标题"></a></h4>
+<p><strong>概述</strong></p>
+<p>该参数用于测试模型性能。
+该模式下，用户无需输入数据，程序根据模型信息自动构造输入tensor，tensor数据为随机数。
+程序默认单线程运行200帧数据，当指定perf_time参数时，frame_count参数失效，程序会执行指定时间后退出。
+输出模型运行的latency、以及帧率信息。程序每200帧打印一次性能信息：
+latency的最大、最小、平均值，不足200帧程序运行结束打印一次。</p>
+<p>程序最后输出running相关数据，
+包括：程序线程数、帧数、模型推理总时间，模型推理平均latency，帧率信息。</p>
+<p><strong>示例</strong></p>
+<ol class="arabic simple">
+<li><p>单模型</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">perf</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>多模型</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">perf</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span><span class="p">,</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">model_name</span><span class="o">=</span><span class="n">xx</span>
+</pre></div>
+</div>
+<img alt="_images/perf.png" src="_images/perf.png" />
+</div></blockquote>
+<p><strong>可选参数</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 81%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>参数</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core_id</span></code></p></td>
+<td><p>指定推理核id。 <code class="docutils literal notranslate"><span class="pre">0</span></code>：任意核， <code class="docutils literal notranslate"><span class="pre">1</span></code>：core0， <code class="docutils literal notranslate"><span class="pre">2</span></code>：core1；默认 <code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">frame_count</span></code></p></td>
+<td><p>设置 <code class="docutils literal notranslate"><span class="pre">perf</span></code> 运行帧数，当 <code class="docutils literal notranslate"><span class="pre">perf_time</span></code> 不为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 时生效，默认值 <code class="docutils literal notranslate"><span class="pre">200</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">perf_time</span></code></p></td>
+<td><p>设置 <code class="docutils literal notranslate"><span class="pre">perf</span></code> 运行时间，单位：分钟，默认值 <code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">thread_num</span></code></p></td>
+<td><p>设置程序运行线程数，范围[1, 8], 默认值 <code class="docutils literal notranslate"><span class="pre">1</span></code>, 设置大于8时按照8个线程处理</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">profile_path</span></code></p></td>
+<td><p>统计工具日志产生路径，运行产生profiler.log，分析op耗时和调度耗时</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>多线程Latency数据说明</strong></p>
+<p>多线程的目的是为了充分利用BPU资源，多线程共同处理 <code class="docutils literal notranslate"><span class="pre">frame_count</span></code> 帧数据或执行perf_time时间，直至数据处理完成/执行时间结束程序结束。
+在多线程 <code class="docutils literal notranslate"><span class="pre">perf</span></code> 过程中可以执行以下命令，实时获取BPU资源占用率情况。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hrut_somstatus -n <span class="m">10000</span> –d <span class="m">1</span>
+</pre></div>
+</div>
+<p>输出见以下截图：</p>
+<img alt="_images/hrut_somstatus.png" src="_images/hrut_somstatus.png" />
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">perf</span></code> 模式下，单线程的latency时间表示模型的实测上板性能，
+而多线程的latency数据表示的是每个线程的模型单帧处理时间，
+相对于单线程的时间要长，但是多线程的总体处理时间减少，其帧率是提升的。</p>
+</div>
+<p><strong>多输入模型说明</strong></p>
+<p>工具 <code class="docutils literal notranslate"><span class="pre">infer</span></code> 推理功能支持多输入模型的推理，支持图片输入、二进制文件输入以及文本文件输入，输入数据用逗号隔开。
+模型的输入信息可以通过 <code class="docutils literal notranslate"><span class="pre">model_info</span></code> 进行查看。</p>
+<p><strong>示例</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">infer</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">input_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">jpg</span><span class="p">,</span><span class="nb">input</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p><strong>重复输入</strong></p>
+<p>若重复指定参数输入，则会发生参数覆盖的情况，例如获取模型信息时重复指定了两个模型文件，则会取后面指定的参数输入 <code class="docutils literal notranslate"><span class="pre">yyy.bin</span></code>：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">yyy</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+<p>若重复指定输入时，未加命令行参–model_file，则会取命令行参数后面的值，未加参数的不识别，
+例如下例会忽略 <code class="docutils literal notranslate"><span class="pre">yyy.bin</span></code>，参数值为 <code class="docutils literal notranslate"><span class="pre">xxx.bin</span></code>：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hrt_model_exec</span> <span class="n">model_info</span> <span class="o">--</span><span class="n">model_file</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">bin</span> <span class="n">yyy</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+<p>其他命令行参数的重复输入情况以此类推。</p>
+<p><strong>input_file</strong> 子命令：图片类型的输入，其文件名后缀必须为 <code class="docutils literal notranslate"><span class="pre">bin</span></code> / <code class="docutils literal notranslate"><span class="pre">JPG</span></code> / <code class="docutils literal notranslate"><span class="pre">JPEG</span></code> / <code class="docutils literal notranslate"><span class="pre">jpg</span></code> / <code class="docutils literal notranslate"><span class="pre">jpeg</span></code> 中的一种，
+feature输入后缀名必须为 <code class="docutils literal notranslate"><span class="pre">bin</span></code> / <code class="docutils literal notranslate"><span class="pre">txt</span></code> 中的一种。
+每个输入之间需要用英文字符的逗号隔开 <code class="docutils literal notranslate"><span class="pre">,</span></code>，如： <code class="docutils literal notranslate"><span class="pre">xxx.jpg,input.txt</span></code>。</p>
+<p><strong>profile_path</strong> 子命令：profile日志文件产生目录。
+该参数通过设置环境变量 <code class="docutils literal notranslate"><span class="pre">HB_DNN_PROFILER_LOG_PATH</span></code> 查看模型运行过程中OP以及任务调度耗时。
+一般设置 <code class="docutils literal notranslate"><span class="pre">--profile_path=&quot;.&quot;</span></code> 即可，代表在当前目录下生成日志文件，日志文件为profiler.log。</p>
+<p><code class="docutils literal notranslate"><span class="pre">enable_cls_post_process</span></code></p>
+<p>使能分类后处理。
+子命令为 <code class="docutils literal notranslate"><span class="pre">infer</span></code> 时配合使用，目前只支持ptq分类模型的后处理，为 <code class="docutils literal notranslate"><span class="pre">true</span></code> 时打印分类结果。
+参见下图：</p>
+<img alt="_images/enable_cls_post_process.png" src="_images/enable_cls_post_process.png" />
+</section>
+</section>
+</section>
+<section id="id10">
+<h2><span class="section-number">4.8. </span>常见问题<a class="headerlink" href="#id10" title="永久链接至标题"></a></h2>
+<section id="nv12bgr">
+<h3><span class="section-number">4.8.1. </span>如何将摄像头输出的NV12图片转换为BGR等格式？<a class="headerlink" href="#nv12bgr" title="永久链接至标题"></a></h3>
+<p>地平线X/J3芯片未提供图片像素空间转换的加速硬件，因此有部分客户提出希望通过API接口来开放BPU对像素空间转换进行加速。
+但是为了规避BPU的模型推理效率被该功能影响，经过地平线研发团队缜密评估后，决定暂不对用户开放。</p>
+<p>但是在ARM CPU上，用户也可以利用开源的libYUV库来加速该操作。
+经过测试验证，720P的图像，NV12转BGR，转换延迟低于7ms，满足大部分业务场景需求。</p>
+<p>针对libYUV库，您也可以自行利用linaro_gcc-6.5.0交叉编译工具链进行编译，或在地平线社区平台上寻求帮助，
+我们可以开放地平线优化过的libyuv内部版本的源码和预编译库，或直接在我们开放的AI Express组件开源源码中获取：
+<a class="reference external" href="https://github.com/HorizonRobotics-Platform/AI-EXPRESS/tree/master/deps/libyuv/include/libyuv">https://github.com/HorizonRobotics-Platform/AI-EXPRESS/tree/master/deps/libyuv/include/libyuv</a>。</p>
+</section>
+<section id="bpucache">
+<h3><span class="section-number">4.8.2. </span>如何理解BPU内存Cache<a class="headerlink" href="#bpucache" title="永久链接至标题"></a></h3>
+<p>在BPU SDK API文档中，我们提供了BPU内存函数 <code class="docutils literal notranslate"><span class="pre">hbSysAllocCachedMem</span></code> 和 <code class="docutils literal notranslate"><span class="pre">hbSysAllocMem</span></code> 来分配BPU读写内存。
+其中 <code class="docutils literal notranslate"><span class="pre">hbSysAllocCachedMem</span></code> 表示分配可以被cache的内存，
+并配套了 <code class="docutils literal notranslate"><span class="pre">hbSysFlushMem</span></code> 函数来对Cache进行刷新。</p>
+<p>Cache机制是由芯片BPU的Bernoulli内存架构来决定的，详细参考如下图所示。
+CPU与主存之间存在的Cache会缓存数据，而BPU与主存之间则没有cache。
+此时若错误使用Cache将会直接影响最终数据读写的准确性和效率。</p>
+<img alt="_images/cache_mechanism.png" class="align-center" src="_images/cache_mechanism.png" />
+<p>对于CPU写场景，即输入给BPU读的内存，由于数据会缓存到Cache中，导致memory主存中的数据仍是旧的，
+这样BPU执行模型的时候取的数据就是错的。因此CPU写完Memory以后需要主动把Cache中的数据flush到memory中。</p>
+<p>对于BPU写场景，即BPU中模型输出的内存。如果CPU曾经读取过memory中的数据，那么数据就有可能会被缓存到Cache中。
+这时如果BPU重新写了该Memory，那么CPU 在读取数据时仍然会先读取Cache，这样就会导致CPU读到错误的数据。
+所以在BPU写完Memory以后需要把Cache中上次读取到的数据清理掉。</p>
+<p>对于CPU写，如果仅用于BPU读，不用于后续其他场景读，推荐直接设置为非Cacheable，这样可以规避一次flush过程。</p>
+<p>对于BPU写，如果仅被CPU读过一次，那么也可以设置非Cacheable。
+但是如果会被读取多次，例如模型输出，则建议设置为Cacheable，加速CPU反复读的效率。</p>
+</section>
+<section id="bpu">
+<h3><span class="section-number">4.8.3. </span>理解BPU内存中的物理地址和虚拟地址<a class="headerlink" href="#bpu" title="永久链接至标题"></a></h3>
+<p>在Bernoulli芯片架构中，BPU和CPU共享同一个memory空间，通过 <code class="docutils literal notranslate"><span class="pre">hbSysAllocMem</span></code> 函数可以分配一段物理空间连续的内存用于BPU读写。
+函数返回值被包装在 <code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code> 数据结构体中，它内部有 <code class="docutils literal notranslate"><span class="pre">phyAddr</span></code> 和 <code class="docutils literal notranslate"><span class="pre">virAddr</span></code> 两个字段分别表示其内存空间的物理地址和虚拟地址。
+由于这段内存空间是连续的，所以物理地址和虚拟地址都可以通过首地址进行表示，也可以对相应的内存进行读写。
+但是在实际使用过程中，建议以使用 <code class="docutils literal notranslate"><span class="pre">hbSysMem</span></code> 的虚拟地址为主，非必须场景不要直接使用物理地址。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="chapter_3_model_conversion.html" class="btn btn-neutral float-left" title="3. 模型转换" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="chapter_5_custom_op_development.html" class="btn btn-neutral float-right" title="5. 自定义算子开发" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

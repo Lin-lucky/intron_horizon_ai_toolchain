@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>get deps directory begin &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>get deps directory begin</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/ai_express_solution/code/video_box_solution/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>cmake_minimum_required(VERSION 2.8)
+set(CMAKE_CXX_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++)
+message(“tool chain:${CMAKE_CXX_COMPILER}”)</p>
+<p>option(PARENT_BUILD “build subdirectory from here” ON)</p>
+<p>project(video_box)</p>
+<div class="section" id="get-deps-directory-begin">
+<h1>get deps directory begin<a class="headerlink" href="#get-deps-directory-begin" title="Permalink to this headline">¶</a></h1>
+<p>set(SOLUTION_ZOO_DIR)
+function(get_parent_dir arg dir n)
+foreach(i RANGE ${ARGV2})
+get_filename_component(dir ${dir} DIRECTORY)
+# message(“i:${i} dir:${dir}”)
+endforeach(i)
+set(SOLUTION_ZOO_DIR ${dir} PARENT_SCOPE)
+endfunction()
+get_parent_dir(XSTREAM_CURRENT_DIR ${PROJECT_SOURCE_DIR} 0)</p>
+<p>message(“solution_zoo common dir:${SOLUTION_ZOO_DIR}”)</p>
+</div>
+<div class="section" id="get-deps-directory-end">
+<h1>get deps directory end<a class="headerlink" href="#get-deps-directory-end" title="Permalink to this headline">¶</a></h1>
+<p>set(CMAKE_CXX_STANDARD 11)</p>
+<p>if(DEFINED ENV{HORIZON_LIB_PATH})
+set(HOST_PACKAGE_DIR $ENV{HORIZON_LIB_PATH}/ddk/xj3_aarch64)
+else()
+set(HOST_PACKAGE_DIR ~/.horizon/ddk/xj3_aarch64)
+endif()</p>
+</div>
+<div class="section" id="id1">
+<h1>头文件路径信息<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>set(PROJECT_INC
+“include/plot_smart_data.h”
+“include/venc_module.h”
+“include/video_box_common.h”
+“include/video_processor.h”
+“include/vot_module.h”
+“include/message/feature_frame_message/feature_frame_message.h”
+“include/message/feature_frame_message/feature_info.h”
+“include/message/feature_frame_message/float_array.h”
+“include/message/smart_feature_message/smart_feature_message.h”
+“include/xware_plugin/json_config_wrapper.h”
+“include/xware_plugin/ware_db.h”
+“include/xware_plugin/ware_message.h”
+“include/xware_plugin/ware_plugin.h”
+)</p>
+</div>
+<div class="section" id="id2">
+<h1>源文件路径信息<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<p>set(PROJECT_SRC
+“src/main.cc”
+“src/method_factory.cc”
+“src/media_pipe_manager/media_pipe_manager.cc”
+“src/media_pipe_manager/media_pipeline.cc”
+“src/media_pipe_manager/vdec_module.cc”
+“src/media_pipe_manager/vps_module.cc”
+“src/rtsp_client/audio_g711_sink.cc”
+“src/rtsp_client/h264_sink.cc”
+“src/rtsp_client/h265_sink.cc”
+“src/rtsp_client/hevc_sps.cc”
+“src/rtsp_client/rtsp_client.cc”
+“src/rtsp_client/sps_pps.cc”
+“src/rtsp_client/sps_info_mgr.cc”
+“src/rtsp_plugin/rtsp_message.cc”
+“src/rtsp_plugin/rtsp_plugin.cc”
+“src/smart_plugin/convert.cc”
+“src/smart_plugin/display_info.cc”
+“src/smart_plugin/plot_smart_data.cc”
+“src/smart_plugin/runtime_monitor.cc”
+“src/smart_plugin/smart_plugin.cc”
+“src/smart_plugin/util.cc”
+“src/smart_plugin/utils_box.cc”
+“src/smart_plugin/vision_utils.cc”
+“src/smart_plugin/venc_module.cc”
+“src/smart_plugin/video_processor.cc”
+“src/smart_plugin/vot_module.cc”
+“src/utils/time_helper.cc”</p>
+</div>
+<div class="section" id="ware-plugin">
+<h1>ware_plugin<a class="headerlink" href="#ware-plugin" title="Permalink to this headline">¶</a></h1>
+<p>“src/xware_plugin/ware_db.cc”
+“src/xware_plugin/ware_plugin.cc”
+“src/xware_plugin/ware_message.cc”
+${HOST_PACKAGE_DIR}/xproto/include/xproto/msg_type/protobuf/x3.pb.h
+${HOST_PACKAGE_DIR}/xproto/include/xproto/msg_type/protobuf/x3.pb.cc
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/message/include/protobuf/x3ware.pb.h
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/message/include/protobuf/x3ware.pb.cc
+)</p>
+<p>set(SOURCE_FILES
+${PROJECT_SRC}
+${PROJECT_INC}
+)</p>
+<p>include_directories(</p>
+</div>
+<div class="section" id="system-image">
+<h1>system image<a class="headerlink" href="#system-image" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/appsdk/appuser/include/
+${HOST_PACKAGE_DIR}/appsdk/appuser/include/vio/</p>
+</div>
+<div class="section" id="bpu-predict">
+<h1>bpu_predict<a class="headerlink" href="#bpu-predict" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/bpu_predict/include/</p>
+</div>
+<div class="section" id="xstream">
+<h1>xstream<a class="headerlink" href="#xstream" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/xstream/include/
+# model_inference
+${HOST_PACKAGE_DIR}/model_inference/include/
+# xstream methods
+${SOLUTION_ZOO_DIR}/common/xstream_methods/mot_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/filter_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/merge_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/vote_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/facesnap_filter_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/snapshot_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/grading_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/multitask_predict_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/multitask_postprocess_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/dnn_postprocess_method/include/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/dnn_predict_method/include/</p>
+</div>
+<div class="section" id="xproto">
+<h1>xproto<a class="headerlink" href="#xproto" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/xproto/include/</p>
+</div>
+<div class="section" id="xproto-plugins-messsage">
+<h1>xproto plugins messsage<a class="headerlink" href="#xproto-plugins-messsage" title="Permalink to this headline">¶</a></h1>
+<p>${SOLUTION_ZOO_DIR}/common/xproto_plugins/message/include/
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/visual_plugin/include/</p>
+</div>
+<div class="section" id="blocking-queue">
+<h1>blocking queue<a class="headerlink" href="#blocking-queue" title="Permalink to this headline">¶</a></h1>
+<p>${SOLUTION_ZOO_DIR}/common/</p>
+</div>
+<div class="section" id="third-party">
+<h1>third_party<a class="headerlink" href="#third-party" title="Permalink to this headline">¶</a></h1>
+<p>${SOLUTION_ZOO_DIR}/common/deps/hobotlog/include/
+${SOLUTION_ZOO_DIR}/common//deps/jsoncpp/include/
+${SOLUTION_ZOO_DIR}/common/deps/opencv/include/
+${SOLUTION_ZOO_DIR}/common/deps/live555/include/
+${SOLUTION_ZOO_DIR}/common/deps/aes/include/
+${SOLUTION_ZOO_DIR}/common/deps/protobuf/include/
+${SOLUTION_ZOO_DIR}/common/deps/xwarehouse/include/
+${SOLUTION_ZOO_DIR}/common/deps/libyuv/include/
+${SOLUTION_ZOO_DIR}/common/deps/libjpeg-turbo/include/
+${SOLUTION_ZOO_DIR}/common/blocking_queue/</p>
+<p>include
+include/message/
+)</p>
+<p>link_directories(</p>
+</div>
+<div class="section" id="id3">
+<h1>system image<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/appsdk/appuser/lib/
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib/hbbpu/
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib/hbmedia/
+${HOST_PACKAGE_DIR}/appsdk/appuser/lib/hbbpu/</p>
+</div>
+<div class="section" id="id4">
+<h1>bpu_predict<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/bpu_predict/lib/</p>
+</div>
+<div class="section" id="id5">
+<h1>xstream<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/xstream/lib/</p>
+</div>
+<div class="section" id="id6">
+<h1>xproto<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/xproto/lib/</p>
+</div>
+<div class="section" id="image-utils">
+<h1>image_utils<a class="headerlink" href="#image-utils" title="Permalink to this headline">¶</a></h1>
+<p>${HOST_PACKAGE_DIR}/image_utils/lib/
+#model_inference
+${HOST_PACKAGE_DIR}/model_inference/lib/</p>
+</div>
+<div class="section" id="id7">
+<h1>third_party<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h1>
+<p>${SOLUTION_ZOO_DIR}/common/deps/hobotlog/lib/
+${SOLUTION_ZOO_DIR}/common/deps/jsoncpp/lib/
+${SOLUTION_ZOO_DIR}/common/deps/opencv/lib/
+${SOLUTION_ZOO_DIR}/common/deps/live555/lib/
+${SOLUTION_ZOO_DIR}/common/deps/xwarehouse/lib/
+${SOLUTION_ZOO_DIR}/common/deps/aes/lib/
+${SOLUTION_ZOO_DIR}/common/deps/libjpeg-turbo/lib/
+${SOLUTION_ZOO_DIR}/common/deps/ipc_tracking/lib/
+${SOLUTION_ZOO_DIR}/common/deps/iou_based_mot/lib/
+${SOLUTION_ZOO_DIR}/common/deps/libyuv/lib/
+${SOLUTION_ZOO_DIR}/common/deps/protobuf/lib
+${SOLUTION_ZOO_DIR}/common/deps/zeroMQ/lib/
+${HOST_PACKAGE_DIR}/dnn/lib/</p>
+<p>${SOLUTION_ZOO_DIR}/common/wrapper/media_codec/output/xstream_media_codec/lib/
+)</p>
+</div>
+<div class="section" id="treat-warnings-as-errors">
+<h1>treat warnings as errors<a class="headerlink" href="#treat-warnings-as-errors" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="set-cmake-cxx-flags-werror-cmake-cxx-flags">
+<h1>set(CMAKE_CXX_FLAGS  “-Werror ${CMAKE_CXX_FLAGS}”  )<a class="headerlink" href="#set-cmake-cxx-flags-werror-cmake-cxx-flags" title="Permalink to this headline">¶</a></h1>
+<p>set(OUTPUT_ROOT ${CMAKE_SOURCE_DIR}/output/)
+set(MY_OUTPUT_ROOT ${OUTPUT_ROOT}/${PROJECT_NAME}/)
+message(“MY_OUTPUT_ROOT is ${MY_OUTPUT_ROOT}”)</p>
+<p>add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xstream_methods/mot_method/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/mot_method/output/
+)</p>
+<p>add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xstream_methods/merge_method/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/merge_method/output/
+)
+add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xstream_methods/vote_method/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/vote_method/output/
+)
+add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xstream_methods/facesnap_filter_method/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/facesnap_filter_method/output/
+)
+add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xstream_methods/snapshot_method/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/snapshot_method/output/
+)
+add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xstream_methods/grading_method/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/grading_method/output/
+)
+add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xstream_methods/multitask_predict_method/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/multitask_predict_method/output/
+)
+add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xstream_methods/multitask_postprocess_method/
+${SOLUTION_ZOO_DIR}/common/xstream_methods/multitask_postprocess_method/output/
+)</p>
+<p>add_subdirectory(
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/visual_plugin/
+${SOLUTION_ZOO_DIR}/common/xproto_plugins/visual_plugin/output/
+)</p>
+<p>add_executable(${PROJECT_NAME} ${SOURCE_FILES})</p>
+<p>set(BASE_LIBRARIES
+visual_plugin
+xstream
+xproto
+mot_method
+merge_method vote_method
+facesnap_filter_method snapshot_method grading_method
+multitask_predict_method
+multitask_postprocess_method
+protobuf
+model_inference
+bpu_predict ipc_tracking image_utils hobotlog jsoncpp opencv_world vio cam pthread dnn
+)</p>
+<p>set(LIVE_LIB BasicUsageEnvironment groupsock liveMedia UsageEnvironment turbojpeg)</p>
+<p>set(X3_HAPI_LIB isp iar isp_algo tinyalsa multimedia hbmedia z avformat )</p>
+<p>target_link_libraries(${PROJECT_NAME} ${BASE_LIBRARIES} ${LIVE_LIB} ${X3_HAPI_LIB} xwarehouse )</p>
+<p>install(DIRECTORY
+${CMAKE_CURRENT_SOURCE_DIR}/configs/
+DESTINATION ${MY_OUTPUT_ROOT}/configs/)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+DESTINATION ${MY_OUTPUT_ROOT}/include)
+install(TARGETS ${PROJECT_NAME}
+DESTINATION ${MY_OUTPUT_ROOT}/)
+install(DIRECTORY
+${CMAKE_CURRENT_SOURCE_DIR}/data/
+DESTINATION ${MY_OUTPUT_ROOT}/data/)</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

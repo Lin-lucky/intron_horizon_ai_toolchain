@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. 模型转换过程详解 &mdash; hb_mapper_tools_guide v1.12.3 文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="2. 工具详细介绍" href="02_tools.html" />
+    <link rel="prev" title="HB Mapper工具手册" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> hb_mapper_tools_guide
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="在文档中搜索" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. 模型转换过程详解</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hb-mapper-checker">1.1. 模型检查（<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code>）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">1.2. 准备校准图片</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hb-mapper-makertbin">1.3. 模型转换( <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">1.4. 单张图片的模型推理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">1.5. 模型精度验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">1.6. 模型性能验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">1.7. [参考]支持的校准方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#op">1.8. [参考]OP列表</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02_tools.html">2. 工具详细介绍</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">hb_mapper_tools_guide</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">1. </span>模型转换过程详解</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/01_model_conversion_details.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1><span class="section-number">1. </span>模型转换过程详解<a class="headerlink" href="#id1" title="永久链接至标题"></a></h1>
+<p>本节介绍如何使用浮点模型转换工具将Caffe、TensorFlow、PyTorch等开源框架训练好的浮点模型
+转换成地平线硬件上支持的定点模型。
+一般情况下，用户从官网下载或者自己训练得到的模型，其阈值、权重等均为浮点数(float32)，每个数占用4个字节。
+但在嵌入式端运行时，若能将其内部数值从浮点数转化为定点数(int8)，则每个数只占用1个字节，因此计算量可以大大减少，
+因此，若能在不损失或损失较小的情况下将浮点模型转换为定点模型，则其性能会有显著提升。</p>
+<p>模型的转换通常可分为以下几个步骤：</p>
+<ol class="arabic simple">
+<li><p>检查待转换的模型中是否包含不支持的OP类型。</p></li>
+<li><p>准备好20-100张校准使用的图片, 用于转换阶段的校准操作。</p></li>
+<li><p>使用浮点模型转换工具将原始浮点模型转换为定点模型。</p></li>
+<li><p>对转换后的模型进行性能和精度的评估, 确保转换后的定点模型精度与之前相差不大。</p></li>
+<li><p>在模拟器/开发板上运行模型, 对模型的性能和精度进行验证。</p></li>
+</ol>
+<p>模型转换步骤的流程图如下:</p>
+<img alt="_images/hb_mapper_flow.png" class="align-center" src="_images/hb_mapper_flow.png" />
+<p>对应到工具使用方面, 各步骤说明如下</p>
+<img alt="_images/hb_mapper_func_description.png" class="align-center" src="_images/hb_mapper_func_description.png" />
+<section id="hb-mapper-checker">
+<h2><span class="section-number">1.1. </span>模型检查（<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code>）<a class="headerlink" href="#hb-mapper-checker" title="永久链接至标题"></a></h2>
+<p>模型在从浮点转换为定点模型之前，我们首先需要通过工具 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> 子命令检查一下，看看该模型是否包含不能在地平线硬件上运行的OP。
+如果存在，则会在该阶段提示不认识该OP，<code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> 子命令使用方式可参考 <a class="reference internal" href="03_tools/hb_mapper.html#hb-mapper-checker"><span class="std std-ref">模型检查命令</span></a>  一节内容。</p>
+<p>若过程中存在不支持OP, 则会出现如下提示:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ERROR HorizonRT not support these cpu operators: <span class="o">{</span>不支持的OP名称<span class="o">}</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">小技巧</p>
+<ul class="simple">
+<li><p>有关地平线硬件可支持的OP信息, 请参见 <cite>supported_op_list_and_restrictions/</cite>
+路径下的《supported_op_list_and_restrictions_release》Excel表格。</p></li>
+<li><p>若无不支持OP，则会输出模型转换后的各OP的列表，以及各OP被划分在CPU还是BPU上执行。
+若验证结束且无报错，即可继续进行后续步骤。参见下图：</p></li>
+</ul>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hb_mapper checker --model-type caffe --proto mobilenet_deploy.prototxt <span class="se">\</span>
+--model mobilenet.caffemodel --output ./mobilenet_checker.log --march bernoulli2
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:50,471 INFO Start hb_mapper....
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:50,472 INFO hb_mapper version <span class="m">1</span>.3.69
+...
+fc7          BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+prob         CPU  --        Softmax
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:56,844 INFO <span class="o">[</span>Fri Jan  <span class="m">8</span> <span class="m">17</span>:33:53 <span class="m">2021</span><span class="o">]</span> End to Horizon NN Model Convert.
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:56,847 INFO ONNX model output num : <span class="m">1</span>
+<span class="m">2021</span>-12-16 <span class="m">11</span>:01:56,857 INFO End model checking....
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">小技巧</p>
+<p>若存在不支持OP，可咨询地平线技术人员相关OP开发计划，或者通过 <strong>自定义算子（Custom OP）</strong> 功能添加该OP。</p>
+</div>
+</section>
+<section id="id2">
+<h2><span class="section-number">1.2. </span>准备校准图片<a class="headerlink" href="#id2" title="永久链接至标题"></a></h2>
+<p>在进行模型转换时，校准阶段需要20-100张图片输入进行校准操作。
+由于模型的输入类型及layout的不同，输入的图片格式可以多种多样。
+该阶段既可以输入原始图片（*.jpg等)， 也可以输入处理过的，满足模型输入要求的图片。
+用户可以直接从模型训练时的数据集中获取相应的校准图片，也可以自行处理图片生成校准数据集。</p>
+<p>推荐用户自行对校准图片进行前处理，将图片的通道(BGR/RGB)，数据排布(NHWC/NCHW)，图像大小及填充(Resize&amp;Padding)等操作调整好后，
+设置yaml文件(mobilenet_config.yaml) 中的 <code class="docutils literal notranslate"><span class="pre">preprocess_on</span></code> 参数为 <code class="docutils literal notranslate"><span class="pre">False</span></code>，那么工具则会通过二进制文件的方式将图片读入后送入校准阶段。</p>
+<p>以MobileNet为例，则需要进行如下transformer的操作：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="n">ShortSideResizeTransformer</span><span class="p">(</span><span class="n">short_size</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span>   <span class="c1"># 短边Pad到256, 保持长宽比</span>
+      <span class="n">CenterCropTransformer</span><span class="p">(</span><span class="n">crop_size</span><span class="o">=</span><span class="mi">224</span><span class="p">),</span>         <span class="c1"># 图像中心抠224*224的图像</span>
+      <span class="n">HWC2CHWTransformer</span><span class="p">(),</span>                         <span class="c1"># 数据排布从NHWC转换到NCHW</span>
+      <span class="n">RGB2BGRTransformer</span><span class="p">(</span><span class="n">data_format</span><span class="o">=</span><span class="s2">&quot;CHW&quot;</span><span class="p">),</span>        <span class="c1"># 颜色通道从RGB转换为BGR</span>
+      <span class="n">ScaleTransformer</span><span class="p">(</span><span class="n">scale_value</span><span class="o">=</span><span class="mi">255</span><span class="p">),</span>            <span class="c1"># 数据范围从 0-1 转为 0-255</span>
+  <span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">小技巧</p>
+<p>若模型训练时是bgr/rgb色彩空间的, 则校准阶段传入工具的图片数据需要是bgr/rgb色彩空间的，
+工具内部会自动完成从bgr/rgb到yuv444/gray等的色彩转换。</p>
+<p>例如：示例中的MobileNet模型实际输入设置为nv12，而02_preprocess.sh脚本转换结束后是bgr颜色空间的，
+剩余的从bgr到nv12的转换是由工具内部自动补全的。</p>
+</div>
+</section>
+<section id="hb-mapper-makertbin">
+<h2><span class="section-number">1.3. </span>模型转换( <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code>)<a class="headerlink" href="#hb-mapper-makertbin" title="永久链接至标题"></a></h2>
+<p>当用户通过上述 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> 子命令，确定了模型能够被转换成功，
+接下来可以使用 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> 子命令来将浮点模型转换为一个可以在地平线硬件上运行的定点模型。</p>
+<p>该命令需要用户传入待转换模型的模型类型(<code class="docutils literal notranslate"><span class="pre">caffe</span></code> / <code class="docutils literal notranslate"><span class="pre">onnx</span></code> )以及一个包含转换要求的配置文件(*.yaml)。
+具体的配置文件设置，请参阅 <a class="reference internal" href="03_tools/hb_mapper.html#hb-mapper-config"><span class="std std-ref">配置文件详细介绍</span></a>。</p>
+<p>模型转换过程结束后，还会将原始模型与转换后的定点模型的相似程度打印在log中，
+用户可根据 <code class="docutils literal notranslate"><span class="pre">Cosine</span> <span class="pre">Similarity</span></code> 字段来判断模型转换前后的相似度。
+如下图所示，模型转换后的 <code class="docutils literal notranslate"><span class="pre">Cosine</span> <span class="pre">Similarity</span></code> 数值为 <code class="docutils literal notranslate"><span class="pre">0.999979</span></code>，非常接近1，
+因此模型转换后的模型表现会与转换前的浮点模型非常相近。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">config_file</span><span class="o">=</span><span class="s2">&quot;./mobilenet_config.yaml&quot;</span>
+<span class="nv">model_type</span><span class="o">=</span><span class="s2">&quot;caffe&quot;</span>
+<span class="c1"># build model</span>
+hb_mapper makertbin --config <span class="si">${</span><span class="nv">config_file</span><span class="si">}</span>  <span class="se">\</span>
+                    --model-type  <span class="si">${</span><span class="nv">model_type</span><span class="si">}</span>
+<span class="m">2021</span>-12-16 <span class="m">11</span>:03:42,852 INFO Start hb_mapper....
+<span class="m">2021</span>-12-16 <span class="m">11</span>:03:42,853 INFO hb_mapper version <span class="m">1</span>.3.69
+<span class="o">[==================================================]</span> <span class="m">100</span>%
+<span class="m">2021</span>-12-16 <span class="m">11</span>:04:16,389 INFO <span class="o">[</span>Thu Dec <span class="m">16</span> <span class="m">11</span>:04:16 <span class="m">2021</span><span class="o">]</span> End to compile the model with march bernoulli2.
+<span class="m">2021</span>-12-16 <span class="m">11</span>:04:16,391 INFO The converted model node information:
+<span class="o">==============================================================================================================</span>
+Node                    ON   Subgraph  Type                    Cosine Similarity  Threshold
+--------------------------------------------------------------------------------------------------------------
+HZ_PREPROCESS_FOR_data  BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedPreprocess  <span class="m">0</span>.999929           <span class="m">127</span>.000000
+conv1                   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.999852           <span class="m">2</span>.568122
+conv2_1/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.999241           <span class="m">2</span>.036977
+conv2_1/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.996084           <span class="m">4</span>.482006
+conv2_2/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.996833           <span class="m">3</span>.537661
+conv2_2/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.995409           <span class="m">2</span>.794526
+conv3_1/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.992831           <span class="m">1</span>.414860
+conv3_1/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.981622           <span class="m">2</span>.180573
+conv3_2/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.993764           <span class="m">1</span>.772657
+conv3_2/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.992963           <span class="m">1</span>.845023
+conv4_1/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.985572           <span class="m">1</span>.047720
+conv4_1/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.988300           <span class="m">1</span>.743298
+conv4_2/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.990737           <span class="m">0</span>.997055
+conv4_2/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.991850           <span class="m">1</span>.583990
+conv5_1/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.986620           <span class="m">0</span>.827319
+conv5_1/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.988756           <span class="m">1</span>.273479
+conv5_2/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.988272           <span class="m">0</span>.775731
+conv5_2/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.980215           <span class="m">1</span>.538180
+conv5_3/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.983713           <span class="m">0</span>.789739
+conv5_3/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.973204           <span class="m">1</span>.938199
+conv5_4/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.979052           <span class="m">0</span>.995223
+conv5_4/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.959301           <span class="m">2</span>.168504
+conv5_5/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.977367           <span class="m">1</span>.929827
+conv5_5/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.955805           <span class="m">3</span>.573682
+conv5_6/dw              BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.977817           <span class="m">2</span>.473310
+conv5_6/sep             BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.979358           <span class="m">4</span>.113862
+conv6/dw                BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.997310           <span class="m">0</span>.664771
+conv6/sep               BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.976856           <span class="m">0</span>.990642
+pool6                   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.987635           <span class="m">11</span>.520256
+fc7                     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv        <span class="m">0</span>.990641           <span class="m">5</span>.852959
+prob                    CPU  --        Softmax                 <span class="m">0</span>.835067           --
+<span class="m">2021</span>-12-16 <span class="m">11</span>:04:16,392 INFO The quantify model output:
+<span class="o">========================</span>
+Node  CosineSimilarity
+------------------------
+prob  <span class="m">0</span>.934038
+<span class="m">2021</span>-12-16 <span class="m">11</span>:04:16,392 INFO <span class="o">[</span>Thu Dec <span class="m">16</span> <span class="m">11</span>:04:16 <span class="m">2021</span><span class="o">]</span> End to Horizon NN Model Convert.
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>该相似度为校准图片中的第一张的相似度情况，并不完全代表模型转换前后的精度。</p>
+</div>
+<p>在模型转换成功后，会在生成的文件夹 (默认为 <cite>model_output</cite>) 中生成如下文件：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>原始浮点模型: <cite>***_original_float_model.onnx</cite>。</p></li>
+<li><p>优化后的浮点模型: <cite>***_optimized_float_model.onnx</cite>。</p></li>
+<li><p>定点模型: <cite>***_quantized_model.onnx</cite>。</p></li>
+<li><p>上板使用的混合模型: <cite>***.bin</cite>。</p></li>
+</ul>
+</div></blockquote>
+<p>这几个模型文件是模型转换的几个关键阶段产出的文件，并会在后续阶段使用到。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ul class="simple">
+<li><p>用户可调用03_classification/01_mobilenet/mapper/03_build.sh脚本，
+来体验 <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> 子命令的使用效果。</p></li>
+<li><p>如果希望了解更多模型转换的工作流程，请阅读：
+《Horizon AI Toolchain User Guide》文档中的
+<a class="reference external" href="../horizon_ai_toolchain_user_guide/chapter_3_model_conversion.html#convert-the-model">模型转换</a> 一节内容。</p></li>
+<li><p>若希望对模型校准方法有更多的了解，请阅读：《Horizon AI Toolchain User Guide》文档中
+<strong>模型转换</strong> 章节中的 <a class="reference external" href="../horizon_ai_toolchain_user_guide/chapter_3_model_conversion.html#accuracy-evaluation">模型精度分析与调优</a> 一节内容。</p></li>
+</ul>
+</div>
+</section>
+<section id="id5">
+<h2><span class="section-number">1.4. </span>单张图片的模型推理<a class="headerlink" href="#id5" title="永久链接至标题"></a></h2>
+<p>在运行浮点模型转换之后，得到了定点模型，还需对其自身的正确性进行验证。</p>
+<p>用户需要对模型的输入/输出结构比较了解，并能够正确地对模型输入图片做前处理以及模型输出的后处理解析，并自行编写模型运行脚本。
+在此过程中可参照交付包中对应模型的示例代码。 代码逻辑如下:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">horizon_tc_ui</span> <span class="kn">import</span> <span class="n">HB_ONNXRuntime</span>
+<span class="n">sess</span> <span class="o">=</span> <span class="n">HB_ONNXRuntime</span><span class="p">(</span><span class="n">model_file</span><span class="o">=</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">output_name</span><span class="p">],</span> <span class="p">{</span><span class="n">input_name</span><span class="p">:</span> <span class="n">image_data</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>使用该脚本后，便可通过输入单张图片验证其自身的正确性。该脚本的输入为一张斑马的图片，
+在经过前处理将图片数据从rgb格式转换为nv12格式后，通过 <code class="docutils literal notranslate"><span class="pre">HB_ONNXRuntime</span></code> 命令传入模型进行推理，随后打印出其最可能的5个种类。</p>
+<p>运行后的输出如下图所示, 最可能的类别是 <code class="docutils literal notranslate"><span class="pre">label:</span> <span class="pre">340</span></code>。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>I0108 <span class="m">18</span>:11:47.398328 <span class="m">140427646048000</span> cls_inference.py:89<span class="o">]</span> The input picture is classified to be:
+label <span class="m">340</span>: prob <span class="m">0</span>.97
+label <span class="m">292</span>: prob <span class="m">0</span>.02
+label <span class="m">282</span>: prob <span class="m">0</span>.00
+label <span class="m">83</span>: prob <span class="m">0</span>.00
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">label</span></code> 的类别使用的是ImageNet的类别, 也可以在 <cite>01_common/test_data/classes.txt</cite> 中查到，
+<code class="docutils literal notranslate"><span class="pre">340</span></code> 正是对应着斑马，因此该图片推理正确。</p>
+</section>
+<section id="id6">
+<h2><span class="section-number">1.5. </span>模型精度验证<a class="headerlink" href="#id6" title="永久链接至标题"></a></h2>
+<p>光对单张图片进行验证还不足以说明模型的精度，因此还有脚本对模型转换后的精度进行评测。</p>
+<p>用户需要编写代码使模型能够循环推理图片，并将结果与标准结果进行比较，得到精度结果。</p>
+<p>因为精度评测时，需要对图片进行 <strong>前处理</strong>，对模型数据进行 <strong>后处理</strong>，所以我们提供了一个示例Python脚本。
+其原理与单张推理一致, 但需要在整个数据集上面运行。
+使用该脚本后，便可通过读取数据集，对模型的输出结果进行评判，并输出评测结果。
+运行该脚本耗费时间较长，但可以通过设置 <code class="docutils literal notranslate"><span class="pre">PARALLEL_PROCESS_NUM</span></code> 环境变量来设置运行评测的线程数量。</p>
+<p>在执行结束后得到的输出如下图所示：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">===</span>REPORT-START<span class="o">{</span>MAPPER-EVAL<span class="o">}===</span>
+<span class="m">0</span>.7011
+<span class="o">===</span>REPORT-END<span class="o">{</span>MAPPER-EVAL<span class="o">}===</span>
+</pre></div>
+</div>
+<p>可以看到转换后的定点模型精度为 <code class="docutils literal notranslate"><span class="pre">0.7011</span></code>。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ul class="simple">
+<li><p>在不同的系统下，由于依赖库版本不同，转换得到的模型精度可能会略有差别。</p></li>
+<li><p>同时由于版本更迭，得到的定点模型精度可能也会略有差别。</p></li>
+<li><p>如果用户在使用模型转换工具后得到的定点模型有精度损失的话，
+请与地平线技术团队联系并获取文档《浮点转定点精度损失定位Checklist》来进行问题查究。</p></li>
+</ul>
+</div>
+</section>
+<section id="id7">
+<h2><span class="section-number">1.6. </span>模型性能验证<a class="headerlink" href="#id7" title="永久链接至标题"></a></h2>
+<p>模型在开发板上的运行帧率也是一个很重要的性能指标，未免去开发者架设开发板环境的麻烦，
+我们可以直接使用 <code class="docutils literal notranslate"><span class="pre">hb_perf</span></code> 子命令对转换出来的模型进行性能分析。</p>
+<p>在MobileNetv1示例中，运行命令 <code class="docutils literal notranslate"><span class="pre">hb_perf</span> <span class="pre">224x224_nv12.bin</span></code> 后，
+即可在 <cite>hb_perf_result/mobilenetv1_224x224_nv12/</cite> 目录下找到模型分析文件 <cite>mobilenetv1_224x224_nv12.html</cite> 。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[horizon@gpu-dev model_output]$ hb_perf mobilenetv1_224x224_nv12.bin
+2021-01-08 18:16:08,809 INFO Start hb_perf....
+2021-01-08 18:16:08,809 INFO hb_perf version 1.3.15
+2021-01-08 18:16:08,896 INFO draw graph png finished !
+2021-01-08 18:16:08,913 INFO get bpu model succeeded.
+2021-01-08 18:16:09,069 INFO get perf info succeeded.
+2021-01-08 18:16:09,070 WARNING bpu model don&#39;t have per-layer perf info.
+2021-01-08 18:16:09,070 WARNING if you need per-layer perf info please enable[compiler_parameters.debug:True] when use makertbin.
+2021-01-08 18:16:09,070 INFO generating html...
+2021-01-08 18:16:09,084 INFO html generation finished!
+[horizon@gpu-dev model_output]$ cd hb_perf_result/mobilenetv1_224x224_nv12/
+[horizon@gpu-dev mobilenetv1_224x224_nv12]$ ll
+total 8832
+-rw-rw-r-- 1 horizon horizon 2258629 Jan  8 18:16 MOBILENET_subgraph_0.html
+-rw-rw-r-- 1 horizon horizon    3053 Jan  8 18:16 MOBILENET_subgraph_0.json
+-rw-rw-r-- 1 horizon horizon     604 Jan  8 18:16 mobilenetv1_224x224_nv12
+-rw-rw-r-- 1 horizon horizon    1327 Jan  8 18:16 mobilenetv1_224x224_nv12.html
+-rw-rw-r-- 1 horizon horizon   18849 Jan  8 18:16 mobilenetv1_224x224_nv12.png
+-rw-rw-r-- 1 horizon horizon 6750208 Jan  8 18:16 temp.hbm
+</pre></div>
+</div>
+<p>从 <cite>mobilenetv1_224x224_nv12.html</cite> 文件中，我们可以看到模型整体的各项性能数据。
+当模型分为多段时，还会对每一段在BPU上运行的部分单独有性能分析报告。</p>
+<img alt="_images/hb_mapper_perf_2.png" class="align-center" src="_images/hb_mapper_perf_2.png" />
+<p>上图中各项性能分别为:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Model</span> <span class="pre">Name</span></code>： 模型名称。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BPU</span> <span class="pre">Model</span> <span class="pre">Latency(ms)</span></code>：模型整体耗时(单位为ms)。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Model</span> <span class="pre">DDR</span> <span class="pre">Occupation(Mb</span> <span class="pre">per</span> <span class="pre">frame)</span></code>：模型运行的整体内存占用情况(单位为Mb/frame)。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Loaded</span> <span class="pre">Bytes</span> <span class="pre">per</span> <span class="pre">Frame</span></code>：模型运行每帧读取数据量。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Stored</span> <span class="pre">Bytes</span> <span class="pre">per</span> <span class="pre">Frame</span></code>：模型运行每帧存储数据量。</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>上述 <code class="docutils literal notranslate"><span class="pre">BPU</span> <span class="pre">Model</span> <span class="pre">Latency(ms)</span></code> 是指模型中在BPU上执行部分的耗时，如果模型中有CPU上执行的部分，则该部分耗时未被计算在内。</p>
+</div>
+</section>
+<section id="id8">
+<h2><span class="section-number">1.7. </span>[参考]支持的校准方法<a class="headerlink" href="#id8" title="永久链接至标题"></a></h2>
+<p>目前我们支持了以下的校准方法：</p>
+<ol class="arabic simple">
+<li><p>max</p></li>
+</ol>
+<blockquote>
+<div><p>max校准方法是在校准过程中，自动选择量化层中的最大值作为阈值。
+这种方法会导致数据量化粒度较大，但也会带来比KL方法更少的饱和点数量，适用于那些数据分布比较离散的神经网络模型。</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>KL</p></li>
+</ol>
+<blockquote>
+<div><p>KL校准方法是借鉴了TensorRT提出的解决方案
+（<a class="reference external" href="http://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf">http://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf</a>），
+使用KL熵值来遍历每个量化层的数据分布，通过寻找最低的KL熵值，来确定阈值。
+这种方法会导致较多的数据饱和和更小的数据量化粒度，在一些数据分布比较集中的模型中拥有着比max校准方法更好的效果。</p>
+</div></blockquote>
+</section>
+<section id="op">
+<h2><span class="section-number">1.8. </span>[参考]OP列表<a class="headerlink" href="#op" title="永久链接至标题"></a></h2>
+<p>若想了解更多关于当前工具链支持Caffe算子列表，请参见：
+<cite>supported_op_list_and_restrictions/</cite> 路径下的《supported_op_list_and_restrictions_release》Excel表格。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="HB Mapper工具手册" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="02_tools.html" class="btn btn-neutral float-right" title="2. 工具详细介绍" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2021, Horizon Robotics.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用了 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a>开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>附录：开发手册</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="社区资源索引" href="../common_doc_cn/other_sources.html" />
+  <link rel="prev" title="应用开发示例" href="../common_doc_cn/xj3_ddk_sample.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">地平线 X3J3 芯片开发手册</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">整体概述</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">芯片介绍</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/x3_soc_user_guide.html" class="reference internal ">旭日X3芯片概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_soc_contrast.html" class="reference internal ">X3与J3差异描述</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">开发套件介绍</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_board_overview.html" class="reference internal ">开发套件概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/x3_sdb_overview.html" class="reference internal ">X3 SDB生态套件</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_board_update_guide.html" class="reference internal ">固件升级手册</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_board_command.html" class="reference internal ">常见系统命令</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">天工开物开发平台</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 "><a href="x3_ddk_user_guide.html" class="reference internal ">开发平台概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_ddk_quick_start.html" class="reference internal ">开发环境搭建</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_ddk_sample.html" class="reference internal ">应用开发示例</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">附录：开发手册</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#ai" class="reference internal">1. AI芯片工具链手册</a></li>
+                
+                  <li class="toctree-l2"><a href="#ai-express" class="reference internal">1. AI Express应用开发组件&框架手册</a></li>
+                
+                  <li class="toctree-l2"><a href="#id2" class="reference internal">3. 系统软件手册</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">其他</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/other_sources.html" class="reference internal ">社区资源索引</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>附录：开发手册</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="../common_doc_cn/xj3_ddk_sample.html"
+       title="previous chapter">← 应用开发示例</a>
+  </li>
+  <li class="next">
+    <a href="../common_doc_cn/other_sources.html"
+       title="next chapter">社区资源索引 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="id1">
+<h1>附录：开发手册<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>下面配套手册会因为交付权限问题，导致部分文档链接会失效。如果您遇到相关问题，请联系地平线技术支持或销售进行解决。</p>
+</div>
+<div class="section" id="ai">
+<h2>1. AI芯片工具链手册<a class="headerlink" href="#ai" title="Permalink to this headline">¶</a></h2>
+<table class="colwidths-given docutils align-left">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 22%" />
+<col style="width: 37%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>编号</p></th>
+<th class="head"><p>名称</p></th>
+<th class="head"><p>文件地址</p></th>
+<th class="head"><p>备注</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Horizon AI Toolchain User Guide</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_toolchain/docs_cn/horizon_ai_toolchain_user_guide/index.html">horizon_ai_toolchain_user_guide</a></p></td>
+<td><p>本手册全面介绍芯片工具链产品，帮助开发者了解：环境部署、模型部署、应用开发、自定义算子开发等工具链开发全流程。此外，还展示了一系列算法模型的Benchmark性能数据。</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>HB Mapper工具手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_toolchain/docs_cn/hb_mapper_tools_guide/index.html">hb_mapper_tools_guide</a></p></td>
+<td><p>详细介绍模型转换过程和使用到的 <code class="docutils literal notranslate"><span class="pre">horizon_tc_ui</span></code> 浮点模型转换工具链。</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>模型转换示例包手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_toolchain/docs_cn/hb_mapper_sample_doc/index.html">hb_mapper_sample_doc</a></p></td>
+<td><p>介绍horizon_model_convert_sample模型转换示例包及其使用方法。提供了使用浮点模型转换工具链快速完成浮点模型转换定点模型的示例，同时包括了x86端单张推理和精度验证示例。</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>算子支持与约束列表</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_toolchain/docs_cn/supported_op_list_and_restrictions/supported_op_list_and_restrictions_release.xlsx">supported_op_list_and_restrictions</a></p></td>
+<td><p>详细介绍地平线平台支持的Caffe和ONNX算子及其约束条件。</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>模型加密功能介绍</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_toolchain/docs_cn/model_encryption.pdf">model_encryption</a></p></td>
+<td><p>介绍如何使用地平线模型加密功能。</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>BPU SDK API手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_toolchain/docs_cn/bpu_sdk_api_doc/index.html">bpu_sdk_api_doc</a></p></td>
+<td><p>介绍地平线runtime SDK的API、数据、结构体、排布和对齐规则。</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>基础示例包使用说明</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_toolchain/docs_cn/embedded_sample/basic_sample/index.html">basic_sample</a></p></td>
+<td><p>介绍 horizon_runtime_sample 嵌入式开发基础示例包及其使用方法。提供了使用API完成单张图片推理、含自定义算子模型的实现和推理，多模型批量推理等示例，帮助开发者快速完成模型部署。</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>AI-Benchmark使用说明</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_toolchain/docs_cn/embedded_sample/ai_benchmark/index.html">ai_benchmark</a></p></td>
+<td><p>介绍 ai_benchmark 嵌入式应用开发示例包及其使用方法。开发者使用该示例包可以体验模型部署和模型性能评估相关的应用开发。示例脚本包括性能评测和精度评测两部分。</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ai-express">
+<h2>1. AI Express应用开发组件&amp;框架手册<a class="headerlink" href="#ai-express" title="Permalink to this headline">¶</a></h2>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 35%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>编号</p></th>
+<th class="head"><p>名称</p></th>
+<th class="head"><p>文件地址</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>AI Express应用开发组件&amp;框架用户手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_express/docs_cn/ai_express/index.html">XJ3_AI_Express_Docs</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>AI应用参考解决示例手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_express/docs_cn/solution_zoo/index.html">XJ3_AI_Solution_Docs</a></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>XStream算法SDK开发框架示例手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_express/docs_cn/ai_express/xstream/README.html">XJ3_AI_Express_XStream_Sample_Docs</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>XProto应用开发框架示例手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_express/docs_cn/ai_express/xproto/README.html">XJ3_AI_Express_XProto_Sample_Docs</a></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>ModelInference开发者手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_express/docs_cn/model_inference/index.html">XJ3_Model_Inference_Docs</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>VideoSource开发者手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_express/docs_cn/video_source/index.html">XJ3_Video_Source_Docs</a></p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>RtspServer开发者手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_express/docs_cn/rtsp_server/index.html">XJ3_Rtsp_Server_Docs</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>UvcServer开发者手册</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/ai_express/docs_cn/uvc_server/index.html">XJ3_Uvc_Server_Docs</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h2>3. 系统软件手册<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 35%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>编号</p></th>
+<th class="head"><p>名称</p></th>
+<th class="head"><p>文件地址</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>XJ3 平台系统软件开发手册.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/development_manual/MU-2520-3-J-X3J3平台系统软件开发手册.pdf">MU-2520-3-J-X3J3平台系统软件开发手册.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>X3 平台系统软件用户手册.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/user_manual/MU-2520-2-H-X3平台系统软件用户手册.pdf">MU-2520-2-H-X3平台系统软件用户手册.pdf</a></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>XJ3 平台系统软件基础接口手册.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-1-I-X3J3平台系统软件基础接口手册.pdf">MU-2520-1-I-X3J3平台系统软件基础接口手册.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>XJ3 平台AIOT媒体系统接口手册.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-4-L-X3J3平台AIOT媒体系统接口手册.pdf">MU-2520-4-L-X3J3平台AIOT媒体系统接口手册.pdf</a></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>XJ3 平台AIOT图像系统接口手册.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/api_manual/MU-2520-5-K-X3J3平台AIOT图像系统接口手册.pdf">MU-2520-5-K-X3J3平台AIOT图像系统接口手册.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>XJ3 平台CameraTuningTool使用说明.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-7-E-X3J3平台CameraTuningTool使用说明.pdf">U-2520-7-E-X3J3平台CameraTuningTool使用说明.pdf</a></p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>X3 平台ISP图像调试指引.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-9-C-X3平台ISP图像调试指引.pdf">MU-2520-9-C-X3平台ISP图像调试指引.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>XJ3 媒体处理性能调试指南.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/AN-2521-4-C-X3J3媒体处理性能调试指南.pdf">AN-2521-4-C-X3J3媒体处理性能调试指南.pdf</a></p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>XJ3 图像媒体模块调试指南.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/debug_manual/multi_media/MU-2520-11-C-X3J3图像媒体模块调试指南.pdf">MU-2520-11-C-X3J3图像媒体模块调试指南.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>XJ3 DDR编程指南.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-7-B-X3J3DDR编程指南.pdf">AN-2521-7-B-X3J3DDR编程指南.pdf</a></p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>XJ3 平台PMIC驱动修改指导.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-1-B-X3J3平台PMIC驱动修改指导.pdf">AN-2521-1-B-X3J3平台PMIC驱动修改指导.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p>XJ3 OTA参数实现原理和使用方法.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-3-C-地平线系统软件OTA参数实现原理和使用方法.pdf">AN-2521-3-C-地平线系统软件OTA参数实现原理和使用方法.pdf</a></p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p>XJ3 平台uboot启动流程和新增内容说明.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-5-A-X3J3平台uboot启动流程和新增内容说明.pdf">AN-2521-5-A-X3J3平台uboot启动流程和新增内容说明.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>14</p></td>
+<td><p>XJ3 安全启动与加密使用说明.pdf</p></td>
+<td><p><a class="reference external" href="../../ddk_doc/navigation/bsp/docs_cn/development_manual/AN-2521-6-C-X3J3安全启动与加密使用说明.pdf">AN-2521-6-C-X3J3安全启动与加密使用说明.pdf</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="../common_doc_cn/xj3_ddk_sample.html"
+       title="previous chapter">← 应用开发示例</a>
+  </li>
+  <li class="next">
+    <a href="../common_doc_cn/other_sources.html"
+       title="next chapter">社区资源索引 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

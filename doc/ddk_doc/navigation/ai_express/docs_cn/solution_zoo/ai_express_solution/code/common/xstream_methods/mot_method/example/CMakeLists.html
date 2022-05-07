@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>opencv_core libpng z libtiff libwebp libpng libjpeg libjasper IlmImf opencv_features2d opencv_flann &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../../" src="../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>opencv_core libpng z libtiff libwebp libpng libjpeg libjasper IlmImf opencv_features2d opencv_flann</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../../_sources/ai_express_solution/code/common/xstream_methods/mot_method/example/CMakeLists.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>cmake_minimum_required(VERSION 2.8)</p>
+<p>option(SHARED_LIB “build shared lib” OFF)</p>
+<p>set(SOURCE_FILES
+${CMAKE_CURRENT_LIST_DIR}/method_factory.cc
+)</p>
+<p>set(BASE_LIBRARIES jsoncpp xstream hobotlog rt pthread dl)</p>
+<p>set(MOT_LIBRARIES
+#        multi_obj_tracking_lite
+#        mxnet_shared
+#        xstream_basedata_helper
+#        cudnn7
+)</p>
+<p>#set(OpenCV_LIBS opencv_highgui opencv_imgcodecs opencv_calib3d opencv_imgproc opencv_video opencv_videoio</p>
+<div class="section" id="opencv-core-libpng-z-libtiff-libwebp-libpng-libjpeg-libjasper-ilmimf-opencv-features2d-opencv-flann">
+<h1>opencv_core libpng z libtiff libwebp libpng libjpeg libjasper IlmImf opencv_features2d opencv_flann<a class="headerlink" href="#opencv-core-libpng-z-libtiff-libwebp-libpng-libjpeg-libjasper-ilmimf-opencv-features2d-opencv-flann" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="opencv-imgcodecs-opencv-ml-opencv-objdetect-opencv-photo-opencv-shape">
+<h1>opencv_imgcodecs opencv_ml opencv_objdetect opencv_photo opencv_shape<a class="headerlink" href="#opencv-imgcodecs-opencv-ml-opencv-objdetect-opencv-photo-opencv-shape" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="opencv-stitching-opencv-superres-opencv-videostab">
+<h1>opencv_stitching opencv_superres opencv_videostab)<a class="headerlink" href="#opencv-stitching-opencv-superres-opencv-videostab" title="Permalink to this headline">¶</a></h1>
+<p>if (${SHARED_LIB})
+add_library(mot_example_shared SHARED ${SOURCE_FILES})
+target_link_libraries(mot_example_shared ${CMAKE_PROJECT_NAME} -Wl,–whole-archive xstream -Wl,–no-whole-archive
+${MOT_LIBRARIES}</p>
+</div>
+<div class="section" id="opencv-libs">
+<h1>${OpenCV_LIBS}<a class="headerlink" href="#opencv-libs" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        ${BASE_LIBRARIES})
+
+add_executable(iou_mot_example iou_mot_example.cc)
+target_link_libraries(iou_mot_example mot_example_shared)
+
+#add_executable(reid_mot_example reid_mot_example.cc)
+#target_link_libraries(reid_mot_example mot_example_shared)
+</pre></div>
+</div>
+<p>if (${ENABLE_IOU2})
+add_executable(iou_mot_example2 iou_mot_example_2.cc)
+target_link_libraries(iou_mot_example2 mot_example_shared)
+endif()
+else()
+add_executable(iou_mot_example ${SOURCE_FILES} iou_mot_example.cc)
+target_link_libraries(iou_mot_example
+mot_method</p>
+</div>
+<div class="section" id="id1">
+<h1>${OpenCV_LIBS}<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        ${BASE_LIBRARIES})
+</pre></div>
+</div>
+<p>if (${ENABLE_IOU2})
+add_executable(iou_mot_example2 ${SOURCE_FILES} iou_mot_example_2.cc)
+target_link_libraries(iou_mot_example2
+mot_method
+${BASE_LIBRARIES})
+endif()
+endif()</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

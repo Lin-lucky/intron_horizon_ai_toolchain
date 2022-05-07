@@ -1,0 +1,2 @@
+/usr/bin/ar qc libfilter_method.a  CMakeFiles/filter_method.dir/src/filter_method.cc.o CMakeFiles/filter_method.dir/src/filter_data_type.cc.o
+/usr/bin/ranlib libfilter_method.a

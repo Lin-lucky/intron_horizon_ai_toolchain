@@ -1,0 +1,2 @@
+/usr/bin/ar qc libvehicle_color_postprocess_method.a  CMakeFiles/vehicle_color_postprocess_method.dir/src/vehicle_color_postprocess_method.cc.o
+/usr/bin/ranlib libvehicle_color_postprocess_method.a

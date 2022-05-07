@@ -1,0 +1,1253 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>1 Introduce &mdash; model inference 组件  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="model_inference 组件" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> model inference 组件
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1 Introduce</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#model-inference">1.1 model_inference集成模型流程概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">1.2 内部框架介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id2">2 编译与示例运行</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2.1 依赖库说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2.2 代码目录说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">2.3 编译</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">2.4 测试用例运行</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#modelinference">3 ModelInference实现原理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id7">3.1 前处理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">3.1.1 前处理配置方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline">3.1.2 图像前处理pipeline类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#roipipeline">3.1.3 roi前处理pipeline类型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#engine">3.2 预测Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">3.3 后处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">3.4 model_inference其他配置参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#method">3.5 method组件</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id11">4 开发示例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id12">4.1 准备配置参数：</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">4.2 准备前后处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main">4.3 main函数代码：</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">4.4 运行结果如下：</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id15">5 框架支持的前后处理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id16">5.1 目前支持的前处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">5.2 目前支持的后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id18">6 如何扩展自定义模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id19">6.1 扩展预处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id20">6.2 扩展后处理</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">model inference 组件</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>1 Introduce</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduce">
+<h1>1 Introduce<a class="headerlink" href="#introduce" title="Permalink to this headline">¶</a></h1>
+<p>model_inference预测组件用于集成推理模型，目的是降低模型集成到上板的复杂度。model_inference组件核心逻辑包括模型前处理、推理预测和后处理模块。组件内置了模型预测模块，用户只需要关注模型的前后处理模块，可以通过扩展前后处理的方式集成自定义的模型。</p>
+<div class="section" id="model-inference">
+<h2>1.1 model_inference集成模型流程概述<a class="headerlink" href="#model-inference" title="Permalink to this headline">¶</a></h2>
+<p><img alt="ModelInference运行流程" src="_images/flow.png" /></p>
+<p>如上图所示，使用model_inference集成一个模型，只需要两个步骤：准备模型信息、实现前后处理：</p>
+<ol class="simple">
+<li><p><strong>准备模型信息</strong>：
+搜集相关模型信息形成配置，比如模型路径、模型后处理参数、模型前处理类型等</p></li>
+<li><p><strong>前处理和后处理</strong>：
+框架定义了前后处理接口类，开发者继承接口实现前后处理派生类，框架也提供了常见的前后处理类，开发者可以直接复用</p></li>
+</ol>
+<p>模型信息和前后处理准备完毕后，使用model_inference即可完成模型的集成，框架自动完成其他工作：</p>
+<ul class="simple">
+<li><p>创建Task：
+根据前述的模型信息创建一个Infer Task, Task包括前处理对象、后处理对象、模型信息、后处理参数等, 框架中由InferMethod完成</p></li>
+<li><p>预测：
+Task任务交给InfereEngine处理, Engine内部维持任务队列, 多线程执行Task，调用底层bpu相关接口完成模型预测任务</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2>1.2 内部框架介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>下图是ModelInference的整体框架，主要的模块如下：
+<img alt="ModelInference OverView" src="_images/OverView.png" /></p>
+<ul class="simple">
+<li><p><strong>Inferencer模块</strong>:</p>
+<ul>
+<li><p>解析配置：获取模型路径、前后处理process对象、前后处理参数等</p></li>
+<li><p>执行预测：创建task并设置输入数据，执行前处理，task进队列</p></li>
+<li><p>执行后处理：等待预测任务处理完毕，然后调用后处理并输出结果</p></li>
+</ul>
+</li>
+<li><p><strong>InferMethod</strong>：
+创建Inferencer对象，通过Inferencer创建task，执行前处理后把task交给InferenceEngine执行，执行结束后执行后处理，后处理的执行区分同步和异步两种模式</p>
+<ul>
+<li><p>同步：InferMethod中等待预测任务执行完成后执行后处理并输出结果</p></li>
+<li><p>异步：InfereMethod把task交给InferenceEngine后即返回，后处理由PostMethod处理</p></li>
+</ul>
+</li>
+<li><p><strong>PostMethod</strong>：配合InferMethod完成后处理相关功能</p></li>
+<li><p><strong>InferenceEngine</strong>：执行具体BPU相关的预测操作，支持BPU和DNN两种接口，主要功能如下：</p>
+<ul>
+<li><p>加载模型，获取模型文件获取模型句柄</p></li>
+<li><p>获取模型输入/输出信息，比如数据类型、layout、</p></li>
+<li><p>申请输入/输出Tensor</p></li>
+<li><p>执行预测任务</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id2">
+<h1>2 编译与示例运行<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id3">
+<h2>2.1 依赖库说明<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>背景：框架依赖的库和头文件，都存放在host package压缩包中，它是随每次随统一发版包发布。例如ai_express_host_package-1.0.26.tar.gz。</p></li>
+<li><p>使用方式：将ai_express_host_package-1.0.26.tar.gz解压后执行如下命令安装：</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> host_package
+bash install_host_package.sh
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>host_package内容包括:
+a) xstream动态库和头文件，提供AI模型集成形成workflow、任务调度等功能。
+b) image_utils动态库和头文件，提供了c++接口版本的图像处理接口(软件处理)。
+c) bpu_predict动态库和头文件，提供模型预测的能力。
+d) dnn动态库和头文件，提供模型预测的能力。</p></li>
+<li><p>bpu_predict和dnn接口切换特殊说明
+目前支持两种接口实现预测功能，可以通过model_inference提供的接口修改，默认是dnn接口
+如果要切换成bpu_predict接口，对应的库也需要替换成bpu_predict的库，bpu_predict和dnn的依赖库目录如下：
+两者的lib下有同名的<code class="docutils literal notranslate"><span class="pre">libhbrt_bernoulli_aarch64.so</span></code>，使用不同接口需要拷贝对应的库，目前默认是dnn，如果切换到bpu_predict，则需要使用bpu_predict/lib下的<code class="docutils literal notranslate"><span class="pre">libhbrt_bernoulli_aarch64.so</span></code>。</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>├── bpu_predict
+│   ├── include
+│   │   ├── bpu_err_code.h
+│   │   ├── bpu_parse_utils_extension.h
+│   │   ├── bpu_predict_extension.h
+│   │   └── bpu_version.h
+│   └── lib
+│       ├── libbpu_predict.a
+│       ├── libbpu_predict.so
+│       └── libhbrt_bernoulli_aarch64.so
+├── dnn
+│   ├── include
+│   │   └── dnn
+│   ├── lib
+│   │   ├── libdnn.so
+│   │   ├── libhbrt_bernoulli_aarch64.so
+│   │   └── libopencv_world.so.3.4
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>2.2 代码目录说明<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>model_inference代码目录如下：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>├── CMakeLists.txt
+├── include
+│   └── model_inference
+│       ├── inference_data.h
+│       ├── inference_engine_bpu.h
+│       ├── inference_engine_dnn.h
+│       ├── inference_engine.h
+│       ├── inference_method.h
+│       ├── inferencer.h
+│       ├── inference_task.h
+│       ├── postprocess
+│       └── preprocess
+├── src
+│   ├── inference_engine_bpu.cc
+│   ├── inference_engine.cc
+│   ├── inference_engine_dnn.cc
+│   ├── inferencer.cc
+│   ├── postprocess
+│   │   ├── age_gender_postprocess.cc
+│   │   ├── faceid_postprocess.cc
+│   │   ├── face_quality_postprocess.cc
+│   │   ├── gesture_postprocess.cc
+│   │   ├── horizon_multitask_postprocess.cc
+│   │   ├── lmks3_postprocess.cc
+│   │   ├── lmks4_postprocess.cc
+│   │   ├── mobilenetv2_postprocess.cc
+│   │   ├── plate_num_postprocess.cc
+│   │   ├── utils
+│   │   ├── vehicle_color_postprocess.cc
+│   │   ├── vehicle_type_postprocess.cc
+│   │   └── yolov3_postprocess.cc
+│   ├── postprocess.cc
+│   ├── preprocess
+│   │   ├── faceid_preprocess.cc
+│   │   ├── gesture_preprocess.cc
+│   │   ├── image_preprocess.cc
+│   │   ├── pyramid_preprocess.cc
+│   │   ├── pyramid_roi_bpu_preprocess.cc
+│   │   ├── pyramid_roi_preprocess.cc
+│   │   ├── pyramid_roi_resizer_preprocess.cc
+│   │   └── utils
+│   └── preprocess.cc
+├── make.sh
+├── README.md
+└── <span class="nb">test</span>
+    ├── roi_task
+    │   ├── CMakeLists.txt
+    │   ├── configs
+    │   ├── include
+    │   ├── lib
+    │   └── src
+    └── tensor_task
+        ├── CMakeLists.txt
+        ├── configs
+        └── sample.cc
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>inference_data: 定义公共数据结构</p></li>
+<li><p>inference_engine_bpu: 实现bpu_predict预测相关功能</p></li>
+<li><p>inference_engine_dnn: 实现dnn预测相关功能</p></li>
+<li><p>inference_engine: 实现inference预测通用功能</p></li>
+<li><p>inference_method: 实现InferMethod和PostMethod</p></li>
+<li><p>inferencer: 执行预测、获取后处理结果等接口，配置解析也在此类中完成</p></li>
+<li><p>inference_task: 定义task相关数据结构</p></li>
+<li><p>postprocess: 后处理集合</p></li>
+<li><p>preprocess: 前处理集合</p></li>
+<li><p>test：sample用例</p>
+<ul>
+<li><p>roi_task：年龄性别推理用例</p></li>
+<li><p>tensor_task: yolov3检测用例</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>说明</strong>：更多model_inference使用示例请参考<code class="docutils literal notranslate"><span class="pre">ai_express_solution</span></code></p>
+</div>
+<div class="section" id="id5">
+<h2>2.3 编译<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">make</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>在model_inference目录下生成output文件夹，包含头文件和依赖库，该目录下有如下内容：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>.
+├── include
+│   └── model_inference
+│       ├── inference_data.h
+│       ├── inference_engine_bpu.h
+│       ├── inference_engine_dnn.h
+│       ├── inference_engine.h
+│       ├── inference_method.h
+│       ├── inferencer.h
+│       ├── inference_task.h
+│       ├── postprocess
+│       │   ├── age_gender_postprocess.h
+│       │   ├── faceid_postprocess.h
+│       │   ├── face_quality_postprocess.h
+│       │   ├── gesture_postprocess.h
+│       │   ├── horizon_multitask_postprocess.h
+│       │   ├── lmks3_postprocess.h
+│       │   ├── lmks4_postprocess.h
+│       │   ├── vehicle_color_postprocess.h
+│       │   ├── vehicle_type_postprocess.h
+│       │   ├── plate_num_postprocess.h
+│       │   ├── mobilenetv2_postprocess.h
+│       │   └── yolov3_postprocess.h
+│       │   ├── postprocess.h
+│       │   ├── utils
+│       │   │   └── gesture_postprocess_util.h
+│       └── preprocess
+│           ├── faceid_preprocess.h
+│           ├── gesture_preprocess.h
+│           ├── image_preprocess.h
+│           ├── preprocess.h
+│           ├── pyramid_preprocess.h
+│           ├── pyramid_roi_bpu_preprocess.h
+│           ├── pyramid_roi_preprocess.h
+│           ├── pyramid_roi_resizer_preprocess.h
+│           └── utils
+│               ├── image_process.h
+│               ├── lmks_process.h
+│               └── roi_process.h
+└── lib
+    └── libmodel_inference.so
+</pre></div>
+</div>
+<p>可拷贝此文件夹内容到第三方应用中使用</p>
+</div>
+<div class="section" id="id6">
+<h2>2.4 测试用例运行<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>编译后生成一个deploy文件夹，用于执行test中的用例，deploy包含以下内容：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>.
+├── lib
+│   ├── libbpu_predict.so
+│   ├── libdnn.so
+│   ├── libhbrt_bernoulli_aarch64.so
+│   ├── libimage_utils.so
+│   ├── libmodel_inference.so
+│   ├── libopencv_world.so.3.4
+│   ├── libvideo_source.so
+│   └── libxstream.so
+├── roi_task
+│   ├── configs
+│   │   ├── age_gender_config.json
+│   │   ├── faceAgeGender.hbm
+│   │   ├── video_source
+│   │   ├── x3_video_source.json.fb
+│   │   ├── x3_video_source.json.mipi_cam
+│   │   └── x3_video_source.json.usb_cam
+│   └── roi_resizer_task
+└── tensor_task
+    ├── configs
+    │   ├── 1080p.nv12
+    │   ├── yolov3_config.json
+    │   └── yolov3_nv12_hybrid_horizonrt.bin
+    └── tensor_task
+</pre></div>
+</div>
+<p>运行前设置环境变量：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>../lib:<span class="nv">$LD_LIBRARY_PATH</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>roi_task运行命令(以回灌为例)：</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> deploy/roi_task
+./roi_resizer_task ./configs/video_source/x3dev/feedback/x3_feedback_1080p_chn0.json ./configs/age_gender_co
+nfig.json
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>tensor_task运行命令：</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> deploy/roi_task
+./tensor_task ./configs/1080p.nv12 <span class="m">1080</span> <span class="m">1920</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="modelinference">
+<h1>3 ModelInference实现原理<a class="headerlink" href="#modelinference" title="Permalink to this headline">¶</a></h1>
+<p>整体框架原理图如下所示：
+<img alt="ModelInference运行流程" src="_images/WorkflowView.png" />
+框架包括：前处理、后处理、配置解析、预测Engine、method组件等模块。</p>
+<ul class="simple">
+<li><p><strong>前处理</strong>：定义了前处理基类PreProcess，继承此类实现自己的前处理类，框架内部也实现了常用前处理类供开发者复用</p></li>
+<li><p><strong>后处理</strong>：定义了后处理基类PostProcess，继承此类实现自己的后处理类，框架内部也实现了常用后处理类供开发者复用</p></li>
+<li><p><strong>Inferencer类</strong>：配置解析由Inferencer类完成，解析获取前后处理对象、前处理pipline、后处理参数、预测参数等，生成task并调用前处理后，把task交给InferenceEngine执行具体预测任务</p></li>
+<li><p><strong>InferenceEngine</strong>：预测引擎，目前支持bpu_predict和dnn两种接口，内部维持一个task队列，通过多线程方式高效执行预测任务</p></li>
+<li><p><strong>Method组件</strong>：主要用于xstream串联Workflow</p></li>
+</ul>
+<div class="section" id="id7">
+<h2>3.1 前处理<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>model_inference组件以配置为驱动，内置了部分通用前处理模块，典型配置如下：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pyramid_preprocess&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;pyramid_layer&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;image_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;pad(960, 960)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;resize(416, 416)&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;roi_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;norm_by_width_length(1.2, 0.91)&quot;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>class_name</strong>: 前处理类名称，根据此名称创建前处理对象，比如pyramid_preprocess、image_preprocess等</p></li>
+<li><p><strong>pyramid_layer</strong>: 指定使用的金字塔层数</p></li>
+<li><p><strong>config</strong>：指定前处理配置参数</p>
+<ul>
+<li><p>image_process_pipeline: 对于image类型前处理指定此字段，内容为一个字符串数组，支持多个图像前处理pipeline</p></li>
+<li><p>roi_process_pipeline：对于roi类前处理，设置此字段的前处理pipeline</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="id8">
+<h3>3.1.1 前处理配置方法<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>以<code class="docutils literal notranslate"><span class="pre">pyramid_preprocess</span></code>内置预处理为例，添加配置文件如下：</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pyramid_preprocess&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;pyramid_layer&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;image_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;pad(960, 960)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;resize(416, 416)&quot;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>输入金字塔图像pyramid，以上述配置文件为例，假设输入金字塔原图大小是1080p（1920x1080）。取金字塔第4层（960x540），padding到960x960，再resize到416x416大小。</p>
+<ol class="simple">
+<li><p>以<code class="docutils literal notranslate"><span class="pre">image_preprocess</span></code>内置预处理为例，添加配置文件如下：</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;image_preprocess&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;image_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;crop(0, 0, 959, 899)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pad(960, 960)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;resize(416, 416)&quot;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>输入RawData图像数据，以上述配置文件为例，假设输入图像大小是1080p（1920x1080）。裁剪图像感兴趣区域，左上角坐标(0,0)、右下角坐标(959, 899)，即得到960x900大小的图像，padding到960x960，再resize到416x416大小。</p>
+<ol class="simple">
+<li><p>以<code class="docutils literal notranslate"><span class="pre">pyramid_roi_preprocess</span></code>内置预处理的使用为例，添加配置如下：</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pyramid_roi_preprocess&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;roi_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;norm_by_lside_length(1.2)&quot;</span><span class="p">],</span>
+        <span class="nt">&quot;image_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;resize(128, 128)&quot;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>输入一系列检测框rois和金字塔图像pyramid，以上述配置文件为例，对检测框roi进行外扩系数为1.2的<code class="docutils literal notranslate"><span class="pre">norm_by_lside_length</span></code>的外扩处理后，取外扩后的norm_roi在金字塔原图对应的图像数据，并resize到128x128大小；上述预处理都是软件处理。</p>
+<ol class="simple">
+<li><p>以<code class="docutils literal notranslate"><span class="pre">pyramid_roi_bpu_preprocess</span></code>内置预处理为例，添加配置文件如下：</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pyramid_roi_bpu_preprocess&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;roi_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;norm_by_lside_length(1.08)&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>输入一系列检测框rois和金字塔图像pyramid，以上述配置文件为例，对检测框roi进行外扩系数为1.08的<code class="docutils literal notranslate"><span class="pre">norm_by_lside_length</span></code>的外扩处理后，crop外扩后的norm_roi在金字塔原图对应的图像数据，并resize到模型输入大小；上述crop&amp;&amp;resize的处理是硬件处理。</p>
+<ol class="simple">
+<li><p>以<code class="docutils literal notranslate"><span class="pre">pyramid_roi_resizer_preprocess</span></code>内置预处理为例，添加配置文件如下：</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pyramid_roi_resizer_preprocess&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;roi_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;norm_by_lside_square(1.2, 0.91)&quot;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>针对<code class="docutils literal notranslate"><span class="pre">resizer</span></code>输入方式的模型，输入一系列检测框rois和金字塔图像pyramid，以上述配置文件为例，对检测框roi进行外扩系数为1.2，宽高比为0.91的<code class="docutils literal notranslate"><span class="pre">norm_by_lside_square</span></code>的外扩处理，将处理后的norm_roi和金字塔封装为推理任务送入推理队列。</p>
+</div>
+<div class="section" id="pipeline">
+<h3>3.1.2 图像前处理pipeline类型<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h3>
+<p>模型前处理部分，对于Image类型，包括如下功能：</p>
+<ul class="simple">
+<li><p>pad(height, width):
+其中height和width为参数，默认采用对图像右下边进行padding，填充数据默认为0；目前仅支持nv12图像格式，且限制height和width参数需大于等于原始图像宽高，相关参数有如下限制：</p>
+<ul>
+<li><p>pad目标宽、高需分别大于等于原始图像宽、高，且两者不能同时等于原始图像宽、高</p></li>
+<li><p>pad的宽高、原始图像宽高，均须为偶数</p></li>
+</ul>
+</li>
+<li><p>resize(height, width)
+其中height和width为参数，默认对原始图像resize到参数大小，不保持宽高比；目前仅支持nv12图像格式，相关参数有如下限制：</p>
+<ul>
+<li><p>目标宽高不能等于原始图像宽高</p></li>
+<li><p>目标宽高必须为偶数</p></li>
+</ul>
+</li>
+<li><p>crop(x1, y1, x2, y2)
+其中x1,y1表示左上角坐标，x2,y2表示右下角坐标，默认裁剪原始图像的指定区域（包括左上角、右下角所在行列）；目前仅支持nv12图像格式，相关参数限制如下：</p>
+<ul>
+<li><p>crop后的长宽必须为偶数</p></li>
+<li><p>crop区域必须在原图内，不能出现超出原图边界的情况</p></li>
+<li><p>crop区域参数正常，不能出现<code class="docutils literal notranslate"><span class="pre">x1</span> <span class="pre">&gt;=</span> <span class="pre">x2</span></code>或者<code class="docutils literal notranslate"><span class="pre">y1</span> <span class="pre">&gt;=</span> <span class="pre">y2</span></code>的情况</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="roipipeline">
+<h3>3.1.3 roi前处理pipeline类型<a class="headerlink" href="#roipipeline" title="Permalink to this headline">¶</a></h3>
+<p>模型预处理部分，对于ROI类型，提供了集中不同类型的外扩方案，包括：</p>
+<ul class="simple">
+<li><p>norm_by_width_length</p></li>
+<li><p>norm_by_width_ratio</p></li>
+<li><p>norm_by_height_length</p></li>
+<li><p>norm_by_height_ratio</p></li>
+<li><p>norm_by_lside_length</p></li>
+<li><p>norm_by_lside_ratio</p></li>
+<li><p>norm_by_lside_square</p></li>
+<li><p>norm_by_diagonal_square</p></li>
+<li><p>norm_by_width_square</p></li>
+<li><p>norm_by_height_square</p></li>
+<li><p>norm_by_nothing
+并可以在外扩方法后接参数(expand_scale, aspect_ratio)。</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="engine">
+<h2>3.2 预测Engine<a class="headerlink" href="#engine" title="Permalink to this headline">¶</a></h2>
+<p>预测模块功能通过配置指定，包括：模型路径、模型packed属性以及该模型任务需要运行在哪个bpu核上；底层预测默认使用dnn接口。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;model_file_path&quot;</span><span class="p">:</span> <span class="s2">&quot;./**.hbm&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;is_packed_model&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;run_mode&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;bpu_core&quot;</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>model_file_path</strong>：指定模型文件路径</p>
+<ul>
+<li><p>相对路径：路径名称以非’/’开头，则表示相对配置文件的相对路径</p></li>
+<li><p>绝对路径：路径名称以’/’开头，则以绝对路径处理</p></li>
+</ul>
+</li>
+<li><p><strong>is_packed_model</strong>：表示输入模型是否重新打包过，bpu对于此模型加载有单独的方式</p></li>
+<li><p><strong>model_name</strong>：指定模型名称，根据此名称获取具体模型句柄</p></li>
+<li><p><strong>run_mode</strong>：指定此预测task的运行模式</p>
+<ul>
+<li><p><strong>bpu_core</strong>：</p>
+<ul>
+<li><p>bpu_predict预测接口：0：由bpu选择在哪个core上运行；1：设置在bpu0上运行；2：设置在bpu1上运行</p></li>
+<li><p>dnn预测接口：2：由bpu选择在哪个core上运行；0：设置在bpu0上运行；1：设置在bpu1上运行</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Engine内部维护了task队列和线程池，可以高效处理队列中的预测任务。</p>
+</div>
+<div class="section" id="id9">
+<h2>3.3 后处理<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>后处理同前处理配置类似，需要指定<code class="docutils literal notranslate"><span class="pre">class_name</span></code>字段，以使用对应的后处理方法。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;model_post_process&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;age_gender_postprocess&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>框架初始化时根据此字段创建对应对象
+此外，还可以配置后处理的参数，框架把此json统一传给后处理对象，参数用在模型后处理中，比如yolov3的后处理配置如下：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;model_post_process&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;yolov3_postprocess&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;score_threshold&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+        <span class="nt">&quot;nms_threshold&quot;</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span>
+        <span class="nt">&quot;nms_top_k&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="nt">&quot;basic_pyramid_image_height&quot;</span><span class="p">:</span> <span class="mi">540</span><span class="p">,</span>
+        <span class="nt">&quot;basic_pyramid_image_width&quot;</span><span class="p">:</span> <span class="mi">960</span><span class="p">,</span>
+        <span class="nt">&quot;src_image_height&quot;</span><span class="p">:</span> <span class="mi">1080</span><span class="p">,</span>
+        <span class="nt">&quot;src_image_width&quot;</span><span class="p">:</span> <span class="mi">1920</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>3.4 model_inference其他配置参数<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>组件中默认预测和后处理过程是同步，即在InferMethod中输出后处理的结果；若用户想将预测后处理过程pipeline起来，需要配置<code class="docutils literal notranslate"><span class="pre">with_postprocess</span></code>字段为false，表示InferMethod中不做后处理，这种情况下，InferMethod有两个输出：该帧的”infer”对象和”tasks”推理任务。
+<strong>注意</strong>：”with_postprocess”的配置需要和workflow中的Method对应，当<code class="docutils literal notranslate"><span class="pre">with_postprocess</span></code>字段为false，InferMethod需要与PostMethod串联；否则不需要。</p></li>
+<li><p>组件中默认对模型输出的BPU结果进行转浮点操作；若用户不需要将定点模型输出结果转浮点，则需要配置<code class="docutils literal notranslate"><span class="pre">convert_to_float</span></code>字段为false，表示不对BPU输出结果转换。
+<strong>注意</strong>：配置”convert_to_float”=false后，后处理直接处理BPU输出结果后，需要将BPU内存释放。</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;with_postprocess&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;convert_to_float&quot;</span><span class="p">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method">
+<h2>3.5 method组件<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
+<p>model_inference组件内部扩展了<code class="docutils literal notranslate"><span class="pre">InferMethod</span></code>和<code class="docutils literal notranslate"><span class="pre">PostMethod</span></code>以支持在xstream中使用。用户可以在xstream的workflow中配置两个method使用预测组件。</p>
+<p>以多任务检测+年龄性别识别任务为例，workflow需要串联多任务检测和年龄性别识别两个模型。workflow配置如下：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;image&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;face_box&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;head_box&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;body_box&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pose&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lmk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kps&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gender&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;InferMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;multi_task&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;image&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;body_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;head_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;face_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lmk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pose&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;kps&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;infer_multitask_config.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;InferMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;age_gender_infer&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;age_gender_infer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;age_gender_task&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;infer_age_gender.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;PostMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;age_gender_post&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;age_gender_infer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;age_gender_task&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gender&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>对应的多任务检测配置infer_multitask_config.json，配置”convert_to_float”为false，”with_postprocess”为true，即不对BPU结果转换浮点，并在InferMethod中进行后处理操作，输出智能结果。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;with_postprocess&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;convert_to_float&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;model_preprocess&quot;</span><span class="p">:{</span>
+        <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pyramid_preprocess&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;pyramid_layer&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;image_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;model_predict&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;model_file_path&quot;</span><span class="p">:</span> <span class="s2">&quot;../../models/personMultitask.hbm&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;is_packed_model&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;personMultitask&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;run_mode&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;bpu_core&quot;</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;model_post_process&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;horizon_multitask_postprocess&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;net_info&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;personMultitask&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;model_version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.27&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;model_out_sequence&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;body_box_int&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;invalid&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;body_box&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;head_box_int&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;invalid&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;head_box&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;face_box_int&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;invalid&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;face_box&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bbox&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;lmks2_label&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lmks2_label&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;box_name&quot;</span><span class="p">:</span> <span class="s2">&quot;face_box&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;lmks2_offset&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lmks2_offset&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;pose&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;3d_pose&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;box_name&quot;</span><span class="p">:</span> <span class="s2">&quot;face_box&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;lmks1_label&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;lmks1&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;box_name&quot;</span><span class="p">:</span> <span class="s2">&quot;face_box&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;kps_label&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kps_label&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;box_name&quot;</span><span class="p">:</span> <span class="s2">&quot;body_box&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;kps_offset&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kps_offset&quot;</span>
+              <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;model_input_width&quot;</span><span class="p">:</span> <span class="mi">960</span><span class="p">,</span>
+            <span class="nt">&quot;model_input_height&quot;</span><span class="p">:</span> <span class="mi">540</span><span class="p">,</span>
+            <span class="nt">&quot;src_image_width&quot;</span><span class="p">:</span> <span class="mi">1920</span><span class="p">,</span>
+            <span class="nt">&quot;src_image_height&quot;</span><span class="p">:</span> <span class="mi">1080</span><span class="p">,</span>
+            <span class="nt">&quot;pyramid_layer&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="nt">&quot;kps_pos_distance&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+            <span class="nt">&quot;kps_feat_width&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+            <span class="nt">&quot;kps_feat_height&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+            <span class="nt">&quot;kps_points_number&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+            <span class="nt">&quot;lmk_feat_width&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+            <span class="nt">&quot;lmk_feat_height&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+            <span class="nt">&quot;lmk_points_number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="nt">&quot;lmk_pos_distance&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="nt">&quot;lmk_feat_stride&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+            <span class="nt">&quot;3d_pose_number&quot;</span><span class="p">:</span> <span class="mi">3</span>
+          <span class="p">},</span>
+        <span class="nt">&quot;method_outs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;body_box&quot;</span><span class="p">,</span> <span class="s2">&quot;head_box&quot;</span><span class="p">,</span> <span class="s2">&quot;face_box&quot;</span><span class="p">,</span> <span class="s2">&quot;landmark&quot;</span><span class="p">,</span> <span class="s2">&quot;pose&quot;</span><span class="p">,</span> <span class="s2">&quot;kps&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>对应的年龄性别识别配置infer_age_gender.json，配置”with_postprocess”为false，默认”convert_to_float”为true，即不在InferMethod中进行后处理操作，InferMethod输出中间结果。注意”with_postprocess”的设置需要与workflow配置的method对应。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;with_postprocess&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;model_preprocess&quot;</span><span class="p">:{</span>
+        <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;pyramid_roi_resizer_preprocess&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;roi_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;norm_by_nothing&quot;</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;model_predict&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;model_file_path&quot;</span><span class="p">:</span> <span class="s2">&quot;../../models/faceAgeGender.hbm&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;is_packed_model&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;faceAgeGender&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;run_mode&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;bpu_core&quot;</span><span class="p">:</span><span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;model_post_process&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;age_gender_postprocess&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id11">
+<h1>4 开发示例<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h1>
+<p>以test中的tensor_task为例</p>
+<div class="section" id="id12">
+<h2>4.1 准备配置参数：<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p><strong>mode</strong>: 设置为<code class="docutils literal notranslate"><span class="pre">run_model</span></code>或<code class="docutils literal notranslate"><span class="pre">run_model_with_box</span></code>即可，只是显示预测类型，实际不影响程序功能</p></li>
+<li><p><strong>with_postprocess</strong>: 设置为false，InferMethod把预测输出交给PostMethod完成后处理</p></li>
+<li><p><strong>model_preprocess</strong>: 指定前处理配置信息</p>
+<ul class="simple">
+<li><p>class_name: 指定前处理对象为image_preprocess</p></li>
+<li><p>pyramid_layoer: 用于金字塔数据获取，设置为第四层</p></li>
+<li><p>config: 指定前处理pipeline, 根据模型需要进行配置, 先resize后pad再resize</p></li>
+</ul>
+</li>
+<li><p><strong>model_predict</strong>: 指定预测配置信息，包括模型路径、模型名称、模型运行在哪个core上</p></li>
+<li><p><strong>model_post_process</strong>: 指定后处理参数，和模型强相关，用于模型后处理
+详细配置参数如下：</p></li>
+</ol>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;mode&quot;</span><span class="p">:</span> <span class="s2">&quot;run_model&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;with_postprocess&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;model_preprocess&quot;</span><span class="p">:{</span>
+        <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;image_preprocess&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;pyramid_layer&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;image_process_pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;resize(540, 960)&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;pad(960, 960)&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;resize(416, 416)&quot;</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;model_predict&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;model_file_path&quot;</span><span class="p">:</span> <span class="s2">&quot;./yolov3_nv12_hybrid_horizonrt.bin&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;is_packed_model&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&quot;model_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Darkent2Caffe_hybrid&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;run_mode&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;bpu_core&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&quot;thread_num&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;model_post_process&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;yolov3_postprocess&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;score_threshold&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+        <span class="nt">&quot;nms_threshold&quot;</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span>
+        <span class="nt">&quot;nms_top_k&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="nt">&quot;basic_pyramid_image_height&quot;</span><span class="p">:</span> <span class="mi">540</span><span class="p">,</span>
+        <span class="nt">&quot;basic_pyramid_image_width&quot;</span><span class="p">:</span> <span class="mi">960</span><span class="p">,</span>
+        <span class="nt">&quot;src_image_height&quot;</span><span class="p">:</span> <span class="mi">1080</span><span class="p">,</span>
+        <span class="nt">&quot;src_image_width&quot;</span><span class="p">:</span> <span class="mi">1920</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>4.2 准备前后处理<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<p>这里使用框架中提供的前后处理，如配置文件中所示</p>
+<ul class="simple">
+<li><p><strong>前处理</strong>：使用image_preprocess，对应框架中ImageInputWithPreProcess类</p></li>
+<li><p><strong>后处理</strong>：使用yolov3_postprocess，对用框架中YoloV3PostProcess类
+这里直接复用了框架中的前后处理processer，对于不能复用的模型，需要继承PreProcess和PostProcess实现自己的派生类，并在配置中指定新前后处理processer类。</p></li>
+</ul>
+</div>
+<div class="section" id="main">
+<h2>4.3 main函数代码：<a class="headerlink" href="#main" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>声明infer_method用于执行预测操作，其输入配置为4.1中准备的json文件</p></li>
+<li><p>读取nv12图片，设置图片长宽，用于填充input输入数据，output用于接收后处理的输出</p></li>
+<li><p>infer_method.DoProcess(input, param) 用于执行具体前处理、预测、后处理</p></li>
+<li><p>post_method对象用来做后处理，以infer_method.DoProcess的输出output作为post_method的输入</p></li>
+</ol>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;exec image_path img_height img_width&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">SetLogLevel</span><span class="p">(</span><span class="n">HOBOT_LOG_DEBUG</span><span class="p">);</span>
+  <span class="n">inference</span><span class="o">::</span><span class="n">InferenceEngine</span><span class="o">::</span><span class="n">SetPredictType</span><span class="p">(</span><span class="n">inference</span><span class="o">::</span><span class="n">DNN_PREDICT</span><span class="p">);</span>
+
+  <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">inference</span><span class="o">::</span><span class="n">InferMethod</span> <span class="n">infer_method</span><span class="p">;</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">infer_method</span><span class="p">.</span><span class="n">Init</span><span class="p">(</span><span class="s">&quot;./configs/yolov3_config.json&quot;</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LOGE</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;InferMethod Init failed&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">-1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">input</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">;</span>
+  <span class="n">xstream</span><span class="o">::</span><span class="n">InputParamPtr</span> <span class="n">param</span><span class="p">;</span>
+  <span class="c1">// 构建input</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">RawDataImageFrame</span><span class="o">&gt;</span> <span class="n">image</span> <span class="o">=</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">RawDataImageFrame</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="p">{</span>
+    <span class="n">image</span><span class="o">-&gt;</span><span class="n">pixel_format_</span> <span class="o">=</span> <span class="n">xstream</span><span class="o">::</span><span class="n">kHorizonVisionPixelFormatRawNV12</span><span class="p">;</span>
+    <span class="n">image</span><span class="o">-&gt;</span><span class="n">frame_id_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">ifstream</span> <span class="n">ifs</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                      <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">in</span> <span class="o">|</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">binary</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ifs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">HOBOT_CHECK</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Open image file: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; failed&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">ifs</span><span class="p">.</span><span class="n">seekg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">end</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">img_length</span> <span class="o">=</span> <span class="n">ifs</span><span class="p">.</span><span class="n">tellg</span><span class="p">();</span>
+    <span class="n">ifs</span><span class="p">.</span><span class="n">seekg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">beg</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">img_bin</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="o">*</span> <span class="n">img_length</span><span class="p">];</span>
+    <span class="n">ifs</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span> <span class="n">img_length</span><span class="p">);</span>
+    <span class="n">ifs</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+
+    <span class="n">image</span><span class="o">-&gt;</span><span class="n">data_</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">img_bin</span><span class="p">);</span>
+    <span class="n">image</span><span class="o">-&gt;</span><span class="n">height_</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+    <span class="n">image</span><span class="o">-&gt;</span><span class="n">width_</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="n">input</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
+
+  <span class="n">output</span> <span class="o">=</span> <span class="n">infer_method</span><span class="p">.</span><span class="n">DoProcess</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">param</span><span class="p">);</span>
+
+  <span class="n">inference</span><span class="o">::</span><span class="n">PostMethod</span> <span class="n">post_method</span><span class="p">;</span>
+  <span class="n">post_method</span><span class="p">.</span><span class="n">DoProcess</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">param</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>4.4 运行结果如下：<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">export</span> <span class="n">LD_LIBRARY_PATH</span><span class="o">=</span><span class="p">..</span><span class="o">/</span><span class="nl">lib</span><span class="p">:</span><span class="n">$LD_LIBRARY_PATH</span>
+<span class="p">.</span><span class="o">/</span><span class="n">tensor_task</span> <span class="p">.</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span><span class="mi">1080</span><span class="n">p</span><span class="p">.</span><span class="n">nv12</span> <span class="mi">1080</span> <span class="mi">1920</span>
+<span class="p">(</span><span class="n">inferencer</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">29</span><span class="p">)</span><span class="o">:</span> <span class="n">Inferencer</span> <span class="n">config</span> <span class="nl">path</span><span class="p">:</span> <span class="p">.</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span><span class="n">yolov3_config</span><span class="p">.</span><span class="n">json</span>
+<span class="p">(</span><span class="n">inferencer</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">30</span><span class="p">)</span><span class="o">:</span> <span class="n">Inferencer</span> <span class="n">config</span> <span class="n">parent</span> <span class="nl">path</span><span class="p">:</span> <span class="p">.</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span>
+<span class="p">(</span><span class="n">inference_engine</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">126</span><span class="p">)</span><span class="o">:</span> <span class="nl">InferenceTaskLoop</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">(</span><span class="n">inference_engine</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">126</span><span class="p">)</span><span class="o">:</span> <span class="nl">InferenceTaskLoop</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">(</span><span class="n">inference_engine</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">126</span><span class="p">)</span><span class="o">:</span> <span class="nl">InferenceTaskLoop</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">(</span><span class="n">inference_engine</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">126</span><span class="p">)</span><span class="o">:</span> <span class="nl">InferenceTaskLoop</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">(</span><span class="n">inference_engine</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">126</span><span class="p">)</span><span class="o">:</span> <span class="nl">InferenceTaskLoop</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">(</span><span class="n">inference_engine</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">126</span><span class="p">)</span><span class="o">:</span> <span class="nl">InferenceTaskLoop</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">[</span><span class="n">HBRT</span><span class="p">]</span> <span class="n">set</span> <span class="n">log</span> <span class="n">level</span> <span class="n">as</span> <span class="mf">0.</span> <span class="n">version</span> <span class="o">=</span> <span class="mf">3.13.4</span>
+<span class="p">[</span><span class="n">BPU_PLAT</span><span class="p">]</span><span class="n">BPU</span> <span class="n">Platform</span> <span class="n">Version</span><span class="p">(</span><span class="mf">1.3.0</span><span class="p">)</span><span class="o">!</span>
+<span class="p">[</span><span class="n">HorizonRT</span><span class="p">]</span> <span class="n">The</span> <span class="n">model</span> <span class="n">builder</span> <span class="n">version</span> <span class="o">=</span> <span class="mf">1.1.35</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">27</span><span class="p">)</span><span class="o">:</span> <span class="n">hbDNNInitializeFromFiles</span><span class="p">,</span> <span class="p">.</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span><span class="p">.</span><span class="o">/</span><span class="n">yolov3_nv12_hybrid_horizonrt</span><span class="p">.</span><span class="n">bin</span><span class="p">,</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">35</span><span class="p">)</span><span class="o">:</span> <span class="n">modelName</span> <span class="o">=</span> <span class="n">Darkent2Caffe_hybrid</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">84</span><span class="p">)</span><span class="o">:</span> <span class="n">found</span> <span class="nl">model</span><span class="p">:</span> <span class="n">Darkent2Caffe_hybrid</span>
+<span class="p">(</span><span class="n">inference_method</span><span class="p">.</span><span class="nl">h</span><span class="p">:</span><span class="mi">51</span><span class="p">)</span><span class="o">:</span> <span class="n">InferMethod</span> <span class="n">DoProcess</span> <span class="n">Start</span>
+<span class="p">(</span><span class="n">image_process</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">322</span><span class="p">)</span><span class="o">:</span> <span class="n">Start</span> <span class="n">ImageProcess</span> <span class="n">Execute</span><span class="p">...</span>
+<span class="p">(</span><span class="n">image_preprocess</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">67</span><span class="p">)</span><span class="o">:</span> <span class="n">preprocess</span> <span class="n">success</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">235</span><span class="p">)</span><span class="o">:</span> <span class="n">output</span> <span class="n">tensor</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">172384</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">242</span><span class="p">)</span><span class="o">:</span> <span class="n">mem</span> <span class="n">tensor</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">172384</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">235</span><span class="p">)</span><span class="o">:</span> <span class="n">output</span> <span class="n">tensor</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">689520</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">242</span><span class="p">)</span><span class="o">:</span> <span class="n">mem</span> <span class="n">tensor</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">689520</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">235</span><span class="p">)</span><span class="o">:</span> <span class="n">output</span> <span class="n">tensor</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">2758080</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">242</span><span class="p">)</span><span class="o">:</span> <span class="n">mem</span> <span class="n">tensor</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">2758080</span>
+<span class="p">(</span><span class="n">inferencer</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">151</span><span class="p">)</span><span class="o">:</span> <span class="nl">core_id</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">394</span><span class="p">)</span><span class="o">:</span> <span class="nl">input_layer</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">395</span><span class="p">)</span><span class="o">:</span> <span class="nl">output_layer</span><span class="p">:</span> <span class="mi">3</span>
+<span class="p">(</span><span class="n">inference_engine_dnn</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">546</span><span class="p">)</span><span class="o">:</span> <span class="n">run</span> <span class="n">model</span> <span class="n">end</span><span class="p">,</span> <span class="nl">ret</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">(</span><span class="n">inference_engine</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">225</span><span class="p">)</span><span class="o">:</span> <span class="n">task</span> <span class="nl">ret</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">(</span><span class="n">yolov3_postprocess</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">92</span><span class="p">)</span><span class="o">:</span> <span class="n">YoloV3PostProcess</span> <span class="n">Execute</span>
+<span class="p">(</span><span class="n">yolov3_postprocess</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">230</span><span class="p">)</span><span class="o">:</span> <span class="p">(</span> <span class="nl">x1</span><span class="p">:</span> <span class="mf">1212.98</span> <span class="nl">y1</span><span class="p">:</span> <span class="mf">57.6426</span> <span class="nl">x2</span><span class="p">:</span> <span class="mf">1865.26</span> <span class="nl">y2</span><span class="p">:</span> <span class="mi">1078</span> <span class="nl">score</span><span class="p">:</span> <span class="mf">0.995713</span> <span class="p">),</span> <span class="nl">id</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">category_name</span><span class="p">:</span> <span class="n">person</span>
+<span class="p">(</span><span class="n">yolov3_postprocess</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">230</span><span class="p">)</span><span class="o">:</span> <span class="p">(</span> <span class="nl">x1</span><span class="p">:</span> <span class="mf">661.58</span> <span class="nl">y1</span><span class="p">:</span> <span class="mf">34.3084</span> <span class="nl">x2</span><span class="p">:</span> <span class="mf">1324.98</span> <span class="nl">y2</span><span class="p">:</span> <span class="mi">1078</span> <span class="nl">score</span><span class="p">:</span> <span class="mf">0.987776</span> <span class="p">),</span> <span class="nl">id</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">category_name</span><span class="p">:</span> <span class="n">person</span>
+<span class="p">(</span><span class="n">yolov3_postprocess</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">230</span><span class="p">)</span><span class="o">:</span> <span class="p">(</span> <span class="nl">x1</span><span class="p">:</span> <span class="mf">82.9275</span> <span class="nl">y1</span><span class="p">:</span> <span class="mf">84.8354</span> <span class="nl">x2</span><span class="p">:</span> <span class="mf">701.428</span> <span class="nl">y2</span><span class="p">:</span> <span class="mf">1069.15</span> <span class="nl">score</span><span class="p">:</span> <span class="mf">0.959816</span> <span class="p">),</span> <span class="nl">id</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">category_name</span><span class="p">:</span> <span class="n">person</span>
+<span class="p">(</span><span class="n">yolov3_postprocess</span><span class="p">.</span><span class="nl">cc</span><span class="p">:</span><span class="mi">230</span><span class="p">)</span><span class="o">:</span> <span class="p">(</span> <span class="nl">x1</span><span class="p">:</span> <span class="mf">1446.5</span> <span class="nl">y1</span><span class="p">:</span> <span class="mf">439.404</span> <span class="nl">x2</span><span class="p">:</span> <span class="mf">1690.53</span> <span class="nl">y2</span><span class="p">:</span> <span class="mf">853.147</span> <span class="nl">score</span><span class="p">:</span> <span class="mf">0.322479</span> <span class="p">),</span> <span class="nl">id</span><span class="p">:</span> <span class="mi">27</span><span class="p">,</span> <span class="nl">category_name</span><span class="p">:</span> <span class="n">tie</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id15">
+<h1>5 框架支持的前后处理<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id16">
+<h2>5.1 目前支持的前处理<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p><strong>pyramid_roi_resizer_preprocess</strong>
+面向<code class="docutils literal notranslate"><span class="pre">resizer</span></code>的输入方式的模型，输入数据为一系列检测框rois和金字塔图像pyramid。预测时底层会依赖硬件resizer模块。</p></li>
+<li><p><strong>pyramid_preprocess</strong>
+面向<code class="docutils literal notranslate"><span class="pre">pyramid</span></code>输入方式的定点模型，输入数据是金字塔图像pyramid。该处理中取金字塔配置的层，送入模型进行推理。</p></li>
+<li><p><strong>pyramid_roi_bpu_preprocess</strong>
+面向<code class="docutils literal notranslate"><span class="pre">pyramid</span></code>输入方式的模型，输入数据是一系列检测框rois和金字塔图像pyramid，与前处理2)<code class="docutils literal notranslate"><span class="pre">pyramid_preprocess</span></code>不同的是，该处理中取金字塔原图对应的roi图像数据，经过硬件crop&amp;resize到模型输入大小，送入模型进行推理。</p></li>
+<li><p><strong>pyramid_roi_preprocess</strong>
+面向<code class="docutils literal notranslate"><span class="pre">pyramid</span></code>输入方式的模型，输入数据是一系列检测框rois和金字塔图像pyramid，与前处理3)<code class="docutils literal notranslate"><span class="pre">pyramid_roi_bpu_preprocess</span></code>不同的是，该处理中取金字塔原图对应的roi图像数据，经过软件的图像处理操作送入模型进行推理。</p></li>
+<li><p><strong>image_preprocess</strong>
+输入数据是nv12格式的<code class="docutils literal notranslate"><span class="pre">RawDataImageFrame</span></code>数据。该处理中取输入图像并按配置进行一系列图像处理后送入模型进行推理。</p></li>
+<li><p><strong>faceid_preprocess</strong>
+针对”人脸特征提取”模型的预处理，输入数据是<code class="docutils literal notranslate"><span class="pre">SnapshotInfo</span></code>。</p></li>
+<li><p><strong>gesture_preprocess</strong>
+针对”手势识别”模型的预处理。</p></li>
+</ol>
+</div>
+<div class="section" id="id17">
+<h2>5.2 目前支持的后处理<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p><strong>age_gender_postprocess</strong>
+针对”年龄性别”模型的后处理，输出年龄、性别结果</p></li>
+<li><p><strong>face_quality_postprocess</strong>
+针对”人脸质量”模型的后处理，输出14个人脸质量相关的结果。</p></li>
+<li><p><strong>faceid_postprocess</strong>
+针对”人脸特征提取”模型的后处理，输出128维人脸特征数据。</p></li>
+<li><p><strong>horizon_multitask_postprocess</strong>
+针对”多任务检测”模型的后处理，内置后处理包括检测框、人体骨骼点、分割等。</p></li>
+<li><p><strong>lmks3_postprocess</strong>
+针对”手关键点”模型的后处理，输出手关键点。</p></li>
+<li><p><strong>lmks4_postprocess</strong>
+针对”人脸关键点”模型的后处理，输出人脸关键点。</p></li>
+<li><p><strong>plate_num_postprocess</strong>
+针对”车牌号”识别模型的后处理，输出车牌号。</p></li>
+<li><p><strong>vehicle_color_postprocess</strong>
+针对”车辆颜色”模型的后处理，输出车辆颜色。</p></li>
+<li><p><strong>vehicle_type_postprocess</strong>
+针对”车辆类型”模型的后处理，输出车辆类型。</p></li>
+<li><p><strong>yolov3_postprocess</strong>
+针对开源模型”yolov3”的后处理，输出检测框。</p></li>
+<li><p><strong>mobilenetv2_postprocess</strong>
+针对开源模型”mobilenetv2”的后处理，输出类别。</p></li>
+<li><p><strong>gesture_postprocess</strong>
+针对”手势识别”模型的后处理，输出手势类别。</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="id18">
+<h1>6 如何扩展自定义模型<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h1>
+<p>首先用户需要了解需要扩展自定义模型的前后处理，以及编译模型时的输入方式。</p>
+<p>若模型编译为<code class="docutils literal notranslate"><span class="pre">resizer</span></code>方式，则预测任务类型是<code class="docutils literal notranslate"><span class="pre">RoiInferenceEngineTask</span></code>，否则任务类型是<code class="docutils literal notranslate"><span class="pre">TensorInferenceEngineTask</span></code>。</p>
+<div class="section" id="id19">
+<h2>6.1 扩展预处理<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<p>预处理中的主要操作：</p>
+<ol class="simple">
+<li><p>获取模型输入输出维度大小、数据类型、排布等属性；</p></li>
+<li><p>根据模型类型创建对应的预测任务；</p></li>
+<li><p>解析输入数据，根据需要申请BPU输入、输出内存空间，并将输入数据复制到对应的BPU输入中；</p></li>
+<li><p>返回task预测任务</p></li>
+</ol>
+<p>扩展CustomPreProcess，并实现<code class="docutils literal notranslate"><span class="pre">Execute</span></code>函数，即实现上述主要操作。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomPreProcess</span> <span class="o">:</span> <span class="k">public</span> <span class="n">PreProcess</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">CustomPreProcess</span><span class="p">(</span><span class="n">Inferencer</span><span class="o">*</span> <span class="n">infer</span><span class="p">)</span> <span class="o">:</span> <span class="n">PreProcess</span><span class="p">(</span><span class="n">infer</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">CustomPreProcess</span><span class="p">()</span> <span class="p">{}</span>
+
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">json_str</span><span class="p">);</span>
+
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">Execute</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">,</span>
+                      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">InferenceEngineTask</span><span class="o">&gt;&gt;&amp;</span> <span class="n">tasks</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>在<code class="docutils literal notranslate"><span class="pre">PreProcess::GetInstance()</span></code>中注册对应的自定义预处理。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">PreProcess</span><span class="o">&gt;</span> <span class="n">PreProcess</span><span class="o">::</span><span class="n">GetInstance</span><span class="p">(</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">Inferencer</span><span class="o">*</span> <span class="n">infer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">class_name</span> <span class="o">==</span> <span class="s">&quot;custom_preprocess&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">CustomPreProcess</span><span class="o">&gt;</span><span class="p">(</span><span class="n">infer</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>设置配置文件：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;custom_preprocess&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id20">
+<h2>6.2 扩展后处理<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<p>后处理中的主要操作获取预测任务，取输出结果，进行解析。需要注意的是，若扩展的后处理不需要转浮点操作，则需要在解析完成后，自行将BPU输出内存释放。</p>
+<p>扩展CustomPostProcess，并实现<code class="docutils literal notranslate"><span class="pre">Execute</span></code>函数，即实现上述主要操作。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomPostProcess</span> <span class="o">:</span> <span class="k">public</span> <span class="n">PostProcess</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="n">Init</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">json_str</span><span class="p">);</span>
+
+  <span class="k">virtual</span> <span class="kt">int</span> <span class="nf">Execute</span><span class="p">(</span>
+      <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">InferenceEngineTask</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">tasks</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">xstream</span><span class="o">::</span><span class="n">BaseDataPtr</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">frame_result</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>在<code class="docutils literal notranslate"><span class="pre">PostProcess::GetInstance()</span></code>中注册对应的自定义预处理。</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">PostProcess</span><span class="o">&gt;</span> <span class="n">PostProcess</span><span class="o">::</span><span class="n">GetInstance</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">class_name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">class_name</span> <span class="o">==</span> <span class="s">&quot;custom_postprocess&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">CustomPostProcess</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>设置配置文件：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;class_name&quot;</span><span class="p">:</span> <span class="s2">&quot;custom_postprocess&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;xx&quot;</span><span class="p">:</span> <span class="s2">&quot;xx&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="model_inference 组件" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

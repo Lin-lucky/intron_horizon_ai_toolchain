@@ -1,0 +1,57 @@
+``vec_diff`` 工具
+=======================
+
+``vec_diff`` 工具旨在帮助用户定位精度异常问题。当出现精度异常时，可能有几种原因：
+
+1. 校准或者量化导致某一layer的输出存在误差，经过可能的误差放大，导致最终结果差异较大。
+#. 模型转换工具的某一步存在未知问题，浮点模型到定点模型转换过程中，经过了几次优化和变换，这些变换可能会存在问题，导致异常。
+#. 软件bug：在应该保证数值一致的地方，因为软件bug，导致误差。
+
+为了定位这些问题，我们开发了向量比较工具。使用向量比较工具，用户可以比较不同阶段模型的卷积层输出差异。
+
+使用方式
+-----------------
+
+``vec_diff`` 工具，可以比较不同阶段模型的输出feature的差异，所以，第一步，用户需要得到模型的 ``infer`` 输出结果。
+
+对于模型转换工具（``hb_mapper``）输出的模型，用户可以使用 ``infer`` 命令得到模型的输出向量文件。
+具体使用，请参考 :ref:`模型输出命令（infer） <hb_mapper_infer>`。
+
+对于*.bin模型，用户可以上板运行，得到中间向量输出。请参考runtime文档。
+
+.. 由于libdnn暂不支持x86，此处暂时删除仿真环境内容。
+
+.. code-block::
+
+  vec_diff [OPTIONS] left_file/folder right_file/folder
+
+命令行参数
+------------
+
+.. data:: vec_diff的命令行参数
+
+  \-\-version
+    显示版本并退出。
+  
+  left_file/folder
+    文件名，或者文件夹名。
+
+  right_file/folder
+    文件名，或者文件夹名。
+
+  -o, --output-file FILENAME
+    输出结果文件的文件名。
+
+  \-\-help
+    打印帮助信息。
+
+输出内容
+----------------
+
+由 ``vec_diff -o`` 指定的CSV文件，列表（表项为：左侧文件名，右侧文件名，余弦相似度、相对欧拉距、最大绝对误差、方差），参考如下：
+
+.. csv-table::
+    :header: Left Files, Right Files, Cosine Similarity,Relative Euclidean Distance, Max Absolute Error, Mean Square Error
+    
+    Layerxxx-quanti-input.txt, Layerxxx-float-input.txt, xxx, xxx, xxx, xxx
+    Layerxxx-quanti-param.txt, Layerxxx-float-param.txt, xxx, xxx, xxx, xxx

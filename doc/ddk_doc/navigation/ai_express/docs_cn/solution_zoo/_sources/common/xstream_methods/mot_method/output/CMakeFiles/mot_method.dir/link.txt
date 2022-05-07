@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmot_method.a  CMakeFiles/mot_method.dir/src/method/mot_method.cc.o CMakeFiles/mot_method.dir/src/method/mot/iou.cc.o CMakeFiles/mot_method.dir/src/method/mot/iou2.cc.o
+/usr/bin/ranlib libmot_method.a

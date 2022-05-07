@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Algorithm Model Samples &mdash; horizon_model_convert_sample_documentation v1.12.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom-style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Other Samples" href="03_misc_sample.html" />
+    <link rel="prev" title="1. General Descriptions" href="01_general_descriptions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> horizon_model_convert_sample_documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01_general_descriptions.html">1. General Descriptions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Algorithm Model Samples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#where-to-find">2.1. Where to Find</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prepare-dataset">2.2. Prepare Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prepare-models">2.3. Prepare Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mobilenetv1-v2">2.3.1. MobileNetv1/v2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#googlenet">2.3.2. GoogleNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resnet18">2.3.3. ResNet18</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#efficientnet-lite0-1-2-3-4">2.3.4. EfficientNet_Lite0/1/2/3/4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yolov2">2.3.5. YOLOv2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yolov3">2.3.6. YOLOv3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yolov5">2.3.7. YOLOv5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mobilenet-ssd">2.3.8. MobileNet_SSD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#efficientnet-det">2.3.9. EfficientNet_Det</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#centernet">2.3.10. CenterNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unet">2.3.11. UNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fcos">2.3.12. FCOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#a-demonstration-of-the-algorithm-model-samples">2.4. A Demonstration of the Algorithm Model Samples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#enter-a-docker-container">2.4.1. Enter A Docker container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-if-models-are-executable">2.4.2. Check if models are executable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-calibration-dataset">2.4.3. Prepare Calibration Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-heterogeneous-model">2.4.4. Build Heterogeneous Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accuracy-evaluation">2.4.5. Accuracy Evaluation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#faq">2.5. FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-match-the-inference-results-of-the-onnx-original-floating-point-model-and-the-hb-mapper-makertbin-tool-generated-original-float-model-onnx-model">2.5.1. How to match the inference results of the ONNX original floating-point model and the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> tool generated ***_original_float_model.onnx model?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_misc_sample.html">3. Other Samples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">horizon_model_convert_sample_documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">2. </span>Algorithm Model Samples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/samples/02_algorithm_sample.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="algorithm-model-samples">
+<h1><span class="section-number">2. </span>Algorithm Model Samples<a class="headerlink" href="#algorithm-model-samples" title="Permalink to this headline"></a></h1>
+<section id="where-to-find">
+<h2><span class="section-number">2.1. </span>Where to Find<a class="headerlink" href="#where-to-find" title="Permalink to this headline"></a></h2>
+<p>Model conversion samples are in the <cite>horizon_model_convert_sample</cite> folder in release packages.</p>
+<p>Corresponding algorithm samples can be found in the <cite>03_classification/</cite>, <cite>04_detection/</cite> and <cite>07_segmentation</cite>
+folders from the above mentioned folders.</p>
+</section>
+<section id="prepare-dataset">
+<h2><span class="section-number">2.2. </span>Prepare Dataset<a class="headerlink" href="#prepare-dataset" title="Permalink to this headline"></a></h2>
+<p>The dataset address is <code class="docutils literal notranslate"><span class="pre">vrftp.horizon.ai/Open_Explorer/eval_dataset</span></code>.
+It contains the following datasets:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>/Open_Explorer/eval_dataset
+├── VOC.tar.gz
+├── imagenet.tar.gz
+├── coco.tar.gz
+├── cityscapes.tar.gz
+└── cifar-10.tar.gz
+</pre></div>
+</div>
+<p>Please ensure that you have Internet access capability and can use <code class="docutils literal notranslate"><span class="pre">wget</span></code> in the current environment.</p>
+<p>Use the following command to download the corresponding dataset as required.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget ftp://vrftp.horizon.ai/Open_Explorer/eval_dataset/<span class="o">[</span>dataset name<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="prepare-models">
+<h2><span class="section-number">2.3. </span>Prepare Models<a class="headerlink" href="#prepare-models" title="Permalink to this headline"></a></h2>
+<p>When using the model conversion sample package, please obtain the off-the-shelf FPMs in the <strong>model_zoo/mapper/</strong>
+directory of Horizon’s model release package. Sources and modifications (if any) of the original models, please refer to below subsections.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The computing method of frame rate (Run the <strong>latency.sh</strong> script with single thread of different models in the /script
+directory of ai_benchmark_j3 sample package to obtain this performance data, post-processing is not included.
+<span class="math notranslate nohighlight">\(FPS = 1000/Inference Time Consumption\)</span>.</p></li>
+<li><p>Testing dev board: x3sdbx3-samsung2G-3200.</p></li>
+<li><p>Testing core number: single core.</p></li>
+</ul>
+</div>
+<section id="mobilenetv1-v2">
+<h3><span class="section-number">2.3.1. </span>MobileNetv1/v2<a class="headerlink" href="#mobilenetv1-v2" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Model source: <a class="reference external" href="https://github.com/shicai/MobileNet-Caffe">https://github.com/shicai/MobileNet-Caffe</a> .</p></li>
+<li><p>md5sum code:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3fd6889ec48bda46451d67274144e2a8</p></td>
+<td><p>mobilenet.caffemodel</p></td>
+</tr>
+<tr class="row-odd"><td><p>8922f90f629d428fecf866e798ac7c08</p></td>
+<td><p>mobilenet_deploy.prototxt</p></td>
+</tr>
+<tr class="row-even"><td><p>54aab8425ea068d472e8e4015f22360c</p></td>
+<td><p>mobilenet_v2.caffemodel</p></td>
+</tr>
+<tr class="row-odd"><td><p>13101ee86ab6d217d5fd6ed46f7a4faa</p></td>
+<td><p>mobilenet_v2_deploy.prototxt</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Frame rate (post-processing not included):</p>
+<ul class="simple">
+<li><p>MobileNetv1：311.1388/s.</p></li>
+<li><p>MobileNetv2：410.1723/s.</p></li>
+</ul>
+</li>
+<li><p>Model Accuracy:</p>
+<ul class="simple">
+<li><p>MobileNetv1：0.7033(INT8).</p></li>
+<li><p>MobileNetv2：0.7115(INT8).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="googlenet">
+<h3><span class="section-number">2.3.2. </span>GoogleNet<a class="headerlink" href="#googlenet" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Model source: <a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/GoogleNet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/GoogleNet</a>.</p></li>
+<li><p>md5sum code:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 68%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>f107ae6806ea1016afbc718210b7a617</p></td>
+<td><p>googlenet.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Frame rate (post-processing not included): 121.2709/s.</p></li>
+<li><p>Model Accuracy: 0.6996(INT8).</p></li>
+</ol>
+</section>
+<section id="resnet18">
+<h3><span class="section-number">2.3.3. </span>ResNet18<a class="headerlink" href="#resnet18" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Model source: <a class="reference external" href="https://github.com/HolmesShuan/ResNet-18-Caffemodel-on-ImageNet">https://github.com/HolmesShuan/ResNet-18-Caffemodel-on-ImageNet</a>.</p></li>
+<li><p>md5sum code:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 62%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0904d601fc930d4f0c62a2a95b3c3b93</p></td>
+<td><p>resnet18.caffemodel</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Frame rate (post-processing not included): 113.6880/s.</p></li>
+<li><p>Model accuracy: 0.6836(INT8).</p></li>
+</ol>
+</section>
+<section id="efficientnet-lite0-1-2-3-4">
+<h3><span class="section-number">2.3.4. </span>EfficientNet_Lite0/1/2/3/4<a class="headerlink" href="#efficientnet-lite0-1-2-3-4" title="Permalink to this headline"></a></h3>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>To quickly start running samples and avoid the risks caused by third party tools,
+you are strongly recommended to utilize the off-the-shelf ONNX model in the <strong>model_zoo/mapper/</strong> directory in
+Horizon’s model release package. However, if you find it interersting to reproduce the tflite2onnx model conversion
+process, you can still try to use below third party tool, but Horizon will not be able to guarantee the quality and
+successful rate of the conversion.</p>
+</div>
+<ol class="arabic simple">
+<li><p>Model source: obtain the TAR package from <a class="reference external" href="https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite">https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/lite</a>.</p></li>
+<li><p>md5sum of the ONNX models in Horizon’s model_zoo:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>001a329bd367fbec22b415c7a33d7bdb</p></td>
+<td><p>efficientnet_lite0_fp32.onnx</p></td>
+</tr>
+<tr class="row-odd"><td><p>1205e95aea66650c71292bde236d55a9</p></td>
+<td><p>efficientnet_lite1_fp32.onnx</p></td>
+</tr>
+<tr class="row-even"><td><p>474741c15494b79a89fe51d89e0c43c7</p></td>
+<td><p>efficientnet_lite2_fp32.onnx</p></td>
+</tr>
+<tr class="row-odd"><td><p>550455b41848d333f8359279c89a6bae</p></td>
+<td><p>efficientnet_lite3_fp32.onnx</p></td>
+</tr>
+<tr class="row-even"><td><p>bde7fe57eadb4a30ef76f68da622dcd5</p></td>
+<td><p>efficientnet_lite4_fp32.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Find the .tflite file from the downloaded TAR package, and then convert it into ONNX model using the tflite2onnx tool
+(<a class="reference external" href="https://pypi.org/project/tflite2onnx/">https://pypi.org/project/tflite2onnx/</a>). Note that model layout may vary depending on different tflite2onnx tool versions.
+If the input layout of the converted ONNX model is NCHW, then specify the <code class="docutils literal notranslate"><span class="pre">input_type_train</span></code> option of EfficientNet_Lite0 as <code class="docutils literal notranslate"><span class="pre">NCHW</span></code> when building the model.
+EfficientNet_Lite1 should use <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>,
+EfficientNet_Lite2 should use <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>,
+EfficientNet_Lite3 should use <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>,
+EfficientNet_Lite4 should use <code class="docutils literal notranslate"><span class="pre">NCHW</span></code>.</p></li>
+<li><p>Frame rate (post-processing not included):</p>
+<ul class="simple">
+<li><p>EfficientNet_Lite0：437.8284/s.</p></li>
+<li><p>EfficientNet_Lite1：311.7207/s.</p></li>
+<li><p>EfficientNet_Lite2：176.4602/s.</p></li>
+<li><p>EfficientNet_Lite3：116.3467/s.</p></li>
+<li><p>EfficientNet_Lite4：65.7507/s.</p></li>
+</ul>
+</li>
+</ol>
+<p>5z. Model accuracy:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>EfficientNet_Lite0: 0.7469(INT8).</p></li>
+<li><p>EfficientNet_Lite1: 0.7625(INT8).</p></li>
+<li><p>EfficientNet_Lite2: 0.7716(INT8).</p></li>
+<li><p>EfficientNet_Lite3: 0.7905(INT8).</p></li>
+<li><p>EfficientNet_Lite4: 0.8058(INT8).</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="yolov2">
+<h3><span class="section-number">2.3.5. </span>YOLOv2<a class="headerlink" href="#yolov2" title="Permalink to this headline"></a></h3>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>To quickly start running samples and avoid the risks caused by third party tools,
+you are strongly recommended to utilize the off-the-shelf Caffe model in the <strong>model_zoo/mapper/</strong> directory in
+Horizon’s model release package. However, if you find it interersting to reproduce the darknet2caffe model conversion
+process, you can still try to use below third party tool, but Horizon will not be able to guarantee the quality and
+successful rate of the conversion.</p>
+</div>
+<ol class="arabic">
+<li><p>Download the 608x608 .cfg and .weight files of YOLOv2 from YOLO’s official website (<a class="reference external" href="https://pjreddie.com/darknet/yolo/">https://pjreddie.com/darknet/yolo/</a>)
+and convert into Caffe model using the darknet2caffe conversion tool (<a class="reference external" href="https://github.com/xingyanan/darknet2caffe">https://github.com/xingyanan/darknet2caffe</a>).
+(note that the conversion tool is a simplified version and requires modifying the <code class="docutils literal notranslate"><span class="pre">'Reshape'</span></code> layer into
+<code class="docutils literal notranslate"><span class="pre">'Passthrough'</span></code> layer in the .prototxt file before the conversion. Details about the parameters of the modified
+Passthrough layer please refer to the yolov2.prototxt sample. A NCHW2NHWC Permute operation is also added into
+the output node.)</p></li>
+<li><p>md5sum</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>7aa7a6764401cebf58e73e72fcbd2a45</p></td>
+<td><p>yolov2.caffemodel</p></td>
+</tr>
+<tr class="row-odd"><td><p>72e9a51c1e284e4b66e69f72ca9214c8</p></td>
+<td><p>yolov2_transposed.prototxt</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>Frame rate (post-processing not included): 6.4910/s.</p></li>
+<li><p>Model accuracy:</p>
+<ul class="simple">
+<li><p>[IoU=0.50:0.95]: 0.271(INT8).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="yolov3">
+<h3><span class="section-number">2.3.6. </span>YOLOv3<a class="headerlink" href="#yolov3" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>YOLOv3 model:</p></li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p>URL: <a class="reference external" href="https://github.com/ChenYingpeng/caffe-yolov3/">https://github.com/ChenYingpeng/caffe-yolov3/</a>.  The caffemodel file can be downloaded from the Baidu cloud
+url in the README.md file in github.</p></li>
+<li><p>md5sum code:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>935af6e1530af5c0017b3674adce95e9</p></td>
+<td><p>yolov3_transposed.prototxt</p></td>
+</tr>
+<tr class="row-odd"><td><p>9a0f09c850656913ec27a6da06d9f9cc</p></td>
+<td><p>yolov3.caffemodel</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Frame rate (post-processing not included): 5.9890/s.</p></li>
+<li><p>Model accuracy:</p>
+<ul class="simple">
+<li><p>[IoU=0.50:0.95]: 0.336(INT8).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="yolov5">
+<h3><span class="section-number">2.3.7. </span>YOLOv5<a class="headerlink" href="#yolov5" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>YOLOv5 model:</p></li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p>Download the corresponding pt file from: <a class="reference external" href="https://github.com/ultralytics/yolov5/releases/tag/v2.0">https://github.com/ultralytics/yolov5/releases/tag/v2.0</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>When cloning the source code, please be sure that you’re using the <span class="red">v2.0</span> Tag,
+otherwise it will cause conversion failure.</p>
+</div>
+</li>
+<li><p>md5sum code:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 74%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2e296b5e31bf1e1b6b8ea4bf36153ea5</p></td>
+<td><p>yolov5l.pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>16150e35f707a2f07e7528b89c032308</p></td>
+<td><p>yolov5m.pt</p></td>
+</tr>
+<tr class="row-even"><td><p>42c681cf466c549ff5ecfe86bcc491a0</p></td>
+<td><p>yolov5s.pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>069a6baa2a741dec8a2d44a9083b6d6e</p></td>
+<td><p>yolov5x.pt</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>To better adapt to post-processing code, before exporting the ONNX model, we should modify the code at Github as follows
+(more code details please refer to: <a class="reference external" href="https://github.com/ultralytics/yolov5/blob/v2.0/models/yolo.py">https://github.com/ultralytics/yolov5/blob/v2.0/models/yolo.py</a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="c1"># x = x.copy()  # for profiling</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># inference output</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">training</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">export</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nl</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="c1"># conv</span>
+        <span class="n">bs</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># x(bs,255,20,20) to x(bs,3,20,20,85)</span>
+<span class="hll">        <span class="c1">#  x[i] = x[i].view(bs, self.na, self.no, ny, nx).permute(0, 1, 3, 4, 2).contiguous()</span>
+</span><span class="hll">        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Remove the reshape from 4D to 5D at the end of each output branch (i.e. not to split the channel from 255 to 3x85),
+then convert the layout from NHWC to NCHW before dumping.</p>
+</div>
+<p>The bottom left image displays the visualization of a certain output node before modifying the model;
+while the bottom right image displays the visualization of the corresponding output node after modification.</p>
+<blockquote>
+<div><img alt="../_images/yolov5.png" class="align-center" src="../_images/yolov5.png" />
+</div></blockquote>
+</li>
+<li><p>After download, convert the pt file into ONNX file using the
+<a class="reference external" href="https://github.com/ultralytics/yolov5/blob/v2.0/models/export.py">https://github.com/ultralytics/yolov5/blob/v2.0/models/export.py</a> script.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>When using the export.py script:</p>
+<ol class="arabic simple">
+<li><p>Because Horizon AI Toolchain can only support ONNX opset <span class="red">10</span> and <span class="red">11</span>,
+please modify the <code class="docutils literal notranslate"><span class="pre">opset_version</span></code> parameter in the <code class="docutils literal notranslate"><span class="pre">torch.onnx.export</span></code> based on
+your expected opset version.</p></li>
+<li><p>Modify the default input name parameter in the <code class="docutils literal notranslate"><span class="pre">torch.onnx.export</span></code> from <code class="docutils literal notranslate"><span class="pre">'image'</span></code> into <code class="docutils literal notranslate"><span class="pre">'data'</span></code>
+so as to keep it consistent with that of in the YOLOv5 sample in the model conversion sample package.</p></li>
+<li><p>Modify the default data input size in the <code class="docutils literal notranslate"><span class="pre">parser.add_argument</span></code> 640x640 into 672x672 so as to keep
+it consistent with that of in the YOLOv5 sample in the model conversion sample package.</p></li>
+</ol>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Frame rate (post-processing not included): 14.8898/s.</p></li>
+<li><p>Model accuracy:</p>
+<ul class="simple">
+<li><p>[IoU=0.50:0.95]: 0.342(INT8).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="mobilenet-ssd">
+<h3><span class="section-number">2.3.8. </span>MobileNet_SSD<a class="headerlink" href="#mobilenet-ssd" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>MobilenetSSD model:</p></li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p>Obtain Caffe model from URL: <a class="reference external" href="https://github.com/chuanqi305/MobileNet-SSD">https://github.com/chuanqi305/MobileNet-SSD</a>.</p></li>
+<li><p>md5sum code:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 51%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>bbcb3b6a0afe1ec89e1288096b5b8c66</p></td>
+<td><p>mobilenet_iter_73000.caffemodel</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Frame rate (post-processing not included): 141.1831/s.</p></li>
+<li><p>Model accuracy(mAP): 0.7188(INT8).</p></li>
+</ol>
+</section>
+<section id="efficientnet-det">
+<h3><span class="section-number">2.3.9. </span>EfficientNet_Det<a class="headerlink" href="#efficientnet-det" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Model source: <a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/EfficientDet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/EfficientDet</a>.</p></li>
+<li><p>md5sum code:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 59%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ec4129c4b300cd04f1e8f71e0fe54ca5</p></td>
+<td><p>efficientdet_nhwc.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Frame rate (post-processing not included): 60.5804/s.</p></li>
+<li><p>Model accuracy:</p>
+<ul class="simple">
+<li><p>[IoU=0.50:0.95]: 0.313(INT8).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="centernet">
+<h3><span class="section-number">2.3.10. </span>CenterNet<a class="headerlink" href="#centernet" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Model source: <a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/Centernet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/Centernet</a>.</p></li>
+<li><p>md5sum code:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>fa1e884882a54fa3520d1e51477b4c1a</p></td>
+<td><p>centernet_resnet50.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Frame rate (post-processing not included): 8.4940/s.</p></li>
+<li><p>Model accuracy:</p>
+<ul class="simple">
+<li><p>[IoU=0.50:0.95]: 0.313(INT8).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="unet">
+<h3><span class="section-number">2.3.11. </span>UNet<a class="headerlink" href="#unet" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Model source: <a class="reference external" href="https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/MobilenetUnet">https://github.com/HorizonRobotics-Platform/ModelZoo/tree/master/MobilenetUnet</a>.</p></li>
+<li><p>md5sum code:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 61%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>21c6c645ebca92befbebc8c39d385c1e</p></td>
+<td><p>tf_unet_trained.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Frame rate (post-processing not included): 24.1057/s.</p></li>
+<li><p>Model accuracy:</p>
+<ul class="simple">
+<li><p>accuracy: 0.9366(INT8).</p></li>
+<li><p>mIoU: 0.638184(INT8).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="fcos">
+<h3><span class="section-number">2.3.12. </span>FCOS<a class="headerlink" href="#fcos" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Model source can be obtained from Horizon’s open source repo, the repo url is TBD.</p></li>
+<li><p>md5sum code:</p></li>
+</ol>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 76%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>md5sum</p></th>
+<th class="head"><p>File</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1321e3f5cbb7c4a521e41820174a82d5</p></td>
+<td><p>fcos.onnx</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Frame rate (post-processing not included): 73.8498/s.</p></li>
+<li><p>Model accuracy:</p>
+<ul class="simple">
+<li><p>[IoU=0.50:0.95]: 0.345(INT8).</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="a-demonstration-of-the-algorithm-model-samples">
+<h2><span class="section-number">2.4. </span>A Demonstration of the Algorithm Model Samples<a class="headerlink" href="#a-demonstration-of-the-algorithm-model-samples" title="Permalink to this headline"></a></h2>
+<p>This chapter takes the YOLOv2 model as an example, uses the scripts in the <cite>04_detection/01_yolov2/mapper/</cite> folder
+to display some key steps in the conversion from floating-point model into fixed-point model such as:
+check model, prepare dataset, build heterogeneous model and evaluate model accuracy.</p>
+<section id="enter-a-docker-container">
+<h3><span class="section-number">2.4.1. </span>Enter A Docker container<a class="headerlink" href="#enter-a-docker-container" title="Permalink to this headline"></a></h3>
+<p>Firstly, please accomplish Docker installation, configuration and enter a Docker container in accordance with the descriptions in:
+<a class="reference external" href="../../horizon_ai_toolchain_user_guide/chapter_2_prerequisites.html#docker">Use Docker</a> section in the <cite>Horizon AI Toolchain User Guide</cite>.</p>
+</section>
+<section id="check-if-models-are-executable">
+<h3><span class="section-number">2.4.2. </span>Check if models are executable<a class="headerlink" href="#check-if-models-are-executable" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>As shown below, run below script:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. enter the folder where the demonstration script is located</span>
+<span class="nb">cd</span> ddk/samples/ai_toolchain/horizon_model_convert_sample/04_detection/01_yolov2/mapper
+<span class="c1"># 2. execute model check</span>
+sh 01_check.sh
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Output of model check:</p></li>
+</ol>
+<blockquote>
+<div><p>The abovementioned script uses the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">checker</span></code> tool to check whether the model can be supported by Horizon’s
+ASIC. Meanwhile, an OP list should be dumped in order to display whether an OP is processed by the BPU or the CPU.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">===================================================</span>
+Node         ON   Subgraph  Type
+---------------------------------------------------
+layer1_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer1_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer2_maxpool   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer3_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer3_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer4_maxpool   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer5_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer5_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer6_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer6_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer7_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer7_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer8_maxpool   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer9_conv      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer9_act       BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer10_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer10_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer11_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer11_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer12_maxpool  BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer13_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer13_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer14_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer14_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer15_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer15_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer16_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer16_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer17_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer17_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer18_maxpool  BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzQuantizedMaxPool
+layer19_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer19_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer20_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer20_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer21_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer21_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer22_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer22_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer23_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer23_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer24_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer24_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer25_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer25_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer27_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer27_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer28_reorg    BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSpaceToDepth
+layer29_concat   BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     Concat
+layer30_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+layer30_act      BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzLeakyRelu
+layer31_conv     BPU  id<span class="o">(</span><span class="m">0</span><span class="o">)</span>     HzSQuantizedConv
+----------------------End--------------------------
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Currently the model conversion tool can support at most 32 output.
+An error will be reported in case the output number of the original model
+is more than 32.</p>
+</div>
+</div></blockquote>
+</section>
+<section id="prepare-calibration-dataset">
+<h3><span class="section-number">2.4.3. </span>Prepare Calibration Dataset<a class="headerlink" href="#prepare-calibration-dataset" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple" start="3">
+<li><p>Perform the <code class="docutils literal notranslate"><span class="pre">02_preprocess.sh</span></code> script in the same directory as shown below:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert the images in 01_common/data/coco/calibration_data</span>
+<span class="c1"># into: ./calibration_data_rgb_f32</span>
+<span class="n">sh</span> <span class="mi">02</span><span class="n">_preprocess</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>50 images from the COCO dataset are extracted as calibration dataset.</dt><dd><p><strong>pad-resize/ into rgb</strong> is performed as pre-processing before calibration.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>The <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tool will load data from the converted binaries, the format of binary data file</dt><dd><p>after pre-processing is: c-order matrix storage, and data type of each matrix value is int8.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+</div></blockquote>
+</section>
+<section id="build-heterogeneous-model">
+<h3><span class="section-number">2.4.4. </span>Build Heterogeneous Model<a class="headerlink" href="#build-heterogeneous-model" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple" start="4">
+<li><p>Perform the <code class="docutils literal notranslate"><span class="pre">03_build.sh</span></code> script in the same directory, as shown below:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="mi">03</span><span class="n">_build</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The abovementioned script uses the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tool to convert model.
+Details of the most concerned configuration file please refer to
+the 7.1.5 Detailed Introduction of Configuration File section in the
+<cite>X3J3_Toolchain_Docs_{version}_EN/index.html</cite> doc.</p>
+</div>
+<p>Output of the abovementioned script is shown as below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt; ls model_output <span class="p">|</span> cat
+full_yolov2_subgraph_0.html
+full_yolov2_subgraph_0.json
+<span class="hll">yolov2_608x608_nv12.bin
+</span>yolov2_608x608_nv12_optimized_float_model.onnx
+yolov2_608x608_nv12_original_float_model.onnx
+yolov2_608x608_nv12_quantized_model.onnx
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For now you ONLY need to focus on the <strong>yolov2_608x608_nv12.bin</strong> file
+because other files will be explained in the tool details section.</p>
+</div>
+</div></blockquote>
+</section>
+<section id="accuracy-evaluation">
+<h3><span class="section-number">2.4.5. </span>Accuracy Evaluation<a class="headerlink" href="#accuracy-evaluation" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple" start="5">
+<li><p>As shown below, perform the <code class="docutils literal notranslate"><span class="pre">05_evaluate.sh</span></code> script to evaluate accuracy:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PARALLEL_PROCESS_NUM</span><span class="o">=</span><span class="si">${</span><span class="nv">parallel_process_num</span><span class="si">}</span>
+sh 05_evaluate.sh
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ol class="arabic simple">
+<li><p>As image <strong>pre-processing</strong>, model data <strong>post-processing</strong> are required in accuracy evaluation,
+a Python sample script is offered for your reference. Please refer to <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">05_evaluate.sh</span></code> for more details.</p></li>
+<li><p>To accelerate evaluation, please adjust the number of concurrent process while pay attention to the memory utilization.</p></li>
+</ol>
+</div>
+</div></blockquote>
+</section>
+</section>
+<section id="faq">
+<h2><span class="section-number">2.5. </span>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline"></a></h2>
+<section id="how-to-match-the-inference-results-of-the-onnx-original-floating-point-model-and-the-hb-mapper-makertbin-tool-generated-original-float-model-onnx-model">
+<h3><span class="section-number">2.5.1. </span>How to match the inference results of the ONNX original floating-point model and the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> tool generated ***_original_float_model.onnx model?<a class="headerlink" href="#how-to-match-the-inference-results-of-the-onnx-original-floating-point-model-and-the-hb-mapper-makertbin-tool-generated-original-float-model-onnx-model" title="Permalink to this headline"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Horizon Robotics’ <code class="docutils literal notranslate"><span class="pre">hb_mapper</span></code> tools can match user trained ONNX original floating-point model and tool generated
+***_original_float_model.onnx model. Therefore, this validation is not part of the required model conversion process.</p>
+</div>
+<p><strong>1. Understand the concepts of the 2 models</strong></p>
+<p>Let’s first be crystal clear about the concepts of the 2 models.</p>
+<p>The former refers to developer own trained ONNX floating-point models using opensource frameworks e.g. TensorFlow、PyTorch、MXNet,
+who are also referred to as the original floating-point model here.</p>
+<p>While the latter refers to the ***_original_float_model.onnx intermediate model as the output of either the <code class="docutils literal notranslate"><span class="pre">hb_mapper</span> <span class="pre">makertbin</span></code> tool,
+or the 03_classification/${modelname}/mapper/03_build.sh script in Horizon Robotics’ model conversion sample package
+(i.e. the horizon_model_convert_sample). Wherein, the *** denotes the name of a specific model (e.g. MobileNetv1 or UNet etc.).</p>
+<p><strong>2. Understand the distinctions between the 2 models</strong></p>
+<p>The computing accuracy of the ***_original_float_model.onnx model and the original floating-point model, as conversion input, should be the
+same. While <span class="red">a vital distinction is that some data pre-processing compute are added into the ***_original_float_model.onnx.</span>
+Typically, you don’t really need to use this model unless there is abnormality in conversion results. In such case, giving this model to
+Horizon Robotics’ technical support personnel can help quickly find out the root cause of conversion abnormality.</p>
+<p><strong>3. Write your own script to match the 2 models</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following contents take the mobilenet_onnx model in horizon_model_convert_sample package as an example to describe how to
+match the inference results of the 2 models.</p>
+</div>
+<p>Developers need to write their own script in order to match the inference results of the 2 models.</p>
+<p><span class="red">please note the follwing points</span> when writing your script.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<ol class="arabic simple">
+<li><p>The image data processing logic in your script should be the same as that of in the mapper/preprocess.py script in the sample package,
+in order to avoid inference result difference caused by different image data processing logics.
+Note that code logic varies as sample package updates. Please refer to the image data preprocessing script or contact Horizon’s
+technical personnel. The transformer methods to preprocess image data please refer to the following code block:</p></li>
+</ol>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../../../01_common/python/data/&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformer</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">dataloader</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># image calibration transformer</span>
+<span class="k">def</span> <span class="nf">calibration_transformers</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  step：</span>
+<span class="sd">      1、PIL resize to 256</span>
+<span class="sd">      2、crop size 224*224 from PIL center</span>
+<span class="sd">      3、NHWC to NCHW</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">PILResizeTransformer</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span>
+        <span class="n">PILCenterCropTransformer</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">224</span><span class="p">),</span>
+        <span class="n">HWC2CHWTransformer</span><span class="p">(),</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">transformers</span>
+
+<span class="c1"># image inference transformer</span>
+<span class="k">def</span> <span class="nf">infer_transformers</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  step：</span>
+<span class="sd">      1、PIL resize to 256</span>
+<span class="sd">      2、crop size 224*224 from PIL center</span>
+<span class="sd">      3、bgr to nv12</span>
+<span class="sd">      4、nv12 to yuv444</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">PILResizeTransformer</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span>
+        <span class="n">PILCenterCropTransformer</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">224</span><span class="p">),</span>
+        <span class="n">BGR2NV12Transformer</span><span class="p">(</span><span class="n">data_format</span><span class="o">=</span><span class="s2">&quot;HWC&quot;</span><span class="p">),</span>
+        <span class="n">NV12ToYUV444Transformer</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)),</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">transformers</span>
+</pre></div>
+</div>
+<p>Developers can refer to the following example code to match image data pre-processing logic:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ShortSideResizeTransformer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">short_size</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">height</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">:</span>
+        <span class="n">off</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+                            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">short_size</span> <span class="o">*</span> <span class="n">off</span><span class="p">),</span> <span class="n">short_size</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">off</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="n">width</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+                            <span class="p">(</span><span class="n">short_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">short_size</span> <span class="o">*</span> <span class="n">off</span><span class="p">)))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">image</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">CenterCropTransformer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">resize_height</span><span class="p">,</span> <span class="n">resize_width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">resize_up</span> <span class="o">=</span> <span class="n">resize_height</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">crop_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">resize_left</span> <span class="o">=</span> <span class="n">resize_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">crop_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">resize_up</span><span class="p">:</span><span class="n">resize_up</span> <span class="o">+</span>
+                    <span class="n">crop_size</span><span class="p">,</span> <span class="n">resize_left</span><span class="p">:</span><span class="n">resize_left</span> <span class="o">+</span>
+                    <span class="n">crop_size</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">ShortSideResizeTransformer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">short_size</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>  <span class="c1"># ShortSideResize</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">CenterCropTransformer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="o">=</span><span class="mi">224</span><span class="p">)</span>  <span class="c1"># CenterCrop</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>   <span class="c1"># HWC2CHW</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">*</span> <span class="mi">255</span>  <span class="c1"># (0, 1) --&gt; (0, 255)</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<ol class="arabic simple" start="2">
+<li><p>As shown in below graph, a HzPreprocess operator is added into the mobilenetv2_224x224_nv12_original_float_model.onnx model,
+in order to implement the <code class="docutils literal notranslate"><span class="pre">data_mean_and_scale</span></code> operation in mobilenetv2_config.yaml.</p></li>
+</ol>
+</div>
+<img alt="../_images/hzpreprocess.png" class="align-center" src="../_images/hzpreprocess.png" />
+<p>Therefore, developers need to implement normalization based on the <code class="docutils literal notranslate"><span class="pre">mean_value</span></code> and <code class="docutils literal notranslate"><span class="pre">scale_value</span></code>
+parameters in mobilenetv2_config.yaml. Refer to below code block:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Normalize</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">123.675</span><span class="p">,</span> <span class="mf">116.28</span><span class="p">,</span> <span class="mf">103.53</span><span class="p">])</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.01712</span><span class="p">,</span> <span class="mf">0.0175</span><span class="p">,</span> <span class="mf">0.01743</span><span class="p">])</span>
+<span class="n">norm_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">norm_data</span><span class="p">[</span><span class="n">i</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">,:,:]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">scale</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="n">norm_data</span> <span class="o">=</span> <span class="n">norm_data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<ol class="arabic simple" start="3">
+<li><p>By default, the mapper/04_inference.sh script in all model sub-folders implement fixed-point model
+inference, therefore, when validating the inference result of a floating-point model, the command
+should be changed into  <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">04_inference.sh</span> <span class="pre">origin</span></code> in order to inference floating-point model.
+Note that code logic varies as sample package updates, please refer to the annotations in the
+03_classification/04_mobilenet_onnx/mapper/04_inference.sh script.</p></li>
+</ol>
+</div>
+<p>After the abovementioned points are implemented, you will be able to match the inference results of the 2 models.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01_general_descriptions.html" class="btn btn-neutral float-left" title="1. General Descriptions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03_misc_sample.html" class="btn btn-neutral float-right" title="3. Other Samples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, horizon.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

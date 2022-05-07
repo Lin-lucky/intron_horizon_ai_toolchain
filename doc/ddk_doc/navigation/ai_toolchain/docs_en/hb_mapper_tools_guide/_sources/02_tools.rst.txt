@@ -1,0 +1,19 @@
+Tools Usage
+===================
+
+.. note::
+
+  This chapter elaborates how to use Horizon AI Toolchain's model conversion command-line tools, 
+  describing the usages, parameters, outputs etc.
+
+.. toctree::
+  
+  03_tools/hb_mapper
+  03_tools/hb_perf
+  03_tools/vec_diff
+  03_tools/model_info
+  03_tools/hb_pack
+  03_tools/hb_model_verifier
+  03_tools/hb_model_modifier
+  03_tools/hb_custom_op
+  03_tools/hb_eval_preprocess

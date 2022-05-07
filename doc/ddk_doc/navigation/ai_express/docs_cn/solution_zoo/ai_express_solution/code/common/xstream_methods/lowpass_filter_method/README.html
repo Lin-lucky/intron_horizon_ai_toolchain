@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>LowPassFilterMethod &mdash; AIExpress Solution Zoo  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> AIExpress Solution Zoo
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">参考解决方案概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../multitask_perception_solution/README.html">多任务感知参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usb_camera_solution/README.html">USB CAMERA参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../video_box_solution/README.html">多路视频分析盒子参考解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../solution_example/yolov3_mobilenetv2_example/README.html">示例：如何基于AI-EXPRESS集成模型</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AIExpress Solution Zoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>LowPassFilterMethod</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../../_sources/ai_express_solution/code/common/xstream_methods/lowpass_filter_method/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lowpassfiltermethod">
+<h1>LowPassFilterMethod<a class="headerlink" href="#lowpassfiltermethod" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>功能<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>LowPassFiltermethod采用OneEuroFilter滤波策略对点和框做平滑操作，用于对box和kps进行位置纠正，修复box和kps的抖动问题。</p>
+</div>
+<div class="section" id="id2">
+<h2>原理<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>在去抖动过程中，滤波是一种常见方法，但是滤波会存在一个抖动和延迟平衡的问题，以一阶低通滤波器为例：</p>
+<p><img alt="一阶低通滤波" src="../../../../../_images/one_order.png" /></p>
+<p>当α比较小的时候可以起到比较好的滤波作用，突变值可以很好被消除，所以对抖动的抵抗能力就比较强。但是当我们的信号正常变化的时候，由于α系数的关系，会导致滤波后的信号的变化出现滞后，并且α越小，这种滞后就越严重——这也就是延迟问题。</p>
+<p>One Euro Filter就是针对jitter(抖动)和lag(延迟)的问题，提出了一种改进的，自适应的低通滤波器。</p>
+<p>当信号变化的不剧烈的时候，大家对抖动比较敏感，使用比较小的α，这样可以尽量减小抖动。</p>
+<p>当信号变化比较剧烈的时候，大家对延迟比较敏感，就使用较大的α，这样可以让滤波信号快速跟踪上原始信号变化，减小延迟。</p>
+<p>具体方法如下：
+RC电路系统中，时间常数time constant τ和截断频率cutoff frequency fc之间的关系如下：</p>
+<p><img alt="时间常数" src="../../../../../_images/t-f.png" /></p>
+<p>信号的采样周期为Te，那么我们定义α为：</p>
+<p><img alt="alpha" src="../../../../../_images/alpha.png" /></p>
+<p>然后根据低通滤波公式，随着fc减小，τ会增大，α减小，这样可以比较好的消除jitter；反之，可以减小lag。
+所以我们可以通过动态调节fc来达到自适应调节的功能，one euro filter定义了</p>
+<p><img alt="fc" src="../../../../../_images/fc.png" /></p>
+<p>其中<img alt="Xi" src="../../../../../_images/Xi.png" />是原始信号的梯度（两次采样除以采样周期），再经过一次低通滤波，这里的低通滤波的截止频率是固定的，这样可以避免梯度非常大，而导致抖动：</p>
+<p><img alt="dX" src="../../../../../_images/dX.png" /></p>
+<p><img alt="X" src="../../../../../_images/X.png" /></p>
+<p>这里的αd是在固定截止频率f的情况下得到的。</p>
+<p>这里我们发现α和fc成正常相关，α和防lag成正相关，和防jitter成负相关。
+当我们的系统信号X变化较剧烈时，会导致fc变大，从而α增大，使系统向防lag一方倾斜；
+当我们的系统信号X变化很小时，会导致fc变小，从而α减小，使系统向防jitter一方倾斜。
+通过以上步骤，系统完成了自适应的过程。</p>
+</div>
+<div class="section" id="id3">
+<h2>实现<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>输入<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>|Slot |内容 |备注 |
+|:—:|:—:|:—:|
+|0|box_list|可为face,body,hand等|
+|1|kps_list|与box_list对应的kps|
+|2|disappeared_id_list|消失的track_id|</p>
+</div>
+<div class="section" id="id5">
+<h3>输出<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>|Slot |内容 |备注 |
+|:—:|:—:|:—:|
+|0|box_filtered_list||
+|1|kps_filtered_list||</p>
+</div>
+<div class="section" id="id6">
+<h3>配置文件<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>|字段      |描述     |默认值     |
+|:—:|:—:|:—:|
+|dcutoff|截止频率|1.0|
+|beta|调整截止频率fc的系数|0.1|
+|mincutoff|截止频率下限|0.2|
+|frequence|信号采样频率|120|</p>
+</div>
+<div class="section" id="id7">
+<h3>基本类定义<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="lowpassfilter">
+<h4>LowPassFilter<a class="headerlink" href="#lowpassfilter" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LowPassFilter</span> <span class="p">{</span>
+  <span class="kt">double</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">s</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">initialized</span><span class="p">;</span>
+ 
+  <span class="kt">void</span> <span class="nf">setAlpha</span><span class="p">(</span><span class="kt">double</span> <span class="n">alpha</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="o">||</span> <span class="n">alpha</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">range_error</span><span class="p">(</span><span class="s">&quot;alpha should be in (0.0., 1.0]&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">LowPassFilter</span><span class="p">(</span><span class="kt">double</span> <span class="n">alpha</span><span class="p">,</span> <span class="kt">double</span> <span class="n">initval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">s</span> <span class="o">=</span> <span class="n">initval</span><span class="p">;</span>
+    <span class="n">setAlpha</span><span class="p">(</span><span class="n">alpha</span><span class="p">);</span>
+    <span class="n">initialized</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+  <span class="kt">double</span> <span class="n">filter</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">double</span> <span class="n">result</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">initialized</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">value</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">s</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+      <span class="n">initialized</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+  <span class="kt">double</span> <span class="n">filterWithAlpha</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">,</span> <span class="kt">double</span> <span class="n">alpha</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">setAlpha</span><span class="p">(</span><span class="n">alpha</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">filter</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+  <span class="p">}</span>
+ 
+  <span class="kt">bool</span> <span class="n">hasLastRawValue</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">initialized</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+  <span class="kt">double</span> <span class="n">lastRawValue</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>核心接口filter为一阶低通滤波：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">value</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">s</span>
+</pre></div>
+</div>
+<p>value为本次输入坐标值，a为alpha系数，s为上次滤波输出值，该接口完成对当前输入值的滤波处理。</p>
+</div>
+<div class="section" id="oneeurofilter">
+<h4>OneEuroFilter<a class="headerlink" href="#oneeurofilter" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OneEuroFilter</span> <span class="p">{</span>
+  <span class="kt">double</span> <span class="n">freq</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">mincutoff</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">beta_</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">dcutoff</span><span class="p">;</span>
+  <span class="n">LowPassFilter</span> <span class="o">*</span><span class="n">x</span><span class="p">;</span>
+  <span class="n">LowPassFilter</span> <span class="o">*</span><span class="n">dx</span><span class="p">;</span>
+  <span class="n">TimeStamp</span> <span class="n">lasttime</span><span class="p">;</span>
+ 
+<span class="kt">double</span> <span class="nf">alpha</span><span class="p">(</span><span class="kt">double</span> <span class="n">cutoff</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">double</span> <span class="n">te</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">freq</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">tau</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">M_PI</span><span class="o">*</span><span class="n">cutoff</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">tau</span><span class="o">/</span><span class="n">te</span><span class="p">);</span>
+<span class="p">}</span>
+ 
+<span class="kt">void</span> <span class="nf">setFrequency</span><span class="p">(</span><span class="kt">double</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">range_error</span><span class="p">(</span><span class="s">&quot;freq should be &gt;0&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">freq</span> <span class="o">=</span> <span class="n">f</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="kt">void</span> <span class="nf">setMinCutoff</span><span class="p">(</span><span class="kt">double</span> <span class="n">mc</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">mc</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">range_error</span><span class="p">(</span><span class="s">&quot;mincutoff should be &gt;0&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">mincutoff</span> <span class="o">=</span> <span class="n">mc</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="kt">void</span> <span class="nf">setBeta</span><span class="p">(</span><span class="kt">double</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">beta_</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="kt">void</span> <span class="nf">setDerivateCutoff</span><span class="p">(</span><span class="kt">double</span> <span class="n">dc</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">dc</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">range_error</span><span class="p">(</span><span class="s">&quot;dcutoff should be &gt;0&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">dcutoff</span> <span class="o">=</span> <span class="n">dc</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">OneEuroFilter</span><span class="p">(</span><span class="kt">double</span> <span class="n">freq</span><span class="p">,</span>
+  <span class="kt">double</span> <span class="n">mincutoff</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="kt">double</span> <span class="n">beta_</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dcutoff</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">setFrequency</span><span class="p">(</span><span class="n">freq</span><span class="p">);</span>
+  <span class="n">setMinCutoff</span><span class="p">(</span><span class="n">mincutoff</span><span class="p">);</span>
+  <span class="n">setBeta</span><span class="p">(</span><span class="n">beta_</span><span class="p">);</span>
+  <span class="n">setDerivateCutoff</span><span class="p">(</span><span class="n">dcutoff</span><span class="p">);</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LowPassFilter</span><span class="p">(</span><span class="n">alpha</span><span class="p">(</span><span class="n">mincutoff</span><span class="p">));</span>
+  <span class="n">dx</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LowPassFilter</span><span class="p">(</span><span class="n">alpha</span><span class="p">(</span><span class="n">dcutoff</span><span class="p">));</span>
+  <span class="n">lasttime</span> <span class="o">=</span> <span class="n">UndefinedTime</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="n">OneEuroFilter</span><span class="p">(</span><span class="k">const</span> <span class="n">OneEuroFilter</span><span class="o">&amp;</span> <span class="n">filter</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">freq</span> <span class="o">=</span> <span class="n">filter</span><span class="p">.</span><span class="n">freq</span><span class="p">;</span>
+  <span class="n">mincutoff</span> <span class="o">=</span> <span class="n">filter</span><span class="p">.</span><span class="n">mincutoff</span><span class="p">;</span>
+  <span class="n">beta_</span> <span class="o">=</span> <span class="n">filter</span><span class="p">.</span><span class="n">beta_</span><span class="p">;</span>
+  <span class="n">dcutoff</span> <span class="o">=</span> <span class="n">filter</span><span class="p">.</span><span class="n">dcutoff</span><span class="p">;</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">filter</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+  <span class="n">dx</span> <span class="o">=</span> <span class="n">filter</span><span class="p">.</span><span class="n">dx</span><span class="p">;</span>
+  <span class="n">lasttime</span> <span class="o">=</span> <span class="n">filter</span><span class="p">.</span><span class="n">lasttime</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="kt">double</span> <span class="n">filter</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">,</span> <span class="n">TimeStamp</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="n">UndefinedTime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//  update the sampling frequency based on timestamps</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">lasttime</span> <span class="o">!=</span> <span class="n">UndefinedTime</span> <span class="o">&amp;&amp;</span> <span class="n">timestamp</span> <span class="o">!=</span> <span class="n">UndefinedTime</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">timestamp</span><span class="o">-</span><span class="n">lasttime</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">lasttime</span> <span class="o">=</span> <span class="n">timestamp</span><span class="p">;</span>
+  <span class="c1">//  estimate the current variation per second</span>
+  <span class="kt">double</span> <span class="n">dvalue</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">hasLastRawValue</span><span class="p">()</span> <span class="o">?</span>
+  <span class="p">(</span><span class="n">value</span> <span class="o">-</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">lastRawValue</span><span class="p">())</span> <span class="o">*</span> <span class="nl">freq</span> <span class="p">:</span> <span class="mf">0.0</span><span class="p">;</span>  <span class="c1">//  FIXME: 0.0 or value?</span>
+  <span class="c1">//  double dvalue = last_value ? (value - last_value) * freq : 0.0;</span>
+  <span class="kt">double</span> <span class="n">edvalue</span> <span class="o">=</span> <span class="n">dx</span><span class="o">-&gt;</span><span class="n">filterWithAlpha</span><span class="p">(</span><span class="n">dvalue</span><span class="p">,</span> <span class="n">alpha</span><span class="p">(</span><span class="n">dcutoff</span><span class="p">));</span>
+  <span class="c1">// use it to update the cutoff frequency</span>
+  <span class="kt">double</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="n">mincutoff</span> <span class="o">+</span> <span class="n">beta_</span> <span class="o">*</span> <span class="n">fabs</span><span class="p">(</span><span class="n">edvalue</span><span class="p">);</span>
+  <span class="c1">// filter the given value</span>
+  <span class="k">return</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">filterWithAlpha</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">alpha</span><span class="p">(</span><span class="n">cutoff</span><span class="p">));</span>
+<span class="p">}</span>
+ 
+<span class="o">~</span><span class="n">OneEuroFilter</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">delete</span> <span class="n">x</span><span class="p">;</span>
+  <span class="k">delete</span> <span class="n">dx</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>这里的filter为实现算法的核心函数，首先计算信号的梯度dvalue,然后对其进行固定alpha值的一阶低通滤波操作，得到
+edvalue。然后根据edvalue动态更新截止频率fc，最后就利用更新的fc再对测量信号value做一次低通滤波，即完成所有操作。</p>
+<p>OneEuroFilter有2个重要参数，mincutoff和beta，分别用于消除慢动作（静态画面）的抖动和快动作的延迟。</p>
+<p>目前针对body的框和关键点，设置mincutoff为0.2，beta为0.1效果较好；针对hand的框和关键点，mincutoff为0.01，beta为0.2效果较好。</p>
+</div>
+</div>
+<div class="section" id="workflow">
+<h3>workflow示例<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h3>
+<p>这里增加了body和hand的One Euro Filter处理：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;image&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;body_lowpassfilter_box&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;head_final_box&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;face_final_box&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hand_lowpassfilter_box&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lowpassfilter_body_kps&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mask&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lowpassfilter_hand_lmk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gesture_vote&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hand_disappeared_track_id_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bound_rect_filter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gender&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lmk_106pts&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;workflow&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;FasterRCNNMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;multi_task&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;image&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;body_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;head_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;face_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hand_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;kps&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mask&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;multitask_with_hand_960x544.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;FilterMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;box_filter&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;face_box&quot;</span><span class="p">,</span> <span class="s2">&quot;head_box&quot;</span><span class="p">,</span> <span class="s2">&quot;body_box&quot;</span><span class="p">,</span> <span class="s2">&quot;kps&quot;</span><span class="p">,</span> <span class="s2">&quot;hand_box&quot;</span><span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;box_filter_info&quot;</span><span class="p">,</span> <span class="s2">&quot;face_box_after_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;head_box_after_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;body_box_after_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;kps_after_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;hand_box_after_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;bound_rect_filter&quot;</span><span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;box_filter_config.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;MOTMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;face_mot&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;face_box_after_filter&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_bbox_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;face_disappeared_track_id_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;iou2_method_param.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;MOTMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;head_mot&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;head_box_after_filter&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;head_bbox_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;head_disappeared_track_id_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;iou2_method_param.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;MOTMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;body_mot&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_box_after_filter&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;body_bbox_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_disappeared_track_id_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;iou2_method_param.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;MOTMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;hand_mot&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hand_box_after_filter&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;hand_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hand_disappeared_track_id_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;iou2_euclid_method_param.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;MergeMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;merge_method&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_bbox_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;head_bbox_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_bbox_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;face_disappeared_track_id_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;head_disappeared_track_id_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_disappeared_track_id_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;head_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;disappeared_track_id&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;merge_head_body.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;LowPassFilterMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lowpassfilter_method&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;body_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;disappeared_track_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;kps&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;lowpassfilter_body_kps&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body_lowpassfilter_box&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;lowpassfilter_body_config.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CNNMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lmk_106pts&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;lmk_106pts&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;lmk_106pts.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CNNMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;hand_lmk&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;hand_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;hand_lmk&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;hand_lmk.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CNNMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;gesture_recog&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;hand_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hand_lmk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hand_disappeared_track_id_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;gesture&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;gesture_det.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;VoteMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;gesture_voting&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;hand_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hand_disappeared_track_id_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gesture&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;gesture_vote&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;gesture_voting.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;thread_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;LowPassFilterMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lowpassfilter_hand_method&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;hand_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;disappeared_track_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hand_lmk&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;lowpassfilter_hand_lmk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hand_lowpassfilter_box&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;lowpassfilter_hand_config.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;CNNMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;age_gender&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;age_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gender_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;age_gender.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;VoteMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;age_voting&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;disappeared_track_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;age_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;age&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;age_voting.json&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;method_type&quot;</span><span class="p">:</span> <span class="s2">&quot;VoteMethod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;unique_name&quot;</span><span class="p">:</span> <span class="s2">&quot;gender_voting&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;face_final_box&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;disappeared_track_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gender_list&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;gender&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;method_config_file&quot;</span><span class="p">:</span> <span class="s2">&quot;gender_voting.json&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Horizon Robotics.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

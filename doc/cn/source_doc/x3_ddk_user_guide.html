@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>开发平台概述</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="开发环境搭建" href="../common_doc_cn/xj3_ddk_quick_start.html" />
+  <link rel="prev" title="常见系统命令" href="../common_doc_cn/xj3_board_command.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">地平线 X3J3 芯片开发手册</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">整体概述</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">芯片介绍</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/x3_soc_user_guide.html" class="reference internal ">旭日X3芯片概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_soc_contrast.html" class="reference internal ">X3与J3差异描述</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">开发套件介绍</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_board_overview.html" class="reference internal ">开发套件概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/x3_sdb_overview.html" class="reference internal ">X3 SDB生态套件</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_board_update_guide.html" class="reference internal ">固件升级手册</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_board_command.html" class="reference internal ">常见系统命令</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">天工开物开发平台</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">开发平台概述</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#id2" class="reference internal">1. 基础系统软件</a></li>
+                
+                  <li class="toctree-l2"><a href="#ai" class="reference internal">2. AI芯片工具链</a></li>
+                
+                  <li class="toctree-l2"><a href="#ai-express" class="reference internal">3. AI Express应用开发组件&框架</a></li>
+                
+                  <li class="toctree-l2"><a href="#id8" class="reference internal">4. AI参考解决方案示例</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_ddk_quick_start.html" class="reference internal ">开发环境搭建</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/xj3_ddk_sample.html" class="reference internal ">应用开发示例</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_ddk_docs.html" class="reference internal ">附录：开发手册</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">其他</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../common_doc_cn/other_sources.html" class="reference internal ">社区资源索引</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>开发平台概述</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="../common_doc_cn/xj3_board_command.html"
+       title="previous chapter">← 常见系统命令</a>
+  </li>
+  <li class="next">
+    <a href="../common_doc_cn/xj3_ddk_quick_start.html"
+       title="next chapter">开发环境搭建 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="id1">
+<h1>开发平台概述<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>地平线芯片开发平台产品产品名称为OpenExplorer天工开物 开发平台，它是地平线自研的芯片配套基础AI应用开发平台。</p>
+<img alt="../_images/open-explorer-x.png" class="align-center" src="../_images/open-explorer-x.png" />
+<p>它由基础系统软件及驱动、AI芯片工具链、AI Express应用开发组件&amp;框架以及应用参考解决示例四个部分组成。</p>
+<div class="section" id="id2">
+<h2>1. 基础系统软件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>XJ3 芯片的系统为 <code class="docutils literal notranslate"><span class="pre">嵌入式Linux</span></code> ，针对芯片内部的各个硬件，系统软件层面提供了相应的API供您去使用，其中主要包括以下内容：</p>
+<ul class="simple">
+<li><p><strong>图像通路</strong>：包括MIPI，ISP，IPU等各个图像通路模块的API函数列表以及H264/265/JPEG编解码模块的API函数列表。</p></li>
+<li><p><strong>ION内存操作</strong>：内存操作相关函数。</p></li>
+<li><p><strong>BPU硬件相关</strong>：查询BPU AI加速器的状态。</p></li>
+<li><p><strong>其他</strong>：包括GPIO，USB等外设的操作API函数以及Linux系统相关API函数。</p></li>
+</ul>
+<p>除了API函数以外，系统软件层面也提供了一些工具集用于查询查询和调整系统OS层面相关配置。关于系统软件相关功能使用，请参考对应的产品手册。</p>
+</div>
+<div class="section" id="ai">
+<h2>2. AI芯片工具链<a class="headerlink" href="#ai" title="Permalink to this headline">¶</a></h2>
+<p>AI芯片工具链，又称AI Toolchain，它重点是解决如何在地平线芯片上完成深度神经网络模型的训练、转换以及模型部署问题。</p>
+<p>地平线AI芯片工具链核心采用了模型量化技术来实现深度神经网络模型的计算加速。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>深度神经网络模型量化属于一种深度神经网络的性能优化技术，它通过降低权重和激活值的精度来减小存储&amp;计算量，进而实现芯片级别的计算加速。
+非量化场景下，模型权重和激活值都为Float 32bit，通过量化为16bit，8bit，4bit，可以成倍的减小计算量。</p>
+<p>常见有16bit，8bit，4bit等量化方案，目前地平线XJ2/XJ3采用8bit量化方案。</p>
+</div>
+<p>地平线量化工具链主要包括两套：<strong>量化训练工具链</strong> 和 <strong>浮点转定点工具链</strong>，分别对应社区的QAT（Quantification Aware Training）量化感知训练和PTQ（Post-Training Quantization）后量化转换，如下所示：</p>
+<a class="reference internal image-reference" href="../_images/ai-toolchain.png"><img alt="../_images/ai-toolchain.png" class="align-center" src="../_images/ai-toolchain.png" style="width: 833.0px; height: 363.0px;" /></a>
+<div class="section" id="id3">
+<h3>2.1 量化训练方案<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>量化训练方案即量化感知训练方案，支持在模型训练过程中，直接训练出量化模型。地平线量化训练方案是基于社区训练框架的基础上进行开发。
+XJ3芯片支持Mxnet Gluon，Tensorflow两套框架，J5芯片支持Pytorch框架，预计2021年下半年也会针对XJ3芯片支持Pytorch框架。</p>
+<p>针对每种框架，我们采用量化Plugin插件+Vision算法包+ModelZoo模型仓库的组合方案进行产品交付。以Tensorflow量化训练工具链为例：</p>
+<a class="reference internal image-reference" href="../_images/tensorflow-plugin.png"><img alt="../_images/tensorflow-plugin.png" class="align-center" src="../_images/tensorflow-plugin.png" style="width: 995.2px; height: 378.40000000000003px;" /></a>
+<ol class="arabic simple">
+<li><p><strong>Horizon Plugin Tensorflow量化插件</strong>：以Tensorflow Plugin方式，新增量化算子和量化训练能力支持。</p></li>
+<li><p><strong>Horizon Vision Tensorflow算法包</strong>：围绕嵌入式视觉场景，针对开源Tensorflow进行各种维度的增强，其中包括数据预处理，Loss函数，Metric指标，Callback功能，训练工具等功能增强，
+内置了各种基础backboones/postprocess结构，可快速在算子开发过程中进行复用，提高算法开发效率。
+同时我们在算法包中内置地平线优势的模型，基于这些优势模型，用户基于私有数据可以快速训练自己出自己的产品化模型。</p></li>
+<li><p><strong>Horzion Model Zoo模型仓库</strong>：将地平线积累的各种pretrain模型和训练脚本进行开放，包括基础模型和参考模型。</p></li>
+</ol>
+<p>经过量化训练工具链生成的模型还仅仅是量化模型，比如tensorflow量化训练工具训练后生成的是 <code class="docutils literal notranslate"><span class="pre">PB格式</span></code> 量化模型，在部署到地平线芯片之前，需要使用 <strong>HBDK芯片编译器工具链</strong> 对模型进行编译，
+将PB格式模型转换为指令集模型(文件后缀名为.hbm)。</p>
+<p>HBDK芯片编译器工具链是一套命令行工具集合，其中以hbdk-cc编译器为主，支持将量化训练的定点模型，编译成HBM指令集文件，进而可以在地平线AI芯片中进行部署。
+同时提供了hbdk-pack模型打包工具链支持将多个HBM指令集文件进行打包，简化上板部署。另外围绕模型静态评测，模型X86仿真评估以及模型一致性验证工具，提供了hbdk-perf,hbdk-sim和hbdk-model-verfier工具集。</p>
+<a class="reference internal image-reference" href="../_images/hbdk.png"><img alt="../_images/hbdk.png" src="../_images/hbdk.png" style="width: 910.8px; height: 432.0px;" /></a>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hbdk-cc</span></code>：将模型（MXNet/TensorFlow）编译成模型库文件（.hbm）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hbdk-pack</span></code>：将一个或多个模型库文件（.hbm）打包成一个模型库文件（.hbm）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hbdk-perf</span></code>：评估模型库文件（.hbm）中的模型在X3/J3上运行的性能，生成性能分析报告。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hbdk-model-verifier</span></code>：验证模型库中的模型，确保在X3/J3上运行结果的正确性。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hbdk-sim</span></code>：运行模型库中的模型，得到预测结果。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hbdk-model-check</span></code>：按照指定BPU架构标准去检查算法模型是否满足要求。</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>量化训练方案可以贴合地平线芯片的优势，构建出更加符合地平线芯片的量化模型，进而可以获取到更高的模型性能和量化精度。
+但是对算法人员的模型设计以及模型量化训练都是有一定侵入性，具有一定的学习和上手成本</p>
+<p>因此我们暂时默认不对外发布量化训练工具链，如果你有相关需求，可以联系我们销售和技术支持获取。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>2.2 浮点转定点工具链<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>浮点转定点工具链即后量化转换方案，通过工具方式将原始浮点模型，利用少量校准数据集对模型做量化校准，并编译生成为可以在地平线芯片上运行的指令级模型。</p>
+<p>使用流程如下：</p>
+<a class="reference internal image-reference" href="../_images/hb_mapper.png"><img alt="../_images/hb_mapper.png" class="align-center" src="../_images/hb_mapper.png" style="width: 1024.8px; height: 292.8px;" /></a>
+<p>如上图所示，地平线模型量化转换方案不仅仅是传统概念上模型参数的Quantization定点化流程，
+而是一个完整模型解析，模型结构优化，模型定点化，以及模型指令编译与优化过程，最后交付的是一个可以直接在地平线芯片上部署的异构混合模型。</p>
+<p>浮点转换原生支持Caffe和ONNX模型，其中ONNX支持到最新的opset10，11，其他Pytorch，Tensorflow等框架都可以通过转换为ONNX模型来使用我们转换工具链。</p>
+<p>与量化感知训练方案相比，浮点转定点方案使用起来更加简单，算子支持范围更完整，针对典型模型，量化工具可以很好的保持量化精度，因此优先推荐你使用浮点转换工具链。
+但是如果您尝试了浮点转换工具链提供的各种量化精度技术手段都无法满足你的量化精度需求时，你可以尝试用量化训练方案进行解决。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>浮点转定点工具链生成物是异构混合模型bin文件，与量化训练方案中最后的定点模型hbm文件有概念上的差异。</p>
+<p>其中HBM文件内部指令为在地平线BPU AI加速器进行计算，而BIN文件内部除了可以包含多个HBM段以外，还有一些会在CPU上执行的模型算子
+比如Abs，Clip，Div，Elu，Exp等算子，它们会在CPU上按照FP32方式进行计算。</p>
+<p>浮点转换工具链也是通过支持CPU算子和BPU算子的方式来提高模型适配能力，提升工具链的易用性。</p>
+</div>
+</div>
+</div>
+<div class="section" id="ai-express">
+<h2>3. AI Express应用开发组件&amp;框架<a class="headerlink" href="#ai-express" title="Permalink to this headline">¶</a></h2>
+<p>AI Express应用开发组件&amp;框架，主要面向嵌入式应用系统开发人员，通过提供应用开发框架，应用开发组件以及应用示例来引导开发者快速、高效的完成AI应用开发。</p>
+<p>AI Express应用开发组件&amp;框架主要包括如下类型组件：</p>
+<ol class="arabic simple">
+<li><p><strong>简易化的模型集成</strong> ：在AI芯片工具链的 <code class="docutils literal notranslate"><span class="pre">BPU</span> <span class="pre">DNN</span> <span class="pre">Runtime</span> <span class="pre">推理预测库</span></code> 基础上，新增了 <code class="docutils literal notranslate"><span class="pre">XStream</span> <span class="pre">模型集成框架</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Model</span> <span class="pre">Inference</span> <span class="pre">模型推理</span></code> 两个功能组件来显著提高嵌入式模型集成效率。</p></li>
+<li><p><strong>简化图像数据输入</strong> ：针对MIPI和USB类型Sensor数据流以及RTSP被文件回灌数据流两种场景提供Video Source虚拟化实现，开发者使用简单接口可以快速拉取原始图像数据。</p></li>
+<li><p><strong>基于消息总线的嵌入式应用开发模式</strong> ：在边缘AI场景下，AI应用常见表现为消息驱动的工作模式，从Sensor的视频输入，视频编解码，图像预处理，图像拼接，AI处理以及渲染传输，
+我们为开发者提供了 <code class="docutils literal notranslate"><span class="pre">XProto应用开发框架</span></code> 来简化应用程序开发，它提供了标准化的消息总线，并支持进程内，跨进程以及跨芯片的数据PUB/SUB能力。</p></li>
+<li><p><strong>数据推送和可视化</strong> ：除了XProto提供的PUB/SUB能力之外，我们还提供了RTSP推送服务，UVC通信服务以及Web Service渲染可视化能力，满足各种场景下数据推送和可视化的需求。</p></li>
+</ol>
+<div class="section" id="id5">
+<h3>3.1 模型集成<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>从AI算法工具链拿到指令级算法模型(hbm/bin模型)到最终产品化算法SDK交付过程中，会面临非常各种技术难点，比如性能问题，复用问题，可扩展性问题等。
+针对这些难点，我们提供了 <code class="docutils literal notranslate"><span class="pre">BPU</span> <span class="pre">DNN</span> <span class="pre">Runtime</span> <span class="pre">推理预测库</span></code>, <code class="docutils literal notranslate"><span class="pre">XStream算法</span> <span class="pre">SDK</span> <span class="pre">集成框架</span></code>, <code class="docutils literal notranslate"><span class="pre">Model-Inference模型集成组件</span></code> 等组件来解决，
+这些组件的针对不同技术问题提供对应的解决方案，从而更高效支持您在地平线芯片上完成算法模型的集成。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>嵌入式模型集成面临的技术难点：</dt><dd><ul class="simple">
+<li><p>可用性问题：</p>
+<ul>
+<li><p>需要提供嵌入式模型预测库，在AI芯片上完成模型加载、预测推理等</p></li>
+<li><p>需要支持在X86环境下对模型推理的流程进行功能仿真验证。</p></li>
+</ul>
+</li>
+<li><p>性能问题：</p>
+<ul>
+<li><p>单模型预测Pipeline包括模型前处理，模型推理，模型后处理，此时需要考虑Pipeline的并行和并发问题。</p></li>
+<li><p>多模型多路推理场景，需要考虑模型间的调度有序性高效性。</p></li>
+<li><p>模型，策略的并行化对底层多线程框架有较大的性能挑战，其中包括线程并发数，线程复用，线程优先级等。</p></li>
+</ul>
+</li>
+<li><p>复用问题：</p>
+<ul>
+<li><p>模型预测Pipeline支持沉淀为标准模块，并支持在多个应用场景下复用。</p></li>
+<li><p>单个策略模块(比如跟踪策略，抓拍策略等)以标准化组件形成进行沉淀，并支持在多个应用场景下复用。</p></li>
+<li><p>由多个模型和策略组合起来的workflow模型业务流，支持在多个应用场景下复用。</p></li>
+</ul>
+</li>
+<li><p>可扩展性问题：</p>
+<ul>
+<li><p>多模型Workflow需要支持灵活的策略、模型扩展能力，满足业务场景持续升级的需求。</p></li>
+</ul>
+</li>
+<li><p>易用性问题</p>
+<ul>
+<li><p>如何快速完成模型预测Pipeline的开发？如何更快的贴近地平线芯片视频通路完成模型推理输入输出链路的构建？</p></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<p>针对这些问题，我们通过 <code class="docutils literal notranslate"><span class="pre">BPU</span> <span class="pre">DNN</span> <span class="pre">Runtime</span> <span class="pre">推理预测库</span></code>, <code class="docutils literal notranslate"><span class="pre">XStream算法</span> <span class="pre">SDK</span> <span class="pre">集成框架</span></code>, <code class="docutils literal notranslate"><span class="pre">Model-Inference模型集成组件</span></code> 三个组件来解决：</p>
+<ol class="arabic simple">
+<li><p><strong>BPU DNN Runtime 推理预测库</strong> ：提供API接口支持在地平线AI芯片上完成模型加载，预测等基础功能，主要解决上述的可用性问题。</p></li>
+<li><p><strong>XStream算法 SDK 集成框架</strong> ：定位多线程框架，支持以标准化组件的方式来实现模型和策略的高效集成和模块沉淀，主要解决上述的性能问题，复用问题以及可扩展性问题。</p></li>
+<li><p><strong>Model-Inference模型集成组件</strong> ：是基于XStream算法 SDK 集成框架之上，解决如何快速完成模型在Pipeline上的集成，如何解决多个模型调度有序性高效性，聚焦在易用性和性能问题上.</p></li>
+</ol>
+<p>关于相关组件的使用，请参考对应的开发手册进行使用。</p>
+</div>
+<div class="section" id="id6">
+<h3>3.2 消息总线<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>在边缘AI场景下，AI应用常见表现为消息驱动的工作模式，从Sensor的视频输入，视频编解码，图像预处理，图像拼接，AI处理以及渲染传输，
+整个数据流表现为多个插件模块的 <strong>Pull消费消息 + Process处理消息 + Push产生新的消息</strong> 。</p>
+<p>示意图如下所示：</p>
+<img alt="../_images/xproto_struct.png" class="align-center" src="../_images/xproto_struct.png" />
+<p>在地平线AI Express应用开发组件&amp;框架中，我们提供了XProto消息总线应用开发框架，它提供标准化的plugin应用插件开发接口，支持各个插件向总线push/pull消息。
+同时XProto消息总线应用开发框架不仅仅支持单个进程内的数据流转，而且还支持多进程和跨芯片(基于以太网)的数据传输方案，为应用架构提供非常灵活的方案支持。</p>
+<p>围绕XProto消息总线应用开发框架，我们也内置了Sensor虚拟化、数据推送和可视化等预开发应用插件，基于这些插件可以快速完成你业务逻辑的开发。</p>
+<p>进一步关于XProto消息总线应用开发框架的使用，请参考开发手册。</p>
+</div>
+<div class="section" id="sensor">
+<h3>3.3 Sensor虚拟化<a class="headerlink" href="#sensor" title="Permalink to this headline">¶</a></h3>
+<p>在地平线AI芯片中，我们内置了丰富的图像处理硬件模块，其中视频输入Video In,视频输出Video Out,视频编解码Video CODEC以及图像编解码Image Process。
+在系统软件层面，会针对每个模块提供驱动级API供用户去构建图像链路，从而获取到图像数据。</p>
+<p>从应用开发组件角度，我提供了 <code class="docutils literal notranslate"><span class="pre">VideoSource</span></code> 应用开发组件，相比使用系统软件驱动级API，VideoSource提供了更加简单接口去获取数据Sensor数据，
+并且支持MIPI，USB，RTSP网络数据流，文件回灌场景，支持单路和多路同步，可以非常灵活满足各种业务场景下的需求。</p>
+<p>进一步关于VideoSource应用开发组件的使用，请参考开发手册。</p>
+</div>
+<div class="section" id="id7">
+<h3>3.4 数据推送和可视化<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>产品开发和验证环节，通常需要将原始图像和智能结构化数据推送到外部可视化端，从而可以进行可视化验证。</p>
+<p>针对该场景，我们支持提供RTSP 推送服务，UVC通信服务和Web Service Display渲染组件来供你使用。</p>
+<ol class="arabic simple">
+<li><p><strong>RTSP 推送服务</strong>：支持将原始视频帧或者视频帧+智能结构化数据进行统一编码，并通过RTSP协议进行推送，用户可以基于RTSP播放器可视化视频流和智能结构化数据。</p></li>
+<li><p><strong>UVC 通信服务</strong>：基于UVC通信信息，将X3作为USB Host将编码后的视频数据推送到USB客户端。</p></li>
+<li><p><strong>Web Service Display渲染组件</strong>：Web可视化组件，通过WebService协议将视频帧+结构化数据推送到web页面进行可视化。</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>RTSP Service组件支持将原始视频帧或者视频帧+智能结构化数据进行统一编码，并通过RTSP协议进行推送，但是VLC等公开RTSP播放器默认无法渲染结构化数据，仅能可视化视频帧。</p>
+<p>其中结构化数据采用PB格式进行序列化，我可以提供PB Schema支持用户自行反序列化和开发私有RTSP播放器，来实现视频帧+结构化数据可视化。</p>
+</div>
+<p>进一步关于数据推送和可视化的使用，请参考开发手册。</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>4. AI参考解决方案示例<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>围绕AIOT场景开放了多任务感知参考解决方案，智能盒子参考解决方案，TV-USB Camera参考解决方案以及智能车路协同参考解决方案。</p>
+<p>用户可以直接基于这些方案，快速完成自己的产品开发。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>AI参考解决方案示例当前我们在DDK开发包中，默认只开放了多任务感知参考解决和智能盒子参考解决方案两个源码，其他示例源码如果需要请联系我们商务进行获取。</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="../common_doc_cn/xj3_board_command.html"
+       title="previous chapter">← 常见系统命令</a>
+  </li>
+  <li class="next">
+    <a href="../common_doc_cn/xj3_ddk_quick_start.html"
+       title="next chapter">开发环境搭建 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

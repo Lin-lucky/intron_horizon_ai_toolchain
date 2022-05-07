@@ -1,0 +1,53 @@
+The ``hb_perf`` Tool
+=======================
+
+The ``hb_perf`` tool is used for analyzing the performance of the quantized heterogeneous models (HGMs).
+
+How To Use
+--------------
+
+.. code-block::
+
+  hb_perf [OPTIONS] BIN_FILE
+
+Parameters
+-------------------
+
+.. data:: hb_perf's parameters
+
+  --version
+    This parameter displays version information and exit.
+
+  -m
+    This parameter specifies model name. 
+    When the BIN_FILE is a packed model, it will only dump the compilation information of the specified model.
+    
+  --help
+    This parameter displays help information and exit.
+
+Output
+----------------------
+
+Model information will be dumped into the `hb_perf_result` folder in current directory. 
+Wherein, there is a folder named after the model name, in which contains the HTML file named also after the model name. 
+Refer to below directory structure:
+
+.. code-block:: shell
+
+  hb_perf_result/
+  └── mobilenetv1
+      ├── mobilenetv1
+      ├── mobilenetv1.html
+      ├── mobilenetv1.png
+      ├── MOBILENET_subgraph_0.html
+      ├── MOBILENET_subgraph_0.json
+      └── temp.hbm
+
+If the debug mode (``compiler_parameters.debug:True``) was off in compilation, then ``hb_perf`` should generate the 
+following message. The message only indicates that there is no layer information in the subgraph.
+
+.. code-block::
+
+  2021-01-12 10:41:40,000 WARNING bpu model don't have per-layer perf info.
+  2021-01-12 10:41:40,000 WARNING if you need per-layer perf info please enable[compiler_parameters.debug:True] when use makertbin.
+

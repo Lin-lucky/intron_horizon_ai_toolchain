@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>固件升级手册</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <!-- bundled in js (rollup iife) -->
+      <!-- <link rel="stylesheet" href="../_static/theme.css"> -->
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/css/theme.css " type="text/css" />
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="常见系统命令" href="xj3_board_command.html" />
+  <link rel="prev" title="X3 SDB生态套件" href="x3_sdb_overview.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">地平线 X3J3 芯片开发手册</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="https://horizon.ai/"
+        class="nav-link external">
+          地平线官网 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://developer.horizon.ai/"
+        class="nav-link external">
+          社区问题求助 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="https://wenjuan.feishu.cn/m?t=srSlsnSEmgsi-ambr"
+        class="nav-link external">
+          产品使用反馈 <outboundlink></outboundlink>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">整体概述</a></span>
+      </p>
+      <ul class="">
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">芯片介绍</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="x3_soc_user_guide.html" class="reference internal ">旭日X3芯片概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_soc_contrast.html" class="reference internal ">X3与J3差异描述</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">开发套件介绍</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 "><a href="xj3_board_overview.html" class="reference internal ">开发套件概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="x3_sdb_overview.html" class="reference internal ">X3 SDB生态套件</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">固件升级手册</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#id2" class="reference internal">1. 系统镜像</a></li>
+                
+                  <li class="toctree-l2"><a href="#id3" class="reference internal">1. 升级工具</a></li>
+                
+                  <li class="toctree-l2"><a href="#id4" class="reference internal">3. 升级方式</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_board_command.html" class="reference internal ">常见系统命令</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">天工开物开发平台</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_user_guide.html" class="reference internal ">开发平台概述</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_quick_start.html" class="reference internal ">开发环境搭建</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="xj3_ddk_sample.html" class="reference internal ">应用开发示例</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../source_doc/x3_ddk_docs.html" class="reference internal ">附录：开发手册</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#x3j3">其他</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="other_sources.html" class="reference internal ">社区资源索引</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>固件升级手册</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="x3_sdb_overview.html"
+       title="previous chapter">← X3 SDB生态套件</a>
+  </li>
+  <li class="next">
+    <a href="xj3_board_command.html"
+       title="next chapter">常见系统命令 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="id1">
+<h1>固件升级手册<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>本章节我们将会围绕 X3 SDB 开发板介绍如何进行板卡系统固件升级，J3 DVB开发版本使用方法类似。</p>
+<div class="section" id="id2">
+<h2>1. 系统镜像<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>XJ3 芯片的系统为 <code class="docutils literal notranslate"><span class="pre">嵌入式Linux</span></code> ，固件采用预先编译好镜像 <code class="docutils literal notranslate"><span class="pre">X3J3-Img-PL2.0-${version}.tgz</span></code> 和PlatformSDK源码 <code class="docutils literal notranslate"><span class="pre">X3J3-PlatformSDK-PL2.0-${version}.tgz</span></code> 两种方式进行发布，详细请参考 <code class="docutils literal notranslate"><span class="pre">bsp/</span></code> 发布目录。其中对于 PlatformSDK 源码发布包，支持用户根据自己的需求来对源码功能进行裁剪或修改，并编译生成自己私有的系统镜像。</p>
+<p>在 PlatformSDK 源码包中，我们已经自带交叉编译工具链，并配置好了编译脚本等参数，路径在 <code class="docutils literal notranslate"><span class="pre">bsp/PlatformSDK/prebuilts/host</span></code>，用户只需要搭建好编译环境，即可快速完成系统镜像的源码编译。目前我们支持在Ubuntu18.04 和 Centos7 两个系统下编译 PlatformSDK。</p>
+<p>对于 Ubuntu18.04，需要按照以下命令搭建编译环境:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt install build-essential
+sudo apt-get install make
+sudo apt install cmake
+sudo apt install bison
+sudo apt install flex
+sudo apt-get install python-numpy
+sudo apt install android-tools-fsutils
+sudo apt install mtd-utils
+sudo apt install zlib1g-dev
+</pre></div>
+</div>
+<p>对于 Centos7 系统，需要按照如下命令搭建编译环境：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>yum install glib cmake gcc bison flex minicom python-pip
+pip install numpy
+yum install make_ext4fs-1.0.0-1.el7.x86_64.rpm
+yum install zlib-devel
+yum install mtd-utils-1.5.0-2.el6.nux.x86_64.rpm
+</pre></div>
+</div>
+<p>环境配置后，采用如下指令进行编译：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> ./build/envsetup.sh
+lunch
+./build.sh -m <span class="o">{</span>memory_type<span class="o">}</span> -f <span class="o">{</span>frequency<span class="o">}</span> -i2
+</pre></div>
+</div>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">build.sh</span></code> 可配置参数如下，用户可以根据开发板硬件配置编译出对应的镜像</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>bash build.sh -h
+  [-c src|pre|mod|none] [-h]
+  [-b &lt;xj3|cvb|x3dvb|j3dvb|customer|fpga&gt;_&lt;ap|uart|emmc|nor|nand&gt;]
+  [-f 2133|2666|3200|3733|4266]
+  [-e uboot|all|ut|nor|nand|ft|gui|ful|cramfs|squashfs|cpio]
+  [-E DDR ECC pre defined mode select |0|1|2|3|4]
+  [-k sdk|exsdk]
+  [-d dual_boot]
+  [-v db|dt]
+  [-r recovery]
+  [-u ubifs]
+  [-n ddr_name]
+  [-m hynix|micron|samsung]
+  [-t LPDDR4|LPDDR4X|DDR4|DDR3L]
+  [-a 1|2|4]
+  [-o x3som|j3som]
+  [-p yes|no]
+  [-g stresstest|gcov]
+  [-s all | secure | kernel | avb_dm]
+  [-x 0|1]
+  [-l]
+  [-i] set ddr_alternative, no blank bewteen i and set value
+  [-I] enable dfs
+  [modulename [action]]
+完整参数如下：
+  -c              default is mod
+    &#39;src&#39; means build minimal rootfs from yocto and all modules in MODULES_MANIFEST
+    &#39;mod&#39; means get rootfs from prebuilts and build all modules in MODULES_MANIFEST
+    &#39;pre&#39; means get binaries from prebuilts
+    &#39;none&#39; means build specified module
+  -k              build sdk
+    &#39;sdk&#39; contains include,lib and example
+    &#39;exsdk&#39; contains more contents
+  -v              build version db - daily build   dt - distribution release
+  -e              build image
+    &#39;uboot&#39; means build image up until uboot
+    &#39;all&#39; means all partitions combine in, no unittest
+    &#39;ut&#39; means unittest will be combined in
+    &#39;ft&#39; means factory test image
+    &#39;nor&#39; means norflash
+    &#39;nand&#39; means nandflash
+    &#39;nand_4096&#39; means nandflash with 4096 pagesize
+    &#39;gui&#39; means rootfs with minigui
+    &#39;ful&#39; means rootfs with large size for app debug
+    &#39;cramfs&#39; means rootfs type is cramfs, according to ramdisk.manifest
+    &#39;squashfs&#39; means rootfs type is squashfs, according to ramdisk.manifest
+    &#39;cpio&#39; means Image with cpio according to ramdisk.manifest
+  -E              ddr ECC pre defined mode select
+    0--off
+    1--gran 0(1/8) map 127(01111111) , default option
+    2--gran 0(1/8) map 15(00001111)
+    3--gran 1(1/16) map 127(01111111)
+    4--gran 1(1/16) map 15(00001111)
+    append: DDR_SBR_PATTERN0 DDR_SBR_PATTERN1 can be set,to initialize related registers at ddr initialization
+  -f              ddr frequences. Default is 2666
+  -b              choose board type and boot mode and set environment BOARD_TYPE and BOOT_MODE. i.e., svb_emmc. Default is 0som_emmc
+  -d              dual boot partiton
+  -r              build recovery.gz
+    &#39;recovery&#39; means support recovery mode
+  -u              flash file system selection
+    &#39;ubifs&#39; means using ubifs file system in flash
+  -n              ddr manufacturer&#39;s name, default is ddrphy_phyinit
+  -F              enable FDE(Full Disk Encryption) feature
+  -g              special test options
+    &#39;stresstest&#39; means using test spl image
+    &#39;gcov&#39; means build gcov coverage test image
+  -s              select secure image type, by default, ONLY Kernel verification is enabled
+    &#39;all&#39; means build all images with different verification modes where disk.img is the default image
+    &#39;secure&#39; means EFUSE encryption, Kernel verification and dm-verity are enalbed
+    &#39;kernel&#39; means ONLY Kernel verification is enabled (NO EFUSE or dm-verity)
+    &#39;avb_dm&#39;  means ONLY Kernel verification and dm-verity is enalbed (NO EFUSE)
+  -x              BPU framework version default, version 0
+    &#39;0&#39;:bpu framework version 0
+    &#39;1&#39;:bpu framework version 1
+  -i              set ddr_alternative in boardid, set to 1(default) in xg-1g is used for compile dfs image,
+          set to 2 is xg-2g,no blank bewteen i and set value
+  -l              gets the minimum boot log image, include spl, bl31, uboot and kernel log
+  modulename      module in the MODULES_MANIFEST. If not selected, no module will be rebuild.
+    if &#39;all&#39; is present, it means all modules in MODULES_MANIFEST are selected
+  action          all, all_32, clean
+    &#39;all&#39; means compile 64-bit module, only used when TARGET_BIT is 64
+    &#39;all_32&#39; means compile 32-bit module, only used when TARGET_BIT is 32
+    &#39;clean&#39; means clean up module
+示例如下：
+  build xj3 sdb samsung 3200 image : ./build.sh -m samsung -f 3200 -i2 -s secure
+</pre></div>
+</div>
+<p>编译完成会基于 <code class="docutils literal notranslate"><span class="pre">PlatformSDK</span></code> 文件夹输出一个 <code class="docutils literal notranslate"><span class="pre">out/horizon_x3-release.64/target/deploy/</span></code> 文件夹，与预先编译好的镜像 <code class="docutils literal notranslate"><span class="pre">X3J3-Img-PL2.0-${version}.tgz</span></code> 压缩包解压后的目录结构一致，如下所示。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>PLATFORMSDK_OUT
+├── <span class="m">30500020</span>-emmc-3200-all-gpt.conf
+├── <span class="m">30500020</span>-emmc-3200-all-gpt-dual.conf
+├── bl31
+├── bl31.img
+├── boot
+├── boot.img
+├── bpu
+├── combind_disk_app
+├── cr5
+├── ddr
+├── ddr.img
+├── disk.img
+├── fastboot_config.json
+├── gen_disk.sh
+├── gen_ota.sh
+├── gpt_backup_dual.img
+├── gpt_backup.img
+├── gpt_main_dual.img
+├── gpt_main.img
+├── mbr
+├── mbr.bin
+├── ota
+├── recovery
+├── recovery.img
+├── sbl
+├── sbl.img
+├── system
+├── system.img
+├── uboot
+├── ubootbak
+├── uboot.img
+├── usb_uart_pkg
+├── vbmeta
+├── vbmeta.img
+├── veeprom
+└── veeprom.img
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">PLATFORMSDK_OUT</span></code> 目录中包含了每个分区镜像及 <code class="docutils literal notranslate"><span class="pre">gen_disk.sh</span></code> 打包脚本，说明如下。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash gen_disk.sh -h
+  usage: gen_disk.sh &lt;-b board&gt; <span class="o">[</span>-s<span class="o">]</span> <span class="o">[</span>-u<span class="o">]</span> <span class="o">[</span>-t Debug/Release<span class="o">]</span> <span class="o">[</span>-i uboot<span class="o">]</span> <span class="o">[</span> -l <span class="o">]</span> <span class="o">[</span>-o output_file<span class="o">]</span> <span class="o">[</span>-F<span class="o">]</span>
+  avaliable board  : -b xj3<span class="o">(</span>auto detect<span class="o">)</span>, x3_dvb, j3_dvb, xj3_cvb, xj3_sdb, xj3_cus<span class="o">(</span>customer<span class="o">)</span> board
+  output file name : -o specify the output file name instead of generate automatically
+  secure image     : -s generate secure image
+  unittests        : -u generate images with unittests
+  uboot image      : -i uboot    contain the image before uboot partition
+  optimize boot    : -l reduce boot log <span class="k">for</span> performance <span class="nb">test</span> and projects that are needed
+  ddr <span class="nb">type</span>         : -m specify ddr type, e.g. hynix_lpddr4
+  dual_boot        : -d generate dual_boot disk image, currently only supported on emmc
+  force generate   : -F ignore any missing files and generate disk.img
+  dfs boot         : -k generate image to support dfs, supported in only non-secure image
+  cvb power <span class="nb">test</span>   : -c generate image to support cvb <span class="m">3200</span> power <span class="nb">test</span>
+  pin secure mode  : -p generate image to support boot pin secure mode to <span class="nb">test</span> suspend/resume
+  ddr_alternative  : -a <span class="nb">set</span> ddr_alternative, <span class="nb">set</span> to <span class="m">2</span> in xg is used <span class="k">for</span> xg-2g
+  <span class="m">4096</span> nand page   : --nand_4096 generate nand image of <span class="m">4096</span> page size
+示例如下:
+  build xj3 UT disk image           :   ./gen_disk.sh -b xj3 -u
+  build xj3 normal disk image       :   ./gen_disk.sh -b xj3
+  build xj3 micron ddr4 disk image  :   ./gen_disk.sh -b xj3 -m micron_ddr4
+  build xj3 secure disk image       :   ./gen_disk.sh -b xj3 -s -F
+  build xj3 UT dual boot disk image :   ./gen_disk.sh -b xj3 -u -d
+  build xj3 samsung <span class="m">3200</span> image      :   ./gen_disk.sh -b xj3 -u -t Release -m samsung -a <span class="m">2</span> -F -s
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">gen_disk.sh</span></code> 脚本所生成的镜像受具体参数设置的影响。因此用户可调整具体参数值生成定制化的镜像。</p>
+</div>
+<div class="section" id="id3">
+<h2>1. 升级工具<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>针对板卡系统升级，我们提供了一键式工具 hbupdate，支持通过网口，串口以及 USB 口对板卡进行升级，完整工具集合请参考 <code class="docutils literal notranslate"><span class="pre">tools/</span></code> 目录，其中包括：</p>
+<ol class="arabic simple">
+<li><p><strong>0A_PL2302-USB-to-Serial-Comm-Port.zip</strong>：PL2303 串口驱动</p></li>
+<li><p><strong>0A_CP210x_USB2UART_Driver.zip</strong>: CP210X 串口驱动</p></li>
+<li><p><strong>0A_PL2303-M_LogoDriver_Setup_v202_20200527.zip</strong>: PL2302 串口驱动</p></li>
+<li><p><strong>0B_hbupdate_win64_${version}.zip</strong>：用于 Window 64 环境下的一键式升级工具</p></li>
+<li><p><strong>0B_hbupdate_linux_cli_${version}.tgz</strong>: 用于 Ubuntu 环境下的命令行升级工具</p></li>
+<li><p><strong>0B_hbupdate_linux_gui_${version}.tgz</strong>：用于 Ubuntu 环境下的一键式升级工具</p></li>
+<li><p><strong>0B_hbupdate_mac_${version}.app.tar.gz</strong>：用于 MacOS 环境下的一键式升级工具</p></li>
+<li><p><strong>0B_hbupdate_burn_secure-key1.zip</strong>：用于 Window 64 环境下，将芯片烧写成 secure chip 的 hbupdate 升级工具</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>secure chip 是一种系统安全保护机制，避免芯片软件系统运行过程中被强制破解，从而提高对应用系统和数据的安全保护。
+如果你手上当前的板卡芯片为非 secure chip，那么你第一次需要先使用 <code class="docutils literal notranslate"><span class="pre">0B_hbupdate_burn_secure-key1.zip</span></code> 工具，将芯片刷机成 secure chip，以后就可以使用普通 <code class="docutils literal notranslate"><span class="pre">hbupdate</span></code> 工具进行升级。
+secure chip 是不可逆的，首次使用 <code class="docutils literal notranslate"><span class="pre">0B_hbupdate_burn_secure-key1.zip</span></code> 刷机成功后，未来都需要通过 <code class="docutils literal notranslate"><span class="pre">./gen_disk.sh</span> <span class="pre">-b</span> <span class="pre">xj3</span> <span class="pre">-F</span> <span class="pre">-s</span> <span class="pre">secure</span></code> 方式来生成 secure 的系统镜像。</p>
+<p>由于 secure chip 对应用层无感，所以我们建议优先将芯片刷成 secure chip，以保证芯片开发系统和未来应用系统一致。</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>secure chip的镜像与non-secure chip的镜像互不兼容，即，secure chip的开发板无法烧录non-secure chip的镜像，non-secure chip的开发板无法烧录secure的系统镜像。</p>
+</div>
+<p>在连接开发板进行 hbupdate 之前，请优先在你的宿主机系统中安装串口驱动，我们默认提供了 CP210X、PL2302、PL2303 系列串口驱动，请根据你的宿主机系统选择对应驱动进行安装，或者依次尝试。如果三个驱动安全完成后还是无法正确连接开发板，请联系地平线技术支持进行解决。</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>在执行升级之前，请将升级工具添加至杀毒软件白名单中，或关闭杀毒软件，否则可能导致升级失败。</p>
+</div>
+<p>打开 hbupdate 升级工具，会有如下操作界面。(此处仅以v1.0.8hbupdate升级工具为例，其他版本升级工具和镜像操作方式类似)</p>
+<img alt="../_images/hbupdate_full.png" src="../_images/hbupdate_full.png" />
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>文件</strong>：</dt><dd><ul>
+<li><p>语言切换——可以切换”中文”，”English”</p></li>
+<li><p>保存设置——对当前界面进行保存，下次打开软件后，所有设置与保存前相同</p></li>
+<li><p>退出——关闭软件</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>产品类型</strong>： 可以选择产品类型下支持的产品，对于 X3 生态开发板(xj3_sdb)，请选择 XJ3-key1</p></li>
+<li><dl class="simple">
+<dt><strong>擦除</strong>： 这里列出来的擦除分区列表是和 data/board_config/xj3-key1/xj3_dvb.json 中的”erase_part”字段是对应的。</dt><dd><p>注意：这里默认擦除是只擦除每个分区的 superblock 分区大小，如果是要整个分区强制全部擦除，
+要勾选上下面的 <code class="docutils literal notranslate"><span class="pre">整个分区擦除</span></code> 选项（这样做会减小 storage 使用寿命，时间也会更久一点）。</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>波特率</strong>： 可以在界面进行波特率的设置，不需要再修改 json 文件。</p></li>
+<li><p><strong>分区备份</strong>： 这里只有 uart/uboot + fastboot 的方式才可以使用该功能</p></li>
+<li><p><strong>产品名称</strong>： 可以选择开发板的产品名称，对于 X3 生态开发板(xj3_sdb)，请选择 xj3_sdb</p></li>
+<li><p><strong>下载模式</strong>： 支持 ”ota”、”uboot”、”uart”、“fastboot”、“ota_old” 五种模式。</p></li>
+<li><p><strong>下载方式</strong>： 支持 ”sftp”、”tftp”、”adb”、“socket” 四种方式，配合下载模式使用。</p></li>
+<li><p><strong>内存类型</strong>： xj3_sdb 生态板默认为 samsung 颗粒，此处可不用选择。</p></li>
+<li><dl class="simple">
+<dt><strong>升级后检查</strong>： 此选项只适用于 “uboot” 和 “uart” 两种 “下载模式”。</dt><dd><p>注意：如果勾选此处，将会在升级结束后自动重启开发板，若能正常进入 X3 端 Linux shell 则判定为升级成功。
+如果不勾选则升级完成后不对开发板做任何操作，需由用户自行重启检查</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>显示串口输出</strong>： 勾选后，板子的串口输出内容会显示在 “升级信息” 中，方便 debug</p></li>
+<li><dl class="simple">
+<dt><strong>板端配置</strong>： 包括开发板 IP 地址，网关地址，MAC 地址和子网掩码</dt><dd><ul>
+<li><p><strong>CP IP地址</strong>： 如果需要升级的产品 CP 端有网口，那么此处填写的是 CP 端的 IP 地址，用于 CP 端从PC 下载镜像。</p></li>
+<li><dl class="simple">
+<dt><strong>AP IP / MAC 地址</strong>： 如果产品 AP 端有网口，则此处填写 AP 端的 IP 地址。需要确保电脑可以通过此 IP 地址访问到板子。</dt><dd><p>如果产品没有 AP 端，且选择”uart”或”uboot”升级方式时，此处填写 uboot 命令行下设置的 MAC 地址，
+格式为： <code class="docutils literal notranslate"><span class="pre">*:*:*:*:*:*</span></code> ，如 <code class="docutils literal notranslate"><span class="pre">00:05:01:02:03:04</span></code>
+注意：不要手动配置 PC IP 地址为 <code class="docutils literal notranslate"><span class="pre">169.254.</span></code> 打头。</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>子网掩码</strong>： 如果选择的产品类型 CP 端有网口，且在 uboot/uart 升级模式中，那么此处填写的是CP 端的子网掩码。如果产品由 AP 端连接至 PC，无需填写。</p></li>
+<li><p><strong>网关地址</strong>： 如果选择的产品类型 CP 端有网口，且在 uboot/uart 升级模式中，那么此处填写的是CP 端的网关地址，对于板子和电脑直连的情况，网关地址填写为电脑与板子连接网卡的IP 地址。如果产品由 AP 端连接至 PC，无需填写。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>PC配置</strong>： 包括串口和 PC IP 地址</dt><dd><ul>
+<li><dl class="simple">
+<dt><strong>串口</strong>： 选择 CP 端连接电脑后识别到的串口号，后面的“刷新”按钮用于插拔串口线后刷新串口列表。</dt><dd><ul>
+<li><p>如果升级模式为“OTA”，则可以选择“N/A”，表示不使用串口。</p></li>
+<li><p>如果选择 tftp／sftp 模式，将通过网口对于 CP 端操作。</p></li>
+<li><p>如果选择 adb 模式，将通过 usb 线对于 CP 端操作。</p></li>
+<li><p>如果升级模式为“fastboot”，串口强制为“N/A”，将通过 usb 线对于 CP 端操作。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>IP 地址</strong>： 如果选择 fastboot 模式或者 ota+adb 模式，选择相应的 adb 或 fastboot 设备，其</dt><dd><p>他模式则配置 PC 端与产品联通的电脑网卡的 IP 地址。后面的“刷新”按钮用于刷新 PC 的 IP 地址列表。</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>镜像文件</strong>： 选择 .img 文件，注意：路径和文件名不能包含中文、空格</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ol class="arabic simple">
+<li><p>升级工具串口默认波特率为 921600，开发板的 DIP 开关需要调整为 921600 模式。</p></li>
+<li><p>升级工具的解压路径和镜像文件的存储路径不能包含中文字符或空格。</p></li>
+<li><p>串口不能重复打开，否则点击 “开始升级” 后会提示错误，ubuntu 系统下可能存在串口能重复打开的情况，但是依旧会导致下载失效。</p></li>
+<li><p>升级工具要求强制开启 tftp 服务，若工具不能申请到 69 号端口，软件将在报错后关闭， 此时需要检查系统本身是否有其他应用打开 tftp 服务，或系统是否自带 tftp 服务，或者是否多次打开下载工具。</p></li>
+<li><p>多数升级情况需要网络，请确定设备 IP 和宿主机 IP 保持在同一网段，网段内不能有重复 IP，且两者的 IP&amp;掩码 相同。</p></li>
+<li><p>升级工具对设备进行升级时，不会对 userdata 分区进行升级，以保护用户数据不被覆盖。</p></li>
+<li><p>镜像烧录后,默认只有/app和/userdata目录有写入权限, 若希望所有分区和目录都可以写入可以执行: <code class="docutils literal notranslate"><span class="pre">mount</span> <span class="pre">-o</span> <span class="pre">remount,rw</span> <span class="pre">/</span></code> 获取写入权限.</p></li>
+<li><p>hbupdate菜单栏的产品类型菜单中，XJ3-normal适用于非加密(non-secure)镜像的烧录。</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>3. 升级方式<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>芯片镜像升级共支持 <strong>Uboot升级方法——网口, Uboot升级方法——USB, UART升级方法, OTA升级方式</strong> 四种方式，
+其中开发板系统可用的情况下，优先推荐选择Uboot升级方法——网口，Uboot升级方法——USB以及OTA三种升级方式；如果开发版系统不可用，你可以选择UART对开发板进行系统恢复和升级。</p>
+<div class="section" id="uboot">
+<h3>3.1 Uboot升级方法——网口<a class="headerlink" href="#uboot" title="Permalink to this headline">¶</a></h3>
+<p>网口 Uboot 升级方法是指开发板可以正常启动进入系统的状态下，工具通过串口下发重启命令并驻留在 Uboot 中，然后通过网口完成镜像文件的传输和升级。</p>
+<p>由于工具的网络传输依赖 tftp 服务，用户需要保证 PC 环境中没有其他软件占用 tftp 服务，且开发板和 PC 应处于同一网段内（前三段 IP 地址一致）。</p>
+<p>升级工具需要按照下图标识进行配置：</p>
+<ol class="arabic simple">
+<li><p>产品类型，选择 XJ3-key1</p></li>
+<li><p>产品名称，选择 xj3_sdb 生态开发板</p></li>
+<li><p>下载模式，选择 uboot</p></li>
+<li><p>下载方式，选择 tftp</p></li>
+<li><p>开发板 IP 地址，升级时由工具下发配置，前三段 IP 地址一致</p></li>
+<li><p>开发板网关地址，升级时由工具下发配置</p></li>
+<li><p>PC 机 IP 地址，应保证能够 ping 通开发板 IP，前三段 IP 地址一致</p></li>
+<li><p>开发板串口，默认波特率 921600</p></li>
+<li><p>镜像文件，选择 .img 文件，路径和文件名不能包含中文、空格</p></li>
+</ol>
+<img alt="../_images/uboot_upgrade.png" src="../_images/uboot_upgrade.png" />
+</div>
+<div class="section" id="ubootusb">
+<h3>3.2 Uboot升级方法——USB<a class="headerlink" href="#ubootusb" title="Permalink to this headline">¶</a></h3>
+<p>USB Uboot 升级方法是指开发板可以正常启动进入系统的状态下，工具通过串口下发重启命令并驻留在 Uboot 中，然后使用 USB fastboot 完成镜像文件的传输和升级。</p>
+<p>其中 fastboot 传输需要 PC 驱动的支持，用户需要保证 PC 安装 fastboot 驱动，并能够正常识别 X3 fastboot  口。</p>
+<p>升级工具需要按照下图标识进行配置：</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>注意，升级工具界面设计随版本不同有所变化，此处仅为示例。</p>
+</div>
+<ol class="arabic simple">
+<li><p>产品类型，选择 XJ3-key1</p></li>
+<li><p>产品名称，选择 xj3_sdb 生态开发板</p></li>
+<li><p>下载模式，选择 uboot</p></li>
+<li><p>下载方式，选择 fastboot</p></li>
+<li><p>镜像文件，选择 .img 文件，路径和文件名不能包含中文、空格</p></li>
+<li><p>开发板串口，默认波特率 921600</p></li>
+</ol>
+<img alt="../_images/fastboot_upgrade.png" src="../_images/fastboot_upgrade.png" />
+</div>
+<div class="section" id="uart">
+<h3>3.3 UART 升级方法<a class="headerlink" href="#uart" title="Permalink to this headline">¶</a></h3>
+<p>UART 升级方法是指工具在 X3 上电之前，通过串口发送 UART 启动指令，当 X3 上电检测到该指令后，会跳转进 UART 启动模式中，之后工具通过 UART 下发预置在工具中的 SPL、Uboot 镜像，当 X3 完成并跳转进 Uboot 中之后，才可以通过网口或 USB 口升级用户指定的镜像。</p>
+<p>当 X3SDB 开发板变砖或者空片时，需要通过 UART 升级方法进行修复升级。升级工具需要按照下图标识进行配置：</p>
+<ol class="arabic simple">
+<li><p>下载模式，选择 uart</p></li>
+<li><p>内存类型，X3SDB 开发板为 samsung 颗粒，选择 lpddr4-samsung-3200-610</p></li>
+<li><p>镜像文件，选择 .img 文件，路径和文件名不能包含中文、空格</p></li>
+</ol>
+<img alt="../_images/uart_upgrade.png" src="../_images/uart_upgrade.png" />
+</div>
+<div class="section" id="ota">
+<h3>3.4 OTA升级方式<a class="headerlink" href="#ota" title="Permalink to this headline">¶</a></h3>
+<p>OTA 升级方式是地平线在 X3平台开发的一套在线升级 demo 方案，可以实现基本的在线升级功能，该功能只会升级 uboot 之后的分区文件，包含 kernel、rootfs 等。</p>
+<p>解压镜像文件后使用ota 文件夹下的 <code class="docutils literal notranslate"><span class="pre">all_disk.zip</span></code></p>
+<ol class="arabic simple">
+<li><p>产品类型，选择 XJ3-key1</p></li>
+<li><p>产品名称，选择 xj3_sdb 生态开发板</p></li>
+<li><p>下载模式，选择 ota</p></li>
+<li><p>下载方式，选择 sftp</p></li>
+<li><p>镜像文件，选择 all_disk.zip，路径和文件名不能包含中文、空格</p></li>
+<li><p>开发板 IP 地址，需要与 PC 位于同一网段内</p></li>
+</ol>
+<img alt="../_images/ota_upgrade.png" src="../_images/ota_upgrade.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>升级完成后可以使用 <code class="docutils literal notranslate"><span class="pre">hurt_ipfull</span></code> 设置开发板的IP，具体见 <code class="docutils literal notranslate"><span class="pre">常见系统命令</span></code> 的 <a class="reference external" href="xj3_board_command.html#hurt-ipfull">2.5 章节</a></p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="x3_sdb_overview.html"
+       title="previous chapter">← X3 SDB生态套件</a>
+  </li>
+  <li class="next">
+    <a href="xj3_board_command.html"
+       title="next chapter">常见系统命令 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Horizon Robotics.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>
