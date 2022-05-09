@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/open_explorer/horizon.cpp
+iostream
+-
+dnn/hb_dnn.h
+/open_explorer/dnn/hb_dnn.h
+dnn/hb_sys.h
+/open_explorer/dnn/hb_sys.h
+
+/root/.horizon/ddk/xj3_aarch64/dnn/include/dnn/hb_dnn.h
+hb_sys.h
+/root/.horizon/ddk/xj3_aarch64/dnn/include/dnn/hb_sys.h
+
+/root/.horizon/ddk/xj3_aarch64/dnn/include/dnn/hb_sys.h
+stdint.h
+-
+

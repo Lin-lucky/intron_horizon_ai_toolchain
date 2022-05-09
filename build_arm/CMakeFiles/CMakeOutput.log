@@ -1,0 +1,801 @@
+The system is: Linux - 5.4.0-81-generic - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/open_explorer/build_arm/CMakeFiles/3.14.5/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/open_explorer/build_arm/CMakeFiles/3.14.5/CompilerIdCXX/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_20d6a/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_20d6a.dir/build.make CMakeFiles/cmTC_20d6a.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_20d6a.dir/testCCompiler.c.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc    -o CMakeFiles/cmTC_20d6a.dir/testCCompiler.c.o   -c /open_explorer/build_arm/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_20d6a
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_20d6a.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc      -rdynamic CMakeFiles/cmTC_20d6a.dir/testCCompiler.c.o  -o cmTC_20d6a 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_6ea1c/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_6ea1c.dir/build.make CMakeFiles/cmTC_6ea1c.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc   -v -o CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o   -c /cmake-3.14.5-Linux-x86_64/share/cmake-3.14/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc
+Target: aarch64-linux-gnu
+Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_1/snapshots/gcc.git~linaro-6.5-2018.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu
+Thread model: posix
+gcc version 6.5.0 (Linaro GCC 6.5-2018.12) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/cc1 -quiet -v -imultiarch aarch64-linux-gnu -iprefix /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/ -isysroot /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc /cmake-3.14.5-Linux-x86_64/share/cmake-3.14/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -march=armv8-a -mlittle-endian -mabi=lp64 -auxbase-strip CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o -version -o /tmp/ccXfLrCT.s
+GNU C11 (Linaro GCC 6.5-2018.12) version 6.5.0 (aarch64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/include"
+ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include/aarch64-linux-gnu"
+ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include"
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed"
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include"
+ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include/aarch64-linux-gnu"
+#include "..." search starts here:
+#include <...> search starts here:
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include
+End of search list.
+GNU C11 (Linaro GCC 6.5-2018.12) version 6.5.0 (aarch64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 1d507b21d0e1c773c502ffae6623df76
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o /tmp/ccXfLrCT.s
+GNU assembler version 2.27.0 (aarch64-linux-gnu) using BFD version (Linaro_Binutils-2018.12) 2.27.0.20161229
+COMPILER_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/
+LIBRARY_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+Linking C executable cmTC_6ea1c
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6ea1c.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc     -v -rdynamic CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o  -o cmTC_6ea1c 
+Using built-in specs.
+COLLECT_GCC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc
+COLLECT_LTO_WRAPPER=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper
+Target: aarch64-linux-gnu
+Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_1/snapshots/gcc.git~linaro-6.5-2018.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu
+Thread model: posix
+gcc version 6.5.0 (Linaro GCC 6.5-2018.12) 
+COMPILER_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/
+LIBRARY_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_6ea1c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/collect2 -plugin /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/liblto_plugin.so -plugin-opt=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cciuJdDS.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-835769 --fix-cortex-a53-843419 -o cmTC_6ea1c /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtbegin.o -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0 -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64 -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtend.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_6ea1c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include]
+  end of search list found
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0/include]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include]
+  implicit include dirs: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0/include;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/gmake cmTC_6ea1c/fast ]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_6ea1c.dir/build.make CMakeFiles/cmTC_6ea1c.dir/build]
+  ignore line: [gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc   -v -o CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o   -c /cmake-3.14.5-Linux-x86_64/share/cmake-3.14/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc]
+  ignore line: [Target: aarch64-linux-gnu]
+  ignore line: [Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_1/snapshots/gcc.git~linaro-6.5-2018.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 6.5.0 (Linaro GCC 6.5-2018.12) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/cc1 -quiet -v -imultiarch aarch64-linux-gnu -iprefix /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/ -isysroot /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc /cmake-3.14.5-Linux-x86_64/share/cmake-3.14/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -march=armv8-a -mlittle-endian -mabi=lp64 -auxbase-strip CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o -version -o /tmp/ccXfLrCT.s]
+  ignore line: [GNU C11 (Linaro GCC 6.5-2018.12) version 6.5.0 (aarch64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version none]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/include"]
+  ignore line: [ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include/aarch64-linux-gnu"]
+  ignore line: [ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include"]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include"]
+  ignore line: [ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include/aarch64-linux-gnu"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C11 (Linaro GCC 6.5-2018.12) version 6.5.0 (aarch64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version none]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 1d507b21d0e1c773c502ffae6623df76]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o /tmp/ccXfLrCT.s]
+  ignore line: [GNU assembler version 2.27.0 (aarch64-linux-gnu) using BFD version (Linaro_Binutils-2018.12) 2.27.0.20161229]
+  ignore line: [COMPILER_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/]
+  ignore line: [LIBRARY_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [Linking C executable cmTC_6ea1c]
+  ignore line: [/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6ea1c.dir/link.txt --verbose=1]
+  ignore line: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc     -v -rdynamic CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o  -o cmTC_6ea1c ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc]
+  ignore line: [COLLECT_LTO_WRAPPER=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper]
+  ignore line: [Target: aarch64-linux-gnu]
+  ignore line: [Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_1/snapshots/gcc.git~linaro-6.5-2018.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 6.5.0 (Linaro GCC 6.5-2018.12) ]
+  ignore line: [COMPILER_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/]
+  ignore line: [LIBRARY_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_6ea1c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  link line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/collect2 -plugin /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/liblto_plugin.so -plugin-opt=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cciuJdDS.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-835769 --fix-cortex-a53-843419 -o cmTC_6ea1c /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtbegin.o -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0 -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64 -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtend.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o]
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cciuJdDS.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--sysroot=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib/ld-linux-aarch64.so.1] ==> ignore
+    arg [-X] ==> ignore
+    arg [-EL] ==> ignore
+    arg [-maarch64linux] ==> ignore
+    arg [--fix-cortex-a53-835769] ==> ignore
+    arg [--fix-cortex-a53-843419] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_6ea1c] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtbegin.o] ==> ignore
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib]
+    arg [CMakeFiles/cmTC_6ea1c.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtend.o] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o] ==> ignore
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/lib64]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/lib]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/lib]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/lib]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit dirs: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/lib64;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/lib;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/lib;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_089da/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_089da.dir/build.make CMakeFiles/cmTC_089da.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_089da.dir/feature_tests.c.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc   -std=c11 -o CMakeFiles/cmTC_089da.dir/feature_tests.c.o   -c /open_explorer/build_arm/CMakeFiles/feature_tests.c
+Linking C executable cmTC_089da
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_089da.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc      -rdynamic CMakeFiles/cmTC_089da.dir/feature_tests.c.o  -o cmTC_089da 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_27376/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_27376.dir/build.make CMakeFiles/cmTC_27376.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_27376.dir/feature_tests.c.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc   -std=c99 -o CMakeFiles/cmTC_27376.dir/feature_tests.c.o   -c /open_explorer/build_arm/CMakeFiles/feature_tests.c
+Linking C executable cmTC_27376
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_27376.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc      -rdynamic CMakeFiles/cmTC_27376.dir/feature_tests.c.o  -o cmTC_27376 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_1fc7f/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_1fc7f.dir/build.make CMakeFiles/cmTC_1fc7f.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1fc7f.dir/feature_tests.c.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc   -std=c90 -o CMakeFiles/cmTC_1fc7f.dir/feature_tests.c.o   -c /open_explorer/build_arm/CMakeFiles/feature_tests.c
+Linking C executable cmTC_1fc7f
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1fc7f.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc      -rdynamic CMakeFiles/cmTC_1fc7f.dir/feature_tests.c.o  -o cmTC_1fc7f 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_10ab0/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_10ab0.dir/build.make CMakeFiles/cmTC_10ab0.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_10ab0.dir/testCXXCompiler.cxx.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++     -o CMakeFiles/cmTC_10ab0.dir/testCXXCompiler.cxx.o -c /open_explorer/build_arm/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_10ab0
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_10ab0.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++       -rdynamic CMakeFiles/cmTC_10ab0.dir/testCXXCompiler.cxx.o  -o cmTC_10ab0 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_edc71/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_edc71.dir/build.make CMakeFiles/cmTC_edc71.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++    -v -o CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o -c /cmake-3.14.5-Linux-x86_64/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
+Target: aarch64-linux-gnu
+Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_1/snapshots/gcc.git~linaro-6.5-2018.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu
+Thread model: posix
+gcc version 6.5.0 (Linaro GCC 6.5-2018.12) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -iprefix /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/ -isysroot /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc -D_GNU_SOURCE /cmake-3.14.5-Linux-x86_64/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -march=armv8-a -mlittle-endian -mabi=lp64 -auxbase-strip CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o -version -o /tmp/ccGskCaa.s
+GNU C++14 (Linaro GCC 6.5-2018.12) version 6.5.0 (aarch64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0"
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/aarch64-linux-gnu"
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/backward"
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/include"
+ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include/aarch64-linux-gnu"
+ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include"
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed"
+ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include"
+ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include/aarch64-linux-gnu"
+#include "..." search starts here:
+#include <...> search starts here:
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/aarch64-linux-gnu
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/backward
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include
+End of search list.
+GNU C++14 (Linaro GCC 6.5-2018.12) version 6.5.0 (aarch64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: decbb0d1fdf8f27b621dd5abd8f528b3
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccGskCaa.s
+GNU assembler version 2.27.0 (aarch64-linux-gnu) using BFD version (Linaro_Binutils-2018.12) 2.27.0.20161229
+COMPILER_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/
+LIBRARY_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+Linking CXX executable cmTC_edc71
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_edc71.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++      -v -rdynamic CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_edc71 
+Using built-in specs.
+COLLECT_GCC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
+COLLECT_LTO_WRAPPER=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper
+Target: aarch64-linux-gnu
+Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_1/snapshots/gcc.git~linaro-6.5-2018.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu
+Thread model: posix
+gcc version 6.5.0 (Linaro GCC 6.5-2018.12) 
+COMPILER_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/
+LIBRARY_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_edc71' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/collect2 -plugin /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/liblto_plugin.so -plugin-opt=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3xjoPd.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-835769 --fix-cortex-a53-843419 -o cmTC_edc71 /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtbegin.o -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0 -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64 -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtend.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_edc71' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/aarch64-linux-gnu]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/backward]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include]
+    add: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include]
+  end of search list found
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/6.5.0]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/aarch64-linux-gnu] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/6.5.0/aarch64-linux-gnu]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/backward] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/6.5.0/backward]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0/include]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include]
+  collapse include dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include]
+  implicit include dirs: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/6.5.0;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/6.5.0/aarch64-linux-gnu;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/6.5.0/backward;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0/include;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/gmake cmTC_edc71/fast ]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_edc71.dir/build.make CMakeFiles/cmTC_edc71.dir/build]
+  ignore line: [gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++    -v -o CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o -c /cmake-3.14.5-Linux-x86_64/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++]
+  ignore line: [Target: aarch64-linux-gnu]
+  ignore line: [Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_1/snapshots/gcc.git~linaro-6.5-2018.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 6.5.0 (Linaro GCC 6.5-2018.12) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -iprefix /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/ -isysroot /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc -D_GNU_SOURCE /cmake-3.14.5-Linux-x86_64/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -march=armv8-a -mlittle-endian -mabi=lp64 -auxbase-strip CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o -version -o /tmp/ccGskCaa.s]
+  ignore line: [GNU C++14 (Linaro GCC 6.5-2018.12) version 6.5.0 (aarch64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version none]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0"]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/aarch64-linux-gnu"]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/backward"]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/include"]
+  ignore line: [ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include/aarch64-linux-gnu"]
+  ignore line: [ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include"]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include"]
+  ignore line: [ignoring nonexistent directory "/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include/aarch64-linux-gnu"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/aarch64-linux-gnu]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include/c++/6.5.0/backward]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/include-fixed]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/include]
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (Linaro GCC 6.5-2018.12) version 6.5.0 (aarch64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version none]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: decbb0d1fdf8f27b621dd5abd8f528b3]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccGskCaa.s]
+  ignore line: [GNU assembler version 2.27.0 (aarch64-linux-gnu) using BFD version (Linaro_Binutils-2018.12) 2.27.0.20161229]
+  ignore line: [COMPILER_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/]
+  ignore line: [LIBRARY_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [Linking CXX executable cmTC_edc71]
+  ignore line: [/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_edc71.dir/link.txt --verbose=1]
+  ignore line: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++      -v -rdynamic CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_edc71 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++]
+  ignore line: [COLLECT_LTO_WRAPPER=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper]
+  ignore line: [Target: aarch64-linux-gnu]
+  ignore line: [Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_1/snapshots/gcc.git~linaro-6.5-2018.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_1/_build/builds/destdir/x86_64-unknown-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 6.5.0 (Linaro GCC 6.5-2018.12) ]
+  ignore line: [COMPILER_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/bin/]
+  ignore line: [LIBRARY_PATH=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_edc71' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  link line: [ /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/collect2 -plugin /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/liblto_plugin.so -plugin-opt=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3xjoPd.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-835769 --fix-cortex-a53-843419 -o cmTC_edc71 /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtbegin.o -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0 -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64 -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib -L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtend.o /opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o]
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/6.5.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cc3xjoPd.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--sysroot=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib/ld-linux-aarch64.so.1] ==> ignore
+    arg [-X] ==> ignore
+    arg [-EL] ==> ignore
+    arg [-maarch64linux] ==> ignore
+    arg [--fix-cortex-a53-835769] ==> ignore
+    arg [--fix-cortex-a53-843419] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_edc71] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtbegin.o] ==> ignore
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib]
+    arg [-L/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib] ==> dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib]
+    arg [CMakeFiles/cmTC_edc71.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/crtend.o] ==> ignore
+    arg [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o] ==> ignore
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib/../lib64] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/lib64]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/6.5.0/../../../../aarch64-linux-gnu/lib] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/lib]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/lib] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/lib]
+  collapse library dir [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib] ==> [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit dirs: [/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/6.5.0;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/lib/gcc;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/lib64;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/lib;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/lib;/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++1z] compiler features compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_58a11/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_58a11.dir/build.make CMakeFiles/cmTC_58a11.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_58a11.dir/feature_tests.cxx.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++    -std=c++1z -o CMakeFiles/cmTC_58a11.dir/feature_tests.cxx.o -c /open_explorer/build_arm/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_58a11
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_58a11.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++       -rdynamic CMakeFiles/cmTC_58a11.dir/feature_tests.cxx.o  -o cmTC_58a11 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_238cf/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_238cf.dir/build.make CMakeFiles/cmTC_238cf.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_238cf.dir/feature_tests.cxx.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++    -std=c++14 -o CMakeFiles/cmTC_238cf.dir/feature_tests.cxx.o -c /open_explorer/build_arm/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_238cf
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_238cf.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++       -rdynamic CMakeFiles/cmTC_238cf.dir/feature_tests.cxx.o  -o cmTC_238cf 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_097d1/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_097d1.dir/build.make CMakeFiles/cmTC_097d1.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_097d1.dir/feature_tests.cxx.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++    -std=c++11 -o CMakeFiles/cmTC_097d1.dir/feature_tests.cxx.o -c /open_explorer/build_arm/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_097d1
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_097d1.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++       -rdynamic CMakeFiles/cmTC_097d1.dir/feature_tests.cxx.o  -o cmTC_097d1 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /open_explorer/build_arm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_4bf6c/fast 
+/usr/bin/gmake -f CMakeFiles/cmTC_4bf6c.dir/build.make CMakeFiles/cmTC_4bf6c.dir/build
+gmake[1]: Entering directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4bf6c.dir/feature_tests.cxx.o
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++    -std=c++98 -o CMakeFiles/cmTC_4bf6c.dir/feature_tests.cxx.o -c /open_explorer/build_arm/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_4bf6c
+/cmake-3.14.5-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4bf6c.dir/link.txt --verbose=1
+/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++       -rdynamic CMakeFiles/cmTC_4bf6c.dir/feature_tests.cxx.o  -o cmTC_4bf6c 
+gmake[1]: Leaving directory `/open_explorer/build_arm/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates
