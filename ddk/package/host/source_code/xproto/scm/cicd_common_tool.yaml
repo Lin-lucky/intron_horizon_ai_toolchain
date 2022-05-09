@@ -1,0 +1,14 @@
+metadata:
+  labels:
+    some-label: some-label-value
+    class: KubernetesDeclarativeAgentTest
+spec:
+  containers:
+    - name: build
+      image: hub.hobot.cc/builder/cicd-common-tool:v7
+      command:
+      - cat
+      tty: true
+      env:
+        - name: CONTAINER_ENV_VAR
+          value: build

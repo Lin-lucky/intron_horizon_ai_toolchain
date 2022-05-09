@@ -1,0 +1,28 @@
+{
+    "inputs": ["input"],
+    "outputs": ["output"],
+    "workflow": [
+      {
+        "method_type": "PassThrough",
+        "unique_name": "pass_through_1",
+        "inputs": [
+          "input"
+        ],
+        "outputs": [
+          "data_tmp"
+        ],
+        "method_config_file": "null"
+      },
+      {
+        "method_type": "PassThrough",
+        "unique_name": "pass_through_2",
+        "inputs": [
+          "data_tmp"
+        ],
+        "outputs": [
+          "output"
+        ],
+        "method_config_file": "null"
+      }
+    ]
+}

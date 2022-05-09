@@ -1,0 +1,12 @@
+prefix=/home/dxd/work/3rdTools/protobuf/output
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Protocol Buffers
+Description: Google's Data Interchange Format
+Version: 3.0.2
+Libs: -L${libdir} -lprotobuf -pthread  -lpthread
+Libs.private: -lz 
+Cflags: -I${includedir} -pthread
+Conflicts: protobuf-lite

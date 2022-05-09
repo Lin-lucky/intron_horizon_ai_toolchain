@@ -1,0 +1,21 @@
+{
+  "inputs": [
+      "in_bbox"
+  ],
+  "outputs": [
+      "out_bbox"
+  ],
+  "workflow": [
+      {
+          "method_type": "TimeoutAlarm",
+          "unique_name": "TimeoutAlarm",
+          "inputs": [
+              "in_bbox"
+          ],
+          "outputs": [
+              "out_bbox"
+          ],
+          "method_config_file": null
+      }
+  ]
+}

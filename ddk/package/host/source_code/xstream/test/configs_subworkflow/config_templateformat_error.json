@@ -1,0 +1,90 @@
+{
+    "version": "1.1",
+    "templates": {
+        "type": "template",
+        "template_name": "cnn1.tpl",
+        "parameters": [
+            "name",
+            "pre_method",
+            "post_method",
+            "inputs",
+            "outputs"
+        ],
+        "template": {
+            "name": "${name}",
+            "type": "workflow",
+            "inputs": [
+                "${inputs}"
+            ],
+            "outputs": [
+                "${outputs}"
+            ],
+            "workflow": [
+                {
+                    "type": "node",
+                    "method_type": "${pre_method}",
+                    "unique_name": "pre",
+                    "method_config_file": "@include: ./cnn_config.json",
+                    "inputs": [
+                        "inputs"
+                    ],
+                    "outputs": [
+                        "pre_out0",
+                        "pre_out1"
+                    ]
+                },
+                {
+                    "type": "node",
+                    "method_type": "CNNMethod",
+                    "unique_name": "cnn",
+                    "inputs": [
+                        "pre_out0",
+                        "pre_out1"
+                    ],
+                    "outputs": [
+                        "cnn_out0"
+                    ]
+                },
+                {
+                    "type": "node",
+                    "method_type": "${post_method}",
+                    "unique_name": "post",
+                    "inputs": [
+                        "cnn_out0"
+                    ],
+                    "outputs": [
+                        "post_out0"
+                    ]
+                },
+                {
+                    "type": "template_ref",
+                    "template_name": "cnn0.tpl",
+                    "parameters": {
+                        "name": "ebed_cnn",
+                        "pre_method": "${pre_method}",
+                        "post_method": "${post_method}",
+                        "pre_method_config": "@include: ./cnn_config.json",
+                        "image": "inputs",
+                        "bbox": "post_out0",
+                        "out": "outputs"
+                    }
+                }
+            ]
+        }
+    },
+    "workflows": [
+        {
+            "type": "node",
+            "method_type": "faceMethod",
+            "unique_name": "3Dpose",
+            "method": "Process",
+            "inputs": [
+                "pedestrian_box"
+            ],
+            "outputs": [
+                "pose",
+                "lmk"
+            ]
+        }
+    ]
+}

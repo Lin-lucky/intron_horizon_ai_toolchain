@@ -1,0 +1,4 @@
+{
+  "thread_policy": "SCHED_IDLE",
+  "thread_priority": 0
+}

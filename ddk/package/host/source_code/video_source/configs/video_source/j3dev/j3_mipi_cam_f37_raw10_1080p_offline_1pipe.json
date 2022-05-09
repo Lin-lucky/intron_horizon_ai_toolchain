@@ -1,0 +1,14 @@
+{
+  "platform_type": "j3",
+  "data_source": "mipi_cam",
+  "vin_config": {
+    "mipi_cam": {
+      "cam_index": 0,
+      "cam_cfg_file": "configs/video_source/j3dev/vin/mipi_cam/hb_xj3dev_user.json"
+    }
+  },
+  "vps_config": {
+     "vio_cfg_file": "configs/video_source/j3dev/vps/f37_raw10_1080p_offline_1pipe.json",
+     "gdc_en": 0
+  }
+}

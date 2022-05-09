@@ -1,0 +1,30 @@
+{
+	"mipi": {
+ 	   "base": {
+        	"lane": 1,
+        	"datatype":"0x2b",
+	        "mclk": 24,
+        	"mipiclk": 864,
+	        "fps": 30,
+        	"width": 1920,
+	        "height": 1080,
+        	"linelenth": 2560,
+	        "framelenth": 1125,
+        	"settle": 20
+        	},
+	    "host": {
+        	"enable": 1,
+	        "hsa": 0,
+        	"hbp": 0,
+	        "hsd": 0,
+        	"vc_num": 2,
+	        "vc0_index": 0,
+        	"vc1_index": 1
+	        },
+	    "dev": {
+        	"enable": 0,
+	        "vpg": 0,
+        	"ipi_lines": 0
+	        }
+	    }
+}

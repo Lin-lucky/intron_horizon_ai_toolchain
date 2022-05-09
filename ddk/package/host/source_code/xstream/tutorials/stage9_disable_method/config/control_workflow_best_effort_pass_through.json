@@ -1,0 +1,45 @@
+{
+  "max_running_count": 10000,
+  "inputs": ["face_head_box", "body_hand_box"],
+  "outputs": ["face_head_box_filter_3"],
+  "workflow": [
+    {
+      "method_type": "BBoxScoreFilter",
+      "unique_name": "bbox_score_filter",
+      "inputs": [
+        "face_head_box",
+        "body_hand_box"
+      ],
+      "outputs": [
+        "face_head_box_filter_1",
+        "body_hand_box_filter_1"
+      ],
+      "method_config_file": "null"
+    },
+    {
+      "method_type": "BBoxLengthFilter",
+      "unique_name": "bbox_length_filter",
+      "inputs": [
+        "face_head_box_filter_1",
+        "body_hand_box_filter_1"
+      ],
+      "outputs": [
+        "face_head_box_filter_2",
+        "body_hand_box_filter_2"
+      ],
+      "method_config_file": "null"
+    },
+	  {
+      "method_type": "BBoxAreaFilter",
+      "unique_name": "bbox_area_filter",
+      "inputs": [
+        "face_head_box_filter_2",
+        "body_hand_box_filter_2"
+      ],
+      "outputs": [
+        "face_head_box_filter_3"
+      ],
+      "method_config_file": "null"
+    }
+  ]
+}

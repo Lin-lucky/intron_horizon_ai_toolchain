@@ -1,0 +1,9 @@
+{
+  "feedback_type": "jpeg_image_list",
+  "file_list_path": "configs/video_source/x3dev/feedback/data/name_jpg_1080p.list",
+  "image_interval": 40,
+  "file_list_loop": 1,
+  "frame_depth": 8,
+  "width": 1920,
+  "height": 1080
+}

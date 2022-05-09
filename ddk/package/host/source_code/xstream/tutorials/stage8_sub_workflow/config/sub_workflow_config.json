@@ -1,0 +1,58 @@
+{
+  "version": "1.1",
+  "templates": [
+    "@include: ./filter_tpl.json"
+  ],
+  "workflows": [
+    {
+      "name": "main",
+      "type": "workflow",
+      "inputs": [
+        "image"
+      ],
+      "outputs": [
+        "output_box",
+        "box_shape"
+      ],
+      "workflow": [
+        {
+          "type": "node",
+          "method_type": "FasterDetect",
+          "unique_name": "simulate_faster_detect",
+          "inputs": [
+            "image"
+          ],
+          "outputs": [
+            "detect_box"
+          ],
+          "method_config_file": "null"
+        },
+        {
+          "type": "template_ref",
+          "template_name": "test_filter.tpl",
+          "parameters": {
+            "name": "box_filter",
+            "area_method": "BBoxAreaFilter",
+            "location_method": "BBoxLocationFilter",
+            "image": "image",
+            "detect_box": "detect_box",
+            "output_box": "after_filter_box"
+          }
+        },
+        {
+          "type": "node",
+          "method_type": "BBoxShapeFilter",
+          "unique_name": "simulate_shape_filter",
+          "inputs": [
+            "after_filter_box"
+          ],
+          "outputs": [
+            "output_box",
+            "box_shape"
+          ],
+          "method_config_file": "null"
+        }
+      ]
+    }
+  ]
+}

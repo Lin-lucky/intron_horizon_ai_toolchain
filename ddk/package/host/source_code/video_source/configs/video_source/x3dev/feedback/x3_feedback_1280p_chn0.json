@@ -1,0 +1,13 @@
+{
+  "data_source": "feedback",
+  "channel_id": 0,
+  "is_sync_mode": 1,
+  "vin_en": 1,
+  "vin_out_en": 1,
+  "vin_frame_depth": 8,
+  "vps_en": 1,
+  "config_file": {
+    "vin_config_file": "configs/video_source/x3dev/feedback/vin/x3_vin_feedback_1280p_chn0.json",
+    "vps_config_file": "configs/video_source/x3dev/feedback/vps/x3_vps_feedback_1280p.json"
+  }
+}

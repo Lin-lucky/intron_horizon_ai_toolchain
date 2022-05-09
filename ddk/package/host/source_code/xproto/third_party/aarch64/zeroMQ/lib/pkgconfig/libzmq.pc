@@ -1,0 +1,11 @@
+prefix=/home/duxudong/work/3rdtools/zeroMQ/linux_x3
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libzmq
+Description: 0MQ c++ library
+Version: 4.3.0
+Libs: -L${libdir} -lzmq
+Libs.private: -lstdc++ 
+Cflags: -I${includedir} -DZMQ_BUILD_DRAFT_API=1

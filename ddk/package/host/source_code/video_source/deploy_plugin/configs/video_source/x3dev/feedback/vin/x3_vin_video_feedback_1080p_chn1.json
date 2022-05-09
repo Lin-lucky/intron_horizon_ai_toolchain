@@ -1,0 +1,6 @@
+{
+  "feedback_type": "video_feedback",
+  "file_list_path": "configs/video_source/x3dev/feedback/data/chn1.mp4",
+  "cached_buf_count": 8,
+  "file_list_loop": 1
+}

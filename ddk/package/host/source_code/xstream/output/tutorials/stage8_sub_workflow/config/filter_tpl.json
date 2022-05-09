@@ -1,0 +1,46 @@
+{
+	"type": "template",
+	"template_name": "test_filter.tpl",
+	"parameters": [
+		"name",
+		"area_method",
+		"location_method",
+		"image",
+		"detect_box",
+		"output_box"
+	],
+	"template": {
+		"name": "${name}",
+		"type": "workflow",
+		"inputs": [
+			"${image}",
+			"${detect_box}"
+		],
+		"outputs": [
+			"${output_box}"
+		],
+		"workflow": [
+			{
+				"type": "node",
+				"method_type": "${area_method}",
+				"unique_name": "pre",
+				"method_config_file": "null",
+				"inputs": ["detect_box"],
+				"outputs": ["filtered_box"]
+			},
+			{
+				"type": "node",
+				"method_type": "${location_method}",
+				"unique_name": "post",
+				"method_config_file": "null",
+				"inputs": [
+					"image",
+					"filtered_box"
+				],
+				"outputs": [
+					"output_box"
+				]
+			}
+		]
+	}
+}

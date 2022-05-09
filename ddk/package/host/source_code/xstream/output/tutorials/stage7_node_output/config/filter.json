@@ -1,0 +1,32 @@
+{
+  "inputs": [
+    "head_box"
+  ],
+  "outputs": [
+    "head_box_filter2"
+  ],
+  "workflow": [
+    {
+      "method_type": "BBoxFilterA",
+      "unique_name": "BBoxFilter_1",
+      "inputs": [
+        "head_box"
+      ],
+      "outputs": [
+        "head_box_filter"
+      ],
+      "method_config_file": "null"
+    },
+    {
+      "method_type": "BBoxFilterB",
+      "unique_name": "BBoxFilter_2",
+      "inputs": [
+        "head_box_filter"
+      ],
+      "outputs": [
+        "head_box_filter2"
+      ],
+      "method_config_file": "null"
+    }
+  ]
+}

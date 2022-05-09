@@ -1,0 +1,38 @@
+{
+  "config_index": 0,
+  "board_name": "x3dev",
+  "config_0": {
+    "produce_name": "feedback",
+    "data_type": "mono",
+    "max_vio_buffer": 3,
+    "is_msg_package": 0,
+    "mono": {
+      "channel_id": 0,
+      "video_source_file": "configs/video_source/x3dev/feedback/x3_feedback_2160p_chn0.json"
+    },
+    "dual": {
+      "channel_id": [0, 1],
+      "video_source_file": [
+        "configs/video_source/x3dev/feedback/x3_feedback_2160p_chn0.json",
+        "configs/video_source/x3dev/feedback/x3_feedback_2160p_chn1.json"
+      ]
+    }
+  },
+  "config_1": {
+    "produce_name": "feedback",
+    "data_type": "mono",
+    "max_vio_buffer": 3,
+    "is_msg_package": 0,
+    "mono": {
+      "channel_id": 0,
+      "video_source_file": "configs/video_source/x3dev/feedback/x3_feedback_1080p_chn0.json"
+    },
+    "dual": {
+      "channel_id": [0, 1],
+      "video_source_file": [
+        "configs/video_source/x3dev/feedback/x3_feedback_1080p_chn0.json",
+        "configs/video_source/x3dev/feedback/x3_feedback_1080p_chn1.json"
+      ]
+    }
+  }
+}

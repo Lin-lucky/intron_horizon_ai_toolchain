@@ -1,0 +1,29 @@
+{
+  global:
+  extern "C"
+  {
+    HobotXStreamAllocImage;
+    HobotXStreamFreeImage;
+    HobotXStreamDecodeImage;
+    HobotXStreamConvertImage;
+    HobotXStreamConvertYuvImage;
+    HobotXStreamResizeImage;
+    HobotXStreamResizeImageByRatio;
+    HobotXStreamCropImage;
+    HobotXStreamPadImage;
+  };
+  extern "C++"
+  {
+    HobotXStreamAllocImage;
+    HobotXStreamFreeImage;
+    HobotXStreamDecodeImage;
+    HobotXStreamConvertImage;
+    HobotXStreamConvertYuvImage;
+    HobotXStreamResizeImage;
+    HobotXStreamResizeImageByRatio;
+    HobotXStreamCropImage;
+    HobotXStreamPadImage;
+  };
+  local:
+    *;
+};

@@ -1,0 +1,18 @@
+{
+    "max_running_count": 10000,
+    "inputs": ["face_head_box"],
+    "outputs": ["face_head_box_filter"],
+    "workflow": [
+      {
+        "method_type": "BBoxFilter",
+        "unique_name": "bbox_filter",
+        "inputs": [
+          "face_head_box"
+        ],
+        "outputs": [
+          "face_head_box_filter"
+        ],
+        "method_config_file": "null"
+      }
+    ]
+}

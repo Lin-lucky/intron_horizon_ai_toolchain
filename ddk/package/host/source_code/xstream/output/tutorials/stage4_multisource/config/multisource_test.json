@@ -1,0 +1,19 @@
+{
+    "max_running_count": 10000,
+    "inputs": ["test_input"],
+    "outputs": ["test_output"],
+    "workflow": [
+      {
+        "thread_count": 1,
+        "method_type": "MultiSourceTest",
+        "unique_name": "multisource_node",
+        "inputs": [
+          "test_input"
+        ],
+        "outputs": [
+          "test_output"
+        ],
+        "method_config_file": "null"
+      }
+    ]
+  }

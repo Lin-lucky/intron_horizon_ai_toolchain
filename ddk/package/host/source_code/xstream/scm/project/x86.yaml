@@ -1,0 +1,15 @@
+metadata:
+  labels:
+    some-label: some-label-value
+    class: KubernetesDeclarativeAgentTest
+  namespace: scm
+spec:
+  containers:
+    - name: build
+      image: hub.hobot.cc/aiot/common-cpu:centos7.3-gradle-valgrind-git
+      command:
+      - cat
+      tty: true
+      env:
+        - name: CONTAINER_ENV_VAR
+          value: build

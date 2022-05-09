@@ -1,0 +1,10 @@
+CONFIG {
+  global:
+  extern "C++"
+  {
+    *xproto*;
+  };
+
+  local:
+    *;
+};

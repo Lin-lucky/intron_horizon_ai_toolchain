@@ -1,0 +1,28 @@
+{
+    "inputs": ["input_array"],
+    "outputs": ["average", "standard_deviation"],
+    "workflow": [
+      {
+        "thread_count": 2,
+        "method_type": "Average",
+        "unique_name": "average",
+        "inputs": [
+          "input_array"
+        ],
+        "outputs": [
+          "average"
+        ]
+      },
+      {
+        "thread_count": 2,
+        "method_type": "StandardDeviation",
+        "unique_name": "standard_deviation",
+        "inputs": [
+          "input_array"
+        ],
+        "outputs": [
+          "standard_deviation"
+        ]
+      }
+    ]
+}

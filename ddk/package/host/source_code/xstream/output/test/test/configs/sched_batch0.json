@@ -1,0 +1,4 @@
+{
+  "thread_policy": "SCHED_BATCH",
+  "thread_priority": 0
+}

@@ -1,0 +1,25 @@
+{
+    "auth_mode": 0,
+    "user": "admin",
+    "password": "123456",
+    "port": 555,
+    "chn_num": 2,
+    "chn_0": {
+      "url": "rtsp://10.64.61.215:555/chn0",
+      "video_type": 0,
+      "audio_type": 0
+    },
+    "chn_1": {
+      "url": "rtsp://10.64.61.215:555/chn1",
+      "video_type": 1,
+      "audio_type": 0
+    },
+    "__auth_mode_desc": "设置参考：0:不开启rtsp认证，1:开启认证",
+    "__user_desc": "用户名",
+    "__password_desc": "认证密码",
+    "__port_desc": "rtsp端口号，默认555",
+    "__chn_num_desc": "通道数量",
+    "__url_desc": "rtsp连接url",
+    "__video_type_desc": "设置参考：0：H264, 1:H265",
+    "__audio_type_desc": "设置参考：2：g711, 3:g726"
+  }
