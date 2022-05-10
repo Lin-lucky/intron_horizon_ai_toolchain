@@ -1,0 +1,22 @@
+{
+  "enable_smart": 0,
+  "video_type": 0,
+  "image_width": 1920,
+  "image_height": 1080,
+  "layer": 0,
+  "data_buf_size": 3110400,
+  "packet_size": 102400,
+  "frame_buf_depth": 3,
+  "use_vb":0,
+  "rotation": 0,
+  "mirror": 0,
+  "is_cbr": 1,
+  "bitrate": 6000,
+  "debug_dump_stream": 0,
+  "debug_encode_time": 0,
+  "rtsp_server_config": "configs/rtsp_server.json",
+  "__enable_smart_desc": "设置参考： 1视频帧携带智能帧，0不携带",
+  "__video_type_desc": "设置参考：0：H264, 1：H265",
+  "__rotation_desc": "设置参考: 支持旋转角度，0，90，180，270",
+  "__mirror_desc": "设置参考: 支持镜像方式，1: 水平镜像，2：垂直镜像 3：同时水平和垂直镜像"
+}

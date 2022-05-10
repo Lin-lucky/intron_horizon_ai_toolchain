@@ -1,0 +1,24 @@
+{
+    "mode": "run_model_with_bbox",
+    "with_postprocess": true,
+    "convert_to_float": true,
+    "model_preprocess":{
+        "class_name": "pyramid_roi_resizer_preprocess",
+        "config": {
+            "roi_process_pipeline": [
+                "norm_by_nothing"
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/plateNum.hbm",
+        "is_packed_model": false,
+        "model_name": "plateNum",
+        "run_mode": {
+            "bpu_core": 0
+        }
+    },
+    "model_post_process": {
+        "class_name": "plate_num_postprocess"
+    }
+}

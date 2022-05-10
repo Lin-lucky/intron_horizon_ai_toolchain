@@ -1,0 +1,75 @@
+{
+  "name": "ap_dtc",
+  "dtc_info": {
+    "dtc_id_base": "0x4001",
+    "dtc_num_max": 32,
+    "dtc_module_id_min": "0xB001",
+    "dtc_module_id_max": "0xBFFF",
+    "dtc_mapping": [
+      {
+        "module_id": "0xB001",
+        "event_id": "0x0001",
+        "dtc_id": "0x4001",
+        "dtc_description": "ap_load0",
+        "dtc_snapshot_len": 20,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0xB002",
+        "event_id": "0x0001",
+        "dtc_id": "0x4002",
+        "dtc_description": "ap_load1",
+        "dtc_snapshot_len": 20,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0xB010",
+        "event_id": "0x0001",
+        "dtc_id": "0x4012",
+        "dtc_description": "MCU_sync_J2_timeout",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xB010",
+        "event_id": "0x0002",
+        "dtc_id": "0x4013",
+        "dtc_description": "time_diff_MCU_J2_over10ms",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xB010",
+        "event_id": "0x0003",
+        "dtc_id": "0x4014",
+        "dtc_description": "app_delay_interrupt_over30ms",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xB010",
+        "event_id": "0x0004",
+        "dtc_id": "0x4015",
+        "dtc_description": "checksum_wrong",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xB010",
+        "event_id": "0x0005",
+        "dtc_id": "0x4016",
+        "dtc_description": "cycle_count_lost",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xB010",
+        "event_id": "0x0006",
+        "dtc_id": "0x4017",
+        "dtc_description": "hbipc_error",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      }
+    ]
+  }
+}

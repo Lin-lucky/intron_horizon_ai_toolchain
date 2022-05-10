@@ -1,0 +1,69 @@
+{
+  "config_index": 0,
+  "board_name": "j3dev",
+  "config_0": {
+    "produce_name": "mipi_camera",
+    "data_source_num": 1,
+    "channel_id": [0],
+    "max_vio_buffer": 3,
+    "is_msg_package": 0,
+    "max_ts_compare": 0,
+    "video_source_file": "configs/video_source/j3dev/j3_mipi_cam_f37_raw10_1080p_offline_1pipe.json"
+  },
+  "config_1": {
+    "produce_name": "mipi_camera",
+    "data_source_num": 1,
+    "channel_id": [0],
+    "max_vio_buffer": 3,
+    "is_msg_package": 0,
+    "max_ts_compare": 0,
+    "video_source_file": "configs/video_source/j3dev/j3_mipi_cam_ov10635_yuv_720p_offline_960_4pipes.json"
+  },
+  "config_2": {
+    "produce_name": "mipi_camera",
+    "data_source_num": 4,
+    "channel_id": [0, 1, 2, 3],
+    "max_vio_buffer": 3,
+    "is_msg_package": 1,
+    "max_ts_compare": 0,
+    "video_source_file": "configs/video_source/j3dev/j3_mipi_cam_ov10635_yuv_720p_offline_960_4pipes.json"
+  },
+  "config_3": {
+    "produce_name": "mipi_camera",
+    "data_source_num": 1,
+    "channel_id": [2],
+    "max_vio_buffer": 3,
+    "is_msg_package": 0,
+    "max_ts_compare": 0,
+    "video_source_file": "configs/video_source/j3dev/j3_mipi_cam_ar0233_raw12_pwl_2048x1280_offline_5pipes.json"
+  },
+  "config_4": {
+    "produce_name": "mipi_camera",
+    "data_source_num": 5,
+    "channel_id": [0, 1, 2, 3, 4],
+    "max_vio_buffer": 3,
+    "is_msg_package": 0,
+    "is_msg_order": 0,
+    "max_ts_compare": 0,
+    "video_source_file": "configs/video_source/j3dev/j3_mipi_cam_ar0233_raw12_pwl_2048x1280_offline_5pipes.json"
+  },
+  "config_5": {
+    "produce_name": "mipi_camera",
+    "data_source_num": 1,
+    "channel_id": [2],
+    "max_vio_buffer": 3,
+    "is_msg_package": 0,
+    "max_ts_compare": 0,
+    "video_source_file": "configs/video_source/j3dev/j3_mipi_cam_ar0233_raw12_pwl_1080p_offline_5pipes.json"
+  },
+  "config_6": {
+    "produce_name": "mipi_camera",
+    "data_source_num": 5,
+    "channel_id": [0, 1, 2, 3, 4],
+    "max_vio_buffer": 3,
+    "is_msg_package": 0,
+    "is_msg_order": 0,
+    "max_ts_compare": 0,
+    "video_source_file": "configs/video_source/j3dev/j3_mipi_cam_ar0233_raw12_pwl_1080p_offline_5pipes.json"
+  }
+}

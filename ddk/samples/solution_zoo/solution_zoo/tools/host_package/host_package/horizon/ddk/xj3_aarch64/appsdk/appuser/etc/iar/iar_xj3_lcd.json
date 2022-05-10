@@ -1,0 +1,122 @@
+{
+	"memory_config":
+	{
+		"mem_mode": 0
+	},
+	"channel0_config":
+	{
+		"ch_en": 1,
+		"pri": 2,
+		"src_width": 800,
+		"src_height": 480,
+		"dis_width": 800,
+		"dis_height": 480,
+		"format": 6,
+		"xpos": 0,
+		"ypos": 0,
+		"alpha_sel": 0,
+		"overmode": 0,
+		"alpha_en": 1,
+		"alpha": 255,
+		"key-color": 0,
+                "crop_width": 800,
+                "crop_height": 480
+	},
+	"channel1_config":
+	{
+		"ch_en": 0,
+		"pri": 3,
+		"src_width": 0,
+		"src_height": 0,
+		"dis_width": 0,
+		"dis_height": 0,
+		"format": 6,
+		"xpos": 0,
+		"ypos": 0,
+		"alpha": 128,
+		"alpha_sel": 0,
+		"overmode": 0,
+		"alpha_en": 1,
+		"key-color": 0,
+                "crop_width": 800,
+                "crop_height": 480
+	},
+	"channel2_config":
+	{
+		"ch_en": 1,
+		"pri": 0,
+		"src_width": 800,
+		"src_height": 480,
+		"dis_width": 800,
+		"dis_height": 480,
+		"format": 4,
+		"xpos": 0,
+		"ypos": 0,
+		"alpha": 128,
+		"alpha_sel": 0,
+		"overmode": 0,
+		"alpha_en": 1,
+		"key-color": 0,
+                "crop_width": 800,
+                "crop_height": 480
+	},
+	"channel3_config":
+	{
+		"ch_en": 0,
+		"pri": 1,
+		"src_width": 0,
+		"src_height": 0,
+		"dis_width": 0,
+		"dis_height": 0,
+		"format": 4,
+		"xpos": 0,
+		"ypos": 0,
+		"alpha": 128,
+		"alpha_sel": 0,
+		"overmode": 0,
+		"alpha_en": 1,
+		"key-color": 0,
+                "crop_width": 800,
+                "crop_height": 480
+	},
+	"upscale_config":
+        {
+                "scale_en": 0,
+                "src_size_width": 800,
+                "src_size_height": 480,
+                "tgt_size_width": 800,
+                "tgt_size_height": 480
+        },
+	"outputconfig":
+	{
+		"output_mode": 2,
+                "panel_width": 800,
+                "panel_height": 480,
+                "display_addr_type": 2,
+                "display_cam_no": 0,
+		"display_addr_type_layer1": 0,
+		"display_cam_no_layer1": 0,
+                "backlight_level": 10,
+                "panel_type": 1,
+                "bg_color": 16744328,
+                "contrast_en": 0,
+                "contrast_val": 0,
+                "bright_en": 0,
+                "bright_val": 0,
+		"off_contrast": 0,
+                "sat_en": 0,
+                "sat_val": 0,
+                "hue_en": 0,
+                "theta_sign": 0,
+                "theta_abs": 0,
+                "dithering_en": 0,
+                "dithering_flag": 0,
+                "gamma_en": 0,
+                "gamma_val": 0,
+		"user_refresh": 0,
+		"user_refresh_layer1": 0,
+		"rotate": 0,
+		"platform": 1,
+		"big_endian": 0
+	}
+}

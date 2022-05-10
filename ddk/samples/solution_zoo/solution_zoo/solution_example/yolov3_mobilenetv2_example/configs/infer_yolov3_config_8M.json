@@ -1,0 +1,32 @@
+{
+    "mode": "run_model",
+    "with_postprocess": true,
+    "model_preprocess":{
+        "class_name": "pyramid_preprocess",
+        "pyramid_layer": 8,
+        "config": {
+            "image_process_pipeline": [
+                "pad(960, 960)",
+                "resize(416, 416)"
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../models/yolov3_nv12_hybrid_horizonrt.bin",
+        "is_packed_model": false,
+        "model_name": "Darkent2Caffe_hybrid",
+        "run_mode": {
+            "bpu_core":2
+        }
+    },
+    "model_post_process": {
+        "class_name": "yolov3_postprocess",
+        "score_threshold": 0.3,
+        "nms_threshold": 0.45,
+        "nms_top_k": 500,
+        "basic_pyramid_image_height": 540,
+        "basic_pyramid_image_width": 960,
+        "src_image_height": 2160,
+        "src_image_width": 3840
+    }
+}

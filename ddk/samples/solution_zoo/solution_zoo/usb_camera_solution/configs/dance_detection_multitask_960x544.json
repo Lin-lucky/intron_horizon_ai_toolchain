@@ -1,0 +1,380 @@
+{
+  "declaration": {
+    "typenames": [
+      "Image",
+      "BBox",
+      "Landmarks",
+      "Classification",
+      "Segmentation",
+      "FloatFeature",
+      "Pose3D"
+    ],
+    "targets": {
+      "person": [
+        "body_lowpassfilter_box:BBox",
+        "head_final_box:BBox",
+        "face_lowpassfilter_box:BBox",
+        "mask:Segmentation",
+        "lmk_106pts:Landmarks",
+        "lowpassfilter_body_kps:Landmarks",
+        "age:Classification",
+        "gender:Classification",
+        "face_distance:Classification",
+        "body_contours:Landmarks"
+      ],
+      "hand": [
+        "hand_lowpassfilter_box:BBox",
+        "hand_landmarks:Landmarks",
+        "gesture:Classification",
+        "gesture_vote:Classification"
+      ]
+    }
+  },
+  "inputs": [
+    "image"
+  ],
+  "outputs": [
+    "image",
+    "body_lowpassfilter_box",
+    "head_final_box",
+    "face_lowpassfilter_box",
+    "hand_lowpassfilter_box",
+    "lowpassfilter_body_kps",
+    "face_distance",
+    "body_contours",
+    "hand_landmarks",
+    "lmk_106pts",
+    "gesture",
+    "gesture_vote",
+    "hand_disappeared_track_id_list",
+    "bound_rect_filter",
+    "age",
+    "gender"
+  ],
+  "workflow": [
+    {
+      "method_type": "InferMethod",
+      "unique_name": "multi_task",
+      "timeout_duration": 2000,
+      "inputs": [
+        "image"
+      ],
+      "outputs": [
+        "body_box",
+        "head_box",
+        "face_box",
+        "hand_box",
+        "kps",
+        "mask"
+      ],
+      "method_config_file": "infer_multitask_with_hand_960x544.json"
+    },
+    {
+      "method_type": "FilterMethod",
+      "unique_name": "box_filter",
+      "inputs": ["face_box", "head_box", "body_box", "kps", "hand_box"],
+      "outputs": ["box_filter_info", "face_box_after_filter", "head_box_after_filter", "body_box_after_filter", "kps_after_filter", "hand_box_after_filter", "bound_rect_filter"],
+      "method_config_file": "box_filter_config.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "face_mot",
+      "inputs": [
+        "image",
+        "face_box_after_filter"
+      ],
+      "outputs": [
+        "face_bbox_list",
+        "face_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou2_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "head_mot",
+      "inputs": [
+        "image",
+        "head_box_after_filter"
+      ],
+      "outputs": [
+        "head_bbox_list",
+        "head_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou2_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "body_mot",
+      "inputs": [
+        "image",
+        "body_box_after_filter"
+      ],
+      "outputs": [
+        "body_bbox_list",
+        "body_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou2_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "hand_mot",
+      "inputs": [
+        "image",
+        "hand_box_after_filter"
+      ],
+      "outputs": [
+        "hand_final_box",
+        "hand_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou2_euclid_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MergeMethod",
+      "unique_name": "merge_method",
+      "inputs": [
+        "face_bbox_list",
+        "head_bbox_list",
+        "body_bbox_list",
+        "face_disappeared_track_id_list",
+        "head_disappeared_track_id_list",
+        "body_disappeared_track_id_list"
+      ],
+      "outputs": [
+        "face_final_box",
+        "head_final_box",
+        "body_final_box",
+        "disappeared_track_id"
+      ],
+      "method_config_file": "merge_head_body.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "LowPassFilterMethod",
+      "unique_name": "lowpassfilter_method",
+      "timeout_duration": 2000,
+      "inputs": [
+        "body_final_box",
+        "disappeared_track_id",
+        "kps"
+      ],
+      "outputs": [
+        "lowpassfilter_body_kps",
+        "body_lowpassfilter_box"
+      ],
+      "method_config_file": "lowpassfilter_body_config.json"
+    },
+    {
+      "method_type": "InferMethod",
+      "unique_name": "lmk_106pts_infer",
+      "timeout_duration": 2000,
+      "inputs": [
+        "face_final_box",
+        "image"
+      ],
+      "outputs": [
+        "org_lmk_106pts_infer",
+        "org_lmk_106pts_task"
+      ],
+      "method_config_file": "infer_lmk_106pts.json"
+    },
+    {
+      "method_type": "PostMethod",
+      "unique_name": "lmk_106pts_post",
+      "timeout_duration": 2000,
+      "inputs": [
+        "org_lmk_106pts_infer",
+        "org_lmk_106pts_task"
+      ],
+      "outputs": [
+        "org_lmk_106pts"
+      ],
+      "method_config_file": ""
+    },
+    {
+      "method_type": "InferMethod",
+      "unique_name": "hand_lmk_infer",
+      "timeout_duration": 2000,
+      "inputs": [
+        "hand_final_box",
+        "image"
+      ],
+      "outputs": [
+        "hand_lmk_infer",
+        "hand_lmk_task"
+      ],
+      "method_config_file": "infer_hand_lmk.json"
+    },
+    {
+      "method_type": "PostMethod",
+      "unique_name": "hand_lmk_post",
+      "timeout_duration": 2000,
+      "inputs": [
+        "hand_lmk_infer",
+        "hand_lmk_task"
+      ],
+      "outputs": [
+        "hand_lmk"
+      ],
+      "method_config_file": ""
+    },
+    {
+      "method_type": "InferMethod",
+      "unique_name": "gesture_recog_infer",
+      "timeout_duration": 2000,
+      "thread_count": 1,
+      "inputs": [
+        "image",
+        "hand_final_box",
+        "hand_lmk",
+        "hand_disappeared_track_id_list"
+      ],
+      "outputs": [
+        "gesture_infer",
+        "gesture_task"
+      ],
+      "method_config_file": "infer_gesture_det.json"
+    },
+    {
+      "method_type": "PostMethod",
+      "unique_name": "gesture_recog_post",
+      "timeout_duration": 2000,
+      "thread_count": 2,
+      "inputs": [
+        "gesture_infer",
+        "gesture_task"
+      ],
+      "outputs": [
+        "gesture"
+      ],
+      "method_config_file": ""
+    },
+    {
+      "method_type": "VoteMethod",
+      "unique_name": "gesture_voting",
+      "inputs": [
+        "hand_final_box",
+        "hand_disappeared_track_id_list",
+        "gesture"
+      ],
+      "outputs": [
+        "gesture_vote"
+      ],
+      "method_config_file": "gesture_voting.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "LowPassFilterMethod",
+      "unique_name": "lowpassfilter_hand_method",
+      "timeout_duration": 2000,
+      "inputs": [
+        "hand_final_box",
+        "hand_disappeared_track_id_list",
+        "hand_lmk"
+      ],
+      "outputs": [
+        "hand_landmarks",
+        "hand_lowpassfilter_box"
+      ],
+      "method_config_file": "lowpassfilter_hand_config.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "LowPassFilterMethod",
+      "unique_name": "lowpassfilter_face_method",
+      "timeout_duration": 2000,
+      "inputs": [
+        "face_final_box",
+        "disappeared_track_id",
+        "org_lmk_106pts"
+      ],
+      "outputs": [
+        "lmk_106pts",
+        "face_lowpassfilter_box"
+      ],
+      "method_config_file": "lowpassfilter_hand_config.json"
+    },
+    {
+      "method_type": "InferMethod",
+      "unique_name": "age_gender_infer",
+      "timeout_duration": 2000,
+      "inputs": [
+        "face_final_box",
+        "image"
+      ],
+      "outputs": [
+        "age_gender_infer",
+        "age_gender_task"
+      ],
+      "method_config_file": "infer_age_gender.json"
+    },
+    {
+      "method_type": "PostMethod",
+      "unique_name": "age_gender_post",
+      "timeout_duration": 2000,
+      "inputs": [
+        "age_gender_infer",
+        "age_gender_task"
+      ],
+      "outputs": [
+        "age_list",
+        "gender_list"
+      ],
+      "method_config_file": ""
+    },
+    {
+      "method_type": "VoteMethod",
+      "unique_name": "age_voting",
+      "inputs": [
+        "face_final_box",
+        "disappeared_track_id",
+        "age_list"
+      ],
+      "outputs": [
+        "age"
+      ],
+      "method_config_file": "age_voting.json"
+    },
+    {
+      "method_type": "VoteMethod",
+      "unique_name": "gender_voting",
+      "inputs": [
+        "face_final_box",
+        "disappeared_track_id",
+        "gender_list"
+      ],
+      "outputs": [
+        "gender"
+      ],
+      "method_config_file": "gender_voting.json"
+    },
+    {
+      "method_type": "DistanceMethod",
+      "unique_name": "body_distance",
+      "inputs": [
+        "image",
+        "face_final_box"
+      ],
+      "outputs": [
+        "face_distance"
+      ],
+      "method_config_file": "distance_config.json"
+    },
+    {
+      "method_type": "ContoursMethod",
+      "unique_name": "body_contours",
+      "inputs": [
+        "body_final_box",
+        "mask"
+      ],
+      "outputs": [
+        "body_contours"
+      ],
+      "method_config_file": "contours_method.json"
+    }
+  ]
+}

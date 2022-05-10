@@ -1,0 +1,139 @@
+{
+  "inputs": [
+    "image"
+  ],
+  "outputs": [
+    "image",
+    "face_final_box",
+    "head_final_box",
+    "body_final_box",
+    "disappeared_track_id",
+    "pose",
+    "lmk",
+    "kps",
+    "snap_list"
+  ],
+  "workflow": [
+    {
+      "thread_count": 3,
+      "method_type": "InferMethod",
+      "unique_name": "multitask",
+      "inputs": [
+        "image"
+      ],
+      "outputs": [
+        "body_box",
+        "head_box",
+        "face_box",
+        "lmk",
+        "pose",
+        "kps"
+      ],
+      "method_config_file": "infer_multitask.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "face_mot",
+      "inputs": [
+        "face_box"
+      ],
+      "outputs": [
+        "face_bbox_list",
+        "face_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "head_mot",
+      "inputs": [
+        "head_box"
+      ],
+      "outputs": [
+        "head_bbox_list",
+        "head_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "body_mot",
+      "inputs": [
+        "body_box"
+      ],
+      "outputs": [
+        "body_bbox_list",
+        "body_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MergeMethod",
+      "unique_name": "merge_method",
+      "inputs": [
+        "face_bbox_list",
+        "head_bbox_list",
+        "body_bbox_list",
+        "face_disappeared_track_id_list",
+        "head_disappeared_track_id_list",
+        "body_disappeared_track_id_list"
+      ],
+      "outputs": [
+        "face_final_box",
+        "head_final_box",
+        "body_final_box",
+        "disappeared_track_id"
+      ],
+      "method_config_file": "merge_head_body.json"
+    },
+    {
+      "method_type": "FaceSnapFilterMethod",
+      "unique_name": "filter",
+      "inputs": [
+        "face_final_box",
+        "pose",
+        "lmk"
+      ],
+      "outputs": [
+        "filter_info",
+        "rgb_bbox_list_final",
+        "pose_after_filter",
+        "lmk_after_filter"
+      ],
+      "method_config_file": "snapshot_filter.json"
+    },
+    {
+      "method_type": "GradingMethod",
+      "unique_name": "grading",
+      "inputs": [
+        "rgb_bbox_list_final",
+        "pose_after_filter",
+        "lmk_after_filter"
+      ],
+      "outputs": [
+        "select_score_list"
+      ],
+      "method_config_file": "grading.json"
+    },
+    {
+      "method_type": "SnapShotMethod",
+      "unique_name": "snapshot",
+      "inputs": [
+        "image",
+        "rgb_bbox_list_final",
+        "select_score_list",
+        "disappeared_track_id",
+        "pose_after_filter",
+        "lmk_after_filter"
+      ],
+      "outputs": [
+        "snap_list"
+      ],
+      "method_config_file": "snapshot.json"
+    }
+  ]
+}

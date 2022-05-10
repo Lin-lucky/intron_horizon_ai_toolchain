@@ -1,0 +1,28 @@
+{
+    "mode": "run_model_with_bbox",
+    "with_postprocess": false,
+    "model_preprocess": {
+        "class_name": "pyramid_roi_resizer_preprocess",
+        "config": {
+            "roi_process_pipeline": [
+                "norm_by_lside_ratio(1.25)"
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/faceLandmark106pts.hbm",
+        "is_packed_model": false,
+        "model_name": "faceLandmark106pts",
+        "run_mode": {
+            "bpu_core": 0
+        }
+    },
+    "model_post_process": {
+        "class_name": "lmks4_postprocess",
+        "config": {
+            "lmks_num": 106,
+            "vector_size": 32,
+            "i_o_stride": 4
+        }
+    }
+}

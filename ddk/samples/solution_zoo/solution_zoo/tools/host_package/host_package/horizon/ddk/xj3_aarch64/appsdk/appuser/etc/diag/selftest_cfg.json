@@ -1,0 +1,35 @@
+{
+  "name": "selftest_cfg",
+  "dtc_info": {
+    "dtc_id_base": "0xF001",
+    "dtc_num_max": 3,
+    "dtc_module_id_min": "0xFFFF",
+    "dtc_module_id_max": "0xFFFF",
+    "dtc_mapping": [
+      {
+        "module_id": "0xFFFF",
+        "event_id": "0xFFFF",
+        "dtc_id": "0xF001",
+        "dtc_description": "sts_bitmask",
+        "dtc_snapshot_len": 20,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0x0001",
+        "event_id": "0x0001",
+        "dtc_id": "0xF002",
+        "dtc_description": "kernel_selftest",
+        "dtc_snapshot_len": 32768,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0x8001",
+        "event_id": "0x0001",
+        "dtc_id": "0xF003",
+        "dtc_description": "app_selftest",
+        "dtc_snapshot_len": 32768,
+        "dtc_stable_time": 0
+      }
+    ]
+  }
+}

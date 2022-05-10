@@ -1,0 +1,22 @@
+{
+    "mode": "run_model",
+    "with_postprocess": true,
+    "model_preprocess": {
+        "class_name": "pyramid_roi_bpu_preprocess",
+        "config": {
+            "bpu_core": 1
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../models/mobilenetv2_nv12_hybrid_horizonrt.bin",
+        "is_packed_model": false,
+        "model_name": "MOBILENET_V2_hybrid",
+        "run_mode": {
+            "bpu_core":1
+        }
+    },
+    "model_post_process": {
+        "class_name": "mobilenetv2_postprocess",
+        "class_names_list_path": "./yolov3_mobilenetv2_example/configs/label.list"
+    }
+}

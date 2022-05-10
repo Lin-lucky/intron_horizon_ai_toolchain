@@ -1,0 +1,107 @@
+r8723bs.ko: cfg80211.ko
+v4l2-tpg.ko:
+g_mass_storage.ko: usb_f_mass_storage.ko libcomposite.ko
+hobot_gdc.ko: hobot_dwe.ko hobot_isp_log.ko videobuf2-dma-contig.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko
+snd-soc-adau1977.ko:
+ac108_driver.ko:
+usb_f_ss_lb.ko: libcomposite.ko
+usb_f_uvc.ko: videobuf2-vmalloc.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko libcomposite.ko
+g_audio.ko: libcomposite.ko
+elprsa.ko: elppdu.ko
+u_ether.ko:
+u_hbusb.ko:
+bpu_governor.ko: bpu_framework.ko
+hobot_spidev.ko:
+hobot_isp_log.ko:
+g_cdc.ko: u_ether.ko libcomposite.ko
+hobot-snd-96.ko:
+libcomposite.ko:
+cdc_ncm.ko: usbnet.ko
+hobot-dma.ko:
+usb_f_acm.ko: u_serial.ko libcomposite.ko
+hobot_dwe.ko: hobot_isp_log.ko videobuf2-dma-contig.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko
+usb_f_mass_storage.ko: libcomposite.ko
+uvcvideo.ko: videobuf2-vmalloc.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko
+snd-soc-adau1977-i2c.ko: snd-soc-adau1977.ko
+vivid.ko: v4l2-tpg.ko videobuf2-vmalloc.ko videobuf2-dma-contig.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko
+videobuf2-memops.ko:
+hobot_pym.ko:
+videobuf-core.ko:
+cdc_subset.ko: usbnet.ko
+elpclp800.ko: elppdu.ko
+usb_f_rndis.ko: u_ether.ko libcomposite.ko
+hobot_ipu.ko: hobot_isp.ko hobot_sns_bridge.ko videobuf2-vmalloc.ko hobot_dwe.ko hobot_isp_log.ko videobuf2-dma-contig.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko
+usb_f_serial.ko: u_serial.ko libcomposite.ko
+u_serial.ko:
+hobot_jpu.ko:
+g_ether.ko: usb_f_rndis.ko u_ether.ko libcomposite.ko
+elpspaccdev.ko: elpspacc.ko elppdu.ko
+net1080.ko: usbnet.ko
+hobot_iq.ko: hobot_isp_log.ko
+g_hbusb.ko: u_hbusb.ko libcomposite.ko
+asix.ko: usbnet.ko
+elpspacccrypto.ko: elpspacc.ko elppdu.ko
+v4l2_avb.ko: videobuf2-dma-contig.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko
+hobot-snd-7210.ko:
+iar_cdev.ko: iar.ko
+hobot_sif.ko:
+hobot_efuse.ko:
+g_webcam.ko: usb_f_uvc.ko videobuf2-vmalloc.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko libcomposite.ko
+b43.ko: bcma.ko ssb.ko mac80211.ko cfg80211.ko
+sd8xxx.ko: mlan.ko cfg80211.ko
+ssb.ko:
+bpu_cores.ko: bpu_framework.ko
+r8189fs.ko: cfg80211.ko
+u_audio.ko: libcomposite.ko
+usb_f_obex.ko: u_serial.ko libcomposite.ko
+hobot_lens.ko: hobot_sensor.ko hobot_sns_bridge.ko hobot_isp_log.ko
+elppdu.ko:
+bpu_framework.ko:
+bcma.ko:
+hobot_vpu.ko:
+gt9xx.ko:
+videobuf2-dma-contig.ko: videobuf2-memops.ko
+usb_f_ecm.ko: u_ether.ko libcomposite.ko
+cdc_ether.ko: usbnet.ko
+usbnet.ko:
+g_serial.ko: libcomposite.ko
+es7210.ko:
+hobot_sns_bridge.ko: hobot_isp_log.ko
+hobot_cnn_host_total.ko:
+spaccexample.ko: elpspacc.ko elppdu.ko
+usb_f_ecm_subset.ko: u_ether.ko libcomposite.ko
+nfs_layout_flexfiles.ko:
+hobot_goodix.ko:
+hobot_sensor.ko: hobot_sns_bridge.ko hobot_isp_log.ko
+cfg80211.ko:
+usb_f_fs.ko: libcomposite.ko
+hobot_sscg.ko:
+videobuf2-core.ko:
+elpspacc.ko: elppdu.ko
+hobot-cpudai.ko:
+usb_f_hbusb.ko: u_hbusb.ko libcomposite.ko
+g_hid.ko: libcomposite.ko
+g_zero.ko: libcomposite.ko
+videobuf2-vmalloc.ko: videobuf2-memops.ko
+hobot_isp.ko: hobot_sns_bridge.ko videobuf2-vmalloc.ko hobot_dwe.ko hobot_isp_log.ko videobuf2-dma-contig.ko videobuf2-memops.ko videobuf2-v4l2.ko videobuf2-core.ko
+usb_f_hid.ko: libcomposite.ko
+usb_f_uac2.ko: u_audio.ko libcomposite.ko
+videobuf2-v4l2.ko: videobuf2-core.ko
+zaurus.ko: cdc_ether.ko usbnet.ko
+gadgetfs.ko:
+ac101.ko:
+hobot_codec.ko:
+ax88179_178a.ko: usbnet.ko
+snd-soc-ac102.ko:
+cmac.ko:
+hobot_hdmi_lt8618.ko: iar.ko
+g_ffs.ko: usb_f_fs.ko usb_f_rndis.ko u_ether.ko libcomposite.ko
+elpmem.ko: elppdu.ko
+iar.ko:
+g_acm_ms.ko: usb_f_mass_storage.ko libcomposite.ko
+g_multi.ko: usb_f_rndis.ko u_ether.ko usb_f_mass_storage.ko libcomposite.ko
+hobot_hdmi.ko: iar_cdev.ko iar.ko
+hobot-fb.ko: iar.ko
+mac80211.ko: cfg80211.ko
+mlan.ko:
+iar_mmap.ko: iar.ko

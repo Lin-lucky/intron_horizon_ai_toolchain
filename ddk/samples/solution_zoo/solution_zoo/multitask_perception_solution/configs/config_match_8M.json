@@ -1,0 +1,17 @@
+{
+    "match": {
+        "description": "Match pairs requird params",
+        "image_width": 3840,
+        "image_height": 2160,
+        "min_statis_frames": 500,
+        "work_frames": 2500,
+        "overlap_threshold": 0.90,
+        "nums_cells_image": 2,
+        "nums_cells_bbox": 4,
+        "max_pair_dis": 8,
+        "min_stat_value": 5
+    },
+    "using_fake_plate_color": false,
+    "using_fake_plate_type": false,
+    "desc": "除车辆/车牌检测框外, 当有对应输入时设置using_fake_XXX为false"
+}

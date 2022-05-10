@@ -1,0 +1,56 @@
+/*
+ * @Description: implement of uvcconfig
+ * @Author: ronghui.zhang
+ * @Date: 2020-05-14
+ * @Copyright 2020 Horizon Robotics, Inc.
+ */
+#ifndef INCLUDE_UVC_SERVER_PLUGIN_CONFIG_H_
+#define INCLUDE_UVC_SERVER_PLUGIN_CONFIG_H_
+
+#include <memory>
+#include <mutex>
+#include <string>
+
+#include "json/json.h"
+
+namespace xproto {
+class UvcServerPlugin;
+
+class UvcConfig {
+  friend class UvcServerPlugin;
+
+ public:
+  /* type of video frame */
+  enum VideoType { VIDEO_YUV, VIDEO_H264, VIDEO_H265, VIDEO_JPG, VIDEO_MJPEG };
+
+ public:
+  UvcConfig() = delete;
+  explicit UvcConfig(const std::string &path);
+  bool LoadConfig();
+  std::string GetValue(const std::string &key);
+  Json::Value GetJson() const;
+
+ private:
+  bool CheckConfig();
+  std::string path_;
+  Json::Value json_;
+  std::mutex mutex_;
+
+  uint8_t auth_mode_;
+  int layer_;
+  uint8_t jpeg_quality_;
+  std::string user_, password_;
+  VideoType video_type_;
+  uint32_t image_width_, image_height_;
+  uint32_t data_buf_size_, packet_size_;
+  std::string attr_des_file_;
+  int res_720p_layer_;
+  int res_1080p_layer_;
+  int res_2160p_layer_;
+  int is_cbr_ = 1;
+  int bitrate_ = 2000;
+  int h264_encode_time_;
+  int audio_enable_;
+};
+}  // namespace xproto
+#endif  // INCLUDE_UVC_SERVER_PLUGIN_CONFIG_H_

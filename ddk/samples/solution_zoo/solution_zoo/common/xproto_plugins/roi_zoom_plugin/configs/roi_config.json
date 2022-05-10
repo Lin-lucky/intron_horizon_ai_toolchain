@@ -1,0 +1,12 @@
+{
+    "enable_auto_start": 0,
+    "enable_vot": 1,
+    "enable_intelligent_tracking": 1,
+    "view_roi_update_thr": 0.85,
+    "view_expansion_coefficient": 1.3,
+    "view_transition_coefficient": 16,
+    "track_roi_update_thr": 0.75,
+    "track_expansion_coefficient": 1.2,
+    "track_roi_display": 2,
+    "keep_ratio": true
+}

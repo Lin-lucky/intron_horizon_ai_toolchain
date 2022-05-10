@@ -1,0 +1,128 @@
+{
+  "input_config": {
+    "input_type": "preprocessed_image",
+    "height": 300,
+    "width": 300,
+    "data_type": 1,
+    "image_list_file": "../../../data/voc/voc.lst",
+    "need_pre_load": false,
+    "need_loop": false,
+    "max_cache": 10
+  },
+  "output_config": {
+    "output_type": "eval",
+    "eval_enable": true,
+    "output_file": "./eval.log"
+  },
+  "inputs": [
+    "input_data"
+  ],
+  "outputs": [
+    "input_data",
+    "perception_data"
+  ],
+  "workflow": [
+    {
+      "thread_count": 2,
+      "method_type": "InferMethod",
+      "unique_name": "InferMethod",
+      "inputs": [
+        "input_data"
+      ],
+      "outputs": [
+        "tensors"
+      ],
+      "method_config": {
+        "core": 0,
+        "model_file": "../../../model/runtime/mobilenet_ssd/mobilenet_ssd_300x300_nv12.bin"
+      }
+    },
+    {
+      "thread_count": 2,
+      "method_type": "PTQSSDPostProcessMethod",
+      "unique_name": "PTQSSDPostProcessMethod",
+      "inputs": [
+        "input_data",
+        "tensors"
+      ],
+      "outputs": [
+        "perception_data"
+      ],
+      "method_config": {
+        "step": [
+          15,
+          30,
+          60,
+          100,
+          150,
+          300
+        ],
+        "anchor_size": [
+          [
+            60,
+            -1
+          ],
+          [
+            105,
+            150
+          ],
+          [
+            195,
+            240
+          ],
+          [
+            240,
+            285
+          ],
+          [
+            285,
+            300
+          ]
+        ],
+        "anchor_ratio": [
+          [
+            2,
+            0.5,
+            0,
+            0
+          ],
+          [
+            2,
+            0.5,
+            3,
+            0.3333333
+          ],
+          [
+            2,
+            0.5,
+            3,
+            0.3333333
+          ],
+          [
+            2,
+            0.5,
+            3,
+            0.3333333
+          ],
+          [
+            2,
+            0.5,
+            3,
+            0.3333333
+          ],
+          [
+            2,
+            0.5,
+            3,
+            0.3333333
+          ]
+        ],
+        "class_num": 21,
+        "nms_threshold": 0.45,
+        "score_threshold": 0.25,
+        "is_tf": true,
+        "det_name_list": "../../../config/data_name_list/voc_detlist.list"
+      }
+    }
+  ]
+}

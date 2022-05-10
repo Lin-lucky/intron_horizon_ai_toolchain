@@ -1,0 +1,27 @@
+{
+  "name": "model_dtc",
+  "dtc_info": {
+    "dtc_id_base": "0x1001",
+    "dtc_num_max": 16,
+    "dtc_module_id_min": "0x8001",
+    "dtc_module_id_max": "0x8FFF",
+    "dtc_mapping": [
+      {
+        "module_id": "0x8002",
+        "event_id": "0x0001",
+        "dtc_id": "0x1001",
+        "dtc_description": "model_load0",
+        "dtc_snapshot_len": 20,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x8003",
+        "event_id": "0x0001",
+        "dtc_id": "0x1002",
+        "dtc_description": "model_load1",
+        "dtc_snapshot_len": 20,
+        "dtc_stable_time": 500
+      }
+    ]
+  }
+}

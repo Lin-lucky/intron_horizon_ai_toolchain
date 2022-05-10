@@ -1,0 +1,3 @@
+/sbin/route
+/bin/busybox 50
+/sbin/route.net-tools 100

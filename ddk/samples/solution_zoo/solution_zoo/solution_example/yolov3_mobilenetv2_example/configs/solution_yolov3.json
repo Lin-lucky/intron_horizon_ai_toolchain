@@ -1,0 +1,11 @@
+{
+  "xstream_workflow_file": "./yolov3_mobilenetv2_example/configs/workflow_yolov3.json",
+  "codec_param": {
+    "use_vb": 0,
+    "jpeg_quality": 80,
+    "frame_buf_depth": 3,
+    "is_cbr": 1,
+    "bitrate": 6000,
+    "jpg_encode_time": 0
+  }
+}

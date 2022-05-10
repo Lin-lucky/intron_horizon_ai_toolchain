@@ -1,0 +1,168 @@
+{
+  "declaration": {
+    "typenames": [
+      "Image",
+      "BBox",
+      "Landmarks",
+      "Classification",
+      "Segmentation",
+      "FloatFeature",
+      "Pose3D"
+    ],
+    "targets": {
+      "face": [
+        "face_bbox_list:BBox",
+        "face_feature:FloatFeature"
+      ]
+    }
+  },
+  "inputs": [
+    "image"
+  ],
+  "outputs": [
+    "image",
+    "face_bbox_list",
+    "snap_list",
+    "face_feature"
+  ],
+  "workflow": [
+    {
+      "method_type": "InferMethod",
+      "unique_name": "multi_task",
+      "inputs": [
+        "image"
+      ],
+      "outputs": [
+        "rgb_face_box",
+        "rgb_lmk",
+        "rgb_pose"
+      ],
+      "method_config_file": "infer_face_pose_lmk.json"
+    },
+    {
+      "method_type": "MOTMethod",
+      "thread_count": 1,
+      "unique_name": "face_mot",
+      "inputs": [
+        "rgb_face_box"
+      ],
+      "outputs": [
+        "face_bbox_list",
+        "rgb_face_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou_method_param.json"
+    },
+    {
+      "method_type": "InferMethod",
+      "unique_name": "face_quality",
+      "inputs": [
+        "face_bbox_list",
+        "image"
+      ],
+      "outputs": [
+        "blur",
+        "brightness",
+        "eye_abnormalities",
+        "mouth_abnormal",
+        "left_eye",
+        "right_eye",
+        "left_brow",
+        "right_brow",
+        "forehead",
+        "left_cheek",
+        "right_cheek",
+        "nose",
+        "mouth",
+        "jaw"
+      ],
+      "method_config_file": "infer_face_quality.json"
+    },
+    {
+      "method_type": "FilterMethod",
+      "unique_name": "filter",
+      "inputs": [
+        "face_bbox_list",
+        "rgb_pose",
+        "rgb_lmk",
+        "blur",
+        "brightness",
+        "eye_abnormalities",
+        "mouth_abnormal",
+        "left_eye",
+        "right_eye",
+        "left_brow",
+        "right_brow",
+        "forehead",
+        "left_cheek",
+        "right_cheek",
+        "nose",
+        "mouth",
+        "jaw"
+      ],
+      "outputs": [
+        "filter_info",
+        "rgb_bbox_list_final",
+        "pose_after_filter",
+        "lmk_after_filter",
+        "blur_after_filter",
+        "brightness_after_filter",
+        "eye_abnormalities_after_filter",
+        "mouth_abnormal_after_filter",
+        "left_eye_after_filter",
+        "right_eye_after_filter",
+        "left_brow_after_filter",
+        "right_brow_after_filter",
+        "forehead_after_filter",
+        "left_cheek_after_filter",
+        "right_cheek_after_filter",
+        "nose_after_filter",
+        "mouth_after_filter",
+        "jaw_after_filter",
+        "bound_rect_filter"
+      ],
+      "method_config_file": "filter_config.json"
+    },
+    {
+      "method_type": "GradingMethod",
+      "unique_name": "grading",
+      "inputs": [
+        "rgb_bbox_list_final",
+        "pose_after_filter",
+        "lmk_after_filter",
+        "blur_after_filter"
+      ],
+      "outputs": [
+        "select_score_list"
+      ],
+      "method_config_file": "grading.json"
+    },
+    {
+      "method_type": "SnapShotMethod",
+      "unique_name": "snapshot",
+      "inputs": [
+        "image",
+        "rgb_bbox_list_final",
+        "select_score_list",
+        "rgb_face_disappeared_track_id_list",
+        "pose_after_filter",
+        "lmk_after_filter",
+        "rgb_bbox_list_final"
+      ],
+      "outputs": [
+        "snap_list"
+      ],
+      "method_config_file": "snapshot.json"
+    },
+    {
+      "method_type": "InferMethod",
+      "unique_name": "feature",
+      "inputs": [
+        "snap_list"
+      ],
+      "outputs": [
+        "face_feature"
+      ],
+      "method_config_file": "infer_feature.json"
+    }
+  ]
+}

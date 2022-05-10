@@ -1,0 +1,10 @@
+{
+    "en_encoder": false,
+    "encoder_input": 0,
+    "encoder_output_save_file": "draw.h264",
+    "en_bgr_convert": false,
+    "en_fps_draw": true,
+    "en_gesture_val_draw": false,
+    "en_handid_draw": false,
+    "desc": "en_encoder: input img to encoder and save output(h264); encoder_input: 0: input img with smart drawing to encoder, 1: input raw img to encoder; encoder_output_save_file: saved file name; en_bgr_convert: convert nv12 to bgr and plot on bgr img; en_fps_draw: draw fps on img"
+}

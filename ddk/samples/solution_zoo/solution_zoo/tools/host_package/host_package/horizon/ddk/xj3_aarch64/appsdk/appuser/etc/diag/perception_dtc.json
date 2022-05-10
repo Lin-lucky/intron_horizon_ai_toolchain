@@ -1,0 +1,59 @@
+{
+  "name": "perception_dtc",
+  "dtc_info": {
+    "dtc_id_base": "0x2001",
+    "dtc_num_max": 32,
+    "dtc_module_id_min": "0x9001",
+    "dtc_module_id_max": "0x9FFF",
+    "dtc_mapping": [
+      {
+        "module_id": "0x9001",
+        "event_id": "0x0001",
+        "dtc_id": "0x2001",
+        "dtc_description": "perception_load0",
+        "dtc_snapshot_len": 20,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x9002",
+        "event_id": "0x0001",
+        "dtc_id": "0x2002",
+        "dtc_description": "perception_load1",
+        "dtc_snapshot_len": 20,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x9003",
+        "event_id": "0x0001",
+        "dtc_id": "0x2003",
+        "dtc_description": "camera_init",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x9010",
+        "event_id": "0x0001",
+        "dtc_id": "0x2011",
+        "dtc_description": "higt_cpu_load",
+        "dtc_snapshot_len": 30,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0x9010",
+        "event_id": "0x0002",
+        "dtc_id": "0x2012",
+        "dtc_description": "higt_cpu_temp",
+        "dtc_snapshot_len": 30,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0x9010",
+        "event_id": "0x0003",
+        "dtc_id": "0x2013",
+        "dtc_description": "higt_memory",
+        "dtc_snapshot_len": 30,
+        "dtc_stable_time": 0
+      }
+    ]
+  }
+}

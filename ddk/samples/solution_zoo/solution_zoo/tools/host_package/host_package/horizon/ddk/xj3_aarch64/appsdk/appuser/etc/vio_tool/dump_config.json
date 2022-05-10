@@ -1,0 +1,18 @@
+{
+	"server_config": {
+		"ip_addr": "INADDR_ANY",
+		"port": 10086
+	},
+	"pipe_line": 0,
+	"raw_config": {
+		"raw_enable": 0
+	},
+	"yuv_config": {
+		"yuv_enable": 1,
+		"yuv_channel": 0
+	},
+	"jepg_config": {
+		"jepg_enable": 0,
+		"jepg_channel": 5
+	}
+}

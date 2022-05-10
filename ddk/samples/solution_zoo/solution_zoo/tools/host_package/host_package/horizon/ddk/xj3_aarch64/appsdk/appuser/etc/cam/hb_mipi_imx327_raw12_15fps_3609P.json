@@ -1,0 +1,36 @@
+{
+	"mipi": {
+		"base": {
+			"lane": 4,
+			"datatype":"0x2c",
+			"mclk": 24,
+			"mipiclk": 1782,
+			"fps": 15,
+			"width": 1952,
+			"height": 3609,
+			"linelenth": 2152,
+			"framelenth": 4600,
+			"settle": 20
+		},
+		"host": {
+			"enable": 1,
+			"hsa": 0,
+			"hbp": 0,
+			"hsd": 0,
+			"vc_num": 1,
+			"vc0_index": 0,
+			"vc1_index": 1
+		},
+		"dev": {
+			"enable": 1,
+			"vpg": 0,
+			"ipi_lines": 0
+		},
+		"param": {
+			"host": {
+				"name": ["stop_check_instart"],
+				"value": [1]
+			}
+		}
+	}
+}

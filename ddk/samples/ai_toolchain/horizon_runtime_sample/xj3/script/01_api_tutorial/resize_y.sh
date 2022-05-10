@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+# Copyright (c) 2020 Horizon Robotics.All Rights Reserved.
+#
+# The material in this file is confidential and contains trade secrets
+# of Horizon Robotics Inc. This is proprietary information owned by
+# Horizon Robotics Inc. No part of this work may be disclosed,
+# reproduced, copied, transmitted, or used in any way for any purpose,
+# without the express written permission of Horizon Robotics Inc.
+
+
+bin_path=../aarch64/bin
+lib=../aarch64/lib
+
+export LD_LIBRARY_PATH=${lib}:${LD_LIBRARY_PATH}
+export BMEM_CACHEABLE=true
+
+# input padding out, output need padding
+${bin_path}/resize_y_example \
+  --image_file=../../data/det_images/kite.jpg \
+  --resize_height=416 \
+  --resize_width=402 \
+  --resized_image=./resize_y.jpg

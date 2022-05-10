@@ -1,0 +1,199 @@
+{
+  "declaration": {
+    "typenames": [
+      "Image",
+      "BBox",
+      "Landmarks",
+      "Classification",
+      "Segmentation",
+      "FloatFeature",
+      "Pose3D"
+    ],
+    "targets": {
+      "vehicle": [
+        "vehicle_final_box:BBox",
+        "vehicle_type_vote:Classification"
+      ],
+      "nonmotor": [
+        "nonmotor_box:BBox"
+      ],
+      "pedestrian": [
+        "pedestrian_box:BBox"
+      ],
+      "plate": [
+        "plate_final_box:BBox",
+        "plate_num_vote:Classification"
+      ]
+    }
+  },
+ "inputs": ["image"],
+  "outputs": [
+      "image",
+      "vehicle_final_box",
+      "vehicle_disappeared_track_id_list",
+      "nonmotor_box",
+      "nonmotor_disappeared_track_id_list",
+      "pedestrian_box",
+      "pedestrian_disappeared_track_id_list",
+      "plate_final_box",
+      "plate_num_vote",
+      "vehicle_color_vote",
+      "vehicle_type_vote",
+      "frontwindow_box",
+      "plate_color_match",
+      "is_double_plate"
+  ],
+  "workflow": [
+    {
+      "thread_count": 3,
+      "method_type": "InferMethod",
+      "unique_name": "multitask",
+      "inputs": [
+        "image"
+      ],
+      "outputs": [
+        "vehicle_bbox",
+        "nonmotor_bbox_list",
+        "person_bbox_list",
+        "plate_bbox_list",
+        "frontwindow_box",
+        "plate_color",
+        "plate_row"
+      ],
+      "method_config_file": "infer_vehicle_multitask.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "vehicle_mot",
+      "inputs": [
+        "vehicle_bbox"
+      ],
+      "outputs": [
+        "vehicle_bbox_list",
+        "vehicle_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "vehicle_un_mot",
+      "inputs": [
+        "nonmotor_bbox_list"
+      ],
+      "outputs": [
+        "nonmotor_box",
+        "nonmotor_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou_method_param.json"
+    },
+    {
+      "thread_count": 1,
+      "method_type": "MOTMethod",
+      "unique_name": "person_mot",
+      "inputs": [
+        "person_bbox_list"
+      ],
+      "outputs": [
+        "pedestrian_box",
+        "pedestrian_disappeared_track_id_list"
+      ],
+      "method_config_file": "iou_method_param.json"
+    },
+    {
+      "unique_name": "vehicle_color",
+      "method_type": "InferMethod",
+      "inputs": [
+        "vehicle_bbox_list",
+        "image"
+      ],
+      "outputs": [
+        "vehicle_color"
+      ],
+      "method_config_file": "infer_vehicle_color.json"
+    },
+    {
+      "unique_name": "vehicle_color_vote",
+      "method_type": "VoteMethod",
+      "inputs": [
+        "vehicle_bbox_list",
+        "vehicle_disappeared_track_id_list",
+        "vehicle_color"
+      ],
+      "outputs": [
+        "vehicle_color_vote"
+      ],
+      "method_config_file": "vote_method.json"
+    },
+    {
+      "unique_name": "vehicle_type",
+      "method_type": "InferMethod",
+      "inputs": [
+        "vehicle_bbox_list",
+        "image"
+      ],
+      "outputs": [
+        "vehicle_type"
+      ],
+      "method_config_file": "infer_vehicle_type.json"
+    },
+    {
+      "unique_name": "vehicle_type_vote",
+      "method_type": "VoteMethod",
+      "inputs": [
+        "vehicle_bbox_list",
+        "vehicle_disappeared_track_id_list",
+        "vehicle_type"
+      ],
+      "outputs": [
+        "vehicle_type_vote"
+      ],
+      "method_config_file": "vote_method.json"
+    },
+    {
+      "unique_name": "vehicle_plate_match",
+      "method_type": "VehiclePlateMatchMethod",
+      "inputs": [
+        "vehicle_bbox_list",
+        "plate_bbox_list",
+        "plate_row",
+        "plate_color"
+      ],
+      "outputs": [
+        "vehicle_final_box",
+        "fake_lmk_match",
+        "plate_final_box",
+        "fake_lmk_match2",
+        "is_double_plate",
+        "plate_color_match"
+      ],
+      "method_config_file": "config_match.json"
+    },
+    {
+      "unique_name": "plate_num",
+      "method_type": "InferMethod",
+      "inputs": [
+        "plate_final_box",
+        "image"
+      ],
+      "outputs": [
+        "plate_num"
+      ],
+      "method_config_file": "infer_plate_num.json"
+    },
+    {
+      "unique_name": "plate_num_vote",
+      "method_type": "PlateVoteMethod",
+      "inputs": [
+        "plate_final_box",
+        "vehicle_disappeared_track_id_list",
+        "plate_num"
+      ],
+      "outputs": [
+        "plate_num_vote"
+      ],
+      "method_config_file": "plate_vote.json"
+    }
+  ]
+}

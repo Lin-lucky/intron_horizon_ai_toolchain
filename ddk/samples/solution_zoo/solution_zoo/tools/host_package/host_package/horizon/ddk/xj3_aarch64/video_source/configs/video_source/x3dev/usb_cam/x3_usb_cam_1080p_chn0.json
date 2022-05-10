@@ -1,0 +1,12 @@
+{
+  "data_source": "usb_cam",
+  "channel_id": 0,
+  "vin_en": 1,
+  "vin_out_en": 0,
+  "vin_frame_depth": 8,
+  "vps_en": 1,
+  "config_file": {
+    "vin_config_file": "configs/video_source/x3dev/usb_cam/vin/x3_vin_usb_cam_1080p_chn0.json",
+    "vps_config_file": "configs/video_source/x3dev/usb_cam/vps/x3_vps_usb_cam_1080p.json"
+  }
+}

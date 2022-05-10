@@ -1,0 +1,22 @@
+{
+    "mode": "run_model",
+    "with_postprocess": true,
+    "convert_to_float": true,
+    "model_preprocess":{
+        "class_name": "pyramid_roi_bpu_preprocess",
+        "config": {
+            "roi_process_pipeline": ["norm_by_lside_length(1.08)"]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/vehicleColor.hbm",
+        "is_packed_model": false,
+        "model_name": "vehicleColor",
+        "run_mode": {
+            "bpu_core": 0
+        }
+    },
+    "model_post_process": {
+        "class_name": "vehicle_color_postprocess"
+    }
+}

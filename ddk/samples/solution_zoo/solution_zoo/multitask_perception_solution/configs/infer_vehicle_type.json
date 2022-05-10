@@ -1,0 +1,24 @@
+{
+    "mode": "run_model_with_bbox",
+    "with_postprocess": true,
+    "convert_to_float": true,
+    "model_preprocess":{
+        "class_name": "pyramid_roi_resizer_preprocess",
+        "config": {
+            "roi_process_pipeline": [
+                "norm_by_lside_square(1.2, 0.91)"
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/vehicleType.hbm",
+        "is_packed_model": false,
+        "model_name": "vehicleType",
+        "run_mode": {
+            "bpu_core": 0
+        }
+    },
+    "model_post_process": {
+        "class_name": "vehicle_type_postprocess"
+    }
+}

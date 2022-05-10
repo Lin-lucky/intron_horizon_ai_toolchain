@@ -1,0 +1,73 @@
+{
+  "input_config": {
+    "input_type": "preprocessed_image",
+    "height": 608,
+    "width": 608,
+    "data_type": 1,
+    "image_list_file": "../../../data/coco/coco.lst",
+    "need_pre_load": false,
+    "need_loop": false,
+    "max_cache": 10
+  },
+  "output_config": {
+    "output_type": "eval",
+    "eval_enable": true,
+    "output_file": "./eval.log"
+  },
+  "inputs": [
+    "input_data"
+  ],
+  "outputs": [
+    "input_data",
+    "perception_data"
+  ],
+  "workflow": [
+    {
+      "thread_count": 2,
+      "method_type": "InferMethod",
+      "unique_name": "InferMethod",
+      "inputs": [
+        "input_data"
+      ],
+      "outputs": [
+        "tensors"
+      ],
+      "method_config": {
+        "core": 0,
+        "model_file": "../../../model/runtime/yolov2/yolov2_608x608_nv12.bin"
+      }
+    },
+    {
+      "thread_count": 2,
+      "method_type": "PTQYolo2PostProcessMethod",
+      "unique_name": "PTQYolo2PostProcessMethod",
+      "inputs": [
+        "input_data",
+        "tensors"
+      ],
+      "outputs": [
+        "perception_data"
+      ],
+      "method_config": {
+        "strides": 32,
+        "anchors_table": [
+          0.57273,
+          0.677385,
+          1.87446,
+          2.06253,
+          3.33843,
+          5.47434,
+          7.88282,
+          3.52778,
+          9.77052,
+          9.16828
+        ],
+        "class_num": 80,
+        "score_threshold": 0.3,
+        "nms_threshold": 0.45,
+        "nms_topk": 500,
+        "det_name_list": "../../config/data_name_list/coco_detlist.list"
+      }
+    }
+  ]
+}

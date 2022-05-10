@@ -1,0 +1,89 @@
+{
+    "mode": "run_model",
+    "with_postprocess": true,
+    "convert_to_float": false,
+    "model_preprocess":{
+        "class_name": "pyramid_preprocess",
+        "pyramid_layer": 1,
+        "config": {
+            "image_process_pipeline": [
+                "pad(544, 960)"
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/in_544x960_out_detection_kps_mask_rpn_rcnn30.hbm",
+        "is_packed_model": false,
+        "model_name": "in_544x960_out_detection_kps_mask_rpn_rcnn30",
+        "run_mode": {
+            "bpu_core": 2
+        }
+    },
+    "model_post_process": {
+        "class_name": "horizon_multitask_postprocess",
+        "net_info": {
+            "model_name": "in_544x960_out_detection_kps_mask_rpn_rcnn30",
+            "model_out_sequence": [
+                {
+                  "name": "body_box_int",
+                  "type": "invalid"
+                },
+                {
+                  "name": "body_box",
+                  "type": "bbox",
+                  "labels": [
+                    {"key": 1, "value": "body_box"},
+                    {"key": 2, "value": "cat_box"},
+                    {"key": 3, "value": "dog_box"},
+                    {"key": 4, "value": "other_box"}
+                  ]
+                },
+                {
+                  "name": "head_box_int",
+                  "type": "invalid"
+                },
+                {
+                  "name": "head_box",
+                  "type": "bbox"
+                },
+                {
+                  "name": "face_box_int",
+                  "type": "invalid"
+                },
+                {
+                  "name": "face_box",
+                  "type": "bbox"
+                },
+                {
+                  "name": "hand_box_int",
+                  "type": "invalid"
+                },
+                {
+                  "name": "hand_box",
+                  "type": "bbox"
+                },
+                {
+                  "name": "kps",
+                  "type": "kps",
+                  "box_name": "body_box"
+                },
+                {
+                  "name": "mask",
+                  "type": "mask",
+                  "box_name": "body_box"
+                }
+              ],
+            "model_input_width": 960,
+            "model_input_height": 544,
+            "src_image_width": 1280,
+            "src_image_height": 720,
+            "pyramid_layer": 1,
+            "kps_pos_distance": 0.1,
+            "kps_feat_width": 16,
+            "kps_feat_height": 16,
+            "kps_points_number": 17,
+            "kps_anchor_param": -0.46875
+          },
+        "method_outs": ["body_box", "head_box", "face_box", "hand_box", "kps", "mask"]
+    }
+}

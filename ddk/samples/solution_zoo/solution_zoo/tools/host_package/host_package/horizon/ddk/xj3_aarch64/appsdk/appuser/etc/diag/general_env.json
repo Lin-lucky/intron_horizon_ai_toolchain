@@ -1,0 +1,35 @@
+{
+  "name": "general_env",
+  "dtc_info": {
+    "dtc_id_base": "0xE001",
+    "dtc_num_max": 16,
+    "dtc_module_id_min": "0xF001",
+    "dtc_module_id_max": "0xFFFE",
+    "dtc_mapping": [
+      {
+        "module_id": "0xF001",
+        "event_id": "0x0001",
+        "dtc_id": "0xE001",
+        "dtc_description": "cpu_temp_val",
+        "dtc_snapshot_len": 2,
+        "dtc_stable_time": 1000
+      },
+      {
+        "module_id": "0xF001",
+        "event_id": "0x0002",
+        "dtc_id": "0xE002",
+        "dtc_description": "cpu_occupy",
+        "dtc_snapshot_len": 1,
+        "dtc_stable_time": 1000
+      },
+      {
+        "module_id": "0xF002",
+        "event_id": "0x0001",
+        "dtc_id": "0xE003",
+        "dtc_description": "mem_used_rate",
+        "dtc_snapshot_len": 1,
+        "dtc_stable_time": 1000
+      }
+    ]
+  }
+}

@@ -1,0 +1,3 @@
+/sbin/ifconfig
+/bin/busybox 50
+/sbin/ifconfig.net-tools 100

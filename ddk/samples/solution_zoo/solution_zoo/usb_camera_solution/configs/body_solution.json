@@ -1,0 +1,15 @@
+{
+  "xstream_workflow_file": "./usb_camera/configs/body_detection.json",
+  "enable_profile": 0,
+  "profile_log_path": "",
+  "time_monitor": 3,
+  "enable_result_to_json": false,
+  "codec_param": {
+    "use_vb": 0,
+    "jpeg_quality": 80,
+    "frame_buf_depth": 3,
+    "is_cbr": 1,
+    "bitrate": 6000,
+    "jpg_encode_time": 0
+  }
+}

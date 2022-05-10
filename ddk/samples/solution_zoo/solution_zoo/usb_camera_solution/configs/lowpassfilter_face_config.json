@@ -1,0 +1,6 @@
+{
+  "dcutoff": 1.0,
+  "beta": 0.1,
+  "mincutoff": 0.05,
+  "frequence": 120
+}

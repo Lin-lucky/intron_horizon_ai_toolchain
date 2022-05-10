@@ -1,0 +1,99 @@
+{
+  "name": "adas_dtc",
+  "dtc_info": {
+    "dtc_id_base": "0x3001",
+    "dtc_num_max": 16,
+    "dtc_module_id_min": "0xA001",
+    "dtc_module_id_max": "0xAFFF",
+    "dtc_mapping": [
+      {
+        "module_id": "0xA001",
+        "event_id": "0x0001",
+        "dtc_id": "0x3001",
+        "dtc_description": "percpt_image_rx_timeout",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA002",
+        "event_id": "0x0001",
+        "dtc_id": "0x3002",
+        "dtc_description": "percpt_failSafe_full_blockage",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA002",
+        "event_id": "0x0002",
+        "dtc_id": "0x3003",
+        "dtc_description": "percpt_image_freezed",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA002",
+        "event_id": "0x0003",
+        "dtc_id": "0x3004",
+        "dtc_description": "percpt_failSafe_blur_image",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA002",
+        "event_id": "0x0004",
+        "dtc_id": "0x3005",
+        "dtc_description": "percpt_image_glar",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA003",
+        "event_id": "0x0001",
+        "dtc_id": "0x3006",
+        "dtc_description": "percpt_image_out_of_sequence",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA004",
+        "event_id": "0x0001",
+        "dtc_id": "0x3007",
+        "dtc_description": "percpt_fail_safe_low_sun",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA005",
+        "event_id": "0x0001",
+        "dtc_id": "0x3008",
+        "dtc_description": "percpt_calibration_dynamic",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA006",
+        "event_id": "0x0001",
+        "dtc_id": "0x3009",
+        "dtc_description": "percpt_configure",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA007",
+        "event_id": "0x0001",
+        "dtc_id": "0x300A",
+        "dtc_description": "percpt_structout_txspi_timeout",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      },
+      {
+        "module_id": "0xA008",
+        "event_id": "0x0001",
+        "dtc_id": "0x300B",
+        "dtc_description": "percpt_fps_low",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 0
+      }
+    ]
+  }
+}

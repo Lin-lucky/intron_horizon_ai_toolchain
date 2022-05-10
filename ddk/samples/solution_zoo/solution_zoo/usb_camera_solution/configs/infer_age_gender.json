@@ -1,0 +1,23 @@
+{
+    "mode": "run_model_with_bbox",
+    "with_postprocess": false,
+    "model_preprocess":{
+        "class_name": "pyramid_roi_resizer_preprocess",
+        "config": {
+            "roi_process_pipeline": [
+                "norm_by_nothing"
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/faceAgeGender.hbm",
+        "is_packed_model": false,
+        "model_name": "faceAgeGender",
+        "run_mode": {
+            "bpu_core":0
+        }
+    },
+    "model_post_process": {
+        "class_name": "age_gender_postprocess"
+    }
+}

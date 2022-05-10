@@ -1,0 +1,30 @@
+{
+    "mode": "run_model",
+    "with_postprocess": false,
+    "model_preprocess": {
+        "class_name": "gesture_preprocess",
+        "input_shift": 7,
+        "seq_len": 32,
+        "kps_len": 21,
+        "stride": 0.0333,
+        "max_gap": 0.9,
+        "buf_len": 100,
+        "norm_kps_conf": 0,
+        "kps_norm_scale": 4.897640403536304
+    },
+    "model_predict": {
+        "model_file_path": "../../models/gestureDet.hbm",
+        "is_packed_model": false,
+        "model_name": "gestureDet",
+        "run_mode": {
+            "bpu_core": 2
+        }
+    },
+    "model_post_process": {
+        "class_name": "gesture_postprocess",
+        "threshold": 0.95,
+        "en_score_avg": 1,
+        "window_size": 0.5,
+        "merge_groups" : "[0,1,2,3,6,12,13,14,15,16];[];[4];[5];[7];[8,9,10];[];[];[];[];[];[17];[18];[19];[20];[11];[21];[22]"
+    }
+}

@@ -1,0 +1,98 @@
+{
+    "mode": "run_model",
+    "with_postprocess": true,
+    "convert_to_float": false,
+    "model_preprocess":{
+        "class_name": "pyramid_preprocess",
+        "pyramid_layer": 1,
+        "config": {
+            "image_process_pipeline": [
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/personMultitask.hbm",
+        "is_packed_model": false,
+        "model_name": "personMultitask",
+        "run_mode": {
+            "bpu_core": 0
+        }
+    },
+    "model_post_process": {
+        "class_name": "horizon_multitask_postprocess",
+        "net_info": {
+            "model_name": "personMultitask",
+            "model_version": "0.0.27",
+            "model_out_sequence": [
+              {
+                "name": "body_box_int",
+                "type": "invalid"
+              },
+              {
+                "name": "body_box",
+                "type": "bbox"
+              },
+              {
+                "name": "head_box_int",
+                "type": "invalid"
+              },
+              {
+                "name": "head_box",
+                "type": "bbox"
+              },
+              {
+                "name": "face_box_int",
+                "type": "invalid"
+              },
+              {
+                "name": "face_box",
+                "type": "bbox"
+              },
+              {
+                "name": "lmks2_label",
+                "type": "lmks2_label",
+                "box_name": "face_box"
+              },
+              {
+                "name": "lmks2_offset",
+                "type": "lmks2_offset"
+              },
+              {
+                "name": "pose",
+                "type": "3d_pose",
+                "box_name": "face_box"
+              },
+              {
+                "name": "lmks1_label",
+                "type": "lmks1",
+                "box_name": "face_box"
+              },
+              {
+                "name": "kps_label",
+                "type": "kps_label",
+                "box_name": "body_box"
+              },
+              {
+                "name": "kps_offset",
+                "type": "kps_offset"
+              }
+            ],
+            "model_input_width": 960,
+            "model_input_height": 540,
+            "src_image_width": 1280,
+            "src_image_height": 720,
+            "pyramid_layer": 1,
+            "kps_pos_distance": 25,
+            "kps_feat_width": 16,
+            "kps_feat_height": 16,
+            "kps_points_number": 17,
+            "lmk_feat_width": 8,
+            "lmk_feat_height": 8,
+            "lmk_points_number": 5,
+            "lmk_pos_distance": 12,
+            "lmk_feat_stride": 16,
+            "3d_pose_number": 3
+          },
+        "method_outs": ["body_box", "head_box", "face_box", "landmark", "pose", "kps"]
+    }
+}

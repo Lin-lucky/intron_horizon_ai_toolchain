@@ -1,0 +1,12 @@
+{
+  "rtsp_link": "rtsp://127.0.0.1:555/test.264",
+  "tcp": 1,
+  "frame_max_size": 1024, // 1024K
+  "cached_buf_count": 30,
+  "probe_size": 5000000,
+  "analyze_duration": 0,
+  "max_reconnect_count": 20,
+  "max_reconnect_err_count": 0,
+  "log_debug": 0,
+  "save_stream": 0
+}

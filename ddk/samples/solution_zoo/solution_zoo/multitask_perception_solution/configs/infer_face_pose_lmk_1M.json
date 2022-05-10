@@ -1,0 +1,68 @@
+{
+    "mode": "run_model",
+    "with_postprocess": true,
+    "convert_to_float": false,
+    "model_preprocess":{
+        "class_name": "pyramid_preprocess",
+        "pyramid_layer": 4,
+        "config": {
+            "image_process_pipeline": [
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/faceMultitask.hbm",
+        "is_packed_model": false,
+        "model_name": "faceMultitask",
+        "run_mode": {
+            "bpu_core": 0
+        }
+    },
+    "model_post_process": {
+        "class_name": "horizon_multitask_postprocess",
+        "net_info": {
+            "model_name": "faceMultitask",
+            "model_out_sequence": [
+                {
+                  "type": "_"
+                },
+                {
+                  "name": "face_box",
+                  "type": "bbox"
+                },
+                {
+                  "name": "lmks2_label",
+                  "type": "lmks2_label",
+                  "box_name": "face_box"
+                },
+                {
+                  "name": "lmks2_offset",
+                  "type": "lmks2_offset"
+                },
+                {
+                  "name": "face_lmks1",
+                  "type": "lmks1",
+                  "box_name": "face_box"
+                },
+                {
+                  "name": "pose",
+                  "type": "3d_pose",
+                  "box_name": "face_box"
+                }
+            ],
+            "model_input_width": 640,
+            "model_input_height": 360,
+            "src_image_width": 1280,
+            "src_image_height": 720,
+            "pyramid_layer": 4,
+            "lmk_feat_width": 8,
+            "lmk_feat_height": 8,
+            "lmk_points_number": 5,
+            "lmk_pos_distance": 12,
+            "lmk_feat_stride": 16,
+            "3d_pose_number": 3,
+            "face_pv_thr": 0.98
+        },
+        "method_outs": ["face_box", "landmark", "pose"]
+    }
+}

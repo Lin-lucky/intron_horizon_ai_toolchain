@@ -1,0 +1,9 @@
+{
+  "feedback_type": "jpeg_image_list",
+  "file_list_path": "configs/video_source/x3dev/feedback/data/name_jpg_2160p.list",
+  "cached_buf_count": 5,
+  "image_interval": 40,
+  "file_list_loop": 1,
+  "width": 3840,
+  "height": 2160
+}

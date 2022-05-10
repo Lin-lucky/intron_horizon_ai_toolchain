@@ -1,0 +1,7 @@
+{
+    "display_mode": [1, 3],
+    "visual_plugin_config": "configs/visualplugin_face.json",
+    "web_plugin_config": "configs/web_display_plugin.json",
+    "uvc_plugin_config": "configs/uvc_display_plugin.json",
+    "rtsp_plugin_config": "configs/rtsp_plugin.json"
+}

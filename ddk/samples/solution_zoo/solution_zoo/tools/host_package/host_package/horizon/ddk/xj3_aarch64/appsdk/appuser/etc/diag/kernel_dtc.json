@@ -1,0 +1,211 @@
+{
+  "name": "kernel_dtc",
+  "dtc_info": {
+    "dtc_id_base": "0x0001",
+    "dtc_num_max": 32,
+    "dtc_module_id_min": "0x0001",
+    "dtc_module_id_max": "0x7FFF",
+    "dtc_mapping": [
+      {
+        "module_id": "0x0002",
+        "event_id": "0x0001",
+        "dtc_id": "0x0001",
+        "dtc_description": "kernel_i2c_ctrl0",
+        "dtc_snapshot_len": 5,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0002",
+        "event_id": "0x0002",
+        "dtc_id": "0x0002",
+        "dtc_description": "kernel_i2c_ctrl1",
+        "dtc_snapshot_len": 5,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0002",
+        "event_id": "0x0003",
+        "dtc_id": "0x0003",
+        "dtc_description": "kernel_i2c_ctrl2",
+        "dtc_snapshot_len": 5,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0002",
+        "event_id": "0x0004",
+        "dtc_id": "0x0004",
+        "dtc_description": "kernel_i2c_ctrl3",
+        "dtc_snapshot_len": 5,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0002",
+        "event_id": "0x0005",
+        "dtc_id": "0x0005",
+        "dtc_description": "kernel_i2c_ctrl4",
+        "dtc_snapshot_len": 5,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0002",
+        "event_id": "0x0006",
+        "dtc_id": "0x0006",
+        "dtc_description": "kernel_i2c_ctrl5",
+        "dtc_snapshot_len": 5,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0003",
+        "event_id": "0x0001",
+        "dtc_id": "0x0007",
+        "dtc_description": "kernel_mipi_host0",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0003",
+        "event_id": "0x0002",
+        "dtc_id": "0x0008",
+        "dtc_description": "kernel_mipi_host1",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0003",
+        "event_id": "0x0003",
+        "dtc_id": "0x0009",
+        "dtc_description": "kernel_mipi_host2",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0003",
+        "event_id": "0x0004",
+        "dtc_id": "0x000A",
+        "dtc_description": "kernel_mipi_host3",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0003",
+        "event_id": "0x0005",
+        "dtc_id": "0x000B",
+        "dtc_description": "kernel_mipi_dev",
+        "dtc_snapshot_len": 32,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0003",
+        "event_id": "0x0006",
+        "dtc_id": "0x000C",
+        "dtc_description": "kernel_sif",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0003",
+        "event_id": "0x0007",
+        "dtc_id": "0x000D",
+        "dtc_description": "kernel_ipu",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0003",
+        "event_id": "0x0008",
+        "dtc_id": "0x000E",
+        "dtc_description": "kernel_isp_drop",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0004",
+        "event_id": "0x0001",
+        "dtc_id": "0x000F",
+        "dtc_description": "kernel_bpu0",
+        "dtc_snapshot_len": 5,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0004",
+        "event_id": "0x0002",
+        "dtc_id": "0x0010",
+        "dtc_description": "kernel_bpu1",
+        "dtc_snapshot_len": 5,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0005",
+        "event_id": "0x0001",
+        "dtc_id": "0x0011",
+        "dtc_description": "kernel_i2s0",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0005",
+        "event_id": "0x0002",
+        "dtc_id": "0x0012",
+        "dtc_description": "kernel_i2s1",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0006",
+        "event_id": "0x0001",
+        "dtc_id": "0x0013",
+        "dtc_description": "kernel_bifspi",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0006",
+        "event_id": "0x0002",
+        "dtc_id": "0x0014",
+        "dtc_description": "kernel_bifsd",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0006",
+        "event_id": "0x0003",
+        "dtc_id": "0x0015",
+        "dtc_description": "kernel_bifspi_transfer",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0007",
+        "event_id": "0x0001",
+        "dtc_id": "0x0016",
+        "dtc_description": "kernel_ethernet",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 50
+      },
+      {
+        "module_id": "0x0008",
+        "event_id": "0x0001",
+        "dtc_id": "0x0017",
+        "dtc_description": "kernel_spi",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x0009",
+        "event_id": "0x0001",
+        "dtc_id": "0x0018",
+        "dtc_description": "kernel_emmc",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      },
+      {
+        "module_id": "0x000A",
+        "event_id": "0x0001",
+        "dtc_id": "0x0019",
+        "dtc_description": "kernel_norflash",
+        "dtc_snapshot_len": 4,
+        "dtc_stable_time": 500
+      }
+    ]
+  }
+}

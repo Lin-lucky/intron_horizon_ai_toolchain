@@ -1,0 +1,22 @@
+{
+  "inputs": [
+    "snap_list"
+  ],
+  "outputs": [
+    "snap_list",
+    "face_feature"
+  ],
+  "workflow": [
+    {
+      "method_type": "InferMethod",
+      "unique_name": "feature",
+      "inputs": [
+        "snap_list"
+      ],
+      "outputs": [
+        "face_feature"
+      ],
+      "method_config_file": "infer_feature.json"
+    }
+  ]
+}

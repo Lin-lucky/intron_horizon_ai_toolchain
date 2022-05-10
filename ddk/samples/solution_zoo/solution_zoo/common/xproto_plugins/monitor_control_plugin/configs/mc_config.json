@@ -1,0 +1,13 @@
+{
+    "enable_auto_start": 0,
+    "enable_vot": 1,
+    "vot_config": "./configs/vot_config.json",
+    "enable_dump_smart": 0,
+    "enable_dump_smart_2_json": 0,
+    "enable_append_smart": 0,
+    "enable_dump_img": 0,
+    "save_dump_img_path": "dump_pym0_img/",
+    "enable_feedback": 0,
+    "feedback_file_path": "configs/vio_hg/name_jpg.list",
+    "desc": "enable_dump_smart: dump smart data for badcase analysis; enable_append_smart: append more output for vot display, e.g. gesture raw output, ..."
+}

@@ -1,0 +1,10 @@
+{
+  "auth_mode": 0,
+  "display_mode": 0,
+  "user": "admin",
+  "password": "123456",
+  "data_buf_size": 3110400,
+  "packet_size": 102400,
+  "input_h264_filename": "test.264",
+  "local_forward": 1
+}

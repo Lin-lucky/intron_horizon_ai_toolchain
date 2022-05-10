@@ -1,0 +1,83 @@
+{
+	"memory_config":
+	{
+		"mem_mode": 0
+	},
+	"channel0_config":
+	{
+		"ch_en": 1,
+		"pri": 1,
+		"src_width": 720,
+		"src_height": 1280,
+		"dis_width": 720,
+		"dis_height": 1280,
+		"format": 6,
+		"xpos": 0,
+		"ypos": 0,
+		"alpha_sel": 0,
+		"overmode": 0,
+		"alpha_en": 1,
+		"alpha": 255
+	},
+	"channel1_config":
+	{
+		"ch_en": 0,
+		"pri": 2,
+		"src_width": 0,
+		"src_height": 0,
+		"dis_width": 0,
+		"dis_height": 0,
+		"format": 6,
+		"xpos": 0,
+		"ypos": 0,
+		"alpha": 128,
+		"alpha_sel": 0,
+		"overmode": 0,
+		"alpha_en": 1
+	},
+	"channel2_config":
+	{
+		"ch_en": 1,
+		"pri": 1,
+		"src_width": 720,
+		"src_height": 1280,
+		"dis_width": 720,
+		"dis_height": 1280,
+		"format": 4,
+		"xpos": 0,
+		"ypos": 0,
+		"alpha": 128,
+		"alpha_sel": 0,
+		"overmode": 0,
+		"alpha_en": 1
+	},
+	"channel3_config":
+	{
+		"ch_en": 0,
+		"pri": 0,
+		"src_width": 0,
+		"src_height": 0,
+		"dis_width": 0,
+		"dis_height": 0,
+		"format": 3,
+		"xpos": 0,
+		"ypos": 0,
+		"alpha": 128,
+		"alpha_sel": 0,
+		"overmode": 0,
+		"alpha_en": 1
+	},
+	"outputconfig":
+	{
+		"output_mode": 1,
+		"panel_width": 720,
+		"panel_height": 1280,
+		"display_addr_type": 3,
+		"display_cam_no": 1,
+		"backlight_level": 10,
+		"panel_type": 2,
+		"rotate": 1,
+		"bg_color": 16744328,
+		"scale_en": 0
+	}
+}

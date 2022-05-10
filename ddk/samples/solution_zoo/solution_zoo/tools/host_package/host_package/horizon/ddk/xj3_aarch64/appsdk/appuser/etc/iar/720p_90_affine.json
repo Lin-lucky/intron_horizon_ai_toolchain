@@ -1,0 +1,44 @@
+{
+    "inputRes": [
+        1280,
+        736
+    ],
+    "param": {
+        "fov": 180,
+        "diameter": 1280,
+        "offsetX": 0,
+        "offsetY": 0
+    },
+    "outputRes": [
+        736,
+        1280
+    ],
+    "transformations": [
+        {
+            "transformation": "Affine",
+            "position": [
+                0,
+                0,
+                736,
+                1280
+            ],
+            "param": {
+                "rotation": 90
+            },
+            "ptz": [
+                0,
+                0,
+                1.77777778
+            ],
+            "roi": {
+                "x": 0,
+                "y": 0,
+                "w": 1280,
+                "h": 736
+            }
+        }
+    ],
+    "mode": "semiplanar420",
+    "eccMode": "eccDisabled",
+    "colourspace": "yuv"
+}

@@ -1,0 +1,67 @@
+{
+  "input_config": {
+    "input_type": "image",
+    "height": 512,
+    "width": 512,
+    "data_type": 1,
+    "image_list_file": "../../../mini_data/coco/coco.lst",
+    "need_pre_load": true,
+    "limit": 1,
+    "need_loop": true,
+    "max_cache": 10
+  },
+  "output_config": {
+    "output_type": "image",
+    "image_list_enable": true,
+    "image_output_dir": "./output_images"
+  },
+  "inputs": [
+    "input_data"
+  ],
+  "outputs": [
+    "input_data",
+    "perception_data"
+  ],
+  "workflow": [
+    {
+      "thread_count": 1,
+      "method_type": "InferMethod",
+      "unique_name": "InferMethod",
+      "inputs": [
+        "input_data"
+      ],
+      "outputs": [
+        "tensors"
+      ],
+      "method_config": {
+        "core": 0,
+        "model_file": "../../../model/runtime/fcos/fcos_512x512_nv12.bin"
+      }
+    },
+    {
+      "thread_count": 1,
+      "method_type": "PTQFcosPostProcessMethod",
+      "unique_name": "PTQFcosPostProcessMethod",
+      "inputs": [
+        "input_data",
+        "tensors"
+      ],
+      "outputs": [
+        "perception_data"
+      ],
+      "method_config": {
+        "strides": [
+          8,
+          16,
+          32,
+          64,
+          128
+        ],
+        "class_num": 80,
+        "score_threshold": 0.5,
+        "topk": 1000,
+        "det_name_list": "../../config/data_name_list/coco_detlist.list"
+      }
+    }
+  ]
+}

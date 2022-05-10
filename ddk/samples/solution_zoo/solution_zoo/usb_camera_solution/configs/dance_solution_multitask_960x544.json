@@ -1,0 +1,22 @@
+{
+    "xstream_workflow_file": "./usb_camera/configs/dance_detection_multitask_960x544.json",
+    "enable_profile": 0,
+    "profile_log_path": "",
+    "time_monitor": 3,
+    "enable_result_to_json": false,
+    "distance_calibration_width": 3840,
+    "distance_fit_factor": 61557.0,
+    "distance_fit_impower": -1.085,
+    "distance_smooth": true,
+    "dump_result": false,
+    "hand_id_merge": false,
+    "convert_keypoint_format": false,
+    "codec_param": {
+        "use_vb": 0,
+        "jpeg_quality": 80,
+        "frame_buf_depth": 3,
+        "is_cbr": 1,
+        "bitrate": 6000,
+        "jpg_encode_time": 0
+    }
+}

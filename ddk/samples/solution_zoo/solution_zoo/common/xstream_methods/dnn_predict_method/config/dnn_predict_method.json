@@ -1,0 +1,11 @@
+{
+  "model_file_path": "parth to hbm/bin",
+  "dnn_is_sync": false,
+  "dnn_run_with_roi": false,
+  "dnn_model_group": false,
+  "dnn_model_group_id": 0,
+  "core_id": 0,
+  "src_image_witdh": 1920,
+  "src_image_height": 1080,
+  "others": "inheritor can add other field"
+}

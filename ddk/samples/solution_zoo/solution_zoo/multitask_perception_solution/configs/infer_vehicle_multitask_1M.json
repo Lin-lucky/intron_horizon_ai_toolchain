@@ -1,0 +1,86 @@
+{
+    "mode": "run_model",
+    "with_postprocess": true,
+    "convert_to_float": false,
+    "model_preprocess":{
+        "class_name": "pyramid_preprocess",
+        "pyramid_layer": 1,
+        "config": {
+            "image_process_pipeline": [
+            ]
+        }
+    },
+    "model_predict": {
+        "model_file_path": "../../models/vehicleMultitask.hbm",
+        "is_packed_model": false,
+        "model_name": "vehicleMultitask",
+        "run_mode": {
+            "bpu_core": 0
+        }
+    },
+    "model_post_process": {
+        "class_name": "horizon_multitask_postprocess",
+        "net_info": {
+            "model_out_sequence": [
+                {
+                    "type": "invalid"
+                },
+                {
+                    "name": "vehicle_box",
+                    "type": "bbox"
+                },
+                {
+                  "type": "invalid"
+                },
+                {
+                    "name": "plate_box",
+                    "type": "bbox"
+                },
+                {
+                    "type": "invalid"
+                },
+                {
+                    "name": "vehicle_un_bbox",
+                    "type": "bbox"
+                },
+                {
+                    "type": "invalid"
+                },
+                {
+                    "name": "person_bbox",
+                    "type": "bbox"
+                },
+                {
+                  "type": "invalid"
+                },
+                {
+                    "name": "frontwindow_bbox",
+                    "type": "bbox"
+                },
+                {
+                    "name": "plate_color",
+                    "type": "plate_color",
+                    "box_name": "plate_box"
+                },
+                {
+                    "name": "plate_row",
+                    "type": "plate_row",
+                    "box_name": "plate_box"
+                }
+            ],
+            "model_input_width": 960,
+            "model_input_height": 540,
+            "src_image_width": 1280,
+            "src_image_height": 720,
+            "pyramid_layer": 1,
+            "kps_pos_distance": 0.1,
+            "kps_feat_width": 16,
+            "kps_feat_height": 16,
+            "kps_points_number": 4,
+            "kps_anchor_param": -0.46875,
+            "plate_color_num": 6,
+            "plate_row_num": 2
+        },
+        "method_outs": ["vehicle_box", "vehicle_un_bbox", "person_bbox", "plate_box", "frontwindow_box", "plate_color", "plate_row"]
+    }
+}

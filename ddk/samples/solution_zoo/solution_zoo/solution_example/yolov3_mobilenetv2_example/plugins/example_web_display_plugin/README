@@ -1,0 +1,3 @@
+定义好websocketplugin
+
+实现这两个Plugin，注意命名空间需要带上example，避免类型冲突

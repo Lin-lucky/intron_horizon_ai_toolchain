@@ -1,0 +1,16 @@
+{
+    "auth_mode": 0,
+    "user": "admin",
+    "password": "123456",
+    "port": 555,
+    "chn_num": 1,
+    "chn_0": {
+      "url": "rtsp://10.64.61.215:555/chn0",
+      "video_type": 0,
+      "audio_type": 0,
+      "debug_media_source": "data/chn0.264"
+    },
+    "__video_type_desc": "设置参考：0：H264, 1:H265",
+    "__audio_type_desc": "设置参考：0：g711, 1:g726",
+    "__url_desc": "rtsp://ip_addr:port/chn0"
+  }

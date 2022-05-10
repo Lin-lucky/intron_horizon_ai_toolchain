@@ -1,0 +1,6 @@
+{
+    "frame_drop": {
+        "drop_frame": false,
+        "interval_frames_num": 2 // eg:2, Drop one frame every two frames
+    }
+}

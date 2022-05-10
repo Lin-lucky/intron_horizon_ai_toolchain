@@ -1,0 +1,6 @@
+{
+    "uac_rate": 48000,
+    "uac_chn": 2,
+    "uac_buffer_time": 0,
+    "uac_nperiods": 4
+}

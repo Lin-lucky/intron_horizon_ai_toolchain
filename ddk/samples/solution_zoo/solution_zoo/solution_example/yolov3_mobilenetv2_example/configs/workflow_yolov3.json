@@ -1,0 +1,54 @@
+{
+  "declaration": {
+    "typenames": [
+      "Image",
+      "BBox",
+      "Landmarks",
+      "Classification",
+      "Segmentation",
+      "FloatFeature",
+      "Pose3D"
+    ],
+    "targets": {
+      "objects": [
+        "detect_box:BBox",
+        "classify:Classification"
+      ]
+    }
+  },
+  "max_running_count": 10000,
+  "inputs": [
+    "image"
+  ],
+  "outputs": [
+    "image",
+    "detect_box",
+    "classify"
+  ],
+  "workflow": [
+    {
+      "method_type": "InferMethod",
+      "unique_name": "Yolov3",
+      "thread_count": 1,
+      "inputs": [
+        "image"
+      ],
+      "outputs": [
+        "detect_box"
+      ],
+      "method_config_file": "./infer_yolov3_config.json"
+    },
+    {
+      "method_type": "InferMethod",
+      "unique_name": "Mobilenetv2",
+      "inputs": [
+        "detect_box",
+        "image"
+      ],
+      "outputs": [
+        "classify"
+      ],
+      "method_config_file": "./infer_mobilenetv2_config.json"
+    }
+  ]
+}

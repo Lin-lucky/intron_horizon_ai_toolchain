@@ -1,0 +1,57 @@
+{
+  "input_config": {
+    "input_type": "preprocessed_image",
+    "height": 224,
+    "width": 224,
+    "data_type": 1,
+    "image_list_file": "../../../data/imagenet/imagenet.lst",
+    "need_pre_load": false,
+    "need_loop": false,
+    "max_cache": 10
+  },
+  "output_config": {
+    "output_type": "eval",
+    "eval_enable": true,
+    "output_file": "./eval.log"
+  },
+  "inputs": [
+    "input_data"
+  ],
+  "outputs": [
+    "input_data",
+    "perception_data"
+  ],
+  "workflow": [
+    {
+      "thread_count": 2,
+      "method_type": "InferMethod",
+      "unique_name": "InferMethod",
+      "inputs": [
+        "input_data"
+      ],
+      "outputs": [
+        "tensors"
+      ],
+      "method_config": {
+        "core": 0,
+        "model_file": "../../../model/runtime/efficientnet_lite0/efficientnet_lite0_224x224_nv12.bin"
+      }
+    },
+    {
+      "thread_count": 2,
+      "method_type": "PTQClassficationPostProcessMethod",
+      "unique_name": "PTQClassficationPostProcessMethod",
+      "inputs": [
+        "input_data",
+        "tensors"
+      ],
+      "outputs": [
+        "perception_data"
+      ],
+      "method_config": {
+        "top_k": 1,
+        "cls_names_list": "../../config/data_name_list/imagenet.list"
+      }
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+syntax = "proto3";
+package x3ware;
+option optimize_for = LITE_RUNTIME;
+
+/**
+ * 模块信息
+ * @store_type_ {1} 存储类型
+ * @db_dir_ {2} 存储sqlite路径
+ * @version_ {3} 版本号
+ */
+message ModuleInfo {
+  enum StoreType {
+    FILE = 0;
+    SQLITE = 1;
+    MONGODB = 2;
+    MEMORY = 3;
+  }
+  StoreType store_type_ = 1;
+  string db_dir_ = 2;
+  string version_ = 3;
+}
+
+/**
+ * 底库信息
+ * @name_ {1} 库名
+ * @model_version_ {2} 模型版本
+ * @attr_check_ {3} 属性检查标记
+ * @feature_size_ {4} 特征长度
+ * @distance_thr_ {5} 距离阈值
+ * @similar_thr_ {6} 相似度阈值
+ * @db_dir_ {7} 存储路径
+ */
+message Table {
+  string name_ = 1;
+  string model_version_ = 2;
+  int32 attr_check_ = 3;
+  int32 feature_size_ = 4;
+  float distance_thr_ = 5;
+  float similar_thr_ = 6;
+  string db_dir_ = 7;
+}
+
+/**
+ * 特征信息
+ * @uri_ {1} uri
+ * @attr_ {2} 特征属性
+ * @size_ {3} 特征长度
+ * @feature_ {4} 特征值
+ */
+message Feature {
+  string uri_ = 1;
+  int32 attr_ = 2;
+  int32 size_ = 3;
+  repeated float feature_f_ = 4;
+  repeated int32 feature_i_ = 5;
+}
+
+/**
+ * 记录信息
+ * @id_ {1} 记录id
+ * @num_ {2} 特征数量
+ * @features_ {3} 特征信息
+ */
+message Record {
+  string id_ = 1;
+  int32 num_ = 2;
+  repeated Feature features_ = 3;
+}
+
+/**
+ * 记录信息
+ * @seq_id_ {1} 当前分片序列号
+ * @seq_num_ {2} 总分片序列数量
+ * @record_ {3} 记录信息
+ */
+message ListRecord {
+  int32 seq_id_ = 1;
+  int32 seq_num_ = 2;
+  repeated Record record_ = 3;
+}
+
+/**
+ * 检索参数
+ * @top_num_ {1} 匹配数量
+ * @distance_thr_ {2} 距离阈值
+ * @similar_thr_ {3} 相似度阈值
+ * @num_ {4} 特征数量
+ * @features_ {5} 特征信息
+ */
+message SearchParam {
+  int32 top_num_ = 1;
+  float distance_thr_ = 2;
+  float similar_thr_ = 3;
+  int32 num_ = 4;
+  repeated Feature features_ = 5;
+}
+
+/**
+ * 匹配结果
+ * @id_ {1} 记录id
+ * @distance_ {2} 距离
+ * @similar_ {3} 相似度
+ */
+message MatchResult {
+  string id_ = 1;
+  float distance_ = 2;
+  float similar_ = 3;
+}
+
+/**
+ * 检索结果
+ * @match_ {1} 是否匹配
+ * @num_ {2} 数量
+ * @match_result_ {3} 匹配结果
+ */
+message SearchResult {
+  bool match_ = 1;
+  int32 num_ = 2;
+  repeated MatchResult match_result_ = 3;
+}
+
+/**
+ * 比对参数
+ * @distance_thr_ {1} 距离阈值
+ * @similar_thr_ {2} 相似度阈值
+ */
+message CompareParam {
+  float distance_thr_ = 1;
+  float similar_thr_ = 2;
+}
+
+/**
+ * 比对结果
+ * @match_ {1} 是否匹配
+ * @distance_ {2} 距离
+ * @similar_ {3} 相似度
+ */
+message CompareResult {
+  bool match_ = 1;
+  float distance_ = 2;
+  float similar_ = 3;
+}
+
+/**
+ * 模型版本检查结果
+ * @current_version_ {1} 当前版本号
+ * @last_version_ {2} 之前的版本号
+ * @need_update_ {3} 是否需要更新特征
+ */
+message ModelVerCheck {
+  string current_version_ = 1;
+  string last_version_ = 2;
+  bool need_update_ = 3;
+}
+
+/**
+ * Ware信息集合
+ * @type_ {1} API类型
+ * @oper_ {2} 操作
+ * @ack_ {3} 回复状态
+ * @info_ {4} 模块信息
+ * @table_ {5} 底库信息
+ * @record_ {6} 记录信息
+ * @search_param_ {7} 检索参数
+ * @search_result_ {8} 检索结果
+ * @compare_result_ {9} 比对结果
+ * @model_version_check_ {10} model_version检查结果
+ */
+message WareMessage {
+  // API类型
+  enum Type {
+      Unknown = 0;
+      Init = 1;
+      DeInit = 2;
+      GetVersion = 3;
+      TableOper = 4;
+      RecordOper = 5;
+      FeatureOper = 6;
+      Search = 7;
+      Compare = 8;
+	  CheckModelVersion = 9;
+  }
+  enum Oper {
+    Add = 0;
+    Del = 1;
+    Upd = 2;
+    Query = 3;
+  }
+  enum Ack {
+    Uknown = 0;
+    Success = 1;
+    Fail = 2;
+  }
+  Type type_ = 1;
+  Oper oper_ = 2;
+  Ack ack_ = 3;
+  int32 error_code_ = 4;
+  ModuleInfo info_ = 5;
+  repeated Table table_ = 6;
+  repeated Record record_ = 7;
+  SearchParam search_param_ = 8;
+  SearchResult search_result_ = 9;
+  CompareParam compare_param_ = 10;
+  CompareResult compare_result_ = 11;
+  ModelVerCheck model_version_check_ = 12;
+  ListRecord list_record_ = 13;
+}

@@ -1,0 +1,3 @@
+/bin/dnsdomainname
+/bin/busybox 50
+/bin/dnsdomainname.net-tools 100

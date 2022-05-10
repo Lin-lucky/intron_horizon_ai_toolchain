@@ -1,0 +1,40 @@
+{
+  "config_index": 0,
+  "board_name": "x3dev",
+  "config_0": {
+    "is_msg_package": 0,
+    "data_type": "multi_mix",
+    "multi_mix": [
+    {
+      "produce_name": "mipi_camera",
+      "max_vio_buffer": 3,
+      "channel_id": 0,
+      "video_source_file": "configs/video_source/x3dev/mipi_cam/x3_mipi_cam_f37_1080p_chn0.json"
+    },
+    {
+      "produce_name": "feedback",
+      "max_vio_buffer": 3,
+      "channel_id": 1,
+      "video_source_file": "configs/video_source/x3dev/feedback/x3_feedback_1080p_chn1.json"
+    }
+    ]
+  },
+  "config_1": {
+    "is_msg_package": 0,
+    "data_type": "multi_mix",
+    "multi_mix": [
+    {
+      "produce_name": "usb_camera",
+      "max_vio_buffer": 3,
+      "channel_id": 0,
+      "video_source_file": "configs/video_source/x3dev/usb_cam/x3_usb_cam_1080p_chn0.json"
+    },
+    {
+      "produce_name": "rtsp_client",
+      "max_vio_buffer": 3,
+      "channel_id": 1,
+      "video_source_file": "configs/video_source/x3dev/rtsp_client/x3_rtsp_client_chn1.json"
+    }
+    ]
+  }
+}

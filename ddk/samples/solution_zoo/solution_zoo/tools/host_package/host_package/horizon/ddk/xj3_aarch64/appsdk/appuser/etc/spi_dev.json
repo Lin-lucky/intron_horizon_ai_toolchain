@@ -1,0 +1,22 @@
+{
+	"spidev_0": {
+			"path":"/dev/hobot_spidev0.0",
+			"name":"hobot_spidev0.0",
+			"num":0
+	    },
+	"spidev_1": {
+			"path":"/dev/hobot_spidev2.0",
+			"name":"hobot_spidev2.0",
+			"num":1
+	    },
+	"spidev_2": {
+			"path":"/dev/hobot_master_spidev0.0",
+			"name":"hobot_master_spidev0.0",
+			"num":2
+	    },
+	"spidev_3": {
+			"path":"/dev/hobot_master_spidev2.0",
+			"name":"hobot_master_spidev2.0",
+			"num":3
+	    }
+}

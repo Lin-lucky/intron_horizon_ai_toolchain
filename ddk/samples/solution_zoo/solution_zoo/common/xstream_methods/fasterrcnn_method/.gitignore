@@ -1,0 +1,15 @@
+build
+build_doc
+output
+.idea
+*.iml
+.sln
+*.swp
+.DS_Store
+third_module
+dep_linux*
+*.bak
+.gradle/*
+.vscode/*
+tags
+cmake-build-debug/*

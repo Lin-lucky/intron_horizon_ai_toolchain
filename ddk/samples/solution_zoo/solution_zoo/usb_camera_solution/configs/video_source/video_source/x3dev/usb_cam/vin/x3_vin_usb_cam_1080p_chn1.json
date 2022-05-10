@@ -1,0 +1,7 @@
+{
+  "dev_name": "/dev/video0",
+  "format": "mjpeg",
+  "cached_buf_count": 8,
+  "width": 1920,
+  "height": 1080
+}
