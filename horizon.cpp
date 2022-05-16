@@ -1,8 +1,76 @@
 #include <iostream>
-
+#include <string.h>
+#include "opencv/cv.h"
+#include "opencv/highgui.h"
+#include "opencv2/imgproc/imgproc_c.h"
 #include "dnn/hb_dnn.h"
 #include "dnn/hb_sys.h"
 
+static const char* type[] = {
+    "airplane",
+    "automobile",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck"
+};
+
+/*
+int Changejpgtoyuv420()
+{
+	  IplImage *pstImage = NULL;
+		IplImage *pstYUVImage = NULL;
+		FILE *fp = NULL;
+	
+		pstImage = cvLoadImage("../test_cifr10/9999.jpg", CV_LOAD_IMAGE_COLOR);
+    std::cout << "**************" <<std::endl;
+		fp = fopen("../test_cifr10", "wb");
+		pstYUVImage = cvCreateImage(cvSize(pstImage->width, pstImage->height), IPL_DEPTH_8U, 3);
+	
+		cvCvtColor(pstImage, pstYUVImage, CV_BGR2YUV);
+		
+		for(int i = 0; i < pstImage->width * pstImage->height; i++)
+		{
+			//提取Y分量
+			fwrite(&pstYUVImage->imageData[i*3], 1 , 1, fp);
+			//提取U分量
+			//fwrite(&pstYUVImage->imageData[i*3+2], 1 , 1, fp);
+			//提取V分量
+			//fwrite(&pstYUVImage->imageData[i*3+1], 1 , 1, fp);
+		}
+	
+		for(int i = 0; i <	pstImage->height; i = i+2)
+		{
+			for(int j = 0; j < pstImage->width; j= j+2)
+			{
+				//提取U分量
+				fwrite(&pstYUVImage->imageData[3*(i*pstImage->width + j)+2], 1 , 1, fp);
+			}
+		}
+		
+		for(int i = 0; i <	pstImage->height; i = i+2)
+		{
+			for(int j = 0; j < pstImage->width; j = j+2)
+			{
+				//提取V分量
+				fwrite(&pstYUVImage->imageData[3*(i*pstImage->width + j)+1], 1 , 1, fp);
+			}
+		}
+		
+		cvShowImage("Win",pstImage);
+	
+		cvWaitKey(0);
+		cvReleaseImage(&pstImage);
+		cvReleaseImage(&pstYUVImage);
+		fclose(fp);
+		return 0;
+
+}
+*/
 int main(int argc, char **argv) {
   // 第一步加载模型
   hbPackedDNNHandle_t packed_dnn_handle;
@@ -27,6 +95,11 @@ int main(int argc, char **argv) {
 
   int yuv_length = 224 * 224 * 3;
   hbSysAllocCachedMem(&mem, yuv_length);
+  
+  //IplImage *pstImage = NULL;
+  //IplImage *pstYUVImage = NULL;
+  //Changejpgtoyuv420();
+  
   //memcpy(mem.virAddr, yuv_data, yuv_length);
   //hbSysFlushMem(&mem, HB_SYS_MEM_CACHE_CLEAN);
 
@@ -68,19 +141,29 @@ int main(int argc, char **argv) {
   float *scores = reinterpret_cast<float *>(output->sysMem[0].virAddr);
   int *shape = output->properties.validShape.dimensionSize;
   for (auto i = 0; i < shape[1] * shape[2] * shape[3]; i++) {
-    if(scores[i] < max_prob)
-      continue;
+    std::cout << "NO==scores[i]: " << scores[i] << std::endl;
+    std::cout << "NO==max_prob: " << max_prob << std::endl;
+      if(scores[i] < max_prob)
+        continue;
     max_prob = scores[i];
+    std::cout << "for==max_prob: " << max_prob << std::endl;
     max_prob_type_id = i;
+    std::cout << "for==max id: " << max_prob_type_id << std::endl;
   }
+
+  std::cout << "type: " << type[max_prob_type_id] << " max_prob: " << max_prob << std::endl;
 
   std::cout << "max id: " << max_prob_type_id << std::endl;
   // 释放内存
   hbSysFreeMem(&(input.sysMem[0]));
+  std::cout << "************************" << std::endl;
   hbSysFreeMem(&(output->sysMem[0]));
-
+  std::cout << "++++++++++++++++++++++++" << std::endl;
   // 释放模型
+  hbDNNReleaseTask(task_handle);
+  std::cout << "2222222222222222222222222" << std::endl;
   hbDNNRelease(packed_dnn_handle);
+  std::cout << "999999999999999999999999" << std::endl;
 
   return 0;
 }

@@ -1,0 +1,40 @@
+// the test
+digraph model {
+	modelInput [label=modelInput color=black]
+	"torch-jit-export_subgraph_0" [label="name: torch-jit-export_subgraph_0
+type: BPU" color=black fillcolor=cadetblue shape=box style=filled]
+	onnxReshape_43_HzDequantize [label="name: onnxReshape_43_HzDequantize
+type: Dequantize" color=black fillcolor=lightgrey shape=box style=filled]
+	Reshape_10 [label="name: Reshape_10
+type: Reshape" color=black fillcolor=lightgrey shape=box style=filled]
+	Gemm_11_split [label="name: Gemm_11_split
+type: Split" color=black fillcolor=lightgrey shape=box style=filled]
+	Gemm_11_split_output1_Gemm_11_sub1_HzQuantize_TransposeInput0 [label="name: Gemm_11_split_output1_Gemm_11_sub1_HzQuantize_TransposeInput0
+type: Transpose" color=black fillcolor=lightgrey shape=box style=filled]
+	Gemm_11_split_output1_Gemm_11_sub1_HzQuantize [label="name: Gemm_11_split_output1_Gemm_11_sub1_HzQuantize
+type: Quantize" color=black fillcolor=lightgrey shape=box style=filled]
+	Gemm_11_split_output2_Gemm_11_sub2_HzQuantize_TransposeInput0 [label="name: Gemm_11_split_output2_Gemm_11_sub2_HzQuantize_TransposeInput0
+type: Transpose" color=black fillcolor=lightgrey shape=box style=filled]
+	Gemm_11_split_output2_Gemm_11_sub2_HzQuantize [label="name: Gemm_11_split_output2_Gemm_11_sub2_HzQuantize
+type: Quantize" color=black fillcolor=lightgrey shape=box style=filled]
+	"torch-jit-export_subgraph_1" [label="name: torch-jit-export_subgraph_1
+type: BPU" color=black fillcolor=cadetblue shape=box style=filled]
+	replaced_modelOutput_HzDequantize [label="name: replaced_modelOutput_HzDequantize
+type: Dequantize" color=black fillcolor=lightgrey shape=box style=filled]
+	Gemm_11_reshape_0 [label="name: Gemm_11_reshape_0
+type: Reshape" color=black fillcolor=lightgrey shape=box style=filled]
+	modelOutput [label=modelOutput color=black]
+	modelInput -> "torch-jit-export_subgraph_0" [label="1x32x32x3, YUV444, NHWC, UINT8" color=red]
+	"torch-jit-export_subgraph_0" -> onnxReshape_43_HzDequantize [label="1x24x10x10, INT8" color=red]
+	onnxReshape_43_HzDequantize -> Reshape_10 [label="1x24x10x10, FLOAT32" color=red]
+	Reshape_10 -> Gemm_11_split [label="1x2400x1x1, FLOAT32" color=red]
+	Gemm_11_split -> Gemm_11_split_output1_Gemm_11_sub1_HzQuantize_TransposeInput0 [label="1x1200x1x1, FLOAT32" color=red]
+	Gemm_11_split -> Gemm_11_split_output2_Gemm_11_sub2_HzQuantize_TransposeInput0 [label="1x1200x1x1, FLOAT32" color=red]
+	Gemm_11_split_output1_Gemm_11_sub1_HzQuantize_TransposeInput0 -> Gemm_11_split_output1_Gemm_11_sub1_HzQuantize [label="1x1x1x1200, FLOAT32" color=red]
+	Gemm_11_split_output1_Gemm_11_sub1_HzQuantize -> "torch-jit-export_subgraph_1" [label="1x1x1x1200, INT8" color=red]
+	Gemm_11_split_output2_Gemm_11_sub2_HzQuantize_TransposeInput0 -> Gemm_11_split_output2_Gemm_11_sub2_HzQuantize [label="1x1x1x1200, FLOAT32" color=red]
+	Gemm_11_split_output2_Gemm_11_sub2_HzQuantize -> "torch-jit-export_subgraph_1" [label="1x1x1x1200, INT8" color=red]
+	"torch-jit-export_subgraph_1" -> replaced_modelOutput_HzDequantize [label="1x10x1x1, INT32" color=red]
+	replaced_modelOutput_HzDequantize -> Gemm_11_reshape_0 [label="1x10x1x1, FLOAT32" color=red]
+	Gemm_11_reshape_0 -> modelOutput [label="1x10, FLOAT32" color=red]
+}

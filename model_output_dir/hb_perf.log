@@ -1,0 +1,26 @@
+2022-05-07 10:27:19,632 file: hb_perf.py func: hb_perf line No: 65 Start hb_perf....
+2022-05-07 10:27:19,633 file: hb_perf.py func: hb_perf line No: 66 hb_perf version 1.4.4
+2022-05-07 10:27:19,633 file: hb_perf.py func: hb_perf line No: 107 **************** mobilenetv1 perf ****************
+2022-05-07 10:27:20,009 file: graph_tool.py func: graph_tool line No: 509 draw graph png finished.
+2022-05-07 10:27:20,010 file: hb_perf.py func: hb_perf line No: 115 get bpu model succeeded.
+2022-05-07 10:27:20,060 file: shell_wrapper.py func: shell_wrapper line No: 35 ======
+2022-05-07 10:27:20,061 file: shell_wrapper.py func: shell_wrapper line No: 37 cmd:
+hbdk-perf ./hb_perf_result/mobilenetv1/temp.hbm -o ./hb_perf_result/mobilenetv1
+
+ret:0
+
+stdout:
+  FPS=17494.14, latency = 57.2 us   (see ./hb_perf_result/mobilenetv1/torch-jit-export_subgraph_0.html)
+  FPS=50261.36, latency = 19.9 us   (see ./hb_perf_result/mobilenetv1/torch-jit-export_subgraph_1.html)
+
+
+stderr:
+
+
+
+2022-05-07 10:27:20,076 file: hb_perf.py func: hb_perf line No: 123 get perf info succeeded.
+2022-05-07 10:27:20,076 file: hb_perf.py func: hb_perf line No: 136 bpu model don't have per-layer perf info.
+2022-05-07 10:27:20,076 file: hb_perf.py func: hb_perf line No: 137 if you need per-layer perf info please enable[compiler_parameters.debug:True] when use makertbin.
+2022-05-07 10:27:20,082 file: report_gen.py func: report_gen line No: 75 generating html...
+2022-05-07 10:27:20,082 file: report_gen.py func: report_gen line No: 107 html generation finished.
+2022-05-07 10:27:20,082 file: report_gen.py func: report_gen line No: 108 file stored at : /open_explorer/model_output_dir/hb_perf_result/mobilenetv1/mobilenetv1.html
