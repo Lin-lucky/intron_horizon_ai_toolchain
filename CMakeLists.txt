@@ -18,20 +18,25 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # define dnn lib path
 set(DNN_PATH "~/.horizon/ddk/xj3_aarch64/dnn/")
 set(APPSDK_PATH "~/.horizon/ddk/xj3_aarch64/appsdk/appuser/")
+set(OPENCV_PATH "/open_explorer/ddk/samples/ai_benchmark/code/deps/aarch64/opencv")
+
 
 set(DNN_LIB_PATH ${DNN_PATH}/lib)
 set(APPSDK_LIB_PATH ${APPSDK_PATH}/lib/hbbpu)
 set(BPU_libs dnn cnn_intf hbrt_bernoulli_aarch64)
 
 include_directories(${DNN_PATH}/include
-                    ${APPSDK_PATH}/include)
+                    ${APPSDK_PATH}/include
+                    ${OPENCV_PATH}/include)
 link_directories(${DNN_LIB_PATH}
                 ${APPSDK_PATH}/lib/hbbpu
-                ${APPSDK_PATH}/lib)
+                ${APPSDK_PATH}/lib
+                ${OPENCV_PATH}/lib)
 
 add_executable(horizon horizon.cpp)
 target_link_libraries(horizon
                       ${BPU_libs}
+                      opencv_world
                       pthread
                       rt
                       dl)
