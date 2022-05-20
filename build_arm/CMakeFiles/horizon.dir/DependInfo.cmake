@@ -12,6 +12,9 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/root/.horizon/ddk/xj3_aarch64/dnn/include"
   "/root/.horizon/ddk/xj3_aarch64/appsdk/appuser/include"
+  "../ddk/samples/ai_benchmark/code/deps/aarch64/opencv/include"
+  "../ddk/samples/ai_benchmark/code/deps/aarch64/glog/include"
+  "../ddk/samples/ai_benchmark/code/deps/aarch64/gflags/include"
   )
 
 # Targets to which this target links.

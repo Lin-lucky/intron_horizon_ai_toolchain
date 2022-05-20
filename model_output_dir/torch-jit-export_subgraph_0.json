@@ -5,17 +5,17 @@
         "BPU PE number": 1,
         "BPU core number": 1,
         "BPU march": "BERNOULLI2",
-        "DDR bytes per frame": 56416.0,
-        "DDR bytes per run": 56416,
-        "DDR bytes per second": 986949371,
-        "DDR megabytes per frame": 0.054,
-        "DDR megabytes per run": 0.054,
-        "DDR megabytes per second": 941.2,
-        "FPS": 17494.14,
+        "DDR bytes per frame": 53856.0,
+        "DDR bytes per run": 53856,
+        "DDR bytes per second": 923995470,
+        "DDR megabytes per frame": 0.051,
+        "DDR megabytes per run": 0.051,
+        "DDR megabytes per second": 881.2,
+        "FPS": 17156.78,
         "HBDK version": "3.26.8",
-        "compiling options": "-f hbir -m /tmp/tmp6_aj_rom/torch-jit-export_subgraph_0.bin -o /tmp/tmp6_aj_rom/torch-jit-export_subgraph_0.hbm --march bernoulli2 --progressbar --core-num 1 --fast --O3 --input-layout NHWC --output-layout NCHW --input-source ddr",
+        "compiling options": "-f hbir -m /tmp/tmp82jhnv4a/torch-jit-export_subgraph_0.bin -o /tmp/tmp82jhnv4a/torch-jit-export_subgraph_0.hbm --march bernoulli2 --progressbar --core-num 1 --fast --O3 --input-layout NHWC --output-layout NCHW --input-source pyramid",
         "frame per run": 1,
-        "frame per second": 17494.14,
+        "frame per second": 17156.78,
         "input features": [
             [
                 "input name",
@@ -27,7 +27,7 @@
             ]
         ],
         "interval loading bandwidth (megabytes/s)": [
-            4647,
+            4403,
             0,
             0,
             0,
@@ -46,20 +46,20 @@
         "interval time (ms)": 0.01,
         "latency (ms)": 0.06,
         "latency (ms) by segments": [
-            0.057
+            0.058
         ],
-        "latency (us)": 57.2,
-        "loaded bytes per frame": 48736,
-        "loaded bytes per run": 48736,
-        "model json CRC": "9ab7f779",
-        "model json file": "/tmp/tmp6_aj_rom/torch-jit-export_subgraph_0.bin",
+        "latency (us)": 58.3,
+        "loaded bytes per frame": 46176,
+        "loaded bytes per run": 46176,
+        "model json CRC": "f53861c1",
+        "model json file": "/tmp/tmp82jhnv4a/torch-jit-export_subgraph_0.bin",
         "model name": "torch-jit-export_subgraph_0",
         "model param CRC": "00000000",
         "multicore sync time (ms)": 0.0,
-        "run per second": 17494.14,
+        "run per second": 17156.78,
         "runtime version": "3.13.22",
         "stored bytes per frame": 7680,
         "stored bytes per run": 7680,
-        "worst FPS": 17494.14
+        "worst FPS": 17156.78
     }
 }

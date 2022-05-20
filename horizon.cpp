@@ -1,92 +1,133 @@
 #include <iostream>
 #include <string.h>
+#include <algorithm>
+#include <iomanip>
 #include "opencv/cv.h"
 #include "opencv/highgui.h"
 #include "opencv2/imgproc/imgproc_c.h"
 #include "dnn/hb_dnn.h"
 #include "dnn/hb_sys.h"
 
+#include <map>
+#include <queue>
+#include <utility>
+#include "gflags/gflags.h"
+#include "glog/logging.h"
+
+#include "opencv2/highgui.hpp"
+#include "opencv2/core.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/imgproc.hpp"
+
+
 static const char* type[] = {
-    "airplane",
-    "automobile",
-    "bird",
-    "cat",
-    "deer",
-    "dog",
-    "frog",
-    "horse",
-    "ship",
-    "truck"
+"airplane",
+"automobile",
+"bird",
+"cat",
+"deer",
+"dog",
+"frog",
+"horse",
+"ship",
+"truck"
 };
 
-/*
-int Changejpgtoyuv420()
-{
-	  IplImage *pstImage = NULL;
-		IplImage *pstYUVImage = NULL;
-		FILE *fp = NULL;
-	
-		pstImage = cvLoadImage("../test_cifr10/9999.jpg", CV_LOAD_IMAGE_COLOR);
-    std::cout << "**************" <<std::endl;
-		fp = fopen("../test_cifr10", "wb");
-		pstYUVImage = cvCreateImage(cvSize(pstImage->width, pstImage->height), IPL_DEPTH_8U, 3);
-	
-		cvCvtColor(pstImage, pstYUVImage, CV_BGR2YUV);
-		
-		for(int i = 0; i < pstImage->width * pstImage->height; i++)
-		{
-			//æå–Yåˆ†é‡
-			fwrite(&pstYUVImage->imageData[i*3], 1 , 1, fp);
-			//æå–Uåˆ†é‡
-			//fwrite(&pstYUVImage->imageData[i*3+2], 1 , 1, fp);
-			//æå–Våˆ†é‡
-			//fwrite(&pstYUVImage->imageData[i*3+1], 1 , 1, fp);
-		}
-	
-		for(int i = 0; i <	pstImage->height; i = i+2)
-		{
-			for(int j = 0; j < pstImage->width; j= j+2)
-			{
-				//æå–Uåˆ†é‡
-				fwrite(&pstYUVImage->imageData[3*(i*pstImage->width + j)+2], 1 , 1, fp);
-			}
-		}
-		
-		for(int i = 0; i <	pstImage->height; i = i+2)
-		{
-			for(int j = 0; j < pstImage->width; j = j+2)
-			{
-				//æå–Våˆ†é‡
-				fwrite(&pstYUVImage->imageData[3*(i*pstImage->width + j)+1], 1 , 1, fp);
-			}
-		}
-		
-		cvShowImage("Win",pstImage);
-	
-		cvWaitKey(0);
-		cvReleaseImage(&pstImage);
-		cvReleaseImage(&pstYUVImage);
-		fclose(fp);
-		return 0;
 
+int32_t change_image_2_tensor_as_nv12(std::string &image_file,hbDNNTensor *input_tensor) {
+
+  hbDNNTensor *input = input_tensor;
+  hbDNNTensorProperties Properties = input->properties;
+  //int tensor_id = 0;
+  int input_h = Properties.validShape.dimensionSize[1];
+  int input_w = Properties.validShape.dimensionSize[2];
+  if (Properties.tensorLayout == HB_DNN_LAYOUT_NCHW) {
+    input_h = Properties.validShape.dimensionSize[2];
+    input_w = Properties.validShape.dimensionSize[3];
+  }
+std::cout  << "image_file  "<<image_file<<std::endl;
+  cv::Mat bgr_mat = cv::imread(image_file, cv::IMREAD_COLOR);
+  if (bgr_mat.empty()) {
+     std::cout << "image file not exist!" <<std::endl;
+    return -1;
+  }
+  // resize
+  cv::Mat mat;
+  mat.create(input_h, input_w, bgr_mat.type());
+  cv::resize(bgr_mat, mat, mat.size(), 0, 0);
+  // convert to YUV420
+  if (input_h % 2 || input_w % 2) {
+    std::cout  << "input img height and width must aligned by 2!"<<std::endl;
+    return -1;
+  }
+  cv::Mat yuv_mat;
+  cv::cvtColor(mat, yuv_mat, cv::COLOR_BGR2YUV_I420);
+  uint8_t *nv12_data = yuv_mat.ptr<uint8_t>();
+  
+  // copy y data
+  auto data = input->sysMem[0].virAddr;
+  std::cout << "data = " <<data<<std::endl;
+  int32_t y_size = input_h * input_w;
+  
+  std::cout << "0000000000000000000000000000000000" << std::endl;
+  std::cout << "y_size  " << y_size << std::endl;
+  std::cout << "nv12_data= " << nv12_data << std::endl;
+  printf("*nv12_data= %d \n",*nv12_data);
+  //data = (uint8_t *)malloc(y_size);
+  memcpy(reinterpret_cast<uint8_t *>(data), nv12_data, y_size);
+  std::cout << "mew-data  " << data << std::endl;
+  // copy uv data
+  int32_t uv_height = input_h / 2;
+  int32_t uv_width = input_w / 2;
+  std::cout << "ooooooooo" << std::endl; 
+  uint8_t *nv12 = reinterpret_cast<uint8_t *>(data) + y_size;//y_size 1024
+  printf("*nv12=%d \n",*nv12);
+  uint8_t *u_data = nv12_data + y_size;
+  uint8_t *v_data = u_data + uv_height * uv_width;
+  std::cout << "uv_width * uv_height = " <<uv_width * uv_height<<std::endl;//256
+  for (int32_t i = 0; i < uv_width * uv_height; i++) {//  0-255
+    
+    *nv12++ = *u_data++;
+    printf("*u_data=%d \n",*u_data);
+    printf("*µÚÒ»¸ö*nv12=%d \n",*nv12);    
+    *nv12++ = *v_data++;
+    printf("*v_data=%d \n",*v_data);
+    printf("µÚ¶þ¸ö*nv12=%d \n",*nv12);
+    /*
+    *u_data = *u_data++;
+    *nv12 = *nv12++;
+    *nv12 = *u_data;
+    std::cout << "µÚÒ»¸önv12 : " <<*nv12<<"--µØÖ·: "<<nv12<<std::endl;
+    std::cout << "u_data : " <<*u_data<<"--µØÖ·: "<<u_data<<std::endl;
+    *v_data=*v_data++;
+    *nv12=*nv12++;
+    *nv12=*v_data;
+    std::cout << "µÚ¶þ¸önv12 : " <<*nv12<<"--µØÖ·: "<<nv12<<std::endl;
+    std::cout << "v_data : " <<*v_data<<"--µØÖ·: "<<v_data<<std::endl;
+    */
+    std::cout << "i =  " <<i<<std::endl;
+  }
+  std::cout << "kkkkkkkkk" << std::endl;
+  return 0;
 }
-*/
+
+
 int main(int argc, char **argv) {
-  // ç¬¬ä¸€æ­¥åŠ è½½æ¨¡åž‹
+  // µÚÒ»²½¼ÓÔØÄ£ÐÍ
   hbPackedDNNHandle_t packed_dnn_handle;
   const char* model_file_name= "./mobilenetv1.bin";
   hbDNNInitializeFromFiles(&packed_dnn_handle, &model_file_name, 1);
 
-  // ç¬¬äºŒæ­¥èŽ·å–æ¨¡åž‹åç§°
+  // µÚ¶þ²½»ñÈ¡Ä£ÐÍÃû³Æ
   const char **model_name_list;
   int model_count = 0;
   hbDNNGetModelNameList(&model_name_list, &model_count, packed_dnn_handle);
 
-  // ç¬¬ä¸‰æ­¥èŽ·å–dnn_handle
+  // µÚÈý²½»ñÈ¡dnn_handle
   hbDNNHandle_t dnn_handle;
   hbDNNGetModelHandle(&dnn_handle, packed_dnn_handle, model_name_list[0]);
 
-  // ç¬¬å››æ­¥å‡†å¤‡è¾“å…¥æ•°æ®
+  // µÚËÄ²½×¼±¸ÊäÈëÊý¾Ý
   hbDNNTensor input;
   hbDNNTensorProperties input_properties;
   hbDNNGetInputTensorProperties(&input_properties, dnn_handle, 0);
@@ -95,15 +136,16 @@ int main(int argc, char **argv) {
 
   int yuv_length = 224 * 224 * 3;
   hbSysAllocCachedMem(&mem, yuv_length);
-  
-  //IplImage *pstImage = NULL;
-  //IplImage *pstYUVImage = NULL;
-  //Changejpgtoyuv420();
-  
+  if (argc < 2)
+    {
+        std::cerr << "no input config file" << std::endl;
+    }
+  std::string image_test_file = argv[1];
+  change_image_2_tensor_as_nv12(image_test_file,&input);//hbDNNTensor *input_tensor
   //memcpy(mem.virAddr, yuv_data, yuv_length);
   //hbSysFlushMem(&mem, HB_SYS_MEM_CACHE_CLEAN);
 
-  // ç¬¬äº”æ­¥å‡†å¤‡æ¨¡åž‹è¾“å‡ºæ•°æ®çš„ç©ºé—´
+  // µÚÎå²½×¼±¸Ä£ÐÍÊä³öÊý¾ÝµÄ¿Õ¼ä
   int output_count;
   hbDNNGetOutputCount(&output_count, dnn_handle);
   hbDNNTensor *output = new hbDNNTensor[output_count];
@@ -111,7 +153,7 @@ int main(int argc, char **argv) {
   hbDNNTensorProperties &output_properties = output[i].properties;
   hbDNNGetOutputTensorProperties(&output_properties, dnn_handle, i);
 
-  // èŽ·å–æ¨¡åž‹è¾“å‡ºå°ºå¯¸
+  // »ñÈ¡Ä£ÐÍÊä³ö³ß´ç
   int out_aligned_size = 4;
   for (int j = 0; j < output_properties.alignedShape.numDimensions; j++) {
     out_aligned_size =
@@ -122,7 +164,7 @@ int main(int argc, char **argv) {
   hbSysAllocCachedMem(&mem, out_aligned_size);
 }
 
-  // ç¬¬å…­æ­¥æŽ¨ç†æ¨¡åž‹
+  // µÚÁù²½ÍÆÀíÄ£ÐÍ
   hbDNNTaskHandle_t task_handle = nullptr;
   hbDNNInferCtrlParam infer_ctrl_param;
   HB_DNN_INITIALIZE_INFER_CTRL_PARAM(&infer_ctrl_param);
@@ -132,38 +174,31 @@ int main(int argc, char **argv) {
               dnn_handle,
               &infer_ctrl_param);
 
-  // ç¬¬ä¸ƒæ­¥ç­‰å¾…ä»»åŠ¡ç»“æŸ
+  // µÚÆß²½µÈ´ýÈÎÎñ½áÊø
   hbDNNWaitTaskDone(task_handle, 0);
-  //ç¬¬å…«æ­¥è§£æžæ¨¡åž‹è¾“å‡ºï¼Œä¾‹å­å°±èŽ·å–mobilenetv1çš„top1åˆ†ç±»
+  //µÚ°Ë²½½âÎöÄ£ÐÍÊä³ö£¬Àý×Ó¾Í»ñÈ¡mobilenetv1µÄtop1·ÖÀà
   float max_prob = -1.0;
   int max_prob_type_id = 0;
   hbSysFlushMem(&(output->sysMem[0]), HB_SYS_MEM_CACHE_INVALIDATE);
   float *scores = reinterpret_cast<float *>(output->sysMem[0].virAddr);
   int *shape = output->properties.validShape.dimensionSize;
-  for (auto i = 0; i < shape[1] * shape[2] * shape[3]; i++) {
-    std::cout << "NO==scores[i]: " << scores[i] << std::endl;
-    std::cout << "NO==max_prob: " << max_prob << std::endl;
-      if(scores[i] < max_prob)
+  for (auto i = 0; i < shape[1] * shape[2] * shape[3]; i++)
+    {
+      if (scores[i] < max_prob)
         continue;
-    max_prob = scores[i];
-    std::cout << "for==max_prob: " << max_prob << std::endl;
-    max_prob_type_id = i;
-    std::cout << "for==max id: " << max_prob_type_id << std::endl;
-  }
+      max_prob = scores[i];
+      max_prob_type_id = i;
+    }
+  std::cout << "type: " << type[max_prob_type_id] << " max_prob: " <<
+  max_prob << std::endl;
+// ÊÍ·ÅÄÚ´æ
 
-  std::cout << "type: " << type[max_prob_type_id] << " max_prob: " << max_prob << std::endl;
+hbSysFreeMem(&(input.sysMem[0]));
+hbSysFreeMem(&(output->sysMem[0]));
 
-  std::cout << "max id: " << max_prob_type_id << std::endl;
-  // é‡Šæ”¾å†…å­˜
-  hbSysFreeMem(&(input.sysMem[0]));
-  std::cout << "************************" << std::endl;
-  hbSysFreeMem(&(output->sysMem[0]));
-  std::cout << "++++++++++++++++++++++++" << std::endl;
-  // é‡Šæ”¾æ¨¡åž‹
+  // ÊÍ·ÅÄ£ÐÍ
   hbDNNReleaseTask(task_handle);
-  std::cout << "2222222222222222222222222" << std::endl;
   hbDNNRelease(packed_dnn_handle);
-  std::cout << "999999999999999999999999" << std::endl;
 
   return 0;
 }

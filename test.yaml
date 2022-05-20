@@ -51,13 +51,13 @@ input_parameters:
   scale_value: '0.017'
 
   # 转换后混合异构模型需要适配的输入数据格式（数量/顺序与input_name一致）
-  input_type_rt: 'yuv444'
+  input_type_rt: 'nv12'
 
   # 输入数据格式的特殊制式
   input_space_and_range: 'regular'
 
   # 转换后混合异构模型需要适配的输入数据排布（数量/顺序与input_name一致），若input_type_rt配置为nv12，则此处参数不需要配置
-  input_layout_rt: 'NHWC'
+  input_layout_rt: ''
 
 # 校准参数组
 calibration_parameters:
