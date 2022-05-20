@@ -8,11 +8,9 @@
 #include "dnn/hb_dnn.h"
 #include "dnn/hb_sys.h"
 
-#include <map>
-#include <queue>
-#include <utility>
-#include "gflags/gflags.h"
-#include "glog/logging.h"
+//#include <map>
+//#include <queue>
+//#include <utility>
 
 #include "opencv2/highgui.hpp"
 #include "opencv2/core.hpp"
